@@ -97,35 +97,5 @@
 // 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
 // 	})
 // }
-// generalContentFunc= function () {    
-// 	import('/imports/general/generalLayout/generalLayout.js').then(function (handle) {        
-// 		handle.generalContentForm();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
-// faqFormThreeFunc= function () {    
-// 	import('/imports/general/FAQ/faq.js').then(function (handle) {        
-// 		handle.faqFormThree();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
-// editPagesFunc= function () {    
-// 	import('/imports/general/EditPages/editPages.js').then(function (handle) {        
-// 		handle.editPagesForm();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
-// jobListFunc= function () {    
-// 	import('/imports/general/careers/career.js').then(function (handle) {        
-// 		handle.jobListForm();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
+
+

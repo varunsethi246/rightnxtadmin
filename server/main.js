@@ -3,11 +3,11 @@ import { Accounts } from 'meteor/accounts-base';
 //============================================================
 //   Meteor Files or OSTRIO Files import for images
 //============================================================
-import { BusinessOwnerImages } from '/imports/api/ostriofiles/addBusinessOwnerServer.js';
 
-Meteor.publish('allBusinessOwnerImages', function () {
-  return BusinessOwnerImages.find().cursor;
-});
+
+// Meteor.publish('allBusinessOwnerImages', function () {
+//   return BusinessOwnerImages.find().cursor;
+// });
 
 
 
@@ -79,12 +79,16 @@ import '../imports/api/s3Details.js';
 import { BizVideo } from '/imports/videoUploadserver/videoUpload.js';
 import { BizVideoBanner } from '/imports/videoUploadserver/videoUploadBanner.js';
 import { FollowUser } from '/imports/api/userFollowMaster.js';
+import { BusinessOwnerImages }  from '/imports/videoUploadserver/addBusinessOwner.js';
 
 Meteor.publish('getBizVideo', function() {
     return BizVideo.find({}).cursor;
 });
 Meteor.publish('getBizVideoBanner', function() {
     return BizVideoBanner.find({}).cursor;
+});
+Meteor.publish('getBusinessOwnerImages', function() {
+    return BusinessOwnerImages.find({}).cursor;
 });
 
 

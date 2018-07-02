@@ -18,12 +18,14 @@ import { Payment } from '/imports/api/paymentMaster.js';
 import { Reports } from '/imports/api/reportMaster.js';
 import { Review } from '/imports/api/reviewMaster.js';
 import { ReviewCommentLikes } from '/imports/api/reviewCommentLikesMaster.js';
-
+// import  {BusinessOwnerImages}  from '/imports/videoUploadClient/addBusinessOwner.js';
 
 
 export const Business = new Mongo.Collection('business');
 
 if (Meteor.isServer) {
+	// import { BusinessOwnerImages } from '/imports/api/ostriofiles/addBusinessOwnerServer.js';
+
 	Business._ensureIndex({ "businessLink": 1, "businessOwnerId": 1, "businessTitle": 1, "businessTag":1});
 	Business._ensureIndex({ "businesscategories":1});
   
@@ -266,6 +268,50 @@ Meteor.methods({
 		);
 		return businessLink;
 	},
+	'updateVendorBulkVideo' : function(businessLink,filePath){
+		// var videoData = {
+		// 	video : filePath,
+		// }
+		// Business.update(
+		// 	{"businessLink": businessLink},
+		// 	{$Set: {"businessVideo": videoData}},
+		// );	
+		Business.update(
+			{businessLink: businessLink},
+			{$set: { 
+					"businessVideo" 		: filePath,
+					}
+			}, 	
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+			}
+		);
+	},
+	// hello
+	'updateAboutOwnerImage':function(businessLink,fileId){
+		// var image = BusinessOwnerImages.findOne({"_id":fileId});
+		// if (image) {
+		// 		var imagelink = image.link();
+		console.log('fileId :',fileId);
+			Business.update(
+				{businessLink: businessLink},
+				{$set: { 
+						"ownerPhoto" 		: fileId,
+						}
+				}, 	
+				function(error,result){
+					if(error){
+						// console.log(error);
+						return error;
+					}
+				}
+			);
+		// }
+		return businessLink;
+	},
 	'updateBusinessAboutOwnerImage':function(businessLink,filePath){
 		Business.update(
 			{businessLink: businessLink},
@@ -357,28 +403,7 @@ Meteor.methods({
 		);	
 	},
 
-	'updateVendorBulkVideo' : function(businessLink,filePath){
-		// var videoData = {
-		// 	video : filePath,
-		// }
-		// Business.update(
-		// 	{"businessLink": businessLink},
-		// 	{$Set: {"businessVideo": videoData}},
-		// );	
-		Business.update(
-			{businessLink: businessLink},
-			{$set: { 
-					"businessVideo" 		: filePath,
-					}
-			}, 	
-			function(error,result){
-				if(error){
-					// console.log(error);
-					return error;
-				}
-			}
-		);
-	},
+	
 	
 	'deleteBusinessTime' : function(btId, docId){
 		var id = btId.split('-');

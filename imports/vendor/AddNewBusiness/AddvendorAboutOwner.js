@@ -4,18 +4,14 @@ import { Template } from 'meteor/templating';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Business } from '../../api/businessMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-
-
 import { BusinessImgUploadS3 } from '/client/cfsjs/businessImage.js';
-
-
 import { ReactiveVar } from 'meteor/reactive-var';
-import { FilesCollection } from 'meteor/ostrio:files';   //meteor files code
-
-import BusinessOwnerImages from '/imports/api/ostriofiles/addBusinessOwnerClient.js';
+// import { BizVideo } from '/imports/videoUploadClient/videoUpload.js';
+import { BusinessOwnerImages } from '/imports/videoUploadClient/addBusinessOwner.js';
 
 Template.addvendorAboutOwner.onCreated(function () {
   this.currentUpload = new ReactiveVar(false);
+  this.subscribe('getBusinessOwnerImages');
 });
 
 
@@ -27,9 +23,21 @@ import './AddvendorAboutOwner.html';
 Template.addvendorAboutOwner.helpers({
 
 	//meteor Ostrio:files code
-	currentUpload() {
-    	return Template.instance().currentUpload.get();
-  	},
+	
+
+  	currentUpload: function() {
+        return Template.instance().currentUpload.get();
+    },
+
+    files: function() {
+		var businessLink = FlowRouter.getParam('businessLink');
+    	var bussData = Business.findOne({"businessLink":businessLink});
+    	if(bussData){
+	        var data = BizVideo.find({"_id":bussData.businessVideo}).fetch();
+	        return data;
+	    }
+	 return 0;
+    },
 
 	vendorBusOwInfoRetrive() {
 		var BusLink = FlowRouter.getParam('businessLink');
@@ -41,7 +49,7 @@ Template.addvendorAboutOwner.helpers({
 	    }
 	    //owner image
 	    if(busData.ownerPhoto){
-	    	var pic = BusinessImgUploadS3.findOne({"_id":busData.ownerPhoto});
+	    	var pic = BusinessOwnerImages.findOne({"_id":busData.ownerPhoto});
 	    	if(pic){
 	    		if(pic.copies){
     				if(pic.copies.businessImgS3.type == 'image/png'){
@@ -50,7 +58,7 @@ Template.addvendorAboutOwner.helpers({
 						busData.checkpngImg = '';
 					}
 	    		}
-	    		busData.ownerPhoto = pic.url();
+	    		busData.ownerPhoto = pic.link();
 	    	}else{
 	    		busData.ownerPhoto = '/images/RightNxt-Loading.gif';
 	    	}
@@ -110,30 +118,76 @@ Template.addvendorAboutOwner.events({
       }, 1);
    },
  
-	'change .vendorImg2'(e, template) {
-	    if (e.currentTarget.files && e.currentTarget.files[0]) {
-	      // We upload only one file, in case
-	      // multiple files were selected
-	      const upload = Images.insert({
-	        file: e.currentTarget.files[0],
-	        streams: 'dynamic',
-	        chunkSize: 'dynamic'
-	      }, false);
+	// 'change .vendorImg2'(e) {
+	// 	var businessLink = FlowRouter.getParam('businessLink');
+	//     if (e.currentTarget.files && e.currentTarget.files[0]) {
+	//     	var file = e.currentTarget.files[0];
+	//     	let self = this;
+	//       // We upload only one file, in case
+	//       // multiple files were selected
+	//       addBusinessOwnerImages(file,self,businessLink);
+	//       // const upload = Images.insert({
+	//       //   file: e.currentTarget.files[0],
+	//       //   streams: 'dynamic',
+	//       //   chunkSize: 'dynamic'
+	//       // }, false);
 
-	      upload.on('start', function () {
-	        template.currentUpload.set(this);
-	      });
+	//       // upload.on('start', function () {
+	//       //   template.currentUpload.set(this);
+	//       // });
 
-	      upload.on('end', function (error, fileObj) {
-	        if (error) {
-	          alert('Error during upload: ' + error);
-	        } else {
-	          alert('File "' + fileObj.name + '" successfully uploaded');
-	        }
-	        template.currentUpload.set(false);
-	      });
+	//       // upload.on('end', function (error, fileObj) {
+	//       //   if (error) {
+	//       //     alert('Error during upload: ' + error);
+	//       //   } else {
+	//       //     alert('File "' + fileObj.name + '" successfully uploaded');
+	//       //   }
+	//       //   template.currentUpload.set(false);
+	//       // });
 
-	      upload.start();
+	//       // upload.start();
+	//     }
+	// },
+
+	'change #fileInput'(e, template){
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
+		      // We upload only one file, in case
+		      // multiple files were selected
+		      	var businessLink = FlowRouter.getParam('businessLink');
+				var bussData = Business.findOne({"businessLink":businessLink});
+		    	const upload = BusinessOwnerImages.insert({
+			        file: e.currentTarget.files[0],
+			        streams: 'dynamic',
+			        chunkSize: 'dynamic'
+			    }, false);
+
+		      upload.on('start', function () {
+		        template.currentUpload.set(this);
+		      });
+
+		      upload.on('end', function (error, fileObj) {
+		        if (error) {
+		          // alert('Error during upload: ' + error);
+		           console.log('Error during upload 1: ' + error);
+		           console.log('Error during upload 1: ' + error.reason);
+		        } else {
+		          // alert('File "' + fileObj._id + '" successfully uploaded');
+		          Bert.alert('Owner image uploaded','success','growl-top-right');
+		          
+		          	Meteor.call("updateAboutOwnerImage", businessLink,fileObj._id,
+			          function(error, result) { 
+			              if(error) {
+			                  console.log ('Error Message: ' +error ); 
+			              }else{
+								  // process.exit();
+			              }
+			        });
+		        }
+		        template.currentUpload.set(false);
+		      });
+
+		      upload.start();
+		    
 	    }
 	},
 

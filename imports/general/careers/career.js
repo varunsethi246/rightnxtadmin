@@ -9,7 +9,7 @@ import { City } from '/imports/api/masterData/cityMaster.js';
 import { GeneralContent } from '../../api/webPages/generalContentMaster.js';
 import { Career } from '../../api/webPages/joinusMaster.js';
 import { Newjob } from '../../api/webPages/AddNewJobMaster.js';
-import { ResumeS3 } from '/client/resumeS3.js';
+import { ResumeS3 } from '/client/cfsjs/resumeS3.js';
 
 import '../generalLayout/generalLayout.js'
 import '../../admin/careerJoinUsForm/careerJoinUsForm.html';

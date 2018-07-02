@@ -461,7 +461,27 @@ Template.masterArea.events({
 			}
 		}
 	}, // end of change event
-
+	'keypress #area': function(event){
+		event.preventDefault();
+		var areaInputval = $("#area").val().trim();
+		var areaZipInputval = $("#pinCodes").val().trim();
+		
+		if(areaZipInputval != '' & areaInputval != ''){
+			var areaInputData = Area.findOne({"area":areaInputval});
+			var areaZipInputData = Area.findOne({"zipcode":areaZipInputval});
+			if (areaInputData && areaZipInputData) { 		
+				$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
+				$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
+				$(".duplication1").text("");
+				$(".duplication2").text("");
+			}else{
+				$(".duplication1").removeClass("AlreadyAdded hvr-buzz-out");
+				$(".duplication2").removeClass("AlreadyAdded hvr-buzz-out");
+				$(".duplication1").addClass("NotAdded");			
+				$(".duplication2").addClass("NotAdded");			
+			}
+		}
+	},
 	'change #pinCodes' : function(event){
 		event.preventDefault();
 		var areaInputval = $("#area").val().trim();
