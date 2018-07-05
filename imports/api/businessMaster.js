@@ -255,7 +255,7 @@ Meteor.methods({
 					"ownerMobile" 		: formValues.ownerMobile,
 					"ownerEmail" 		: formValues.ownerEmail,
 					"ownerDesc" 		: formValues.ownerDesc,
-					"ownerPhoto" 		: formValues.ownerPhoto,
+					// "ownerPhoto" 		: formValues.ownerPhoto,
 					"businessTermNCon" 	: formValues.businessTermNCon,
 					}
 			}, 	
@@ -268,51 +268,21 @@ Meteor.methods({
 		);
 		return businessLink;
 	},
-	'updateVendorBulkVideo' : function(businessLink,filePath){
-		// var videoData = {
-		// 	video : filePath,
-		// }
-		// Business.update(
-		// 	{"businessLink": businessLink},
-		// 	{$Set: {"businessVideo": videoData}},
-		// );	
-		Business.update(
-			{businessLink: businessLink},
-			{$set: { 
-					"businessVideo" 		: filePath,
-					}
-			}, 	
-			function(error,result){
-				if(error){
-					// console.log(error);
-					return error;
-				}
-			}
-		);
-	},
-	// hello
-	'updateAboutOwnerImage':function(businessLink,fileId){
-		// var image = BusinessOwnerImages.findOne({"_id":fileId});
-		// if (image) {
-		// 		var imagelink = image.link();
-		console.log('fileId :',fileId);
-			Business.update(
-				{businessLink: businessLink},
-				{$set: { 
-						"ownerPhoto" 		: fileId,
-						}
-				}, 	
-				function(error,result){
-					if(error){
-						// console.log(error);
-						return error;
-					}
-				}
-			);
-		// }
-		return businessLink;
-	},
 	'updateBusinessAboutOwnerImage':function(businessLink,filePath){
+		var businessLinkData = Business.findOne({'businessLink' : businessLink});
+        if(businessLinkData.ownerPhoto){
+            var delId = businessLinkData.ownerPhoto;
+	        Meteor.call('removeOwnerImage', delId,
+	            function(error,result){
+	              if(error){
+	                // Bert.alert('There is some error in submitting this form!','danger','growl-top-right');
+	                return;
+	              }else{
+	                
+	              }
+	            }
+	        );
+        }
 		Business.update(
 			{businessLink: businessLink},
 			{$set: { 
@@ -403,7 +373,28 @@ Meteor.methods({
 		);	
 	},
 
-	
+	'updateVendorBulkVideo' : function(businessLink,filePath){
+		// var videoData = {
+		// 	video : filePath,
+		// }
+		// Business.update(
+		// 	{"businessLink": businessLink},
+		// 	{$Set: {"businessVideo": videoData}},
+		// );	
+		Business.update(
+			{businessLink: businessLink},
+			{$set: { 
+					"businessVideo" 		: filePath,
+					}
+			}, 	
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+			}
+		);
+	},
 	
 	'deleteBusinessTime' : function(btId, docId){
 		var id = btId.split('-');
@@ -491,46 +482,26 @@ Meteor.methods({
 		return id;
 	},
 	'updateBusAbOwnerAcc':function(id,formValues){
-		if(formValues.ownerPhoto){
-			Business.update(
-				{_id: id},
-				{$set : { 
-					"ownerFullName"  : formValues.ownerFullName,
-				    "ownerRole" 	 : formValues.ownerRole,
-				    "ownerMobile"    : formValues.ownerMobile,
-				    "ownerEmail"     : formValues.ownerEmail,
-				    "ownerDesc"  	 : formValues.ownerDesc,
-				    "ownerPhoto"     : formValues.ownerPhoto,
-					}
-				}, 
-				function(error,result){
-					if(error){
-						// console.log(error);
-						return error;
-					}
+		Business.update(
+			{_id: id},
+			{$set : { 
+				"ownerFullName"  : formValues.ownerFullName,
+			    "ownerRole" 	 : formValues.ownerRole,
+			    "ownerMobile"    : formValues.ownerMobile,
+			    "ownerEmail"     : formValues.ownerEmail,
+			    "ownerDesc"  	 : formValues.ownerDesc,
+			    // "ownerPhoto"     : formValues.ownerPhoto,
 				}
-			);
-		}else{
-			Business.update(
-				{_id: id},
-				{$set : { 
-					"ownerFullName"  : formValues.ownerFullName,
-				    "ownerRole" 	 : formValues.ownerRole,
-				    "ownerMobile"    : formValues.ownerMobile,
-				    "ownerEmail"     : formValues.ownerEmail,
-				    "ownerDesc"  	 : formValues.ownerDesc,
-				    // "ownerPhoto"     : formValues.ownerPhoto,
-					}
-				}, 
-				function(error,result){
-					if(error){
-						// console.log(error);
-						return error;
-					}
+			}, 
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
 				}
-			);
-		}
-			return id;
+			}
+		);
+	
+		return id;
 	},
 	'deleteBusiness':function(id,formValues){
 		var busId = Business.findOne({"_id":id});

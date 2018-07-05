@@ -7,7 +7,6 @@ import stream from 'stream';
 import S3 from 'aws-sdk/clients/s3'; // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
 import fs from 'fs';
 
-
 import {S3Details} from '/imports/api/s3Details.js';
 
 var s3Data =  S3Details.findOne({});
