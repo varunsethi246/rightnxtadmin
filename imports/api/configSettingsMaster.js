@@ -6,7 +6,7 @@ export const ConfigSettings = new Mongo.Collection('configSettings');
 if (Meteor.isServer) {
 
   Meteor.publish('configSettings', function configSettings() {
-      return ConfigSettings.find({});
+      return ConfigSettings.find({'responsibleUser':this.userId});
   });
   
 }

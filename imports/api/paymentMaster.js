@@ -43,11 +43,15 @@ if (Meteor.isServer) {
 		// console.log(Payment.find({"vendorId":this.userId}).fetch() );
 		return Payment.find({"vendorId":this.userId});
 	});
-
 	Meteor.publish('allpayment', function allpayment() {
 		return Payment.find({});
 	});
-
+	Meteor.publish('adsPayment', function adsPayment(orderType) {
+		return Payment.find({'orderType':orderType});
+	});
+	Meteor.publish('bannerPayment', function bannerPayment(orderType) {
+		return Payment.find({'orderType':orderType});
+	});
 	Meteor.publish('noOfInvoiceCount', function() {
 		Counts.publish(this, 'noOfInvoiceCount', Payment.find({}));
 	});

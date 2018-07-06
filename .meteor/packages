@@ -28,7 +28,6 @@ dburles:google-maps
 babrahams:editable-text-wysiwyg-bootstrap-3
 babrahams:editable-text
 alanning:roles
-staringatlights:fast-render
 meteorhacks:unblock
 
 #cfs:standard-packages
@@ -64,11 +63,10 @@ ostrio:files
 ostrio:flow-router-extra
 dynamic-import@0.2.0
 pfafman:plivo
-chuangbo:cookie
 meteorhacks:subs-manager
 staringatlights:inject-data
-mizzao:user-status
 initialinject
+mizzao:user-status
 peerlibrary:aws-sdk
 
 #thinksoftware:image-resize-client
@@ -81,3 +79,5 @@ peerlibrary:aws-sdk
 #djk:jquery-ui
 #edgee:slingshot
 #webdeb:app-loader
+#staringatlights:fast-render
+#chuangbo:cookie

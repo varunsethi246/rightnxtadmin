@@ -8,7 +8,7 @@ import '../commonAdmin/commonAdmin.js';
 
 
 Template.configSettings.onCreated(function(){
-    Meteor.subscribe('userfunction');
+    Meteor.subscribe('currentuser');
 });
 
 Template.configSettings.helpers({
