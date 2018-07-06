@@ -13,6 +13,7 @@ import './homepageBanner.js';
 import { City } from '../../api/masterData/cityMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Template } from 'meteor/templating';
+import { ResumeImage } from '/imports/videoUploadClient/resumeImageClient.js';
 
 import '../mainBusinessSearch/mainBusinessSearch.js';
 
@@ -33,13 +34,14 @@ Template.anonymousUserLayout.onCreated(function () {
   // this.subscribe('userfunction');
   // this.subscribe('allCity');
   // this.subscribe('area');
-  // this.subscribe('homeBannerVideo');
-  // this.subscribe('getBizVideoBanner');
+  this.subscribe('homeBannerVideo');
+  this.subscribe('getBizVideoBanner');
   // this.subscribe('categories');
   // this.subscribe('notification');
   // this.subscribe('notificationTemplate');
   // this.subscribe('vendorBusiness');
-  // this.subscribe('userProfileS3OneUser'); 
+  // // this.subscribe('userProfileS3OneUser'); 
+  this.subscribe('resumeImage'); 
   // this.subscribe('businessImgS3');
   
 });

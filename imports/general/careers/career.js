@@ -9,7 +9,8 @@ import { City } from '/imports/api/masterData/cityMaster.js';
 import { GeneralContent } from '../../api/webPages/generalContentMaster.js';
 import { Career } from '../../api/webPages/joinusMaster.js';
 import { Newjob } from '../../api/webPages/AddNewJobMaster.js';
-import { ResumeS3 } from '/client/cfsjs/resumeS3.js';
+import { ResumeImage } from '/imports/videoUploadClient/resumeImageClient.js';
+import ImageCompressor from 'image-compressor.js';
 
 import '../generalLayout/generalLayout.js'
 import '../../admin/careerJoinUsForm/careerJoinUsForm.html';
@@ -100,11 +101,11 @@ Template.careerJoinUsForm.helpers({
 	careerData:function() {
 		var careerDetails = [];
 		var careerDetails = Career.find({}).fetch();
-		console.log("careerDetails: ",careerDetails);
+		// console.log("careerDetails: ",careerDetails);
 
 		for(var i=0; i<careerDetails.length; i++){
 			if(careerDetails[i].ResumeId){
-				var resumeData = ResumeS3.findOne({"_id":careerDetails[i].ResumeId});
+				var resumeData = ResumeImage.findOne({"_id":careerDetails[i].ResumeId});
 				if(resumeData){
 					careerDetails[i].resume = resumeData					
 				}
@@ -188,11 +189,34 @@ Template.jobApplicationForm.events({
 		event.preventDefault();
 
 		if(files[0]){
-			ResumeS3.insert(files[0], function (err, fileObj){
-			 if(err){
-		        	console.log('Error : ' + err.message);
-		        }else{
-		        	imgId =  fileObj._id ;
+			const imageCompressor = new ImageCompressor();
+		      imageCompressor.compress(files[0])
+		        .then((result) => {
+		          // console.log(result);
+
+		          // Handle the compressed image file.
+		          // We upload only one file, in case
+		        // multiple files were selected
+		        const upload = OwnerImage.insert({
+		          file: result,
+		          streams: 'dynamic',
+		          chunkSize: 'dynamic',
+		          // imagetype: 'profile',
+		        }, false);
+
+		        upload.on('start', function () {
+		          // template.currentUpload.set(this);
+		        });
+
+		        upload.on('end', function (error, fileObj) {
+		          if (error) {
+		            // alert('Error during upload: ' + error);
+		            console.log('Error during upload 1: ' + error);
+		            console.log('Error during upload 1: ' + error.reason);
+		          } else {
+		            // alert('File "' + fileObj._id + '" successfully uploaded');
+		            Bert.alert('Resume uploaded.','success','growl-top-right');
+		            imgId =  fileObj._id ;
 		        	var joinusFormValues = {
 						"name" 				: event.target.name.value,
 						"email" 			: event.target.email.value.trim(),
@@ -220,8 +244,15 @@ Template.jobApplicationForm.events({
 							}
 						}	
 					);
-		        }
-			});
+		          }
+		          // template.currentUpload.set(false);
+		        });
+
+		        upload.start();
+		        })
+		        .catch((err) => {
+		          // Handle the error
+	      	})    
 		}else{
 			var joinusFormValues = {
 				"name" 				: event.target.name.value,
