@@ -95,9 +95,12 @@ Template.businessBanner.helpers({
 
 	'businessCategories':function(){
   		var businessLink = Session.get("businessLink");
+  		console.log('businessLink :',businessLink);
   		var categoryArray = [];  
     	if(businessLink){
 	  		var businessDetails = Business.findOne({'businessLink':businessLink});
+  			console.log('businessLink :',businessDetails);
+
  	  		if(businessDetails){
 	   			if(businessDetails.businesscategories.length > 0){
 	 	  			var busCatLength = businessDetails.businesscategories.length;
@@ -224,7 +227,7 @@ Template.businessBanner.helpers({
     	}
  
  		// console.log('categoryArray: ', categoryArray);
- 	  	return categoryArray; 
+ 	  	return 	; 
   	},
 
 
@@ -512,7 +515,7 @@ Template.businessBanner.events({
 					var businessLink = splitBusinessLink[1].trim();
 					Session.set("businessLink",businessLink);
 
-
+					console.log('Session.set("businessLink",businessLink);',businessLink);
 					// Add Area of business from address
 					var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
 					

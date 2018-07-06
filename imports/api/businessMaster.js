@@ -31,7 +31,7 @@ if (Meteor.isServer) {
   
   // This code only runs on the server
   Meteor.publish('vendorBusiness', function vendorBusiness() {
-    return Business.find({"businessOwnerId" : this.userId});
+    return Business.find({});
   });
   
   Meteor.publish('allBusinesses', function allBusinesses() {
