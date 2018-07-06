@@ -106,9 +106,22 @@
 											<!-- <img src="{{ownerPhoto}}" class="img-thumbnail"> -->
 											<label class="PictureOne">Picture</label>
 											<br>
+<!-- <<<<<<< Updated upstream -->
 											<div class="owImgUploaded">
 												<img src="{{ownerPhoto}}" class="img-thumbnail {{checkpngImg}}">
 												<input type="file" name="ownerPhoto" class="vendorImg new-class" />
+<!-- =======
+
+											
+											<div class="owImgUploaded">
+												<img src="{{ownerPhoto}}" class="img-thumbnail {{checkpngImg}}">
+												{{#with currentUpload}}
+												    Uploading <b>{{file.name}}</b>:
+												    <span id="progress">{{progress.get}}%</span>
+												{{else}}
+												    <input id="fileInput" type="file" name="ownerPhoto" class="vendorImg2 new-class" />
+												{{/with}}											
+												>>>>>>> Stashed changes -->
 											</div>
 										</div>
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 vendorFormOSave vendorFormTermNCon vendorLeftSideTNC">

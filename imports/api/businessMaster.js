@@ -268,6 +268,51 @@ Meteor.methods({
 		);
 		return businessLink;
 	},
+
+	'updateVendorBulkVideo' : function(businessLink,filePath){
+		// var videoData = {
+		// 	video : filePath,
+		// }
+		// Business.update(
+		// 	{"businessLink": businessLink},
+		// 	{$Set: {"businessVideo": videoData}},
+		// );	
+		Business.update(
+			{businessLink: businessLink},
+			{$set: { 
+					"businessVideo" 		: filePath,
+					}
+			}, 	
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+			}
+		);
+	},
+	// hello
+	'updateAboutOwnerImage':function(businessLink,fileId){
+		// var image = BusinessOwnerImages.findOne({"_id":fileId});
+		// if (image) {
+		// 		var imagelink = image.link();
+			Business.update(
+				{businessLink: businessLink},
+				{$set: { 
+						"ownerPhoto" 		: fileId,
+						}
+				}, 	
+				function(error,result){
+					if(error){
+						// console.log(error);
+						return error;
+					}
+				}
+			);
+		// }
+		return businessLink;
+	},
+
 	'updateBusinessAboutOwnerImage':function(businessLink,filePath){
 		var businessLinkData = Business.findOne({'businessLink' : businessLink});
         if(businessLinkData.ownerPhoto){

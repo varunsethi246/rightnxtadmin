@@ -1,6 +1,7 @@
 
 
 AdminHomepageFunction = function () {
+	console.log('in handle');
 	import('/imports/common/adminVendorHomepage/adminVendorHomepage.js')
 	.then(function (handle) {  
 		handle.AdminVendorHomepage();    
