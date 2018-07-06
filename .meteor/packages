@@ -68,6 +68,7 @@ staringatlights:inject-data
 initialinject
 mizzao:user-status
 peerlibrary:aws-sdk
+staringatlights:fast-render
 
 #thinksoftware:image-resize-client
 #barbatus:stars-rating
@@ -79,5 +80,4 @@ peerlibrary:aws-sdk
 #djk:jquery-ui
 #edgee:slingshot
 #webdeb:app-loader
-#staringatlights:fast-render
 #chuangbo:cookie
