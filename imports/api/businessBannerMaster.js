@@ -15,6 +15,10 @@ if (Meteor.isServer) {
   Meteor.publish('allbusinessBanner', function allbusinessBanner() {
     return BusinessBanner.find({});
   });
+	Meteor.publish('noOfBanner', function() {
+		Counts.publish(this, 'noOfBanner', BusinessBanner.find({}));
+	});
+
 }
 
 

@@ -227,7 +227,7 @@ Template.businessBanner.helpers({
     	}
  
  		// console.log('categoryArray: ', categoryArray);
- 	  	return 	; 
+ 	  	return categoryArray; 
   	},
 
 
@@ -239,7 +239,7 @@ Template.businessBanner.helpers({
 
   	selectedCategories(){
   		var catgArray = Session.get('catgArray');
-  		console.log("catgArray: ",catgArray);
+  		// console.log("catgArray: ",catgArray);
   		return catgArray; 
   	},
   	selectedAreas(){
@@ -254,7 +254,7 @@ Template.businessBanner.helpers({
   		var businessLink = Session.get("businessLink");
 
     	var businessBanner = BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
-    	console.log("businessBanner: ",businessBanner);
+    	// console.log("businessBanner: ",businessBanner);
     	if(businessBanner){
     		for(i=0;i<businessBanner.length;i++){
     			if(businessBanner[i].areas){
@@ -317,7 +317,7 @@ Template.bannerInvoice.helpers({
 
 		if(businessDetails){
 			if(paymentCheck) {
-				console.log('paymentCheck: ',paymentCheck);
+				// console.log('paymentCheck: ',paymentCheck);
 				businessDetails.invoiceNumber 	= paymentCheck.invoiceNumber;
 		    	businessDetails.discountPercent = paymentCheck.discountPercent;
 		    	businessDetails.totalDiscount 	= paymentCheck.totalDiscount;
@@ -377,7 +377,7 @@ Template.bannerInvoice.events({
 		var currentLink = $(event.currentTarget).attr('data-busLink');
 		var currentVal = $(event.currentTarget).siblings('.bannerPayButtonRadio').val();
 		var current = window.location.host;
-		console.log("window.location : ",current );
+		// console.log("window.location : ",current );
 		if(currentVal == "online"){
 			Meteor.call("updateBannerPaymentOnline",currentLink,current,(error, result)=>{
 				if(result){
@@ -395,7 +395,7 @@ Template.businessBanner.events({
 	'click .bannerButton':function(event){
 		event.preventDefault();
 		var invoiceNumber 	= Counts.get('noOfInvoiceCount')+1;
-		console.log('invoiceNumber :',invoiceNumber);
+		// console.log('invoiceNumber :',invoiceNumber);
 		var businessLink 	= Session.get("businessLink");
 		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
 
@@ -536,6 +536,7 @@ Template.businessBanner.events({
 	'change #getCategory': function(event){
 	    var val = event.currentTarget.value;
 	    var opts = document.getElementById('bannerSearchCat').childNodes;
+	    console.log(opts);
 	    for (var i = 0; i < opts.length; i++) {
 	        if (opts[i].value === val) {
 	        	var selectedCatg = event.currentTarget.value;

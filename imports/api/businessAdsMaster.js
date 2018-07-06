@@ -15,6 +15,9 @@ if (Meteor.isServer) {
   Meteor.publish('allBusinessAds', function allBusinessAds() {
     return BusinessAds.find({});
   });
+	Meteor.publish('noOfAds', function() {
+		Counts.publish(this, 'noOfAds', BusinessAds.find({}));
+	});
 }
 
 

@@ -870,12 +870,6 @@ padding-top:1%;
 	    color: black;
     margin-right: 1px;
 }
-hr {
-/*width:100%;*/
-/*margin-top: -17px;*/
-margin-top:0!important;
-margin-bottom:0!important
-}
 .CreateStaffOne{
 	margin-top: 35px;
 }
@@ -1626,16 +1620,16 @@ opacity:.7
 
 .addsWeek {
 margin-top:21px;
-font-size:17px;
+font-size:13px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
 .weekCount {
-font-size:16px;
+font-size:12px;
 float:right;
 position:absolute;
 top:44px;
-left:45%
+left:54%
 }
 
 .monthCount {

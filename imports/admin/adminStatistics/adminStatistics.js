@@ -12,29 +12,29 @@ Template.adminStatistics.helpers({
 		var vendorCounts 	= Counts.get('noOfVendorCount');
 		var busActCounts 	= Counts.get('noOfBusinessActive');
 		var busInactCounts 	= Counts.get('noOfBusinessInactive');
-		var enqWeek 		= Counts.get('noOfEnqWeek');
-		var enqMonth		= Counts.get('noOfEnqMonth');
-		var enqYear 		= Counts.get('noOfEnqYear')
-		var offerWeek 		= Counts.get('noOfOfferWeek')
-		var offerMonth 		= Counts.get('noOfofferMonth')
-		var offerYear 		= Counts.get('noOfofferYear')
+		var noOfEnq 		= Counts.get('noOfEnq');
+
+
+		var noOfoffer 		= Counts.get('noOfoffer')
 		// console.log('offerYear :' , offerYear);
+		var noOfBanner 		= Counts.get('noOfBanner')
 		
-		// console.log('offerWeek :',offerWeek);
+		var noOfAdd 		= Counts.get('noOfAdd')
 
-
-		// console.log('userCounts', userCounts);
+noOfBanner
 		var value = {
 						"userCounts" 		: userCounts,
 						"vendorCounts" 		: vendorCounts,
 						"busActCounts" 		: busActCounts,
 						"busInactCounts" 	: busInactCounts,
-						"enqWeek"			: enqWeek,
-						"enqMonth"			: enqMonth,
-						"enqYear" 			: enqYear,
-						"offerWeek"			: offerWeek,
-						"offerMonth"		: offerMonth,
-						"offerYear"			: offerYear,
+						
+						"enqWeek"			: noOfEnq,
+
+						"offer"				: noOfoffer,
+						// 
+						"noOfBanner"			: noOfBanner,
+						"noOfAdd"			: noOfAdd,
+						
 					}
 		// console.log('value', value);
 		return value;
