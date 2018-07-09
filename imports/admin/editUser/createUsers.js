@@ -273,7 +273,7 @@ Template.createUsers.events({
                   }          
         }
 
-
+        console.log('form :',formValues);
         Meteor.call('createUserByAdmin', formValues, function(error,result) {
          if (error) {
             // console.log('Error: ' + error.reason);

@@ -321,13 +321,14 @@ Meteor.methods({
   'createUserByAdmin' : function(formValues) {
     // console.log(formValues.email);
     var users = Meteor.users.findOne({'emails.0.address' : formValues.email});
-    // console.log(users);
+    console.log(users);
     if(users){
       console.log( "Email Address already taken");
       return 'emailIdExist';
     }else{
       console.log('in else');
       var newUser = Accounts.createUser(formValues);
+      console.log(newUser);
       return newUser;
     }
      

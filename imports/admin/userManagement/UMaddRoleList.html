@@ -9,8 +9,8 @@
 
 					<table class="table-responsive table table-striped table-hover myTable table-bordered dataTable no-footer">
 						<thead class="table-head umtblhdr">
-							<th class="umHeader"> Role </th>
-							<th class="umHeader"> Action </th>
+							<th class="umHeader centertextadmin"> Role </th>
+							<th class="umHeader centertextadmin"> Action </th>
 						</thead>
 						<tbody>
 							{{#each addrole}}
@@ -28,7 +28,7 @@
 	<tr>
 		<td> {{name}}</td>			
 		<td> 
-			<button class="editrole fa fa-pencil-square-o" data-toggle="modal" data-target="#{{_id}}-{{idForModal}}" title="Editrole"></button>
+			<button class="editrole fa fa-pencil-square-o" data-toggle="modal" data-target="#{{_id}}-{{idForModal}}" title="Edit Role"></button>
 
 			<!-- Modal -->
 			<div id="{{_id}}-{{idForModal}}" class="modal fade" role="dialog">
@@ -52,7 +52,7 @@
 			</div> <!-- End of Modal-->
 			<!-- <a href="UMeditroles/{{_id}}" class="umbtnEdit"> Edit </a>  -->&nbsp;&nbsp;
 			
-			<button class= "roleDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target="#{{idForModal}}-{{ _id }}" title="DeleteRole"></button>
+			<button class= "roleDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target="#{{idForModal}}-{{ _id }}" title="Delete Role"></button>
 
 			 <div class="modal fade" id="{{idForModal}}-{{ _id }}" role="dialog">
 			    <div class="modal-dialog modal-sm">

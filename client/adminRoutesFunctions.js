@@ -29,6 +29,16 @@ ResetPasswordFunc= function () {
 	})
 }
 
+companySettingsFormFunc= function () { 
+	// console.log('infunction');   
+	import('/imports/companysettings/companySettings.js').then(function (handle) {           
+		handle.companySettingsForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
+
 
 
 

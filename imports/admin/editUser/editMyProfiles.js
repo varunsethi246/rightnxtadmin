@@ -22,7 +22,7 @@ Template.editMyProfiles.helpers({
       var id = Meteor.userId();
     } 
     // console.log(userId);
-    // console.log(Meteor.users.findOne({'_id': userId}));
+    console.log(Meteor.users.findOne({'_id': userId}));
     return Meteor.users.findOne({'_id': id}) ;
   },
 

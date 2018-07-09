@@ -282,6 +282,8 @@ Template.UMlistOfUsers.events({
   },
 
   'click .allSelector': function (event) {
+      var admin = Meteor.userId();
+      console.log('admin :',admin);
       // event.preventDefault();
       if(event.target.checked){
         $('.userCheckbox').prop('checked',true);
