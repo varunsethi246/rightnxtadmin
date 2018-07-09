@@ -169,7 +169,7 @@ Template.adsPositionManagement.events({
 						}
 					})
 				}else if(position == '-- Select --' || position == "" || rate == '' || rate == null){
-					Bert.alert("Please select discount & rate first.","danger","growl-top-right");
+					Bert.alert("Please select Position number & Rate first.","danger","growl-top-right");
 
 				}
 			}

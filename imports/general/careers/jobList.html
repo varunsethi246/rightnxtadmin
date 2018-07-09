@@ -18,6 +18,7 @@
 					</tr>
 				</thead>
 				<tbody>
+				{{#if editJobList}}
 					{{#each editJobList}}
 						<tr class="text-center">
 							<td>{{jobTitle}}</td>
@@ -73,6 +74,11 @@
 							</div>
 						</tr>
 					{{/each}}
+				{{else}}
+					<tr>
+						<td class="col-lg-1 centertextadmin"  colspan="8">Nothing to Display.</td>
+					</tr>
+				{{/if}}
 				</tbody>
 			</table>
 		</div>

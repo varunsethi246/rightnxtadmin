@@ -29,6 +29,7 @@
 					</tr>
 				</thead>
 				<tbody>
+				{{#if Details}}
 					{{#each Details}}
 						<tr>
 							<td class="col-lg-1">{{name}}</td>
@@ -78,6 +79,11 @@
 							</div>
 						</tr>
 					{{/each}}
+				{{else}}
+					<tr>
+						<td class="col-lg-1 centertextadmin"  colspan="7">Nothing to Display.</td>
+					</tr>
+				{{/if}}
 				</tbody>
 			</table>
 			<div class="col-lg-3 col-lg-offset-1">

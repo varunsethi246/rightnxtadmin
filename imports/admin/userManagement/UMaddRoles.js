@@ -9,7 +9,7 @@ Template.UMaddRoles.onCreated(function(){
 
 Template.UMaddRoles.events({
 
-    'click .submit' : function(event) {
+    'submit #addroles' : function(event) {
       event.preventDefault();
       var roleName   = $("input[name=roleName]").val();
       var inputId    = $("input[name=roleName]").attr("id");

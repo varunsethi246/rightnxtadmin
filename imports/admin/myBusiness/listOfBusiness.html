@@ -2,7 +2,7 @@
 <div class="row manageRow">	 
 	<div class="row masterAreaCityState ">
 		<div class="areaCityStateHeading">
-		<h1>List of Business</h1>
+		<h1>List of Businesses</h1>
 		</div>
 		
 		<hr>
@@ -226,12 +226,12 @@
 							
 								<a href="/{{businessLink}}" target="_blank" >
 									<span class="buttonform">
-										<i class="fa fa-eye fa-lg" aria-hidden="true"></i>
+										<i class="fa fa-eye fa-lg" title="View" aria-hidden="true"></i>
 									</span>
 								</a>
 								<a href="/editBusinessAdmin/{{businessLink}}">
 									<span class="buttonform">
-										<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+										<i class="fa fa-pencil-square-o fa-lg" title="Edit" aria-hidden="true"></i>
 									</span>
 								</a>
 								<!-- <span class="buttonformone"> -->
@@ -245,7 +245,7 @@
 									</div>
 								<!-- </span> -->
 								<span class="buttonformone"> 
-									<i class="fa fa-trash-o fa-lg bussDelete" id="stateDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModalDelete-{{_id}}" aria-hidden="true"></i>
+									<i class="fa fa-trash-o fa-lg bussDelete" id="stateDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModalDelete-{{_id}}" title="Delete" aria-hidden="true"></i>
 								</span>
 							
 						</td>
@@ -255,7 +255,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header delete-close">
-						        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></a>
+						        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
 						   			 </div>
 						            <div class="modal-body">
 						            	<p class="text-center">Do you want to activate this Business?</p>
@@ -272,7 +272,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header delete-close">
-						        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg" aria-hidden="true"></i></a>
+						        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
 						   			 </div>
 						            <div class="modal-body">
 						            	<p class="text-center">Do you want to inactivate this Business?</p>

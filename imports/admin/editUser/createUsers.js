@@ -389,6 +389,7 @@ Template.createUsers.onRendered(function(){
    // var messages = {
   //       'firstNameRequired': "Please enter your first name."
   //   };
+   
    $("#createRequired").validate({
     rules: {
           area: {

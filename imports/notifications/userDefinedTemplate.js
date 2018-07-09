@@ -60,6 +60,7 @@ Template.userDefinedTemplate.helpers({
 			}//userData
 		}else{
 			var userVar = Meteor.users.find({'roles':'user'}).fetch();
+			console.log('userVar :',userVar);
 			if(userVar){
 				for(i=0 ; i<userVar.length ; i++){
 					if(userVar[i].profile){

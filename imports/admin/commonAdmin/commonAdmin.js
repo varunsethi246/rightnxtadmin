@@ -12,7 +12,7 @@ import './ViewAllNotif.html';
 import '../../vendor/vendor.js';
 import '../../userarea/userLayout.html';
 import '../../userarea/userLayout.js';
-import '../../general/homepage/homepage.js'
+import '../../general/homepage/homepage.js';
 
 
 Template.adminHeader.helpers({

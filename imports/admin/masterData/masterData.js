@@ -240,9 +240,22 @@ Template.masterCity.helpers({
       return masterCityStateArray;
     },
 });
-
+// Template.manageLocations.events({
+// 	'keypress #cityArea':function(){
+// 		$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
+// 				$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
+// 				$(".duplication1").text("working.");
+// 				$(".duplication2").text("working");
+// 	},
+// });
 
 Template.masterCity.events({
+	// 'keypress #cityArea':function(){
+	// 	$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
+	// 			$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
+	// 			$(".duplication1").text("Pincode already Added.");
+	// 			$(".duplication2").text("Area already Added.");
+	// },
 	'keyup #searchCityTable': _.throttle(function(event) {
 		var searchText = event.currentTarget.value;
 		var filter = searchText.toUpperCase();
@@ -1389,6 +1402,7 @@ Template.masterBulkUpload.events({
                   // console.log('results: ' , results);
            				Bert.alert( 'Upload complete!', 'success', 'growl-top-right' );
                   event.currentTarget.value = '';
+                  $('.progressMasterData').css('display','none');
                   // var afterTime = new Date().valueOf();
                   // var elapsedTime = afterTime - beforeTime;      
                   // console.log('elapsedTime: ' +(elapsedTime/1000) + 'sec' );

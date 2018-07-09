@@ -221,7 +221,7 @@ left:5px
 }
 
 .searchBusinessList input[type=text] {
-width:130px;
+width:220px;
 box-sizing:border-box;
 border:1px solid #ccc;
 border-radius:50px;
@@ -771,7 +771,7 @@ position:absolute;
 background:#fff;
 width:auto;
 height:1500px;
-top:20%;
+top:12%;
 margin-right:15px;
 border-top:5px solid #3c8dbc;
 border-radius:5px;
@@ -2019,13 +2019,15 @@ left:-12%
 }
 
 .inactiveStatus {
-color:#999
+/*color:#999*/
+color: white;
 }
 
 .activeStatus {
 color:orange
 }
-
+.margin-topBulk 
+{margin-top: -15px!important;}
 .actInactAdmin li {
 list-style:none;
 display:inline-block;
@@ -2819,10 +2821,10 @@ margin-left: 10%;
 	}
 }
 .nav-pills>li.active>a {
-    font-weight: 600;
+    font-weight: 300;
 }
 .nav-pills>li.active>a {
-    font-weight: 600;
+    font-weight: 300;
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
     border-top-color: #3c8dbc;
@@ -2960,4 +2962,14 @@ margin-top: 10px;
 }
 .newStyleTwo{
 	margin-top: 11px;
+}
+.marginCloseArea{
+	margin-right: 22px;
+}
+.centertextadmin{
+	text-align: center;
+}
+.cursor{    cursor: pointer;}
+.marginbtmProfile{
+	    margin-bottom: 35px;
 }

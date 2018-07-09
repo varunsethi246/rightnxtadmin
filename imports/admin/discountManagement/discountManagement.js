@@ -138,7 +138,8 @@ Template.positionManagement.events({
 
 
 			var rate     = $('#rate').val();
-			if((id || positionTrue) && position != '-- Select --' && position != null){
+			console.log('rate :',rate);
+			if((id || positionTrue) && position != '-- Select --' && position != null && rate != null && rate != ""){
 				Meteor.call('updatePosition',posId,position,rate,function(error,result){
 					if(error){
 						console.log(error);

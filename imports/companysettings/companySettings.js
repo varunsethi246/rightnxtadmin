@@ -1,5 +1,9 @@
 // import './companysettingsCarousel/companysettingsHeader.html';
+import '/imports/admin/commonAdmin/commonAdmin.js';
+import '/imports/admin/commonAdmin/adminLayout.html';
 import './companySettings.html';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 
 import './companysettingsCarousel/companysettingsDisplayCarousel.js';
 import './companysettingsCarousel/companysettingsFormsCarousel.js';

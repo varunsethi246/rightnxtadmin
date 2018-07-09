@@ -5,6 +5,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import { Business } from '../../api/businessMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { OwnerImage } from '/imports/videoUploadClient/ownerImageClient.js';
+// import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import ImageCompressor from 'image-compressor.js';
 
 import '../vendor.js';
@@ -13,7 +14,9 @@ import './AddvendorAboutOwner.html';
 Template.addvendorAboutOwner.helpers({
 	vendorBusOwInfoRetrive() {
 		var BusLink = FlowRouter.getParam('businessLink');
+		console.log(BusLink);
 	    var busData = Business.findOne({"businessLink":BusLink});
+	    console.log('busData :',busData);
 	    if(busData.businessTermNCon){
 	        busData.completedPercent = 75;
 	    }else{

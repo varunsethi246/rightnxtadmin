@@ -17,7 +17,7 @@ Template.UMeditRoles.helpers({
 });
 
 Template.UMeditRoles.events({
- 'click .submit': function (event) {
+ 'submit #editrolesOne': function (event) {
       event.preventDefault();
 
       // var roleId    = $("input[name=Namerole]").attr("id");
