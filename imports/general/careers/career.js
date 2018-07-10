@@ -197,7 +197,7 @@ Template.jobApplicationForm.events({
 		          // Handle the compressed image file.
 		          // We upload only one file, in case
 		        // multiple files were selected
-		        const upload = OwnerImage.insert({
+		        const upload = ResumeImage.insert({
 		          file: result,
 		          streams: 'dynamic',
 		          chunkSize: 'dynamic',
