@@ -221,8 +221,9 @@ Template.viewTemplate.helpers({
 
 	AllEmailTemplates:function(){
 		var id = Session.get("templateId");
+		console.log('id :',id);
 		var notifArray = [];
-		var notifData =  NotificationTemplate.findOne({"_id" : id});
+		var notifData =  NotificationTemplate.findOne({"_id" : id,"templateType":"Email"});
 		if(notifData){
 			var text= notifData.content;
 			var regex = new RegExp("</p><p>", 'g');
@@ -240,7 +241,7 @@ Template.viewTemplate.helpers({
 	AllNotificationTemplates:function(){
 		var id = Session.get("templateId");
 		var notifArray = [];
-		var notifData =  NotificationTemplate.findOne({"_id" : id});
+		var notifData =  NotificationTemplate.findOne({"_id" : id,"templateType":"Notification"});
 		if(notifData){
 			var text= notifData.content;
 			var regex = new RegExp("</p><p>", 'g');
@@ -257,7 +258,7 @@ Template.viewTemplate.helpers({
 	AllsmsTemplates:function(){
 		var id = Session.get("templateId");
 		var notifArray = [];
-		var notifData =  NotificationTemplate.findOne({"_id" : id});
+		var notifData =  NotificationTemplate.findOne({"_id" : id,"templateType":"SMS"});
 		if(notifData){
 			var text= notifData.content;
 			var regex = new RegExp("</p><p>", 'g');
@@ -312,13 +313,13 @@ Template.viewTemplate.events({
 		});
 	},
 	'click .smsPill':function(){
-		$('.smsValue').val('');
+		// $('.smsValue').val('');
 	},
 	'click .NotificationPill':function(){
-		$('.notificationValue').val('');
+		// $('.notificationValue').val('');
 	},
 	'click .EmailPill':function(){
-		$('.emailValue').val('');
+		// $('.emailValue').val('');
 	},
 
 	// clickTemplate(){

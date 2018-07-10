@@ -2973,3 +2973,8 @@ margin-top: 10px;
 .marginbtmProfile{
 	    margin-bottom: 35px;
 }
+.newCssNotif{
+	border-top: 3px solid #3c8dbc;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px;
+}

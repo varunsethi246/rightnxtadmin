@@ -29,13 +29,14 @@
                         <!-- {{#with notifcount}} -->
                         <li class="notificationheader pull-left">You have {{notifcount}} unread notifications</li>
                         <!-- {{/with}} -->
-                        <hr>
+                        <!-- <hr> -->
                             <li style="position: relative;">
                                 <ul class="menu notifvalMenu">
                                   {{#each notifVal}}
                                   <li class="innerNotifLi">
                                     <a href="/{{notifPath}}" target="_blank" class="notifContent {{statusBackground}} col-lg-12 col-md-12 col-sm-12 col-xs-12" id="{{id}}">
-                                       <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 notifbody">{{notifBody}}</span>
+                                       <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 notifbody">{{event}}</span>
+                                       <!-- <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 notifbody">{{notifBody}}</span> -->
                                        <span class="pull-right notifdate">{{date}}{{timestamp}}</span>
                                     </a>
                                    </li>
@@ -43,7 +44,7 @@
                                   {{/each}}                        
                                 </ul>
                             </li>
-                        <hr>
+                        <!-- <hr> -->
                         <li class="notificationFooter"><a href="/viewNotifications">View all</a></li>
                     </ul>
                 </li>

@@ -43,6 +43,7 @@ Template.adminHeader.helpers({
 	          'id'              : notifDetails[i]._id,
 	          'notificationId'  : notifDetails[i].notificationId,
 	          'notifBody'       : notificationBody,
+	          'event'       	: notifDetails[i].event,
 	          'status'          : notifDetails[i].status,
 	          'date'            : notifDetails[i].date,
 	          'statusBackground': statusClass,

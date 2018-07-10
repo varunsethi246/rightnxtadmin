@@ -319,7 +319,7 @@ Meteor.methods({
   },
 
   'createUserByAdmin' : function(formValues) {
-    // console.log(formValues.email);
+    console.log(formValues.email);
     var users = Meteor.users.findOne({'emails.0.address' : formValues.email});
     console.log(users);
     if(users){
