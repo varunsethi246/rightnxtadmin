@@ -42,7 +42,8 @@ loadingFf = function () {
 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
 	})
 }
-vendorBusinessLayoutFunc= function () {    
+vendorBusinessLayoutFunc= function () { 
+console.log('in function');   
 	import('/imports/vendor/vendorBusinessDetails/vendorBusinessDetails.js')
 	.then(function (handle) {        
 		handle.vendorBusinessLayoutForm();    
