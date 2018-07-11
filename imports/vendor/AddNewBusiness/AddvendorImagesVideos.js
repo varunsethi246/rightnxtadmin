@@ -6,8 +6,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { BizVideo } from '/imports/videoUploadClient/videoUpload.js';
 import { Categories } from '/imports/api/masterData/categoriesMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-import { BusinessImage } from '/imports/videoUploadClient/businessImageClient.js';
 import { BusinessMenu } from '/imports/videoUploadClient/businessMenuClient.js';
+import { BusinessImage } from '/imports/videoUploadClient/businessImageClient.js';
 import ImageCompressor from 'image-compressor.js';
 
 import '../vendor.js';
@@ -31,10 +31,20 @@ Template.addvendorImagesVideos.onRendered(function () {
 
 Template.addvendorImagesVideos.onCreated(function() {
     this.currentUpload = new ReactiveVar(false);
-    this.subscribe('getBizVideo');
+    this.imageUpload = new ReactiveVar(false);
+    this.menuUpload = new ReactiveVar(false);
+    // this.subscribe('getBizVideo');
 });
 
 Template.addvendorImagesVideos.helpers({
+	imageUpload: function() {
+		// console.log(Template.instance().imageUpload.get());
+        return Template.instance().imageUpload.get();
+    },
+    menuUpload: function() {
+		// console.log(Template.instance().menuUpload.get());
+        return Template.instance().menuUpload.get();
+    },
 	currentUpload: function() {
         return Template.instance().currentUpload.get();
     },
@@ -256,7 +266,7 @@ Template.addvendorImagesVideos.events({
 		        }, false);
 
 		        upload.on('start', function () {
-		          // template.currentUpload.set(this);
+		          template.imageUpload.set(this);
 		        });
 
 		        upload.on('end', function (error, fileObj) {
@@ -275,12 +285,11 @@ Template.addvendorImagesVideos.events({
 		                  // Bert.alert('There is some error in submitting this form!','danger','growl-top-right');
 		                  return;
 		                }else{
-
+				          template.imageUpload.set(false);
 		                }
 		              }
 		            );
 		          }
-		          // template.currentUpload.set(false);
 		        });
 
 		        upload.start();
@@ -315,7 +324,7 @@ Template.addvendorImagesVideos.events({
 			        }, false);
 
 			        upload.on('start', function () {
-			          // template.currentUpload.set(this);
+			          template.menuUpload.set(this);
 			        });
 
 			        upload.on('end', function (error, fileObj) {
@@ -328,7 +337,7 @@ Template.addvendorImagesVideos.events({
 			            Bert.alert('Business Menu Image uploaded.','success','growl-top-right');
 			            // console.log(fileObj._id);
 			            // Session.set("vendorImgFilePath",fileObj._id);
-			           var businessLink = FlowRouter.getParam('businessLink');
+			            var businessLink = FlowRouter.getParam('businessLink');
 			        	// console.log('key : ' , fileObj.key);
 			        	var menuId =  fileObj._id ;
 				        Meteor.call("updateVendorBulkMenu", businessLink,menuId,
@@ -337,17 +346,17 @@ Template.addvendorImagesVideos.events({
 				                  console.log ('Error Message: ' +error ); 
 				              }else{
 									  // process.exit();
+						          template.menuUpload.set(false);
 				              }
 				        });
 			          }
-			          // template.currentUpload.set(false);
 			        });
 
 			        upload.start();
 			    })
 		        .catch((err) => {
 		          // Handle the error
-		    })  
+		    }) 
 		}
 		$('#businessMenulist').empty();
 		$('#drag3').show();
@@ -391,10 +400,10 @@ Template.addvendorImagesVideos.events({
 			                  console.log ('Error Message: ' +error ); 
 			              }else{
 								  // process.exit();
+					        template.currentUpload.set(false);
 			              }
 			        });
 		        }
-		        template.currentUpload.set(false);
 		      });
 
 		      upload.start();
@@ -416,7 +425,7 @@ Template.addvendorImagesVideos.events({
 		
 		for (var i = 0, f; f = file[i]; i++) {
 			file[i].businessLink = Session.get('SessionBusinessLink');
-			console.log('file[i].businessLink:',file[i].businessLink);
+			// console.log('file[i].businessLink:',file[i].businessLink);
 		    // Only process image files.
 		    if (!f.type.match('image.*')) {
 		      continue;

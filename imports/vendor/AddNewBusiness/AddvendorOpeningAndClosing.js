@@ -1,10 +1,8 @@
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Template } from 'meteor/templating';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
-
 
 import { Business } from '../../api/businessMaster.js';
 
@@ -64,30 +62,30 @@ Template.addvendorOpeningAndClosing.helpers({
         // console.log('tempCategoryListCollection |', tempCategoryListCollection,'|');
         selectedCategoriesList.push(tempCategoryListCollection);
         // if(category)
-        var showData =category[4];
-        if(category[4] == ' --' || !category[4]){
+        var showData = category[4];
+        if(category[4] == ' --' || category[4] == ' '){
           showData = category[3];
         }
-        if(category[3] == ' -- ' || !category[3]){
+        if(category[3] == ' -- ' || category[3] == '  '){
           showData = category[2];
         }
-        if(category[2] == ' -- ' || !category[2]){
+        if(category[2] == ' -- ' || category[2] == '  '){
           showData = category[1];
         }
-        if(category[1] == ' -- ' || !category[1]){
+        if(category[1] == ' -- ' || category[1] == '  '){
           showData = category[0];
         }
-        if(category[0] == ' -- ' || !category[0]){
+        if(category[0] == '-- ' || category[0] == ' '){
           continue;
         }
-        
+
         categoryList[i] = {
             dataI     : i,
             category  : showData,
         };
       }
       dataIndex = businesscategories.length;
-      // console.log('categoryList');
+      // console.log('categoryList',categoryList);
       return categoryList;
     }
 
@@ -231,7 +229,7 @@ Template.addvendorOpeningAndClosing.onRendered(function(){
 Template.addvendorOpeningAndClosing.events({
   'click .backlinkClick':function(event){
     var BusLink = FlowRouter.getParam('businessLink');
-    console.log(BusLink);
+    // console.log(BusLink);
     Session.set("backlinkurl",BusLink);
   },
   'keypress #fromTime':function(event){

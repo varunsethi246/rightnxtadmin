@@ -13,13 +13,13 @@ import { BusinessImage } from '/imports/videoUploadClient/businessImageClient.js
 import '../../vendor.js';
 
 // var tabStatus = '';
-Template.businessReport.onCreated(function(){
-  this.subscribe('vendorImage');
-});
-Template.imageReport.onCreated(function(){
-  this.subscribe('vendorImage');
-  this.subscribe('businessImage');
-});
+// Template.businessReport.onCreated(function(){
+//   this.subscribe('vendorImage');
+// });
+// Template.imageReport.onCreated(function(){
+//   this.subscribe('vendorImage');
+//   this.subscribe('businessImage');
+// });
 Template.vendorReport.helpers({
 	'businessReports': function (){
 		var businessLink = FlowRouter.getParam('businessLink');
@@ -67,6 +67,9 @@ Template.vendorReport.helpers({
 		}
 
 	},
+	or: function(a, b) {
+        return a || b;
+    },
 	
 
 });

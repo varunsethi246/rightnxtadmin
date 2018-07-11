@@ -1,22 +1,28 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Business } from '../../api/businessMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { OwnerImage } from '/imports/videoUploadClient/ownerImageClient.js';
-// import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import ImageCompressor from 'image-compressor.js';
+
+import { BusinessImgUploadS3 } from '/client/cfsjs/businessImage';
 
 import '../vendor.js';
 import './AddvendorAboutOwner.html';
 
+Template.addvendorAboutOwner.onCreated(function() {
+  this.currentUpload = new ReactiveVar(false);
+});
 Template.addvendorAboutOwner.helpers({
+	currentUpload: function() {
+	    return Template.instance().currentUpload.get();
+	},
 	vendorBusOwInfoRetrive() {
 		var BusLink = FlowRouter.getParam('businessLink');
-		console.log(BusLink);
 	    var busData = Business.findOne({"businessLink":BusLink});
-	    console.log('busData :',busData);
 	    if(busData.businessTermNCon){
 	        busData.completedPercent = 75;
 	    }else{
@@ -140,7 +146,7 @@ Template.addvendorAboutOwner.events({
 	        }, false);
 
 	        upload.on('start', function () {
-	          // template.currentUpload.set(this);
+	          template.currentUpload.set(this);
 	        });
 
 	        upload.on('end', function (error, fileObj) {
@@ -159,12 +165,11 @@ Template.addvendorAboutOwner.events({
 	                  // Bert.alert('There is some error in submitting this form!','danger','growl-top-right');
 	                  return;
 	                }else{
-	                  
+			          template.currentUpload.set(false);              
 	                }
 	              }
 	            );
 	          }
-	          // template.currentUpload.set(false);
 	        });
 
 	        upload.start();

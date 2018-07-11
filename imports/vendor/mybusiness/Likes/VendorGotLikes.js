@@ -13,9 +13,9 @@ import { VendorImage } from '/imports/videoUploadClient/vendorImageClient.js';
 import '../../vendor.js';
 // import '../../vendorBusinessDetails/businessEventIcons.js';
 
-Template.VendorGotLikes.onCreated(function(){
-  this.subscribe('vendorImage');
-});
+// Template.VendorGotLikes.onCreated(function(){
+//   this.subscribe('vendorImage');
+// });
 
 Template.VendorGotLikes.helpers({
 	'businessLikesData': function(){
@@ -82,7 +82,7 @@ Template.VendorGotLikes.helpers({
 	},
 	'UserFollowerCount': function(userid){
 		var followersObj = FollowUser.find({"followUserId":userid}).count();
-		console.log("followersObj: ",followersObj);
+		// console.log("followersObj: ",followersObj);
 		if(followersObj){
 			var objFollw = {
 				UserFollowerNo : followersObj,
@@ -100,7 +100,7 @@ Template.VendorGotLikes.helpers({
 
 	'UserReviewCount': function(userId){
 		var reviewObj = Review.find({"userId":userId}).count();
-		console.log("reviewObj: ",reviewObj);
+		// console.log("reviewObj: ",reviewObj);
 		if(reviewObj){
 			var objRev = {
 				UserReviewNo : reviewObj,
