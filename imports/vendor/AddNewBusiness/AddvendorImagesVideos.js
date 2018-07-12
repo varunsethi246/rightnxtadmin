@@ -160,6 +160,7 @@ Template.addvendorImagesVideos.helpers({
 		var businessLink = FlowRouter.getParam('businessLink');
 		
 		var data = Business.findOne({'businessLink':businessLink});
+		console.log('data =====>',data);
 		if(data){
 			if(data.businessImages){
 				var imgListCount = data.businessImages.length;
@@ -249,11 +250,12 @@ Template.addvendorImagesVideos.events({
 	'click #saveBusinessImg' : function(event){
 		
 		var businessLink = FlowRouter.getParam('businessLink');
+		console.log('businessLink click:',businessLink);
 		for(i = 0 ; i < files.length; i++){
 			const imageCompressor = new ImageCompressor();
 		      imageCompressor.compress(files[i])
 		        .then((result) => {
-		          // console.log(result);
+		          console.log(result);
 
 		          // Handle the compressed image file.
 		          // We upload only one file, in case
@@ -275,7 +277,7 @@ Template.addvendorImagesVideos.events({
 		            console.log('Error during upload 1: ' + error);
 		            console.log('Error during upload 1: ' + error.reason);
 		          } else {
-		            // alert('File "' + fileObj._id + '" successfully uploaded');
+		            alert('File "' + fileObj._id + '" successfully uploaded');
 		            Bert.alert('Business Image uploaded.','success','growl-top-right');
 		            // console.log(fileObj._id);
 		            // Session.set("vendorImgFilePath",fileObj._id);
@@ -413,6 +415,7 @@ Template.addvendorImagesVideos.events({
 
 	'change #businessImgfiles' : function(event){
 		$('#drag1').hide();
+		console.log('in image');
 		var file = event.target.files; // FileList object\
 		if(file.length > 6){
 			$('#div1').css("height","300px");
@@ -456,6 +459,7 @@ Template.addvendorImagesVideos.events({
 
 	'change #businessMenufiles' : function(event){
 		$('#drag3').hide();
+		console.log('business menu');
 		var file = event.target.files; // FileList object
 
 		if(file.length > 6){

@@ -97,36 +97,36 @@ Template.joinUs.helpers({
 	}
 });
 
-Template.careerJoinUsForm.helpers({
-	careerData:function() {
-		var careerDetails = [];
-		var careerDetails = Career.find({}).fetch();
-		// console.log("careerDetails: ",careerDetails);
+// Template.careerJoinUsForm.helpers({
+// 	careerData:function() {
+// 		var careerDetails = [];
+// 		var careerDetails = Career.find({}).fetch();
+// 		console.log("careerDetails: ",careerDetails);
 
-		for(var i=0; i<careerDetails.length; i++){
-			if(careerDetails[i].ResumeId){
-				var resumeData = ResumeImage.findOne({"_id":careerDetails[i].ResumeId});
-				if(resumeData){
-					careerDetails[i].resume = resumeData					
-				}
-			}
-			careerDetails[i] = {
-					_id					: careerDetails[i]._id,
-					name 				: careerDetails[i].name,
-					email 				: careerDetails[i].email,
-					MobileNo 			: careerDetails[i].MobileNo,
-					Qualification 		: careerDetails[i].Qualification,
-					PostForApply 		: careerDetails[i].PostForApply,
-					resume 				: careerDetails[i].resume,
-					dateofPost 			: moment(careerDetails[i].createdAt).format('DD/MM/YYYY'),
+// 		for(var i=0; i<careerDetails.length; i++){
+// 			if(careerDetails[i].ResumeId){
+// 				var resumeData = ResumeImage.findOne({"_id":careerDetails[i].ResumeId});
+// 				if(resumeData){
+// 					careerDetails[i].resume = resumeData					
+// 				}
+// 			}
+// 			careerDetails[i] = {
+// 					_id					: careerDetails[i]._id,
+// 					name 				: careerDetails[i].name,
+// 					email 				: careerDetails[i].email,
+// 					MobileNo 			: careerDetails[i].MobileNo,
+// 					Qualification 		: careerDetails[i].Qualification,
+// 					PostForApply 		: careerDetails[i].PostForApply,
+// 					resume 				: careerDetails[i].resume,
+// 					dateofPost 			: moment(careerDetails[i].createdAt).format('DD/MM/YYYY'),
 				
-				};
-			// var dateofapplied = moment(careerDetails[i].createdAt).format('DD/MM/YYYY')
-		}
-		console.log('careerDetails:',careerDetails);
-		return careerDetails;
-	},
-});
+// 				};
+// 			// var dateofapplied = moment(careerDetails[i].createdAt).format('DD/MM/YYYY')
+// 		}
+// 		console.log('careerDetails:',careerDetails);
+// 		return careerDetails;
+// 	},
+// });
 Template.jobList.helpers({
 	editJobList(){
 		var allPages = [];

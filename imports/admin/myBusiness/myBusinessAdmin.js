@@ -331,7 +331,7 @@ Template.listOfBusiness.events({
 
 	'click #saveBusinessImg' : function(event){
 		var businessLink = $(event.target).attr('data-Link');
-				        	// console.log('businessLink ',businessLink);
+				        	console.log('businessLink +++++++> ',businessLink);
 		
 		// var businessLink = FlowRouter.getParam('businessLink');
 		for(i = 0 ; i < files.length; i++){

@@ -116,7 +116,9 @@ Meteor.publish('businessEnquiryImage', function() {
 Meteor.publish('reviewImage', function() {
     return ReviewImage.find({}).cursor;
 });
-
+Meteor.publish('resumeImage', function() {
+    return ResumeImage.find({}).cursor;
+});
 
  // Meteor.publish('followUser', function() {
  //    return FollowUser.find({});

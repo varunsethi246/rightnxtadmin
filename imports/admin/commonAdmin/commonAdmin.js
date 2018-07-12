@@ -166,7 +166,7 @@ Template.ViewAllNotif.events({
 	    });
 	},
 
-	'click .fa-trash':function(){
+	'click .trash':function(){
 	    var value = this;
 	    var id = this.id;
 	    Meteor.call('deleteNotification',id,function(error,result){
@@ -174,9 +174,10 @@ Template.ViewAllNotif.events({
 	        console.log(error);
 	      }else{
 	        Bert.alert( 'Deleted Successfully!', 'success', 'growl-top-right' );
+	    	$('.modal-backdrop').hide();
+	    	$('.modaldelete').hide();
 	      }
 	    });
-	    $('.modal-backdrop').hide();
 	},
 });
 
