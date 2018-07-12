@@ -2979,7 +2979,7 @@ margin-top: 10px;
     box-shadow: 1px 1px 3px;
 }
 
-@media screen and (min-width: 1400px) {
+/*@media screen and (min-width: 1400px) {
   .container-fluid {
     width: 1370px;
   }
@@ -2993,4 +2993,4 @@ margin-top: 10px;
   .container-fluid {
     width: 1870px;
   }
-}
+}*/
