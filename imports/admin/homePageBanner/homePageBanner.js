@@ -14,6 +14,10 @@ Template.homePageBanner.onCreated(function() {
     this.subscribe('getBizVideoBanner');
 });
 
+Template.homePageBanner.helpers({
+	currentUpload: function() { return Template.instance().currentUpload.get();    },
+})
+
 Template.homePageBanner.events({
 	'change #fileInputVideo'(e, template) {
 	    if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -44,10 +48,10 @@ Template.homePageBanner.events({
 			                  console.log ('Error Message: ' +error.reason ); 
 			              }else{
 								console.log ('success'); 
+		        				template.currentUpload.set(false);
 			              }
 			        });
 		        }
-		        template.currentUpload.set(false);
 		    });
 
 		    upload.start();

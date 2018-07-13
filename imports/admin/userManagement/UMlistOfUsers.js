@@ -237,8 +237,9 @@ Template.UMdeleteUserConfirm.events({
                     Bert.alert('Some error occured while deleting this record. Please contact System Admin!');
                 } else {
                     $('.modal-backdrop').hide(); 
-                    Bert.alert('User deleted..');
-
+                    // Bert.alert('User deleted..');
+                    Bert.alert('User deleted..','success','growl-top-right');
+                    
                 }
         });
     FlowRouter.go('/listOfUsers');
@@ -255,7 +256,8 @@ Template.UMuser.events({
                     alert('hello');
                 } else {
                     $('.modal-backdrop').hide(); 
-                    Bert.alert('User deleted..');
+                    // Bert.alert('User deleted..');
+                    Bert.alert('User deleted..','success','growl-top-right');
 
                 }
         });
@@ -274,8 +276,9 @@ Template.UMlistOfUsers.events({
                     alert('Some error occured while deleting this record. Please contact System Admin!');
                 } else {
                     $('.modal-backdrop').hide(); 
-                    Bert.alert('User deleted..');
-
+                    // Bert.alert('User deleted..');
+                    Bert.alert('User deleted..','success','growl-top-right');
+                    
                 }
         });
 

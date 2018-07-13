@@ -2998,4 +2998,16 @@ margin-top: 10px;
   #stateopt-error,#cityArea-error {
     margin-right: 25px;
   }
+  .businessStatisticsAct ,.businessStatisticsInact{
+  	margin-right: 45%!important;
+  },.
+  .businessStatisticsActs,.businessStatisticsInacts,.visitStatisticsToday{
+  	    margin-right: 50%!important;
+  }
+  .visitStatisticsCount{
+  	margin-right: 35%!important;
+  }
+  .visitStatisticsCount{
+  	margin-right: 37%!important;
+  }
 }

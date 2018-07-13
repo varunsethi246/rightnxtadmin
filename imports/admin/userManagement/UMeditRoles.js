@@ -17,11 +17,12 @@ Template.UMeditRoles.helpers({
 });
 
 Template.UMeditRoles.events({
- 'submit #editrolesOne': function (event) {
+ 'submit .editroles': function (event) {
       event.preventDefault();
 
       // var roleId    = $("input[name=Namerole]").attr("id");
       var roleId    = event.target.id;
+      
       // console.log("roleId : " + roleId);
       var roleName  = $("input[name="+roleId+"-Namerole]").val();
       // console.log("roleName : " + roleName);
@@ -32,6 +33,8 @@ Template.UMeditRoles.events({
                         console.log ( error ); 
                     } //info about what went wrong 
                     else {
+                      $('.dismissModalEdit').hide();
+                      $('.modal-backdrop').remove();
                          // FlowRouter.go("/UMroles");
                     }//the _id of new object if successful
                 }
