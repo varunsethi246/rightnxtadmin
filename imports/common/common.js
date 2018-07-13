@@ -142,7 +142,14 @@ Template.generalHeader.helpers({
 });
 
 Template.header.events({
-	
+	'click .primaryMenu':function(e){
+		$('.loginScreen').css('display','block');
+  //       $('.genLoginSignup').hide();
+		// $('.signupScreen').hide();
+		// $('.thankyouscreen').hide();
+		$('.loginScreen').show();
+
+	},
 	'click .login-btn': function(event){
 		$('.genLoginSignup').hide();
 		$('.signupScreen').hide();
@@ -369,7 +376,8 @@ Template.header.events({
             	});
             }
         });
-    }
+    },
+
 });
 
 loadingF = function () {  

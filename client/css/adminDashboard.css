@@ -2981,6 +2981,9 @@ margin-top: 10px;
 .marginrightzero{
 	margin-right: 0px!important;
 }
+.adminHeader{
+	    margin-left: 25%;
+}
 /*@media screen and (min-width: 1400px) {
   .container-fluid {
     width: 1370px;
