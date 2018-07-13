@@ -2943,7 +2943,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	    margin-right: 10px;
 }
 .HeadingList{
-	    text-align: center;
+	text-align: center;
     font-family: 'PROXIMANOVA-REGULAR';
     font-weight: 700;
     color: #3c8dbc;
