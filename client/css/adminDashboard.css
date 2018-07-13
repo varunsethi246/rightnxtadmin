@@ -3000,8 +3000,14 @@ margin-top: 10px;
   }
   .businessStatisticsAct ,.businessStatisticsInact{
   	margin-right: 45%!important;
-  },.
-  .businessStatisticsActs,.businessStatisticsInacts,.visitStatisticsToday{
+  }
+  .businessStatisticsActs{
+  	    margin-right: 50%!important;
+  }
+  .visitStatisticsToday{
+  	    margin-right: 50%!important;
+  }
+  .businessStatisticsInacts{
   	    margin-right: 50%!important;
   }
   .visitStatisticsCount{

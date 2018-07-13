@@ -374,6 +374,7 @@ Template.faq.onRendered(function(event, instance){
 });
 
 Template.faqForm.onRendered(function(event, instance){
+	CKEDITOR.replace( 'select' );
 	$('html, body').scrollTop(0);
 
 	$("#faqadminForm").validate({
