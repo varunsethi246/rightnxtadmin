@@ -4,6 +4,7 @@ import { Mongo } from 'meteor/mongo';
 import './allLabourDetails.html';
 
 import { CompanySettings } from '/imports/api/companysettingsAPI.js';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Meteor.subscribe('companySettings'); 
 

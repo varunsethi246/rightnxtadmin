@@ -250,12 +250,16 @@ Template.masterCity.helpers({
 // });
 
 Template.masterCity.events({
-	// 'keypress #cityArea':function(){
-	// 	$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
-	// 			$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
-	// 			$(".duplication1").text("Pincode already Added.");
-	// 			$(".duplication2").text("Area already Added.");
-	// },
+	'keydown #areaCity':function(event){
+		console.log('hi');
+		if (event.keyCode == 8) {
+	        console.log('BACKSPACE was pressed');
+	        $(".duplication").text("");
+	        // Call event.preventDefault() to stop the character before the cursor
+	        // from being deleted. Remove this line if you don't want to do that.
+	        // event.preventDefault();
+	    }
+	},
 	'keyup #searchCityTable': _.throttle(function(event) {
 		var searchText = event.currentTarget.value;
 		var filter = searchText.toUpperCase();
@@ -293,7 +297,7 @@ Template.masterCity.events({
 				$(".duplication").addClass("NotAdded");
 			}
 	},
-
+	
 	'submit #cityMaster': function(event){
 		event.preventDefault();
 		var countryVals = $('#country').val();
@@ -352,6 +356,7 @@ Template.masterCity.events({
 	             				 event.target.city.value        = '';
 								return;							
 							}
+							('.error').text('');
 						}
 					);
 			

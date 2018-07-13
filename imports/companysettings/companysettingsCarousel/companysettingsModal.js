@@ -15,6 +15,7 @@ import { Session } from 'meteor/session';
 // import { Session } from 'meteor/session';
 import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 import { TempLogoImage } from '/imports/api/companysettingsAPI.js';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Meteor.subscribe('tempLogoImage');
 
@@ -153,17 +154,21 @@ Template.companysettingsformCarousel.events({
               break;
     }//close switch
     // console.log(window[formValuesArray]);
-	 Meteor.call('insert'+toTitleCase(formClass), window[formValuesArray], 
-              function(error, result){
-                if(error){
-                  console.log(error);
-                }else{
-                  //As logo is added to main companySettings table, we can now remove
-                  //the same logo from temporary collection. 
-                  // Meteor.call('tempLogoImageDelete', fileName);
-                }
-              }
-      );
+    var valueTx = $("input#effectiveFrom").val();
+    if ( valueTx != "") {
+      
+        Meteor.call('insert'+toTitleCase(formClass), window[formValuesArray], 
+          function(error, result){
+            if(error){
+              console.log(error);
+            }else{
+              //As logo is added to main companySettings table, we can now remove
+              //the same logo from temporary collection. 
+              // Meteor.call('tempLogoImageDelete', fileName);
+            }
+          }
+        );
+    }
 },
 
 

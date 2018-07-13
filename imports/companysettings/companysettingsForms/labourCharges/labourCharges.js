@@ -2,6 +2,7 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import './labourCharges.html';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 Template.labourCharges.helpers({
 	'editlabourSettings': function (){

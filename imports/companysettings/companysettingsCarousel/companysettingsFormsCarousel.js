@@ -17,6 +17,7 @@ import '../companysettingsForms/businessRate/businessRate.js';
 import { Session } from 'meteor/session';
 
 import { CompanySettings } from '/imports/api/companysettingsAPI.js';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Meteor.subscribe('companySettings');
 

@@ -1,4 +1,5 @@
 import { Session } from 'meteor/session';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 
 import './companyInfo.html';

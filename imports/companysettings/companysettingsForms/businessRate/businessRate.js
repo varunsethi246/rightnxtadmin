@@ -2,6 +2,7 @@ import './businessRate.html';
 
 import { Template } from 'meteor/templating';
 import { Mongo } from 'meteor/mongo';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 
 import { CompanySettings } from '/imports/api/companysettingsAPI.js';

@@ -1157,18 +1157,19 @@ Meteor.methods({
 		);			
 	},
 
-	'updateBusReviewComment':function(busId,busComment){
+	'updateBusReviewComment':function(busId,busComment,Approve){
 		Business.update(
 			{"_id":busId},
 			{$set: 
 				{ 	"status"				: 	"active",
 					"adminReviewComment"	: 	busComment,
+					"StatusReview"				: 	Approve,
 				}
 			}
 		);
 	},
 
-	'updateBusInactivate':function(busId, busComment){
+	'updateBusInactivate':function(busId, busComment,Reject){
 		var busId = Business.findOne({"_id":busId});
 		var busLink = busId.businessLink;
 		console.log('busid :',busId);
@@ -1178,6 +1179,7 @@ Meteor.methods({
 				{ 	
 					"status"				: 	"inactive",
 					"adminReviewComment"	: 	busComment,
+					"StatusReview"				: 	Reject,
 				}
 			},
 			function(error,result){

@@ -1,5 +1,6 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 
 import './taxSettings.html';
@@ -23,14 +24,18 @@ Template.taxSettings.events({
   'click .btnUpdatetaxsettings': function(event){
     event.preventDefault();
      var targetedID = Session.get('targetedid');
-     // console.log("targetedID"+targetedID);
+     // console.log("targetedID"+targetedID)
+     var effectiveFrom = $("input#effectiveFrom").val();
+     console.log('effectiveFrom :',effectiveFrom);
     taxSettingsFormValue = {
         taxType       : $("select#taxType").val(),
         applicableTax : $("input#applicableTax").val(),
         effectiveFrom : $("input#effectiveFrom").val(),
     }
+    if (effectiveFrom != "" && effectiveFrom != null && effectiveFrom != undefined) {
 
-    Meteor.call('updatetaxSettings', taxSettingsFormValue,targetedID);
+      Meteor.call('updatetaxSettings', taxSettingsFormValue,targetedID);
+    }
     // event.target.taxType.value ='';
     // event.target.applicableTax.value ='';
     // event.target.effectiveFrom.value ='';

@@ -153,6 +153,7 @@ Template.listOfBusiness.helpers({
 				}else{
 					data[i].businessAnythingElseShow = "";
 				}
+				data[i].reason = data[i].StatusReview;
 	  		}
 			// console.log('before return data ', data);
 		      return data;
@@ -258,10 +259,10 @@ Template.listOfBusiness.events({
 		if(busComment){
 			busComment = busComment.trim();
 		}
-
+		var Approve = "Approve";
 		var busId = $(event.currentTarget).attr('data-busID');
 		if(busId){
-			Meteor.call('updateBusReviewComment', busId, busComment, function(error,result){
+			Meteor.call('updateBusReviewComment', busId, busComment,Approve, function(error,result){
 				if(error){
 					//Do something
 				} else {
@@ -275,11 +276,11 @@ Template.listOfBusiness.events({
 		if(busComment){
 			busComment = busComment.trim();
 		}
-
+		var Reject = 'Reject';
 		var busId = $(event.currentTarget).attr('data-inactiveBusID');
 		console.log('busId:',busId);
 		if(busId){
-			Meteor.call('updateBusInactivate', busId, busComment, function(error,result){
+			Meteor.call('updateBusInactivate', busId, busComment,Reject, function(error,result){
 				if(error){
 					//Do something
 				} else {

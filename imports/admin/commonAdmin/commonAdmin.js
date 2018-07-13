@@ -37,7 +37,6 @@ Template.adminHeader.helpers({
 	        // var createdAt =  moment(notifDetails[i].createdAt).fromNow();
 	        // var notif = notificationBody.slice(0,40);
 	        var createdAt =  moment(notifDetails[i].date).fromNow();
-	        // console.log('createdAt one: ',createdAt);
 
 	        notifArray.push({
 	          'id'              : notifDetails[i]._id,

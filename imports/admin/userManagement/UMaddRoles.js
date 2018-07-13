@@ -23,7 +23,7 @@ Template.UMaddRoles.events({
                     } //info about what went wrong 
                     else {
                          // FlowRouter.go("/UMroles");
-                      Bert.alert('Role added successfully','success', 'growl-top-right');
+                      Bert.alert('Role Added Successfully.','success', 'growl-top-right');
 
                     }//the _id of new object if successful
                 }
