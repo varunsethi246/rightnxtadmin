@@ -91,6 +91,7 @@ import '/imports/common/common.js';
         } else {
           // console.log('Email Sent. Check your mailbox.');
           Bert.alert('Email Sent. Check your mailbox.',"success","growl-top-right");
+          $('.disableBtn').attr('disabled','disabled');
         }
       });
 

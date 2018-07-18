@@ -3741,5 +3741,10 @@ video::-webkit-media-controls-panel {
 }
 .removeMargTopImg{margin-top: 0px!important;}
 .noPaddingVendor{padding-left: 0px;padding-right: 0px;}
-.vendorHome{height: 335px;}
+.vendorHome{
+	/*height: 335px;*/
+	    height: 300px;
+    /*page: ;*/
+    margin-top: 61px;
+}
 .vendorHome h1{color: #f89b1c;}
