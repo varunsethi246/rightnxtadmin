@@ -16,6 +16,7 @@ Template.companyInfo.events({
       /*--------------Code form Logo Image-----------*/ 
       var file = event.target.files[0];  //assuming you have only one file
       var render = new FileReader(); //this works only in html5
+      console.log('render :',render);
         render.onload =function(event){
            var fileData = render.result;  
            var fileName = file.name;

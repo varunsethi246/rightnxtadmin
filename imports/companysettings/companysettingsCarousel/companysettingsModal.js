@@ -63,6 +63,7 @@ Template.companysettingsformCarousel.events({
   // var companyLogo= image.tempLogoImg;  
   
   var formValuesArray = formClass+'FormValue' ;
+  console.log('formValuesArray : ', formValuesArray);
    switch(formClass) {
 
     case 'companyInfo':
@@ -154,8 +155,10 @@ Template.companysettingsformCarousel.events({
               break;
     }//close switch
     // console.log(window[formValuesArray]);
+    // console.log('formClass : =====>' ,formClass);
     var valueTx = $("input#effectiveFrom").val();
-    if ( valueTx != "") {
+    // console.log('valueTx :',valueTx);
+    // if ( valueTx != "") {
       
         Meteor.call('insert'+toTitleCase(formClass), window[formValuesArray], 
           function(error, result){
@@ -168,7 +171,7 @@ Template.companysettingsformCarousel.events({
             }
           }
         );
-    }
+    // }
 },
 
 
@@ -239,12 +242,19 @@ Template.companysettingsformCarousel.events({
       effectiveFrom  : event.target.effectiveFrom.value,
        
     }
-    Meteor.call('insertTaxSettings', taxSettingsFormValue);
- 
-    //Clear form
-      event.target.taxType.value ='';
-      event.target.applicableTax.value   ='';
-      event.target.effectiveFrom.value ='';
+    if (applicableTax != "") {
+
+      Meteor.call('insertTaxSettings', taxSettingsFormValue);
+   
+      //Clear form
+        event.target.taxType.value         ='';
+        event.target.applicableTax.value   ='';
+        event.target.effectiveFrom.value   ='';
+        console.log('event.target.applicableTax.value :',event.target.applicableTax.value);
+    }else{
+        Bert.alert( 'Applicable Tax is required..!!', 'danger', 'growl-top-right' );
+
+    }
       
       
    },
