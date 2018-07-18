@@ -94,9 +94,9 @@ Template.userBookmarks.helpers({
 								var pic = BusinessImgUploadS3.findOne({"_id":businessObj.businessImages[0].img});
 								var pic1 = UserReviewStoreS3New.findOne({"_id":businessObj.businessImages[0].img});
 								if(pic){
-									businessBookmark[i].ownerPhoto = pic.url();
+									businessBookmark[i].ownerPhoto = pic.link();
 								}else if(pic1){
-									businessBookmark[i].ownerPhoto = pic1.url();
+									businessBookmark[i].ownerPhoto = pic1.link();
 								}else{
 									businessBookmark[i].ownerPhoto = '../images/rightnxt_image_nocontent.jpg'
 								}	

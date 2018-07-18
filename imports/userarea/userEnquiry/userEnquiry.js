@@ -59,7 +59,7 @@ Template.userEnquiryPage.helpers({
 										if(userObj.businessImages.length>0){
 											var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 											if(pic){
-												enqList[i].userProfilePic = pic.url();	
+												enqList[i].userProfilePic = pic.link();	
 											}
 											else{
 												enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -87,7 +87,7 @@ Template.userEnquiryPage.helpers({
 									if(userObj.businessImages.length>0){
 										var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 										if(pic){
-											enqList[i].userProfilePic = pic.url();	
+											enqList[i].userProfilePic = pic.link();	
 										}
 										else{
 											enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -127,7 +127,7 @@ Template.userEnquiryPage.helpers({
 										if(userObj.businessImages.length>0){
 											var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 											if(pic){
-												enqList[i].userProfilePic = pic.url();	
+												enqList[i].userProfilePic = pic.link();	
 											}
 											else{
 												enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -155,7 +155,7 @@ Template.userEnquiryPage.helpers({
 									if(userObj.businessImages.length>0){
 										var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 										if(pic){
-											enqList[i].userProfilePic = pic.url();	
+											enqList[i].userProfilePic = pic.link();	
 										}
 										else{
 											enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -196,7 +196,7 @@ Template.userEnquiryPage.helpers({
 										if(userObj.businessImages.length>0){
 											var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 											if(pic){
-												enqList[i].userProfilePic = pic.url();	
+												enqList[i].userProfilePic = pic.link();	
 											}
 											else{
 												enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -224,7 +224,7 @@ Template.userEnquiryPage.helpers({
 									if(userObj.businessImages.length>0){
 										var pic = BusinessImgUploadS3.findOne({"_id":userObj.businessImages[0].img});
 										if(pic){
-											enqList[i].userProfilePic = pic.url();	
+											enqList[i].userProfilePic = pic.link();	
 										}
 										else{
 											enqList[i].userProfilePic = "/images/rightnxt_image_nocontent.jpg";	
@@ -259,7 +259,7 @@ Template.userEnquiryPage.helpers({
 			if(enqData.enquiryDesc){
 				for(i=0; i<enqData.enquiryDesc.length; i++){
 					if(enqData.enquiryDesc[i].commentImage != ''){
-						enqData.enquiryDesc[i].enquiryPhoto = EnquiryImgUploadS3.findOne({"_id":enqData.enquiryDesc[i].commentImage}).url();
+						enqData.enquiryDesc[i].enquiryPhoto = EnquiryImgUploadS3.findOne({"_id":enqData.enquiryDesc[i].commentImage}).link();
 						enqData.enquiryDesc[i].enquiryImgVal = true;
 					}else{
 						enqData.enquiryDesc[i].enquiryImgVal = false;

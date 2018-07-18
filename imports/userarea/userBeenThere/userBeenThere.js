@@ -61,9 +61,9 @@ Template.userBeenThere.helpers({
 						var pic = BusinessImgUploadS3.findOne({"_id":businessObj.businessImages[0].img});
 						var pic1 = UserReviewStoreS3New.findOne({"_id":businessObj.businessImages[0].img});
 						if(pic){
-							userBeenThere[i].ownerPhoto = pic.url();
+							userBeenThere[i].ownerPhoto = pic.link();
 						}else if(pic1){
-							userBeenThere[i].ownerPhoto = pic1.url();
+							userBeenThere[i].ownerPhoto = pic1.link();
 						}else{
 							userBeenThere[i].ownerPhoto = '../images/rightnxt_image_nocontent.jpg'
 						}	
