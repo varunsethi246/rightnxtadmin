@@ -1408,10 +1408,10 @@ font-family:'PROXIMANOVA-REGULAR'
 }
 
 .firstRow .business .businessStatisticsInact {
-font-size:17px;
+font-size:14px;
 float:right;
 margin-top:-25px;
-margin-right:46px;
+margin-right:19%;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1533,10 +1533,10 @@ font-family:'PROXIMANOVA-REGULAR'
 }
 
 .firstRow .visitor .visitStatisticsCount {
-font-size:17px;
+font-size:14px;
 float:right;
 margin-top:-20px;
-margin-right:16px;
+margin-right:21%;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
