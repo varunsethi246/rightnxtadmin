@@ -132,15 +132,7 @@
 // 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
 // 	})
 // }
-// vendorBannerInvoiceFunc= function () {
-// 	// console.log('in banner invoice');    
-// 	import('/imports/vendor/VendorPayments/VendorPayments.js').then(function (handle) {        
-// 		handle.vendorBannerInvoiceForm();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
+
 // vendorAdsInvoiceFunc= function () {    
 // 	import('/imports/vendor/VendorPayments/VendorPayments.js').then(function (handle) {        
 // 		handle.vendorAdsInvoiceForm();    

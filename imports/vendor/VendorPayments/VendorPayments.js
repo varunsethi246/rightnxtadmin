@@ -281,14 +281,15 @@ Template.vendorPayments.helpers({
 	},
 });
 
-vendorPaymentsForm = function () {  
+vendorPaymentsForm = function () { 
+// console.log('in function one'); 
  	BlazeLayout.render("vendorLayout",{main: 'vendorPayments'});
 }
 
 export { vendorPaymentsForm };
 
 vendorBannerInvoiceForm = function () {  
-	// console.log('in function banner');
+	console.log('in function banner');
   	BlazeLayout.render("vendorLayout",{main: 'vendorBannerInvoice'});
 }
 

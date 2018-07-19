@@ -36,7 +36,7 @@
 							<td class="col-lg-1 bussTable">{{email}}</td>
 							<td class="col-lg-1 bussEmailId">{{phoneNo}}</td>
 							<td class="col-lg-2">{{howCanWeHelpYou}}</td>
-							<td class="col-lg-3">{{message}}</td>
+							<td class="col-lg-3 messageQuery">{{message}}</td>
 							<td class="col-lg-1">{{createdAt}}</td>
 							<td>
 								<i class="fa fa-eye fa-lg cursorPointer cursorPointerss" data-toggle="modal" data-target="#contactUsDataModal-{{_id}}"  aria-hidden="true" title="View"></i>
@@ -46,11 +46,11 @@
 							<div class="modal fade" id="contactUsDataModal-{{_id}}" role="dialog">
 								<div class="modal-dialog">
 									<div class="modal-content">
-										<div class="modal-header delete-close">
-							        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg paddingeye" aria-hidden="true"></i></a>
+										<div class="modal-header delete-close ">
+							        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close marginrightzero"><i class="fa fa-times-circle-o fa-lg paddingeye" aria-hidden="true"></i></a>
 							   			 </div>
 							            <div class="modal-body">
-							            	<p class="text-left">{{message}}</p>
+							            	<p class="text-left messageQuery">{{message}}</p>
 							         		<div class="body-close">
 							                	<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
 							                </div>

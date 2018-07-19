@@ -1,3 +1,12 @@
+vendorBannerInvoiceFunc= function () {
+	console.log('in banner invoice');    
+	import('/imports/vendor/VendorPayments/VendorPayments.js').then(function (handle) {        
+		handle.vendorBannerInvoiceForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
 
 UMregisterFunc= function () {
 // console.log('asda');    
