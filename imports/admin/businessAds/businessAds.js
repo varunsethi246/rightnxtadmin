@@ -356,7 +356,6 @@ Template.businessAds.events({
     	}
 
     	var discountData = AdsDiscount.find({}).fetch();
-
 		// To sort an discount percent array by price
 		function sortArrOfObjectsByParam(a, b) {
 		  const genreA = parseInt(a.price);
@@ -395,7 +394,6 @@ Template.businessAds.events({
 		}
 
 		var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Ads'}).fetch();
-
 		if(paymentCheck.length>0) {
 			formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
 			Meteor.call('updateAdsPayment', formValues, function(error,position){
@@ -419,10 +417,6 @@ Template.businessAds.events({
 				}
 			});
 		}
-		
-
-		
-
 	},
 	"keyup #business": _.throttle(function(e) {
 	    var searchText = $(e.target).val().trim();
