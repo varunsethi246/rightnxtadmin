@@ -1392,15 +1392,15 @@ font-family:'PROXIMANOVA-REGULAR'
 }
 
 .firstRow .business .businessStatisticsAct {
-font-size:17px;
+font-size:13px;
 float:right;
-margin-top:-25px;
+margin-top:-18px;
 margin-right:45px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
 .firstRow .business .businessStatisticsActs {
-font-size:17px;
+font-size:13px;
 float:right;
 margin-top:25px;
 margin-right:69px;
@@ -1410,13 +1410,13 @@ font-family:'PROXIMANOVA-REGULAR'
 .firstRow .business .businessStatisticsInact {
 font-size:14px;
 float:right;
-margin-top:-25px;
-margin-right:19%;
+margin-top:-18px;
+margin-right:22%;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
 .firstRow .business .businessStatisticsInacts {
-font-size:17px;
+font-size:13px!important;
 float:right;
 margin-top:10px;
 margin-right:61px;
@@ -1620,7 +1620,7 @@ opacity:.7
 
 .addsWeek {
 margin-top:21px;
-font-size:13px;
+font-size:13px!important;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -3019,4 +3019,8 @@ margin-top: 10px;
   .visitStatisticsCount{
   	margin-right: 37%!important;
   }
+}
+
+.navbar-default .navbar-nav > li > a{
+	color:#ffffff!important;
 }

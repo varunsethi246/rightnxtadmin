@@ -56,6 +56,11 @@ Template.masterState.helpers({
 
 
 Template.masterState.events({
+	'keydown #areaState':function(event){
+		if (event.keyCode == 8) {
+	        $(".duplication4").text("");
+	    }
+	},
 	'keyup #searchStateTable': _.throttle(function(event) {
 		var searchText = event.currentTarget.value;
 		var filter = searchText.toUpperCase();
@@ -251,9 +256,8 @@ Template.masterCity.helpers({
 
 Template.masterCity.events({
 	'keydown #areaCity':function(event){
-		console.log('hi');
 		if (event.keyCode == 8) {
-	        console.log('BACKSPACE was pressed');
+	        // console.log('BACKSPACE was pressed');
 	        $(".duplication").text("");
 	        // Call event.preventDefault() to stop the character before the cursor
 	        // from being deleted. Remove this line if you don't want to do that.
@@ -435,6 +439,12 @@ Template.masterCity.events({
 // ========================================================================
 
 Template.masterArea.events({
+	'keydown #pinCodes':function(event){
+		if (event.keyCode == 8) {
+	        $(".duplication1").text("");
+	       
+	    }
+	},
 	'keyup #searchAreaTable': _.throttle(function(event) {
 		var searchText = event.currentTarget.value;
 		var filter = searchText.toUpperCase();
