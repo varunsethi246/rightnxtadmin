@@ -25,7 +25,7 @@ Template.UMlistOfUsers.helpers({
   users:function() {
     var userCounts  = Counts.get('noOfUser');
     // userCounts = parseInt(userCounts);
-    console.log('userCounts ',userCounts);
+    // console.log('userCounts ',userCounts);
       if (userCounts > 10) {
         $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
       }else if(userCounts > 100){
@@ -58,7 +58,7 @@ Template.UMlistOfUsers.helpers({
             if(user[i].status){
               if(user[i].status.lastLogin){
                 // console.log()
-                console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
+                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
                 roleSetArray.push({
                   'SrNo'                  : i,
                   '_id'                   : user[i]._id,
@@ -102,7 +102,7 @@ Template.UMlistOfUsers.helpers({
               if ( Roles.userIsInRole( user[i]._id, roleSetVar ) ) {
                 if(user[i].status){
                   if(user[i].status.lastLogin){
-                console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
+                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
                     
                     roleSetArray.push({
                       'SrNo'                  : i,
@@ -149,7 +149,7 @@ Template.UMlistOfUsers.helpers({
             // console.log('user s ',i);
             if(user[i].status){
               if(user[i].status.lastLogin){
-                console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
+                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
                 
                 roleSetArray.push({
                   'SrNo'                  : i,
@@ -228,7 +228,7 @@ Template.UMdeleteUserConfirm.events({
   'click .deleteUserConfirm': function(event){
     event.preventDefault();
     var uid = FlowRouter.getParam('userId');
-    console.log('uid:',uid);
+    // console.log('uid:',uid);
     // console.log('uid : ' + uid);
     
     Meteor.call('deleteUser', uid,
@@ -249,7 +249,7 @@ Template.UMuser.events({
   'click .deleteUserConfirmOne': function(event){
     event.preventDefault();
     var uid = event.target.id;
-    console.log('uidone :',uid);
+    // console.log('uidone :',uid);
     Meteor.call('deleteUser', uid,
                 (err, res) => {
                 if (err) {
@@ -269,7 +269,7 @@ Template.UMlistOfUsers.events({
   'click .deleteUserConfirm': function(event){
     event.preventDefault();
     var uid = event.target.id;
-    console.log('uidone :',uid);
+    // console.log('uidone :',uid);
     Meteor.call('deleteUser', uid,
                 (err, res) => {
                 if (err) {
@@ -286,7 +286,7 @@ Template.UMlistOfUsers.events({
 
   'click .allSelector': function (event) {
       var admin = Meteor.userId();
-      console.log('admin :',admin);
+      // console.log('admin :',admin);
       // event.preventDefault();
       if(event.target.checked){
         $('.userCheckbox').prop('checked',true);
@@ -424,20 +424,42 @@ Template.UMlistOfUsers.events({
     Session.set('userListLimit',0);
     var searchText = event.currentTarget.value;
     var filter = searchText.toUpperCase();
-    var table = document.getElementById("userListTable");
-    var tr = table.getElementsByTagName("tr");
+    var table = $("#userListTable");
+        console.log('userListTable ==>',userListTable);
 
-      // Loop through all table rows, and hide those who don't match the search query
-      for (var i=0; i<tr.length; i++) {
-        var td = tr[i].getElementsByTagName("td")[1];
-        if(td) {
-          if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+        table.find('tr').each(function(index, row)
+    {
+      var allCells = $(row).find('td');
+      if(allCells.length > 0)
+      {
+        var found = false;
+        allCells.each(function(index, td)
+        {
+          var regExp = new RegExp(searchText, 'i');
+          if(regExp.test($(td).text().toUpperCase()))
+          {
+            found = true;
+            return false;
           }
-        } 
+        });
+        if(found == true)$(row).show();else $(row).hide();
       }
+    });
+
+    // var tr = table.getElementsByTagName("tr");
+
+    //   // Loop through all table rows, and hide those who don't match the search query
+    //   for (var i=0; i<tr.length; i++) {
+    //     var td = tr[i].getElementsByTagName("td")[1];
+    //     console.log('td : ++',td);
+    //     if(td) {
+    //       if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+    //         tr[i].style.display = "";
+    //       } else {
+    //         tr[i].style.display = "none";
+    //       }
+    //     } 
+    //   }
   }, 200),
 
 });

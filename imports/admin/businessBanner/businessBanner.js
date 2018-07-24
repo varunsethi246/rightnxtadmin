@@ -239,8 +239,16 @@ Template.businessBanner.helpers({
 
   	selectedCategories(){
   		var catgArray = Session.get('catgArray');
+  		console.log('catgArray ====>',catgArray);
+  		var newCatArry = _.uniq(catgArray);
+  		console.log('newCatArry =====>',newCatArry);
+  		// if (catgArray.length > 0) {
+	  	// 	catgArray.filter((cat,pos,self)=>{
+	  	// 		return self.indexOf(cat)==pos;
+	  	// 	});
+  		// }
   		// console.log("catgArray: ",catgArray);
-  		return catgArray; 
+  		return newCatArry; 
   	},
   	selectedAreas(){
   		var areaArray = Session.get('areaBannerArray');
