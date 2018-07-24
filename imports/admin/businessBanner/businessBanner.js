@@ -45,7 +45,7 @@ var dataIndex = 0;
 
 Template.businessBanner.onRendered(function(){
 	var todayNext = new Date().toISOString().split('T')[0];
-	console.log('todayNext',todayNext);
+	// console.log('todayNext',todayNext);
 	document.getElementsByName("DateBanner")[0].setAttribute('min', todayNext);
 
 	// var todayNext = new Date().toISOString().split('T')[0];
@@ -54,13 +54,13 @@ Template.businessBanner.onRendered(function(){
 	var currentdate = new Date();
 	var startDate = moment(currentdate);
     var setDate = moment(startDate).add(1, 'days').format('YYYY-MM-DD');
-	console.log('setDate',setDate);
+	// console.log('setDate',setDate);
 
     $('#dateCurrent').val(setDate);
 
     // var startDate = moment(setDate);
     var futureMonth = moment(setDate).add(1, 'M').format('YYYY-MM-DD');
-    console.log('futureMonth :',futureMonth);
+    // console.log('futureMonth :',futureMonth);
     
  //    var todayNext = new Date().toISOString().split('T')[0];
 	// console.log('todayNext',todayNext);
@@ -95,11 +95,11 @@ Template.businessBanner.helpers({
 
 	'businessCategories':function(){
   		var businessLink = Session.get("businessLink");
-  		console.log('businessLink :',businessLink);
+  		// console.log('businessLink :',businessLink);
   		var categoryArray = [];  
     	if(businessLink){
 	  		var businessDetails = Business.findOne({'businessLink':businessLink});
-  			console.log('businessLink :',businessDetails);
+  			// console.log('businessLink :',businessDetails);
 
  	  		if(businessDetails){
 	   			if(businessDetails.businesscategories.length > 0){
@@ -239,15 +239,7 @@ Template.businessBanner.helpers({
 
   	selectedCategories(){
   		var catgArray = Session.get('catgArray');
-  		console.log('catgArray ====>',catgArray);
   		var newCatArry = _.uniq(catgArray);
-  		console.log('newCatArry =====>',newCatArry);
-  		// if (catgArray.length > 0) {
-	  	// 	catgArray.filter((cat,pos,self)=>{
-	  	// 		return self.indexOf(cat)==pos;
-	  	// 	});
-  		// }
-  		// console.log("catgArray: ",catgArray);
   		return newCatArry; 
   	},
   	selectedAreas(){
@@ -512,7 +504,6 @@ Template.businessBanner.events({
 
 	'change #business': function(event){
 		var selectedOption = event.currentTarget.value;
-		console.log('selectedOption: ',selectedOption);
 
 		var splitOption = selectedOption.split('|');
 		if(splitOption){
@@ -523,7 +514,6 @@ Template.businessBanner.events({
 					var businessLink = splitBusinessLink[1].trim();
 					Session.set("businessLink",businessLink);
 
-					console.log('Session.set("businessLink",businessLink);',businessLink);
 					// Add Area of business from address
 					var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
 					
@@ -544,7 +534,6 @@ Template.businessBanner.events({
 	'change #getCategory': function(event){
 	    var val = event.currentTarget.value;
 	    var opts = document.getElementById('bannerSearchCat').childNodes;
-	    console.log(opts);
 	    for (var i = 0; i < opts.length; i++) {
 	        if (opts[i].value === val) {
 	        	var selectedCatg = event.currentTarget.value;
@@ -554,7 +543,8 @@ Template.businessBanner.events({
 				}else{
 					var catgArray = [];
 				}		
-				catgArray.push(selectedCatg);	
+				catgArray.push(selectedCatg);
+				var catgArray = _.uniq(catgArray);
 				Session.set('catgArray',catgArray);
 				$('#getCategory').val('');
 	          	break;
@@ -702,7 +692,7 @@ Template.businessBanner.events({
 				if(error){
 					console.log('Error occured while removing Business Banner: ', error);
 				}else{
-					console.log('Business Banner successfully removed');
+
 				}
 			});
 		}
