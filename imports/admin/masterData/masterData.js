@@ -571,15 +571,15 @@ Template.masterArea.events({
 			// console.log('zipVals ',zipVals);
 			var areaZipInputData = Area.findOne({"zipcode":zipVals});
 			
-			if(areaZipInputData){
-				// console.log('areaZipInputData ',areaZipInputData);
+			// if(areaZipInputData){
+			// 	// console.log('areaZipInputData ',areaZipInputData);
 
-				$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
-				$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
-				$(".duplication1").text("Pincode already Added.");
-				$(".duplication2").text("Area already Added.");
+			// 	$(".duplication1").addClass("AlreadyAdded hvr-buzz-out");
+			// 	$(".duplication2").addClass("AlreadyAdded hvr-buzz-out");
+			// 	$(".duplication1").text("Pincode already Added.");
+			// 	$(".duplication2").text("Area already Added.");
 
-			}else{
+			// }else{
 				var camalCaseCountry = countryVals.toLowerCase().replace(/\b[a-z]/g, function(letter) {
 				    return letter.toUpperCase();
 				});
@@ -638,7 +638,7 @@ Template.masterArea.events({
 				}else{
 					// console.log('area not found');
 				}
-			}//else if end of search zipcode
+			// }//else if end of search zipcode
 
 		}else if(stateVals == "-- Select State --" || cityVals == "-- Select State --"){
 			if (stateVals == "-- Select State --") {

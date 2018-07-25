@@ -19,6 +19,7 @@
 									</tr>	
 								</thead>
 								<tbody>
+								{{#if notifRes}}
 									{{#each notifRes}}
 										<tr class="{{statusBackground}} notifRowBunch" id="{{id}}">
 											<td> {{ event }} </td>
@@ -46,6 +47,11 @@
 											</td>
 										</tr>
 									{{/each}}
+								{{else}}
+									<tr class="{{statusBackground}} notifRowBunch" id="{{id}}">
+										<td colspan="5" class="centerNotification">No Notification</td>
+									</tr>
+								{{/if}}
 								</tbody>
 							</table>
 						</div>
