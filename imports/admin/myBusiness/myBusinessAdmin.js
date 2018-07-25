@@ -707,9 +707,9 @@ Template.listOfBusiness.events({
 		var modelid = $(event.target).parent().parent().parent().parent().parent().attr('id');
 		var id  = modelid.split("-");
 		var businessIdS = $(event.currentTarget).attr("data-vendorId");
-		console.log('businessIdS :',businessIdS);
+		// console.log('businessIdS :',businessIdS);
 		var vendorId  = Business.findOne({'_id':businessIdS});
-		console.log('vendorId',vendorId);
+		// console.log('vendorId',vendorId);
 		var vendoriDS = vendorId.createdBy;
 		var businessTitle = $(event.currentTarget).attr("data-busTitle");
 		var businessLink = $(event.currentTarget).attr("data-busLink");
@@ -722,7 +722,7 @@ Template.listOfBusiness.events({
 
 				var admin = Meteor.users.findOne({'roles':'admin'});
 				var vendorDetail = Meteor.users.findOne({'_id':vendoriDS});
-				console.log('vendorDetail :',vendorDetail);
+				// console.log('vendorDetail :',vendorDetail);
 				var vendorids = vendorDetail._id;
 				// var notificationOn = vendorDetail.notificationConfiguration;
 
@@ -764,7 +764,8 @@ Template.listOfBusiness.events({
 					// console.log('inputObj :',inputObj);
 					sendMailNotification(inputObj);
 				}
-				$('.fade').hide();
+					$('.deletePermanent').hide();
+				$('.modal-backdrop').remove();
 			}
 		});
 	},
