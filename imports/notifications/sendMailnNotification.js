@@ -189,7 +189,6 @@ sendPageShareMail = function(inputObj) {
 //  Notification Function
 //============================================================
 sendInAppNotification = function(inputObj) {
-	// console.log('inputObjIn app:',inputObj);
 	if(inputObj){
 
 		var notifBody    = getNotificationContent(inputObj.templateName,inputObj.variables);
@@ -330,6 +329,7 @@ getSMSContent = function(templateName,varObj){
 
 getNotificationContent = function(templateName,varObj){
 	var NotificationData = NotificationTemplate.findOne({"templateType" : "Notification",'templateName':templateName});
+	console.log('NotificationData ',NotificationData);
 	if(NotificationData){
 		var content = NotificationData.content;
 		content = content.replace(/<p>/gm, " ");
@@ -356,7 +356,7 @@ getNotificationContent = function(templateName,varObj){
 			content = content.replace(tokens[i],varObj[tokens[i]]);
 		}
 	}//NotificationData
-
+	console.log('content :',content);
 	return content;
 }
 

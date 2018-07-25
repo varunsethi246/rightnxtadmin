@@ -556,6 +556,7 @@ Template.claimOtp.events({
 
 			sendMailNotification(inputObj);
 
+
 			var inputObj = {
 			    to           : adminID,
 			    templateName : 'Claim',
@@ -563,6 +564,9 @@ Template.claimOtp.events({
 			} 
 
 			sendInAppNotification(inputObj); 
+
+			 
+
 
 			// var inputObj = {
 	  //           roles       : 'admin',
