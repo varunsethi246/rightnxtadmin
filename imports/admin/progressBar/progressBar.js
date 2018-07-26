@@ -11,6 +11,7 @@ Template.progressBar.onRendered(function(){
 		$('#progressbar').animate({width: $progress+'%'},{duration: 0, easing : "linear"});        
 	 if($progress == 100){
 		 clearInterval(id);
+		 $('.hideProgressBar').hide();
 		}
 	},totalTime);
 });

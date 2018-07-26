@@ -17,8 +17,40 @@ Template.UMlistOfUsers.onCreated(function(){
   Meteor.subscribe('rolefunction');
   Meteor.subscribe('allOrders');
   Session.set('userListLimit',10);
+    var userCounts  = Counts.get('noOfUser');
+
+   if (userCounts > 10) {
+        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+      }else if(userCounts > 100){
+        $('.loadMoreRows100').addClass('loadMoreRows100').removeClass('hideMore50');
+      }else if(userCounts > 200){
+        $('.loadMoreRows100').addClass('loadMoreRowsRest').removeClass('hideMore50'); 
+      }else{
+        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+        $('.loadMoreRows50').removeClass('loadMoreRows100').addClass('hideMore50');
+        $('.loadMoreRows50').removeClass('loadMoreRowsRest').addClass('hideMore50');
+      }
+
 
 });
+Template.UMlistOfUsers.onRendered(function(){
+
+    var userCounts  = Counts.get('noOfUser');
+
+    if (userCounts > 10) {
+      $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+    }else if(userCounts > 100){
+      $('.loadMoreRows100').addClass('loadMoreRows100').removeClass('hideMore50');
+    }else if(userCounts > 200){
+      $('.loadMoreRows100').addClass('loadMoreRowsRest').removeClass('hideMore50'); 
+    }else{
+      $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+      $('.loadMoreRows50').removeClass('loadMoreRows100').addClass('hideMore50');
+      $('.loadMoreRows50').removeClass('loadMoreRowsRest').addClass('hideMore50');
+    }
+
+});
+
 
 Template.UMlistOfUsers.helpers({
 

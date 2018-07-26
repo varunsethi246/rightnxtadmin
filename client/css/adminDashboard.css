@@ -2997,6 +2997,7 @@ margin-top: 10px;
 @media screen and (min-width: 1900px) {
   #area-error {
     margin-right: 45px!important;
+    margin-left: 15px!important;
   }
   #stateopt-error,#cityArea-error {
     margin-right: 25px;
