@@ -91,8 +91,11 @@ Template.adsDiscountManagement.events({
 		var value = this;
 		var id = value.id;
 		
+     	$('#price').focus();
 		$('input[name="price"]').val(this.price);
     	$('input[name="discount"]').val(this.discount);
+    	// $('input[name="price"]').focus();
+     	console.log();
 	    Session.set("adsId",id);
 				
 	}
@@ -196,6 +199,7 @@ Template.adsPositionManagement.events({
 		event.preventDefault();
 		var value = this;
 		var id = value._id;
+		$('.focusUp').focus();
 		$('.selectPosition').val(this.position);
         $('#rate').val(this.rate);	
         Session.set("adsPositionId",id);

@@ -40,7 +40,7 @@ Template.discountManagement.events({
 				});
 			}else if(discount == '' || rate == ''){
 
-				Bert.alert("Please select rate and discount first.","success","growl-top-right");
+				Bert.alert("Please select rate and discount first.","danger","growl-top-right");
 			}
 	    }
 	},
@@ -64,7 +64,7 @@ Template.discountManagement.events({
 		event.preventDefault();
 		var value = this;
 		var id = value.id;
-		
+		$('#price').focus();
 		$('input[name="price"]').val(this.price);
     	$('input[name="discount"]').val(this.discount);
 	    Session.set("id",id);
@@ -192,6 +192,7 @@ Template.positionManagement.events({
 		event.preventDefault();
 		var value = this;
 		var id = value._id;
+		$('#rate').focus();
 		$('.selectPosition').val(this.position);
         $('#rate').val(this.rate);	
         Session.set("positionId",id);

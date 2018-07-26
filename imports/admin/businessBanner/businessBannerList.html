@@ -24,7 +24,7 @@
 						<th>Banner Action</th>
 					</thead>
 					<tbody>
-						<!-- {{#if bannerDetails}} -->
+					{{#if bannerDetails}}
 						{{#each bannerDetails}}
 							<tr>
 								<td class="bannerTitleFont">
@@ -93,9 +93,9 @@
 								
 							</tr>
 						{{/each}}
-					<!-- {{else}}
-					<h2>Nothing to display</h2>
-					{{/if}} -->
+					{{else}}
+						<td colspan="5" class="centerNotification">Nothing to display</td>
+					{{/if}}
 					</tbody>
 				</table>
 			</div>
