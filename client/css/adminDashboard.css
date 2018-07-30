@@ -2808,6 +2808,7 @@ margin-left: 10%;
 .salesReportTabs {
     margin-bottom: 20px !important;
     margin-top: 25px;
+    padding-left: 5%;
 }
 
 @media (min-width: 991px){
@@ -3019,6 +3020,10 @@ margin-top: 10px;
   }
   .visitStatisticsCount{
   	margin-right: 37%!important;
+  }
+  .vendorHome{
+
+    height: 300px!important;
   }
 }
 
