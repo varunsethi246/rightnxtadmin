@@ -39,6 +39,23 @@ companySettingsFormFunc= function () {
 	})
 }
 
+merchantGuidelinesFunc= function () {   
+	console.log('in main'); 
+	import('/imports/general/merchantGuidelines/merchant.js').then(function (handle) {        
+		handle.merchantGuidelinesForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
+careerFunc= function () {    
+	import('/imports/general/careers/career.js').then(function (handle) {        
+		handle.careerForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
 
 
 

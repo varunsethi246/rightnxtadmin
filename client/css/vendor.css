@@ -3743,7 +3743,7 @@ video::-webkit-media-controls-panel {
 .noPaddingVendor{padding-left: 0px;padding-right: 0px;}
 .vendorHome{
 	/*height: 335px;*/
-	    height: 300px;
+	    height: 200px;
     /*page: ;*/
     margin-top: 61px;
 }

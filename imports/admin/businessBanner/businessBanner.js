@@ -245,7 +245,8 @@ Template.businessBanner.helpers({
   	selectedAreas(){
   		var areaArray = Session.get('areaBannerArray');
   		// console.log(areaArray);
-  		return areaArray; 
+  		var newareaArray = _.uniq(areaArray);
+  		return newareaArray; 
   	},
 
 
