@@ -905,7 +905,7 @@ border-radius:0
 }
 
 .areaMasterOption {
-margin-left:-13px
+margin-left:-9px
 }
 
 .areaMasterSelect {
@@ -1395,7 +1395,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:13px;
 float:right;
 margin-top:-18px;
-margin-right:45px;
+margin-right:78px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1403,7 +1403,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:13px;
 float:right;
 margin-top:25px;
-margin-right:69px;
+margin-right:100px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1411,7 +1411,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:14px;
 float:right;
 margin-top:-18px;
-margin-right:22%;
+margin-right:78px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1419,7 +1419,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:13px!important;
 float:right;
 margin-top:10px;
-margin-right:61px;
+margin-right:100px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1536,7 +1536,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:14px;
 float:right;
 margin-top:-20px;
-margin-right:21%;
+margin-right:62px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -1544,7 +1544,7 @@ font-family:'PROXIMANOVA-REGULAR'
 font-size:13px;
 float:right;
 margin-top:25px;
-margin-right:69px;
+margin-right:100px;
 font-family:'PROXIMANOVA-REGULAR'
 }
 
@@ -3063,4 +3063,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .margintRightAdmin{
 	    margin-right: 0px!important;
+}
+.visitStatisticsToday{
+	    margin-top: 9px;
 }

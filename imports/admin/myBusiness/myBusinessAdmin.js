@@ -782,6 +782,7 @@ Template.listOfBusiness.events({
 				Bert.alert('Business Inactived','success','growl-top-right');
 			}
 				$('.fade').hide();	
+				$('.modal-backdrop').remove();
 		});
 	},
 
