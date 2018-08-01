@@ -13,6 +13,12 @@ font-family:'GOTHIC_0';
 src:url(/fonts/GOTHIC_0.ttf),url(/fonts/GOTHIC_0.eot)
 }
 
+#footerBottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 .footerWrapper {
 background:#181818;
 padding:0 0 20px
