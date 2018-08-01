@@ -4,6 +4,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import { Session } from 'meteor/session'
 import { Bert } from 'meteor/themeteorchef:bert';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { Review } from '/imports/api/reviewMaster.js';
 
 // import { users } from './imports/api/userMasterAPI.js';
 // import { Orders } from '../../../../imports/api/orderMaster.js';
@@ -281,11 +282,12 @@ Template.UMuser.events({
   'click .deleteUserConfirmOne': function(event){
     event.preventDefault();
     var uid = event.target.id;
-    // console.log('uidone :',uid);
+    console.log('uidone click:',uid);
     Meteor.call('deleteUser', uid,
                 (err, res) => {
                 if (err) {
-                    alert('hello');
+                    console.log('error');
+                    // alert('error');
                 } else {
                     $('.modal-backdrop').hide(); 
                     // Bert.alert('User deleted..');

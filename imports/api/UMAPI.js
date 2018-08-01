@@ -1,7 +1,7 @@
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
-
+import { Review } from '/imports/api/reviewMaster.js';
 
   // Meteor.publish('signUpConfig', function() {
   //     // this.unblock();
@@ -179,10 +179,14 @@ Meteor.methods({
   },
 
   deleteUser: function(uid){
-      // console.log('userId:',userId);
-      // var businessName  =  Business.find({'businessOwnerId':userId}).fetch();
-      // console.log('businessName:',businessName);
+      console.log('userId:',uid);
+      // var reviewByUser =  Review.find({'userId':uid}).fetch();
         Meteor.users.remove({'_id': uid});
+      // console.log('businessName:',businessName);
+        Reports.remove(
+          {"userId":uid},
+          {multi: true}
+        );
   },
 
     deleteRole: function(roleID){
