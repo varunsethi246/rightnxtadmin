@@ -517,10 +517,6 @@ Template.businessBanner.events({
 					var businessLink = splitBusinessLink[1].trim();
 					Session.set("businessLink",businessLink);
 
-<<<<<<< Updated upstream
-=======
-					console.log('Session.set("businessLink",businessLink);',businessLink);
->>>>>>> Stashed changes
 					// Add Area of business from address
 					var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
 					
