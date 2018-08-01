@@ -13,7 +13,9 @@ Template.adminStatistics.helpers({
 		var busActCounts 	= Counts.get('noOfBusinessActive');
 		var busInactCounts 	= Counts.get('noOfBusinessInactive');
 		var noOfEnq 		= Counts.get('noOfEnq');
-
+		console.log('busActCounts :',busActCounts);
+		console.log('busInactCounts :',busInactCounts);
+		
 
 		var noOfoffer 		= Counts.get('noOfoffer')
 		// console.log('offerYear :' , offerYear);
