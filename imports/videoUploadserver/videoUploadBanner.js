@@ -73,7 +73,7 @@ if(s3Data)
                     _.each(fileRef.versions, (vRef, version) => {
                         // We use Random.id() instead of real file's _id
                         // to secure files from reverse engineering on the AWS client
-                        const filePath = 'files/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
+                        const filePath = 'BannerVideo/' + (Random.id()) + '-' + version + '.' + fileRef.extension;
                         // console.log("filePath: ", filePath);
 
                         // Create the AWS:S3 object.
