@@ -91,6 +91,15 @@ Template.footer.helpers({
 	currentYear(){
 		return (new Date()).getFullYear();
 	},
+	footerFixed(){
+		var currentUrl = FlowRouter.current().path;
+		console.log(currentUrl);
+		if(currentUrl == '/'){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	// currentCity(){
 	// 	var userId = Meteor.userId();
 	// 	if(userId){
