@@ -3035,6 +3035,7 @@ margin-top: 10px;
     background: #fff;
     width: auto;
     height: 900px;
+    -moz-height:auto;
     top: 12%;
     margin-right: 15px;
     border-top: 5px solid #3c8dbc;

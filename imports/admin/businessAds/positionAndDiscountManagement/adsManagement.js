@@ -71,7 +71,7 @@ Template.adsDiscountManagement.events({
 	'click .delete':function(event){
 		event.preventDefault();
 		var value = this;
-		// console.log(event.currentTarget);
+		console.log(event.currentTarget);
 		var id = value.id;
 		// var id = $(event.currentTarget).attr('id');
 		// console.log(id);
