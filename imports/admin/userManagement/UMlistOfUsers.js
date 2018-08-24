@@ -82,56 +82,73 @@ Template.UMlistOfUsers.helpers({
       var userCount =  user.length;
       // console.log('userCount ', userCount);
       if(roleSetVar){ 
-        // console.log('roleSetVar');
-        if(roleSetVar == 'all'){
+        console.log('roleSetVar = ',roleSetVar);
+        if(roleSetVar == 'all' || roleSetVar == ''){
           // console.log('roleSetVar all');
 
           for(i=0;i<userCount;i++){
-            // console.log('user Data ', i);
-            if(user[i].status){
-              if(user[i].status.lastLogin){
-                // console.log()
-                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
-                roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : user[i].status.lastLogin.date,
-                });
-                // console.log('true: ',user[i]._id);
+            console.log('user role =  ', user[i].roles.indexOf('admin'));
+
+              if(user[i].roles.indexOf('admin') >= 0){
+                var adminrole = true;                
+              }else{
+                var adminrole = false;
+              }
+
+              if(user[i].status){
+                if(user[i].status.lastLogin){
+                  // console.log()
+                  // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
+
+                  roleSetArray.push({
+                    'SrNo'                  : i,
+                    '_id'                   : user[i]._id,
+                    'emails'                : user[i].emails[0].address,
+                    'status'                : user[i].profile.status,
+                    'roles'                 : user[i].roles,
+                    'createdAt'             : user[i].createdAt,
+                    'lastLogin'             : user[i].status.lastLogin.date,
+                    'adminrole'             : adminrole,
+                  });
+                  // console.log('true: ',user[i]._id);
+                }else{
+                  roleSetArray.push({
+                    'SrNo'                  : i,
+                    '_id'                   : user[i]._id,
+                    'emails'                : user[i].emails[0].address,
+                    'status'                : user[i].profile.status,
+                    'roles'                 : user[i].roles,
+                    'createdAt'             : user[i].createdAt,
+                    'lastLogin'             : '',
+                    'adminrole'             : adminrole,
+                  });
+                  // console.log('false: ',user[i]._id);
+                }
               }else{
                 roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : '',
-                });
-                // console.log('false: ',user[i]._id);
+                    'SrNo'                  : i,
+                    '_id'                   : user[i]._id,
+                    'emails'                : user[i].emails[0].address,
+                    'status'                : user[i].profile.status,
+                    'roles'                 : user[i].roles,
+                    'createdAt'             : user[i].createdAt,
+                    'lastLogin'             : '',
+                    'adminrole'             : adminrole,
+                  });
               }
-            }else{
-              roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : '',
-                });
-            }
-            // console.log('roleSetArray ',roleSetArray);
+              // console.log('roleSetArray ',roleSetArray);
           }//roleSetVar all loop
         }else{
           // console.log('else roleSetVar all'); 
             for(i=0;i<userCount;i++){
             // console.log('user Data d', i);
               
+              if(user[i].roles.indexOf('admin') >= 0){
+                var adminrole = true;                
+              }else{
+                var adminrole = false;
+              }
+
               if ( Roles.userIsInRole( user[i]._id, roleSetVar ) ) {
                 if(user[i].status){
                   if(user[i].status.lastLogin){
@@ -145,6 +162,7 @@ Template.UMlistOfUsers.helpers({
                       'roles'                 : user[i].roles,
                       'createdAt'             : user[i].createdAt,
                       'lastLogin'             : user[i].status.lastLogin.date,
+                      'adminrole'             : adminrole,
                     });
                     // console.log('true: ',user[i]._id);
                   }else{
@@ -156,6 +174,7 @@ Template.UMlistOfUsers.helpers({
                       'roles'                 : user[i].roles,
                       'createdAt'             : user[i].createdAt,
                       'lastLogin'             : '',
+                      'adminrole'             : adminrole,
                     });
                     // console.log('false: ',user[i]._id);
                   }
@@ -168,18 +187,23 @@ Template.UMlistOfUsers.helpers({
                     'roles'                 : user[i].roles,
                     'createdAt'             : user[i].createdAt,
                     'lastLogin'             : '',
+                    'adminrole'             : adminrole,
                   });
+                }
               }
-            }
-            // console.log('roleSetArray1 ',roleSetArray);
-
+              // console.log('roleSetArray1 ',roleSetArray);
           }
-
         }   
       }else{
         // console.log('else roleSetVar');
           for(i=0;i<userCount;i++){
             // console.log('user s ',i);
+              if(user[i].roles.indexOf('admin') >= 0){
+                var adminrole = true;                
+              }else{
+                var adminrole = false;
+              }
+
             if(user[i].status){
               if(user[i].status.lastLogin){
                 // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
@@ -192,6 +216,7 @@ Template.UMlistOfUsers.helpers({
                   'roles'                 : user[i].roles,
                   'createdAt'             : user[i].createdAt,
                   'lastLogin'             : user[i].status.lastLogin.date,
+                  'adminrole'             : adminrole,
                 });
                 // console.log('roleSetArray1 ',roleSetArray);
 
@@ -205,6 +230,7 @@ Template.UMlistOfUsers.helpers({
                   'roles'                 : user[i].roles,
                   'createdAt'             : user[i].createdAt,
                   'lastLogin'             : '',
+                  'adminrole'             : adminrole,
                 });
                 // console.log('false: ',user[i]._id);
               }
@@ -217,6 +243,7 @@ Template.UMlistOfUsers.helpers({
                   'roles'                 : user[i].roles,
                   'createdAt'             : user[i].createdAt,
                   'lastLogin'             : '',
+                  'adminrole'             : adminrole,
                 });
             }
             // console.log('roleSetArray1 ',roleSetArray);

@@ -108,25 +108,29 @@
 
 			<!-- <button class= "fa fa-trash userDel"></button> -->
 
-			<button class= "fa fa-trash userDel" title="Delete" data-toggle="modal" data-target="#{{ _id }}-id"></button>
-			 
-			 <div class="modal fade" id="{{ _id }}-id" role="dialog">
-			    <div class="modal-dialog modal-sm">
-			      <div class="modal-content">
-			        <div class="modal-header">
-			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h4 class="modal-title">Delete User</h4>
-			        </div>
-			        <div class="modal-body">
-			          <p><b>The item will be deleted. Are you sure you want to continue?.</b></p>
-			        </div>
-			        <div class="modal-footer">
-			          <button id="{{_id}}" type="button" data-dismiss="modal" class="btn btn-danger deleteUserConfirmOne" >Delete</button>
-	    			  <button type="button" data-dismiss="modal" class="btn btn-primary ">Cancel</button>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
+			{{#if adminrole}}
+				<!-- Do Nothing -->
+			{{else}}
+				<button class= "fa fa-trash userDel" title="Delete" data-toggle="modal" data-target="#{{ _id }}-id"></button>
+				 
+				<div class="modal fade" id="{{ _id }}-id" role="dialog">
+				    <div class="modal-dialog modal-sm">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Delete User</h4>
+				        </div>
+				        <div class="modal-body">
+				          <p><b>The item will be deleted. Are you sure you want to continue?.</b></p>
+				        </div>
+				        <div class="modal-footer">
+				          <button id="{{_id}}" type="button" data-dismiss="modal" class="btn btn-danger deleteUserConfirmOne" >Delete</button>
+		    			  <button type="button" data-dismiss="modal" class="btn btn-primary ">Cancel</button>
+				        </div>
+				      </div>
+				    </div>
+				</div>
+			 {{/if}}
 
 		</td>		
 	</tr>

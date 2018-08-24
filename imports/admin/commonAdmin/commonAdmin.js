@@ -172,9 +172,9 @@ Template.ViewAllNotif.events({
 	      if(error){
 	        console.log(error);
 	      }else{
-	        Bert.alert( 'Deleted Successfully!', 'success', 'growl-top-right' );
 	    	$('.modal-backdrop').hide();
-	    	$('.modaldelete').hide();
+	    	$('#notifiALL').hide();
+	        Bert.alert( 'Deleted Successfully!', 'success', 'growl-top-right' );
 	      }
 	    });
 	},
