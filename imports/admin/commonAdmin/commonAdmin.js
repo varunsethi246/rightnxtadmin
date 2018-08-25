@@ -182,9 +182,9 @@ Template.ViewAllNotif.events({
 
 Template.adminHeader.events({
 	'click .sidebar-toggle':function (){
-		$(".adminPhoto").toggleClass("");
-		$(".wrapper").toggleClass("toggled");
-		$(".username").toggleClass("userDisplaynone");
+		// $(".adminPhoto").toggleClass("");
+		// $(".wrapper").toggleClass("toggled");
+		// $(".username").toggleClass("userDisplaynone");
 
 	},
 	
@@ -227,6 +227,7 @@ Template.adminSidebar.onRendered(function(){
 });
 
 Template.adminSidebar.events({
+	
 	'click #accordion1':function(){
 		$("#listborder").removeClass('active');
 		$(this).addClass('active');

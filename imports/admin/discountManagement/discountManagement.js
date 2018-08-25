@@ -46,10 +46,12 @@ Template.discountManagement.events({
 	},
 
 	
-	'click .delete':function(event){
-		event.preventDefault();
+	'click .hello':function(event){
+		// event.preventDefault();
 		var value = this;
 		var id = value.id;
+				console.log(value);
+				console.log(id);
 
 		Meteor.call('removeDiscount',id,function(error,result){
 			if(error){

@@ -61,6 +61,21 @@ Template.listOfBusiness.onRendered( ()=>{
 	counterImg = 0;
 	counterMenu = 0;
 	videoListCount = 0;
+
+	Session.set('businessListLimit',10);
+    var businessCount  = Counts.get('noOfBusiness');
+	console.log('businessCount :',businessCount);
+	if (businessCount > 15) {
+        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+	}else if(businessCount > 50){
+		$('.loadMoreRows100').addClass('loadMoreRows100').removeClass('hideMore50');
+	}else if(businessCount > 100){
+		$('.loadMoreRows100').addClass('loadMoreRowsRest').removeClass('hideMore50'); 
+	}else{
+		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows50').removeClass('loadMoreRows100').addClass('hideMore50');
+		$('.loadMoreRows50').removeClass('loadMoreRowsRest').addClass('hideMore50');
+	}
 });
 
 Template.listOfBusiness.onCreated(function() {
@@ -99,7 +114,8 @@ Template.listOfBusiness.helpers({
 	'Details' : function(){
     	var businessCount  = Counts.get('noOfBusiness');
     	console.log('businessCount :',businessCount);
-    	if (businessCount > 15) {
+    	if (businessCount > 10) {
+    		console.log(businessCount);
 	        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 		}else if(businessCount > 50){
 			$('.loadMoreRows100').addClass('loadMoreRows100').removeClass('hideMore50');

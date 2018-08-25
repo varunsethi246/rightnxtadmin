@@ -13,8 +13,8 @@ Template.UMaddRoles.events({
       event.preventDefault();
       var roleName   = $("input[name=roleName]").val();
       var inputId    = $("input[name=roleName]").attr("id");
-      console.log('roleName : ' + roleName);
-      console.log('inputId : ' + inputId);
+      // console.log('roleName : ' + roleName);
+      // console.log('inputId : ' + inputId);
       if (roleName != '') {
         Meteor.call('addrole', roleName,
                 function(error, result) { 
