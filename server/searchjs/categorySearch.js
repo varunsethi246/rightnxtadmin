@@ -12,10 +12,12 @@ SearchSource.defineSource('categories', function(searchText, options) {
       {level1: regExp},
       {level2: regExp},
       {level3: regExp},
-      {level4: regExp}
+      {level4: regExp},
+      
+      {menuStatus:'Enable'}
       // {tags: regExp}
     ]};
-
+    // console.log('selector ==>:',selector);
     var newArr = Categories.find(selector, {
                     fields : {"level0":1, "level1":1,"level2":1,"level3":1,"level4":1},
                     sort   : { level1: 1 },
