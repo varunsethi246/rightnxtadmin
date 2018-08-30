@@ -4,6 +4,21 @@ import { Payment } from '../../../api/paymentMaster.js';
 
 import './weeklySalesReportBanner.html';
 
+// Template.weeklySalesReportBanner.onRendered(function(){
+// 	var today = moment().format("MM-DD-YYYY");
+//     var weeknumber = moment(today).week();
+// 	if(weeknumber<=9){
+// 		weeknumber="0"+weeknumber;
+// 	}
+// 	var yyyy = moment(new Date()).format("YYYY");
+// 	var weekVal = yyyy+"-W"+weeknumber;
+// 	// 2018-W35
+// 	console.log('weekVal===',weekVal);
+// 	console.log('week===',yyyy);
+// 	// console.log(Session.set("selectedWeek",weekVal));
+// 	Session.set("selectedWeek",weekVal);
+// });
+
 Template.weeklySalesReportBanner.helpers({
 
 	'currentweek' : function(){
@@ -23,18 +38,18 @@ Template.weeklySalesReportBanner.helpers({
 			var weekVal = yyyy+"-W"+weeknumber;
 			Session.set("selectedWeek",weekVal);
 		}
-
+		// console.log(weekVal);
 		return weekVal;
 
 	},
 
 	'result' : function(){
 		var weekNumFromSess = Session.get("selectedWeek");
-
+		// console.log(weekNumFromSess);
 		// Like 2017-W01 for Week #1 of 2017
 		// First / Get monday of date using the Week#
 		var mondayInWeek = moment(weekNumFromSess).day("Monday").week(weekNumFromSess).format();
-
+		// console.log(mondayInWeek);
 		var mondayInWeekDt = new Date(mondayInWeek);
 		var sundayOfWeek = moment(mondayInWeek).add(7,"days").format();
 		var sundayOfWeekDt = new Date(sundayOfWeek);

@@ -17,10 +17,19 @@ $(document).on("click",function(){
 	$('.activeDownList').hide();
 	$('.activeDownListFlag').hide();
 });
-$(document).on('click',function(){
+$(document).on('click',function(event){
 	$(".loginClosenew").click(function() {
 	    $('.loginEmail').val('');
 	    $('.loginPassword').val('');
+	});
+});
+$(document).on('click',function(){
+	$(".customActive").click(function(event) {
+	    $('.customActive').removeClass('activeCustom');
+		$(event.currentTarget).addClass('activeCustom');
+		if($('.customActive').children().hasClass('activeCustom')){
+			$('.customActive').children().removeClass('activeCustom');
+		}
 	});
 });
 

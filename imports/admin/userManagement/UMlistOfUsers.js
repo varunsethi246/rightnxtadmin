@@ -78,7 +78,7 @@ Template.UMlistOfUsers.helpers({
     // console.log("roleSetget : " + roleSetVar);
     var user       =  Meteor.users.find({},{ limit: listLimit}).fetch();
     if(user){
-      // console.log('print1');
+      console.log('list of users ');
       var userCount =  user.length;
       // console.log('userCount ', userCount);
       if(roleSetVar){ 
@@ -87,20 +87,44 @@ Template.UMlistOfUsers.helpers({
           // console.log('roleSetVar all');
 
           for(i=0;i<userCount;i++){
-            console.log('user role =  ', user[i].roles.indexOf('admin'));
-
-              if(user[i].roles.indexOf('admin') >= 0){
-                var adminrole = true;                
-              }else{
-                var adminrole = false;
+            // console.log('user role =  ', user[i].roles.indexOf('admin'));
+              if(user[i].roles){
+                if(user[i].roles.indexOf('admin') >= 0){
+                  var adminrole = true;                
+                }else{
+                  var adminrole = false;
+                }
               }
-
               if(user[i].status){
                 if(user[i].status.lastLogin){
                   // console.log()
                   // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
-
-                  roleSetArray.push({
+                  if(user[i].emails){
+                    if(user[i].emails[0].address){
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].emails[0].address,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : user[i].status.lastLogin.date,
+                        'adminrole'             : adminrole,
+                      });    
+                    }else{
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].services.facebook.email,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : user[i].status.lastLogin.date,
+                        'adminrole'             : adminrole,
+                      });
+                    }
+                  }
+                  /*roleSetArray.push({
                     'SrNo'                  : i,
                     '_id'                   : user[i]._id,
                     'emails'                : user[i].emails[0].address,
@@ -109,32 +133,82 @@ Template.UMlistOfUsers.helpers({
                     'createdAt'             : user[i].createdAt,
                     'lastLogin'             : user[i].status.lastLogin.date,
                     'adminrole'             : adminrole,
-                  });
+                  });*/
                   // console.log('true: ',user[i]._id);
                 }else{
-                  roleSetArray.push({
-                    'SrNo'                  : i,
-                    '_id'                   : user[i]._id,
-                    'emails'                : user[i].emails[0].address,
-                    'status'                : user[i].profile.status,
-                    'roles'                 : user[i].roles,
-                    'createdAt'             : user[i].createdAt,
-                    'lastLogin'             : '',
-                    'adminrole'             : adminrole,
-                  });
+                  if(user[i].emails){
+                    if(user[i].emails[0].address){
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].emails[0].address,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : '',
+                        'adminrole'             : adminrole,
+                      });    
+                    }else{
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].services.facebook.email,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : '',
+                        'adminrole'             : adminrole,
+                      });
+                    }
+                  }
+                  // roleSetArray.push({
+                  //   'SrNo'                  : i,
+                  //   '_id'                   : user[i]._id,
+                  //   'emails'                : user[i].emails[0].address,
+                  //   'status'                : user[i].profile.status,
+                  //   'roles'                 : user[i].roles,
+                  //   'createdAt'             : user[i].createdAt,
+                  //   'lastLogin'             : '',
+                  //   'adminrole'             : adminrole,
+                  // });
                   // console.log('false: ',user[i]._id);
                 }
               }else{
-                roleSetArray.push({
-                    'SrNo'                  : i,
-                    '_id'                   : user[i]._id,
-                    'emails'                : user[i].emails[0].address,
-                    'status'                : user[i].profile.status,
-                    'roles'                 : user[i].roles,
-                    'createdAt'             : user[i].createdAt,
-                    'lastLogin'             : '',
-                    'adminrole'             : adminrole,
-                  });
+                if(user[i].emails){
+                    if(user[i].emails[0].address){
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].emails[0].address,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : '',
+                        'adminrole'             : adminrole,
+                      });    
+                    }else{
+                      roleSetArray.push({
+                        'SrNo'                  : i,
+                        '_id'                   : user[i]._id,
+                        'emails'                : user[i].services.facebook.email,
+                        'status'                : user[i].profile.status,
+                        'roles'                 : user[i].roles,
+                        'createdAt'             : user[i].createdAt,
+                        'lastLogin'             : '',
+                        'adminrole'             : adminrole,
+                      });
+                    }
+                  }
+                // roleSetArray.push({
+                //     'SrNo'                  : i,
+                //     '_id'                   : user[i]._id,
+                //     'emails'                : user[i].emails[0].address,
+                //     'status'                : user[i].profile.status,
+                //     'roles'                 : user[i].roles,
+                //     'createdAt'             : user[i].createdAt,
+                //     'lastLogin'             : '',
+                //     'adminrole'             : adminrole,
+                //   });
               }
               // console.log('roleSetArray ',roleSetArray);
           }//roleSetVar all loop
@@ -143,17 +217,151 @@ Template.UMlistOfUsers.helpers({
             for(i=0;i<userCount;i++){
             // console.log('user Data d', i);
               
-              if(user[i].roles.indexOf('admin') >= 0){
-                var adminrole = true;                
-              }else{
-                var adminrole = false;
+              if(user[i].roles){
+                if(user[i].roles.indexOf('admin') >= 0){
+                  var adminrole = true;                
+                }else{
+                  var adminrole = false;
+                }
               }
 
               if ( Roles.userIsInRole( user[i]._id, roleSetVar ) ) {
                 if(user[i].status){
                   if(user[i].status.lastLogin){
                 // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
-                    
+                    if(user[i].emails){
+                      if(user[i].emails[0].address){
+                        roleSetArray.push({
+                          'SrNo'                  : i,
+                          '_id'                   : user[i]._id,
+                          'emails'                : user[i].emails[0].address,
+                          'status'                : user[i].profile.status,
+                          'roles'                 : user[i].roles,
+                          'createdAt'             : user[i].createdAt,
+                          'lastLogin'             : user[i].status.lastLogin.date,
+                          'adminrole'             : adminrole,
+                        });    
+                      }else{
+                        roleSetArray.push({
+                          'SrNo'                  : i,
+                          '_id'                   : user[i]._id,
+                          'emails'                : user[i].services.facebook.email,
+                          'status'                : user[i].profile.status,
+                          'roles'                 : user[i].roles,
+                          'createdAt'             : user[i].createdAt,
+                          'lastLogin'             : user[i].status.lastLogin.date,
+                          'adminrole'             : adminrole,
+                        });
+                      }
+                    }
+                    // roleSetArray.push({
+                    //   'SrNo'                  : i,
+                    //   '_id'                   : user[i]._id,
+                    //   'emails'                : user[i].emails[0].address,
+                    //   'status'                : user[i].profile.status,
+                    //   'roles'                 : user[i].roles,
+                    //   'createdAt'             : user[i].createdAt,
+                    //   'lastLogin'             : user[i].status.lastLogin.date,
+                    //   'adminrole'             : adminrole,
+                    // });
+                    // console.log('true: ',user[i]._id);
+                  }else{
+                    if(user[i].emails){
+                      if(user[i].emails[0].address){
+                        roleSetArray.push({
+                          'SrNo'                  : i,
+                          '_id'                   : user[i]._id,
+                          'emails'                : user[i].emails[0].address,
+                          'status'                : user[i].profile.status,
+                          'roles'                 : user[i].roles,
+                          'createdAt'             : user[i].createdAt,
+                          'lastLogin'             : '',
+                          'adminrole'             : adminrole,
+                        }); 
+                      }else{
+                        roleSetArray.push({
+                          'SrNo'                  : i,
+                          '_id'                   : user[i]._id,
+                          'emails'                : user[i].services.facebook.email,
+                          'status'                : user[i].profile.status,
+                          'roles'                 : user[i].roles,
+                          'createdAt'             : user[i].createdAt,
+                          'lastLogin'             : '',
+                          'adminrole'             : adminrole,
+                        });
+                      }
+                    }
+                    // roleSetArray.push({
+                    //   'SrNo'                  : i,
+                    //   '_id'                   : user[i]._id,
+                    //   'emails'                : user[i].emails[0].address,
+                    //   'status'                : user[i].profile.status,
+                    //   'roles'                 : user[i].roles,
+                    //   'createdAt'             : user[i].createdAt,
+                    //   'lastLogin'             : '',
+                    //   'adminrole'             : adminrole,
+                    // });
+                    // console.log('false: ',user[i]._id);
+                  }
+              }else{
+                if(user[i].emails){
+                  if(user[i].emails[0].address){
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].emails[0].address,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : '',
+                      'adminrole'             : adminrole,
+                    }); 
+                  }else{
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].services.facebook.email,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : '',
+                      'adminrole'             : adminrole,
+                    });
+                  }
+                }
+                // roleSetArray.push({
+                //     'SrNo'                  : i,
+                //     '_id'                   : user[i]._id,
+                //     'emails'                : user[i].emails[0].address,
+                //     'status'                : user[i].profile.status,
+                //     'roles'                 : user[i].roles,
+                //     'createdAt'             : user[i].createdAt,
+                //     'lastLogin'             : '',
+                //     'adminrole'             : adminrole,
+                //   });
+                }
+              }
+              // console.log('roleSetArray1 ',roleSetArray);
+          }
+        }   
+      }else{
+        // console.log('else roleSetVar');
+          for(i=0;i<userCount;i++){
+            // console.log('role index ',user[i].roles.indexOf('admin'));
+
+              if(user[i].roles){
+                if(user[i].roles.indexOf('admin') >= 0){
+                  var adminrole = true;                
+                }else{
+                  var adminrole = false;
+                }
+              }
+
+            if(user[i].status){
+              if(user[i].status.lastLogin){
+                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
+                if(user[i].emails){
+                  if(user[i].emails[0].address){
                     roleSetArray.push({
                       'SrNo'                  : i,
                       '_id'                   : user[i]._id,
@@ -164,8 +372,35 @@ Template.UMlistOfUsers.helpers({
                       'lastLogin'             : user[i].status.lastLogin.date,
                       'adminrole'             : adminrole,
                     });
-                    // console.log('true: ',user[i]._id);
                   }else{
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].services.facebook.email,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : user[i].status.lastLogin.date,
+                      'adminrole'             : adminrole,
+                    });
+                  }
+                }
+                // roleSetArray.push({
+                //   'SrNo'                  : i,
+                //   '_id'                   : user[i]._id,
+                //   'emails'                : user[i].emails[0].address,
+                //   'status'                : user[i].profile.status,
+                //   'roles'                 : user[i].roles,
+                //   'createdAt'             : user[i].createdAt,
+                //   'lastLogin'             : user[i].status.lastLogin.date,
+                //   'adminrole'             : adminrole,
+                // });
+                // console.log('roleSetArray1 ',roleSetArray);
+
+                // console.log('true: ',user[i]._id);
+              }else{
+                if(user[i].emails){
+                  if(user[i].emails[0].address){
                     roleSetArray.push({
                       'SrNo'                  : i,
                       '_id'                   : user[i]._id,
@@ -176,10 +411,35 @@ Template.UMlistOfUsers.helpers({
                       'lastLogin'             : '',
                       'adminrole'             : adminrole,
                     });
-                    // console.log('false: ',user[i]._id);
+                  }else{
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].services.facebook.email,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : '',
+                      'adminrole'             : adminrole,
+                    });
                   }
-              }else{
-                roleSetArray.push({
+                }
+                // roleSetArray.push({
+                //   'SrNo'                  : i,
+                //   '_id'                   : user[i]._id,
+                //   'emails'                : user[i].emails[0].address,
+                //   'status'                : user[i].profile.status,
+                //   'roles'                 : user[i].roles,
+                //   'createdAt'             : user[i].createdAt,
+                //   'lastLogin'             : '',
+                //   'adminrole'             : adminrole,
+                // });
+                // console.log('false: ',user[i]._id);
+              }
+            }else{
+              if(user[i].emails){
+                if(user[i].emails[0].address){
+                  roleSetArray.push({
                     'SrNo'                  : i,
                     '_id'                   : user[i]._id,
                     'emails'                : user[i].emails[0].address,
@@ -189,62 +449,20 @@ Template.UMlistOfUsers.helpers({
                     'lastLogin'             : '',
                     'adminrole'             : adminrole,
                   });
+                }else{
+                  roleSetArray.push({
+                    'SrNo'                  : i,
+                    '_id'                   : user[i]._id,
+                    'emails'                : user[i].services.facebook.email,
+                    'status'                : user[i].profile.status,
+                    'roles'                 : user[i].roles,
+                    'createdAt'             : user[i].createdAt,
+                    'lastLogin'             : '',
+                    'adminrole'             : adminrole,
+                  });
                 }
               }
-              // console.log('roleSetArray1 ',roleSetArray);
-          }
-        }   
-      }else{
-        // console.log('else roleSetVar');
-          for(i=0;i<userCount;i++){
-            // console.log('user s ',i);
-              if(user[i].roles.indexOf('admin') >= 0){
-                var adminrole = true;                
-              }else{
-                var adminrole = false;
-              }
-
-            if(user[i].status){
-              if(user[i].status.lastLogin){
-                // console.log('user[i].status.lastLogin :',user[i].status.lastLogin); 
-                
-                roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : user[i].status.lastLogin.date,
-                  'adminrole'             : adminrole,
-                });
-                // console.log('roleSetArray1 ',roleSetArray);
-
-                // console.log('true: ',user[i]._id);
-              }else{
-                roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : '',
-                  'adminrole'             : adminrole,
-                });
-                // console.log('false: ',user[i]._id);
-              }
-            }else{
-              roleSetArray.push({
-                  'SrNo'                  : i,
-                  '_id'                   : user[i]._id,
-                  'emails'                : user[i].emails[0].address,
-                  'status'                : user[i].profile.status,
-                  'roles'                 : user[i].roles,
-                  'createdAt'             : user[i].createdAt,
-                  'lastLogin'             : '',
-                  'adminrole'             : adminrole,
-                });
+              
             }
             // console.log('roleSetArray1 ',roleSetArray);
             

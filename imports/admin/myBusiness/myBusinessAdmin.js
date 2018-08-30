@@ -64,7 +64,6 @@ Template.listOfBusiness.onRendered( ()=>{
 
 	Session.set('businessListLimit',10);
     var businessCount  = Counts.get('noOfBusiness');
-	console.log('businessCount :',businessCount);
 	if (businessCount > 15) {
         $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 	}else if(businessCount > 50){
@@ -83,7 +82,6 @@ Template.listOfBusiness.onCreated(function() {
     this.subscribe('getBizVideo');
 	Session.set('businessListLimit',10);
     var businessCount  = Counts.get('noOfBusiness');
-	console.log('businessCount :',businessCount);
 	if (businessCount > 15) {
         $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 	}else if(businessCount > 50){
@@ -113,9 +111,7 @@ Template.listOfBusiness.helpers({
     },
 	'Details' : function(){
     	var businessCount  = Counts.get('noOfBusiness');
-    	console.log('businessCount :',businessCount);
     	if (businessCount > 10) {
-    		console.log(businessCount);
 	        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 		}else if(businessCount > 50){
 			$('.loadMoreRows100').addClass('loadMoreRows100').removeClass('hideMore50');
@@ -309,7 +305,6 @@ Template.listOfBusiness.events({
 		}
 		var Reject = 'Reject';
 		var busId = $(event.currentTarget).attr('data-inactiveBusID');
-		console.log('busId:',busId);
 		if(busId){
 			Meteor.call('updateBusInactivate', busId, busComment,Reject, function(error,result){
 				if(error){
@@ -363,7 +358,6 @@ Template.listOfBusiness.events({
 
 	'click #saveBusinessImg' : function(event){
 		var businessLink = $(event.target).attr('data-Link');
-				        	console.log('businessLink +++++++> ',businessLink);
 		
 		// var businessLink = FlowRouter.getParam('businessLink');
 		for(i = 0 ; i < files.length; i++){
@@ -402,7 +396,7 @@ Template.listOfBusiness.events({
 			              if(error) {
 			                  console.log ('Error Message: ' + error ); 
 			              }else{
-							console.log('img upload ', fileObj._id);	
+							// console.log('img upload ', fileObj._id);	
 			              }
 
 			        });
@@ -465,9 +459,6 @@ Template.listOfBusiness.events({
 
 	'click #saveBusinessMenu' : function(event){
 		var businessLink = $(event.target).attr('data-Link');
-				        	console.log('businessLink ',businessLink);
-
-		
 		// var businessLink = FlowRouter.getParam('businessLink');
 		for(i = 0 ; i < filesM.length; i++){
 			const imageCompressor = new ImageCompressor();
@@ -530,7 +521,6 @@ Template.listOfBusiness.events({
 	'change #businessVideofiles' : function(event){
 		$('#drag2').hide();
 		 filesV = event.target.files; // FileList object
-		 console.log('filesV ', filesV.length);
 		 if(filesV.length > 1 ){
 		 	Bert.alert('Only One can be upload','danger','growl-top-right');
 			$('#businessVideofiles').val('');
@@ -566,7 +556,6 @@ Template.listOfBusiness.events({
 
 	'click #saveBusinessVideo' : function(event){
 		var businessLink = $(event.target).attr("data-id");
-		console.log('businessLink ',businessLink);
 		BusinessVideoUpload.insert(filesV[0], function (err, fileObj) {
 	        // Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
 	        if(err){

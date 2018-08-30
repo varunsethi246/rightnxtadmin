@@ -224,14 +224,26 @@ Template.adminHeader.events({
 });
 Template.adminSidebar.onRendered(function(){
 	$('.wrapper').addClass('toggled');
+	var urlLinks = FlowRouter.current().path;
+	console.log(urlLinks);
+	var urlLink = urlLinks.split('/');
+	console.log(urlLink[1]);
+	if (urlLink[1]) {
+		var linkUrl = $('.'+urlLink[1]).attr('data-target');
+		console.log('linkUrl :',linkUrl);
+		if (linkUrl) {
+			$('.'+linkUrl).addClass('activeCustom');
+		}
+	}
+
 });
 
 Template.adminSidebar.events({
 	
-	'click #accordion1':function(){
-		$("#listborder").removeClass('active');
-		$(this).addClass('active');
-	},
+	// 'click #accordion1':function(){
+	// 	$("#listborder").removeClass('active');
+	// 	$(this).addClass('active');
+	// },
 	
 	'click .panelIcon':function(event){
 		event.preventDefault();
@@ -263,904 +275,862 @@ Template.adminSidebar.events({
 		}
 	},	
 
-	'click .menusidebarClass': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// 'click .menusidebarClass': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 		
-	},
-	'click .menusidebarClassOne': function(){
-		$('.menusidebarClassOne').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClassOne': function(){
+	// 	$('.menusidebarClassOne').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 		
-	},
-	'click .menusidebarClass0': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClass0': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
 
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
 
-	},
-	'click .menusidebarClass1': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClass1': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
-	},
-	'click .menusidebarClass2': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClass2': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
 		
-	},
-	'click .menusidebarClass3': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClass3': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
-	},
+	// },
 
-	'click .menusidebarClass4': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// 'click .menusidebarClass4': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
-	},
+	// },
 
-	'click .menusidebarClass5': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// 'click .menusidebarClass5': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
-	},
-	'click .menusidebarClass6': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// },
+	// 'click .menusidebarClass6': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 
-	},
+	// },
 
-	'click .menusidebarClass7': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').toggleClass('mymenucolorSelect');
-		$('.menusidebarClass8').removeClass('mymenucolorSelect');
+	// 'click .menusidebarClass7': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').toggleClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').removeClass('mymenucolorSelect');
 		
-	},
-	'click .menusidebarClass8': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menusidebarClass7').removeClass('mymenucolorSelect');
-		$('.menusidebarClass8').toggleClass('mymenucolorSelect');
-	},
+	// },
+	// 'click .menusidebarClass8': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass7').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass8').toggleClass('mymenucolorSelect');
+	// },
 	
-	'click .menuSubCat1': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 'click .menuSubCat1': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
 
-		// $('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').toggleClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// 	// $('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat2': function(){
+	// 	/*$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');*/
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat3': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+
+
+
+	// 	Session.set("backlinkurl",'');
+	// },
+	// 'click .menuSubCat4': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat5': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat6': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat7': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat8': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat9': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat10': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat11': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// 	$('body').scrollTop(0);
+	// },
+	// 'click .menuSubCat12': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat13': function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat14':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+
+	// 	Session.set("businessLink",null);
+	// 	Session.set('areaBannerArray',null);
+	// 	Session.set('catgArray',null);
+	// },
+	// 'click .menuSubCat15':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat17':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// 	Session.set("adsBusinessLink",null);
+	// 	Session.set('areaAdsArray',null);
+	// 	Session.set('catgAdsArray',null);
 		
+	// },
+	// 'click .menuSubCat18':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat19':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat20':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat20').toggleClass('mymenucolorSelect');
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
 
-			
-	},
-	'click .menuSubCat2': function(){
-		/*$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');*/
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').toggleClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat16':function(){
+	// 	$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 	$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 	$('.menuSubCat16').toggleClass('mymenucolorSelect');		
+	// 	$('.menuSubCat20').removeClass('mymenucolorSelect');		
+	// 	$('.menuSubCat21').removeClass('mymenucolorSelect');		
+	// },
+	// 'click .menuSubCat21':function(){
+	// 		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass0').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass1').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass2').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass3').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass4').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass5').removeClass('mymenucolorSelect');
+	// 		$('.menusidebarClass6').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat1').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat2').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat3').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat4').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat5').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat6').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat7').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat8').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat9').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat10').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat11').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat12').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat13').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat14').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat15').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat17').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat18').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat19').removeClass('mymenucolorSelect');
+	// 		$('.menuSubCat16').removeClass('mymenucolorSelect');		
+	// 		$('.menuSubCat21').toggleClass('mymenucolorSelect');		
+	// 		$('.menuSubCat20').removeClass('mymenucolorSelect');		
+	// 	},
+	// 'click .customActive':function(event){
+	// 	event.preventDefault();
+	// 	$('.customActive').removeClass('activeCustom');
+	// 	$(event.currentTarget).addClass('activeCustom');
+	// 	// $('.customActive').children().removeClass('activeColor');
+	// 	// $(event.currentTarget).children().addClass('activeColor');
 
-
-
-	},
-	'click .menuSubCat3': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').toggleClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-		Session.set("backlinkurl",'');
-	},
-	'click .menuSubCat4': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').toggleClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat5': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').toggleClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat6': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').toggleClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat7': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').toggleClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat8': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').toggleClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat9': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').toggleClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-	},
-	'click .menuSubCat10': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').toggleClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-
-	},
-	'click .menuSubCat11': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').toggleClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-		$('body').scrollTop(0);
-	},
-	'click .menuSubCat12': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').toggleClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-	},
-	'click .menuSubCat13': function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').toggleClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-
-	},
-	'click .menuSubCat14':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').toggleClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-		Session.set("businessLink",null);
-		Session.set('areaBannerArray',null);
-		Session.set('catgArray',null);
-	},
-	'click .menuSubCat15':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').toggleClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-		
-	},
-	'click .menuSubCat17':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').toggleClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-
-		Session.set("adsBusinessLink",null);
-		Session.set('areaAdsArray',null);
-		Session.set('catgAdsArray',null);
-		
-	},
-	'click .menuSubCat18':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').toggleClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-		
-	},
-	'click .menuSubCat19':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').toggleClass('mymenucolorSelect');
-		$('.menuSubCat20').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-		
-	},
-	'click .menuSubCat20':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').removeClass('mymenucolorSelect');
-		$('.menuSubCat20').toggleClass('mymenucolorSelect');
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-
-	},
-	'click .menuSubCat16':function(){
-		$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-		$('.menusidebarClass').removeClass('mymenucolorSelect');
-		$('.menusidebarClass0').removeClass('mymenucolorSelect');
-		$('.menusidebarClass1').removeClass('mymenucolorSelect');
-		$('.menusidebarClass2').removeClass('mymenucolorSelect');
-		$('.menusidebarClass3').removeClass('mymenucolorSelect');
-		$('.menusidebarClass4').removeClass('mymenucolorSelect');
-		$('.menusidebarClass5').removeClass('mymenucolorSelect');
-		$('.menusidebarClass6').removeClass('mymenucolorSelect');
-		$('.menuSubCat1').removeClass('mymenucolorSelect');
-		$('.menuSubCat2').removeClass('mymenucolorSelect');
-		$('.menuSubCat3').removeClass('mymenucolorSelect');
-		$('.menuSubCat4').removeClass('mymenucolorSelect');
-		$('.menuSubCat5').removeClass('mymenucolorSelect');
-		$('.menuSubCat6').removeClass('mymenucolorSelect');
-		$('.menuSubCat7').removeClass('mymenucolorSelect');
-		$('.menuSubCat8').removeClass('mymenucolorSelect');
-		$('.menuSubCat9').removeClass('mymenucolorSelect');
-		$('.menuSubCat10').removeClass('mymenucolorSelect');
-		$('.menuSubCat11').removeClass('mymenucolorSelect');
-		$('.menuSubCat12').removeClass('mymenucolorSelect');
-		$('.menuSubCat13').removeClass('mymenucolorSelect');
-		$('.menuSubCat14').removeClass('mymenucolorSelect');
-		$('.menuSubCat15').removeClass('mymenucolorSelect');
-		$('.menuSubCat17').removeClass('mymenucolorSelect');
-		$('.menuSubCat18').removeClass('mymenucolorSelect');
-		$('.menuSubCat19').removeClass('mymenucolorSelect');
-		$('.menuSubCat16').toggleClass('mymenucolorSelect');		
-		$('.menuSubCat20').removeClass('mymenucolorSelect');		
-		$('.menuSubCat21').removeClass('mymenucolorSelect');		
-	},
-	'click .menuSubCat21':function(){
-			$('.menusidebarClassOne').removeClass('mymenucolorSelect');
-			$('.menusidebarClass').removeClass('mymenucolorSelect');
-			$('.menusidebarClass0').removeClass('mymenucolorSelect');
-			$('.menusidebarClass1').removeClass('mymenucolorSelect');
-			$('.menusidebarClass2').removeClass('mymenucolorSelect');
-			$('.menusidebarClass3').removeClass('mymenucolorSelect');
-			$('.menusidebarClass4').removeClass('mymenucolorSelect');
-			$('.menusidebarClass5').removeClass('mymenucolorSelect');
-			$('.menusidebarClass6').removeClass('mymenucolorSelect');
-			$('.menuSubCat1').removeClass('mymenucolorSelect');
-			$('.menuSubCat2').removeClass('mymenucolorSelect');
-			$('.menuSubCat3').removeClass('mymenucolorSelect');
-			$('.menuSubCat4').removeClass('mymenucolorSelect');
-			$('.menuSubCat5').removeClass('mymenucolorSelect');
-			$('.menuSubCat6').removeClass('mymenucolorSelect');
-			$('.menuSubCat7').removeClass('mymenucolorSelect');
-			$('.menuSubCat8').removeClass('mymenucolorSelect');
-			$('.menuSubCat9').removeClass('mymenucolorSelect');
-			$('.menuSubCat10').removeClass('mymenucolorSelect');
-			$('.menuSubCat11').removeClass('mymenucolorSelect');
-			$('.menuSubCat12').removeClass('mymenucolorSelect');
-			$('.menuSubCat13').removeClass('mymenucolorSelect');
-			$('.menuSubCat14').removeClass('mymenucolorSelect');
-			$('.menuSubCat15').removeClass('mymenucolorSelect');
-			$('.menuSubCat17').removeClass('mymenucolorSelect');
-			$('.menuSubCat18').removeClass('mymenucolorSelect');
-			$('.menuSubCat19').removeClass('mymenucolorSelect');
-			$('.menuSubCat16').removeClass('mymenucolorSelect');		
-			$('.menuSubCat21').toggleClass('mymenucolorSelect');		
-			$('.menuSubCat20').removeClass('mymenucolorSelect');		
-		},
+	// }
 
 });
 
