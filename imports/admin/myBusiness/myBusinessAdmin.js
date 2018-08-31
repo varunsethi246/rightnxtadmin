@@ -727,22 +727,26 @@ Template.listOfBusiness.events({
 		var modelid = $(event.target).parent().parent().parent().parent().parent().attr('id');
 		var id  = modelid.split("-");
 		var businessIdS = $(event.currentTarget).attr("data-vendorId");
-		// console.log('businessIdS :',businessIdS);
+		console.log('businessIdS :',businessIdS);
 		var vendorId  = Business.findOne({'_id':businessIdS});
-		// console.log('vendorId',vendorId);
+		console.log('vendorId',vendorId);
 		var vendoriDS = vendorId.createdBy;
-		var businessTitle = $(event.currentTarget).attr("data-busTitle");
-		var businessLink = $(event.currentTarget).attr("data-busLink");
+		// var businessTitle = $(event.currentTarget).attr("data-busTitle");
+		// var businessLink = $(event.currentTarget).attr("data-busLink");
+		var businessTitle = vendorId.businessTitle;
+		var businessLink = vendorId.businessLink;
+		console.log(businessTitle);
+		console.log(businessLink);
 		// console.log('delete id ' + id[1]);
-		Meteor.call('removeBusinessPermanent',id[1],function(error,result){
-			if(error){
-				Bert.alert(error.reason,"danger",'growl-top-right');
-			}else{
+		// Meteor.call('removeBusinessPermanent',id[1],function(error,result){
+		// 	if(error){
+		// 		Bert.alert(error.reason,"danger",'growl-top-right');
+		// 	}else{
 				Bert.alert('Business is deleted','success','growl-top-right');
 
 				var admin = Meteor.users.findOne({'roles':'admin'});
 				var vendorDetail = Meteor.users.findOne({'_id':vendoriDS});
-				// console.log('vendorDetail :',vendorDetail);
+				console.log('vendorDetail :',vendorDetail);
 				var vendorids = vendorDetail._id;
 				// var notificationOn = vendorDetail.notificationConfiguration;
 
@@ -770,7 +774,7 @@ Template.listOfBusiness.events({
 					    templateName : 'Delete Business Admin',
 					    variables    : msgvariable,
 					}
-					// console.log('inputObj :',inputObj);
+					console.log('inputObj :',inputObj);
 					
 					sendInAppNotification(inputObj);
 
@@ -786,8 +790,8 @@ Template.listOfBusiness.events({
 				}
 					$('.deletePermanent').hide();
 				$('.modal-backdrop').remove();
-			}
-		});
+		// 	}
+		// });
 	},
 	'click .delete': function(event){
 	   	event.preventDefault();
