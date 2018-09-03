@@ -86,10 +86,14 @@
 						{{#each masterArea}}
 						<tr>
 							<td>{{country}}</td>
-							<td>{{> editableText collection="area" field="state"}}</td>
-							<td>{{> editableText collection="area" field="city" }}</td>
-							<td>{{> editableText collection="area" field="area" }}</td>
-							<td>{{> editableText collection="area" field="zipcode" }}</td>
+							<!-- <td>{{> editableText collection="area" field="state"}}</td> -->
+							<td>{{state}}</td>
+							<!-- <td>{{> editableText collection="area" field="city" }}</td> -->
+							<td>{{city}}</td>
+							<!-- <td>{{> editableText collection="area" field="area" }}</td> -->
+							<td>{{area}}</td>
+							<!-- <td>{{> editableText collection="area" field="zipcode" }}</td> -->
+							<td>{{zipcode}}</td>
 							<td class="col-lg-2 areaCenter">								
 										<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusArea-{{_id}}" aria-hidden="true"></i>
 										<div class="newtooltip"> 

@@ -229,7 +229,7 @@ Template.businessBanner.helpers({
     	}
  
  		// console.log('categoryArray: ', categoryArray);
- 	  	return 	; 
+ 	  	return 	categoryArray; 
   	},
 
 
@@ -242,7 +242,7 @@ Template.businessBanner.helpers({
   	selectedCategories(){
   		var catgArray = Session.get('catgArray');
   		var newCatArry = _.uniq(catgArray);
-  		return newCatArry; 
+  		return catgArray; 
   	},
   	selectedAreas(){
   		var areaArray = Session.get('areaBannerArray');
