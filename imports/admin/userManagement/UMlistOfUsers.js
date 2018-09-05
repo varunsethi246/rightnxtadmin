@@ -5,6 +5,7 @@ import { Session } from 'meteor/session'
 import { Bert } from 'meteor/themeteorchef:bert';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Review } from '/imports/api/reviewMaster.js';
+import { FollowUser } from '/imports/api/userFollowMaster.js';
 
 // import { users } from './imports/api/userMasterAPI.js';
 // import { Orders } from '../../../../imports/api/orderMaster.js';
@@ -528,6 +529,9 @@ Template.UMuser.events({
     event.preventDefault();
     var uid = event.target.id;
     console.log('uidone click:',uid);
+      console.log('userId:',FollowUser.find({"followUserId":'gSPxWHc5MojcW3dGw'}).fetch());
+      console.log('1:',FollowUser.find({"userId":'gSPxWHc5MojcW3dGw'}).fetch());
+
     Meteor.call('deleteUser', uid,
                 (err, res) => {
                 if (err) {

@@ -14,6 +14,7 @@ import { ImageComment } from '/imports/api/imageCommentMaster.js';
 import { ImageCommentLike } from '/imports/api/imageCommentLikeMaster.js';
 import { Likes } from '/imports/api/likesMaster.js';
 import { Offers } from '/imports/api/offersMaster.js';
+import { Bookmark } from '/imports/api/bookmarkMaster.js';
 import { Payment } from '/imports/api/paymentMaster.js';
 import { Reports } from '/imports/api/reportMaster.js';
 import { Review } from '/imports/api/reviewMaster.js';
@@ -88,6 +89,9 @@ Meteor.methods({
 			{multi: true}
 		);
 		BeenThere.remove(
+			{"businessLink":busLink},
+		);
+		Bookmark.remove(
 			{"businessLink":busLink},
 		);
 

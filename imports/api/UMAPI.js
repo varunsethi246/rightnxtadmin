@@ -2,6 +2,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { Review } from '/imports/api/reviewMaster.js';
+import { FollowUser } from '/imports/api/userFollowMaster.js';
+import { Reports } from '/imports/api/reportMaster.js';
 
   // Meteor.publish('signUpConfig', function() {
   //     // this.unblock();
@@ -179,14 +181,26 @@ Meteor.methods({
   },
 
   deleteUser: function(uid){
-      console.log('userId:',uid);
+      // console.log('userId:',uid);
+      // console.log('userId:',FollowUser.find({"followUserId":uid}));
       // var reviewByUser =  Review.find({'userId':uid}).fetch();
-        Meteor.users.remove({'_id': uid});
+        Meteor.users.remove(
+          {'_id': uid}
+          );
       // console.log('businessName:',businessName);
         Reports.remove(
           {"userId":uid},
           {multi: true}
         );
+        // FollowUser.remove(
+        //   {"userId":uid},
+        //   {multi: true}
+        // );
+        FollowUser.remove(
+          {"followUserId":uid},
+          {multi: true}
+        );
+
   },
 
     deleteRole: function(roleID){
@@ -195,7 +209,7 @@ Meteor.methods({
   },
 
     addRoles: function(newID , defaultRoleconfig){
-    console.log('newID-server'+ newID);
+    // console.log('newID-server'+ newID);
     Roles.addUsersToRoles(newID, defaultRoleconfig);
 
   },
@@ -225,7 +239,7 @@ Meteor.methods({
     blockSelectedUser: function(checkedUsersList){
     // console.log('Serverside-Checked checkboxes:'+ array);
     for (var i=0; i<checkedUsersList.length; i++) {
-        console.log('value: ' + checkedUsersList[i]);
+        // console.log('value: ' + checkedUsersList[i]);
 
       Meteor.users.update(
         {'_id': checkedUsersList[i] },
@@ -295,10 +309,10 @@ Meteor.methods({
 
   sendEmail1: function (to , from, subject ,body) {
     check([to, from, subject, body], [String]);
-    console.log('to : '+ to);
-    console.log('from : ' + from);
-    console.log('subject : ' + subject);
-    console.log('body : ' + body);
+    // console.log('to : '+ to);
+    // console.log('from : ' + from);
+    // console.log('subject : ' + subject);
+    // console.log('body : ' + body);
     // Let other method calls from the same client start running,
     // without waiting for the email sending to complete.
     this.unblock();
@@ -323,16 +337,16 @@ Meteor.methods({
   },
 
   'createUserByAdmin' : function(formValues) {
-    console.log(formValues.email);
+    // console.log(formValues.email);
     var users = Meteor.users.findOne({'emails.0.address' : formValues.email});
-    console.log(users);
+    // console.log(users);
     if(users){
-      console.log( "Email Address already taken");
+      // console.log( "Email Address already taken");
       return 'emailIdExist';
     }else{
-      console.log('in else');
+      // console.log('in else');
       var newUser = Accounts.createUser(formValues);
-      console.log(newUser);
+      // console.log(newUser);
       return newUser;
     }
      
