@@ -28,7 +28,9 @@ outline:#f89b1c!important
 border:1px solid #f89b1c;
 box-shadow:none
 }
-
+.marginbottomUserList{
+	margin-bottom: 10%;
+}
 .modal-open {
 overflow:auto!important;
 padding-right:0!important
