@@ -80,12 +80,21 @@ Meteor.methods({
 			},
 			{multi: true}
 		);
+		BusinessBanner.remove(
+			{"businessLink":busLink}, 
+			{multi: true}
+		);
 		BusinessAds.update(
 			{"businessLink":busLink}, 
 			{$set:	{
 					"status":"inactive",
 					}
 			},
+			{multi: true}
+		);
+		BusinessAds.remove(
+			{"businessLink":busLink}, 
+
 			{multi: true}
 		);
 		BeenThere.remove(
