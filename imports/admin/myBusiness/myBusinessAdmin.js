@@ -213,7 +213,7 @@ Template.listOfBusiness.helpers({
 	},
 	'businessVideos' : function(video){
 		if(video){
-			if(video != 0 ){
+			if(video != '' ){
 				return 1;
 			}else{
 				return 0;

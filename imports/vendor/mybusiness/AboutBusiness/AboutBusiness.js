@@ -260,7 +260,7 @@ Template.aboutBusiness.helpers({
 	      	}
 			
 	      	if(data.businessVideo ){
-	      		if(data.businessVideo == 0 ){
+	      		if(data.businessVideo == '' ){
 	      			data.businessVideo = false;
 	      		}else{
 			      	Session.set("videoPresent",1);
