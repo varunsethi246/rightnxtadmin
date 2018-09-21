@@ -200,6 +200,22 @@ Template.adminAddRolesList.onRendered(()=>{
 		// console.log('currentURL: ',currentURL,' | actualURL: ',actualURL);
 });
 
+Template.careerJoinUsForm.events({
+	'click .delete':function(event){
+		event.preventDefault();
+		var id = event.currentTarget.id;
+		Meteor.call('deleteJobApplicant',id,
+		function(error,result){
+			if(error){
+				Bert.alert(error.reason,"danger","growl-top-right");
+			}else{
+				Bert.alert('Job applicant deleted successfully.','success',"growl-top-right");
+				$('.modal-backdrop').hide();
+			}
+		});
+	},
+});
+
 Template.createUsers.onRendered(()=>{
 		var currentURL = FlowRouter.current().path;
 		var actualURL = currentURL.substring(1);

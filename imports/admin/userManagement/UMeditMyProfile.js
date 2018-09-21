@@ -10,7 +10,6 @@ import '../../admin/commonAdmin/commonAdmin.js';
 
 Template.UMeditMyProfile.onCreated(function(){
     Meteor.subscribe('userfunction');
-
 });
 
 Template.UMeditMyProfile.helpers({
@@ -26,6 +25,63 @@ Template.UMeditMyProfile.helpers({
     //  return this.profile.signGender == gender;
     // },
 
+});
+
+Template.UMeditMyProfile.onRendered(function(){
+    $.validator.addMethod("regx1", function(value, element, regexpr) {          
+        return regexpr.test(value);
+    }, "Name should only contains uppercase, lowercase letters and space.");
+    
+    $.validator.addMethod("regx2", function(value, element, regexpr) {          
+        return regexpr.test(value);
+    }, "Please enter a valid email address.");
+    
+    $.validator.addMethod("regx3", function(value, element, regexpr) {          
+        return regexpr.test(value);
+    }, "Please enter a valid mobile number.");
+
+    $.validator.addMethod("regx4", function(value, element, regexpr) {          
+         return regexpr.test(value);
+    }, "Please enter a valid pincode.");
+
+    $("#editMyProfile").validate({
+        rules: {
+            firstName1: {
+                required: true,
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            },
+            lastName1: {
+                required: true,
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            },
+            userName1: {
+                required: true,
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            },
+            signupEmail1: {
+                required: true,
+                regx2: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
+            },
+            mobNumber1: {
+                required: true,
+                regx3: /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/,
+            },
+            city1: {
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$|^$/,
+            },
+            state1: {
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$|^$/,
+            },
+            Country: {
+                required: true,
+                regx1: /^[A-za-z']+( [A-Za-z']+)*$|^$/,
+            },
+            zip1: {
+                regx4: /^[1-9][0-9]{5}$|^$/,
+            },
+            
+        }
+    });
 });
 
 Template.registerHelper('compare', function(v1, v2) {
@@ -48,6 +104,21 @@ Template.UMeditMyProfile.events({
 //     };
 //     render.readAsDataURL(file);
 //   },
+
+    
+    'click .resettingForm': function(event){
+        event.preventDefault();
+        $("#editMyProfile label").each(function(){
+            var labelVal = $(this).siblings('input').attr('id');
+            // console.log(labelVal);
+            if(!labelVal){
+                $(this).siblings('input').val('');
+                $(this).siblings('textarea').val('');
+                $(this).siblings('select').val('Mr');
+                $(this).children('input[name=signGender1]').attr('checked',false);
+            }
+        });
+    },
 
 
  'submit #editMyProfile': function (event) {
@@ -118,10 +189,9 @@ Template.UMeditMyProfile.events({
 
             }else{
                 if(doc.passwordVar1 != '' || doc.passwordVar1 != null || doc.passwordVar1 != undefined){
-                    Bert.alert('Profile updated!');
-                
+                    Bert.alert('Profile updated successfully!','success','growl-top-right');
                 }else{
-                    Bert.alert('Password Changed. Please login again!');
+                    Bert.alert('Password Changed. Please login again!','success','growl-top-right');
                     FlowRouter.go('/'); 
                 }
 

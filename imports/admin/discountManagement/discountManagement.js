@@ -16,31 +16,34 @@ Template.discountManagement.events({
 			// console.log('id :' ,id);
 			// console.log('rate :',rate);
 			// console.log('discount :', discount);
-			if(id){
-				Meteor.call('updateDiscount',id,rate,discount,function(error,result){
-					if(error){
-						console.log(error);
-					}else{
-						$('#price').val('');
-						$('#discount').val('');
-						$('#price').focus();
+			if(rate != '' ){
+				if(id){
+					Meteor.call('updateDiscount',id,rate,discount,function(error,result){
+						if(error){
+							console.log(error);
+						}else{
+							$('#price').val('');
+							$('#discount').val('');
+							$('#price').focus();
 
-						delete Session.keys['id'];
-					}
-				});
-			}else if(rate != '' && discount != ''){
-				Meteor.call('insertDiscount',rate,discount,function(error,result){
-					if(error){
-						console.log(error);
-					}else{
-						$('#price').val('');
-						$('#discount').val('');
-						$('#price').focus();
-					}
-				});
-			}else if(discount == '' || rate == ''){
-
-				Bert.alert("Please select rate and discount first.","danger","growl-top-right");
+							delete Session.keys['id'];
+						}
+					});
+				}else if(rate != '' && discount != ''){
+					Meteor.call('insertDiscount',rate,discount,function(error,result){
+						if(error){
+							console.log(error);
+						}else{
+							$('#price').val('');
+							$('#discount').val('');
+							$('#price').focus();
+						}
+					});
+				}else if(discount == ''){
+					Bert.alert("Please enter discount.","danger","growl-top-right");
+				}
+			}else{
+				Bert.alert("Please enter price.","danger","growl-top-right");
 			}
 	    }
 	},
@@ -120,56 +123,60 @@ Template.positionManagement.events({
 			e.preventDefault();
 			var id = Session.get("positionId");
 			var position = $('.selectPosition').val();
-			console.log('position :',position);
-			var positionAdded = '';
-			var positionTrue = false;
-			var posId = id;
+			// console.log('position :',position);
+			if(position != null || position == '-- Select --'){
 
-			if(id){
-				positionAdded = Position.find({"position":id}).fetch();
-				if(positionAdded.length>0){
-					positionTrue = true;
-				}
-			}else{
-				positionAdded = Position.find({"position":position}).fetch();
-				if(positionAdded.length>0){
-					posId = positionAdded[0]._id;
-					positionTrue = true;
-				}
-			}
+				var positionAdded = '';
+				var positionTrue = false;
+				var posId = id;
 
-
-			var rate     = $('#rate').val();
-			console.log('rate :',rate);
-			if((id || positionTrue) && position != '-- Select --' && position != null && rate != null && rate != ""){
-				Meteor.call('updatePosition',posId,position,rate,function(error,result){
-					if(error){
-						console.log(error);
-
-					}else{
-							// Bert.alert("Please select position number first.","success","growl-top-right");
-						$('.selectPosition').val('');
-						$('#rate').val('');
-        				Session.set("positionId",'');
-        				$('.selectPosition').focus();
-
+				if(id){
+					positionAdded = Position.find({"position":id}).fetch();
+					if(positionAdded.length>0){
+						positionTrue = true;
 					}
-				})
-			}
-			else if(position != '-- Select --' && position != null && rate != '' && rate != null){
-					Meteor.call('insertPosition',position,rate,function(error,result){
+				}else{
+					positionAdded = Position.find({"position":position}).fetch();
+					if(positionAdded.length>0){
+						posId = positionAdded[0]._id;
+						positionTrue = true;
+					}
+				}
+
+
+				var rate     = $('#rate').val();
+				// console.log('rate :',rate);
+				if((id || positionTrue) && position != '-- Select --' && position != null && rate != null && rate != ""){
+					Meteor.call('updatePosition',posId,position,rate,function(error,result){
 						if(error){
 							console.log(error);
+
 						}else{
-							// Bert.alert("Please select position number first.","success","growl-top-right");
-							$('.selectPosition').val('');
+								// Bert.alert("Please select position number first.","success","growl-top-right");
+							$('.selectPosition').val('-- Select --');
 							$('#rate').val('');
+	        				Session.set("positionId",'');
+	        				$('.selectPosition').focus();
+
 						}
 					})
-			}
-			else if(position == '-- Select --' || rate == '' || rate == null){
-
-				Bert.alert("Please select position number and rate first.","danger","growl-top-right");
+				}
+				else if(position != '-- Select --' && position != null && rate != '' && rate != null){
+						Meteor.call('insertPosition',position,rate,function(error,result){
+							if(error){
+								console.log(error);
+							}else{
+								// Bert.alert("Please select position number first.","success","growl-top-right");
+								$('.selectPosition').val('-- Select --');
+								$('#rate').val('');
+							}
+						})
+				}
+				else if(rate == '' || rate == null){
+					Bert.alert("Please enter rate.","danger","growl-top-right");
+				}
+			}else{
+				Bert.alert("Please select position number.","danger","growl-top-right");
 			}
 		}
 	},

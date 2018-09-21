@@ -13,10 +13,7 @@ import { ResumeImage } from '/imports/videoUploadClient/resumeImageClient.js';
 import ImageCompressor from 'image-compressor.js';
 
 import '../generalLayout/generalLayout.js'
-import '../../admin/careerJoinUsForm/careerJoinUsForm.html';
 import '../../admin/commonAdmin/commonAdmin.js';
-// import '../../admin/admin.js';
-// import './imports/admin/commomAdmin/commomAdmin.js';
 import './career.html';
 import './join-us.html';
 import './AddNewJobForm.html';
@@ -97,36 +94,6 @@ Template.joinUs.helpers({
 	}
 });
 
-// Template.careerJoinUsForm.helpers({
-// 	careerData:function() {
-// 		var careerDetails = [];
-// 		var careerDetails = Career.find({}).fetch();
-// 		console.log("careerDetails: ",careerDetails);
-
-// 		for(var i=0; i<careerDetails.length; i++){
-// 			if(careerDetails[i].ResumeId){
-// 				var resumeData = ResumeImage.findOne({"_id":careerDetails[i].ResumeId});
-// 				if(resumeData){
-// 					careerDetails[i].resume = resumeData					
-// 				}
-// 			}
-// 			careerDetails[i] = {
-// 					_id					: careerDetails[i]._id,
-// 					name 				: careerDetails[i].name,
-// 					email 				: careerDetails[i].email,
-// 					MobileNo 			: careerDetails[i].MobileNo,
-// 					Qualification 		: careerDetails[i].Qualification,
-// 					PostForApply 		: careerDetails[i].PostForApply,
-// 					resume 				: careerDetails[i].resume,
-// 					dateofPost 			: moment(careerDetails[i].createdAt).format('DD/MM/YYYY'),
-				
-// 				};
-// 			// var dateofapplied = moment(careerDetails[i].createdAt).format('DD/MM/YYYY')
-// 		}
-// 		console.log('careerDetails:',careerDetails);
-// 		return careerDetails;
-// 	},
-// });
 Template.jobList.helpers({
 	editJobList(){
 		var allPages = [];
@@ -161,21 +128,6 @@ Template.jobList.helpers({
 			}
 			return allPages;			
 		}
-	},
-});
-Template.careerJoinUsForm.events({
-	'click .delete':function(event){
-		event.preventDefault();
-		var id = event.currentTarget.id;
-		Meteor.call('deleteJobApplicant',id,
-		function(error,result){
-			if(error){
-				Bert.alert(error.reason,"danger","growl-top-right");
-			}else{
-				Bert.alert('Job applicant deleted successfully.','success',"growl-top-right");
-				$('.modal-backdrop').hide();
-			}
-		});
 	},
 });
 
@@ -358,16 +310,6 @@ Template.AddNewJobForm.helpers({
 });
 
 Template.AddNewJobForm.events({
-	// 'change #input3':function(event){
-	// 	event.preventDefault();
-	// 	var targetVal = event.currentTarget.value;
-	// 	var monthTargetVal = moment(targetVal).month();
-	// 	var todayVal = moment(new Date()).format('DD-MM-YYYY');
-	// 	var monthVal = moment(todayVal).month();
-	// 	if(targetVal <= todayVal){
-	// 		$(event.target).val(todayVal);
-	// 	}
-	// },
 	'keydown #noOfVacancy': function(e){
       if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
              // Allow: Ctrl+A, Command+A
@@ -391,7 +333,7 @@ Template.AddNewJobForm.events({
 
 	'submit .addNewJobForm': function(event){
 		event.preventDefault();
-		console.log("event.target.jobDescripton.value:",event.target.jobDescripton.value);
+		// console.log("event.target.jobDescripton.value:",event.target.jobDescripton.value);
 		if (!event.target.jobDescripton.value == "")  {
 
 			if(event.target.jobTitle.value && event.target.date.value && event.target.jobDescripton.value){
@@ -443,9 +385,9 @@ Template.AddNewJobForm.events({
 							event.target.jobDescripton.value   = CKEDITOR.instances['desc'].setData('');
 							event.target.noOfVacancies.value   ='';
 							event.target.date.value            ='';
-							event.target.selectCountry.value   ='';
-							event.target.selectState.value     ='';
-							event.target.selectCity.value      ='';
+							event.target.selectCountry.value   ='India';
+							event.target.selectState.value     ='--Select your State--';
+							event.target.selectCity.value      ='--Select your City--';
 							event.target.salary.value          ='';
 							return;
 						}

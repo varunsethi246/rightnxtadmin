@@ -33,8 +33,8 @@ Template.UMeditRoles.events({
                         console.log ( error ); 
                     } //info about what went wrong 
                     else {
-                      $('.dismissModalEdit').hide();
-                      $('.modal-backdrop').remove();
+                      $('.dismissModalEdit').modal('hide');
+                      $('.modal-backdrop').hide();
                          // FlowRouter.go("/UMroles");
                     }//the _id of new object if successful
                 }

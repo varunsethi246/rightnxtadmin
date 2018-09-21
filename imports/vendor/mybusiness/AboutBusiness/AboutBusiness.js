@@ -445,7 +445,7 @@ Template.aboutBusiness.events({
 			if(error){
 				Bert.alert(error.reason,"danger",'growl-top-right');
 			}else{
-				Bert.alert('Business deleted Successfully','success','growl-top-right');
+				Bert.alert('Business inactivated successfully!','success','growl-top-right');
 
 				// ============================================================
 				// 			Notification Email / SMS / InApp

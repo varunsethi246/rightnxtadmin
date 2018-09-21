@@ -3742,9 +3742,10 @@ video::-webkit-media-controls-panel {
 .removeMargTopImg{margin-top: 0px!important;}
 .noPaddingVendor{padding-left: 0px;padding-right: 0px;}
 .vendorHome{
-	/*height: 335px;*/
-	    height: 200px;
+	/*height: 250px;*/
+	/*height: 200px;*/
     /*page: ;*/
-    margin-top: 61px;
+    margin-top: 60px;
+    margin-bottom: 90px;
 }
 .vendorHome h1{color: #f89b1c;}

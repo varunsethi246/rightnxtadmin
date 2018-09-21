@@ -6,7 +6,7 @@ import './adminVendorHomepage.html';
 
 
 AdminVendorHomepage = function () {  
-	console.log('in js file');
+	// console.log('in js file');
   BlazeLayout.render("anonymousUserLayout",{main: 'adminVendorHomepage'});
 }
 

@@ -56,7 +56,7 @@ if (Meteor.isServer) {
 		Counts.publish(this, 'noOfBusinessInactive', Business.find({"status":"inactive"}));
 	});
 	Meteor.publish('noOfBusiness', function() {
-		Counts.publish(this, 'noOfBusiness', Meteor.users.find({}));
+		Counts.publish(this, 'noOfBusiness', Business.find({}));
 	});
 
 	Meteor.publish('chartBusiness', function() {

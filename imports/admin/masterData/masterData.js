@@ -750,6 +750,7 @@ Template.masterArea.helpers({
 	masterAreaCity: function(){
 		var selectedState = Session.get('State');
 		var cities = City.find({'state': selectedState,'status':'active'},{'city':1,'_id':0}).fetch();
+		Session.set('City', cities[0].city );
 		return cities;
 	},
 

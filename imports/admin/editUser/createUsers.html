@@ -50,7 +50,7 @@
 				  	{{#if fieldNameIs "firstName" }}
 					  	{{#if displayIs "yes" }}
 					   <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
-							   <label class="signupLabel control-label">First Name</label>
+							   <label class="signupLabel control-label">First Name*</label>
 						   <div class="input-group"  id="firstnameCreate">
 
 							   <input type="text" class="form-control UMname" name="firstName" placeholder="First Name" pattern="[A-Za-z]+">
@@ -64,7 +64,7 @@
 				    {{#if fieldNameIs "lastName"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 " >
-							   	<label class="signupLabel control-label">Last Name</label>
+							   	<label class="signupLabel control-label">Last Name*</label>
 							   <div class="input-group" id="lastNameCreate">
 								   <input type="text" class="form-control UMname" name="lastName" pattern="[A-Za-z]+" placeholder="Last Name">
 								   <span class="input-group-addon" id="boderLeft"><i class="fa fa-user-o" aria-hidden="true"></i></span>
@@ -76,7 +76,7 @@
 				    {{#if fieldNameIs "emailAddress"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">Email Id</label>
+							   	<label class="signupLabel control-label">Email Id*</label>
 
 							   <div class="input-group" id="emailCreate">
 								   <input type="email" class="form-control UMname " id="createEmail" name="signupEmail" placeholder="Email">
@@ -156,7 +156,7 @@
 				    {{#if fieldNameIs "state"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">State</label>
+							   	<label class="signupLabel control-label">State*</label>
 
 							   <div class="input-group" id="stateCreate">
 								    <select class="form-control stateBorder UMname" name="state" id="statesOne">
@@ -175,7 +175,7 @@
 				    {{#if fieldNameIs "city"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">City</label>
+							   	<label class="signupLabel control-label">City*</label>
 
 							   <div class="input-group" id="cityCreate">
 								    <select class="form-control selectpicker areaMasterSelect citySelect col-lg-9"  name="city" id="cityOne">
@@ -194,7 +194,7 @@
 					{{#if fieldNameIs "pin"}} 
 						{{#if displayIs "yes" }}  
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 marginbtmProfile">
-							   	<label class="signupLabel control-label">Zip Code</label>
+							   	<label class="signupLabel control-label">Zip Code*</label>
 
 							   <div class="input-group" id="zipCreate">
 							    <label for="zipcode"></label>
@@ -211,7 +211,7 @@
 				    {{#if fieldNameIs "mobNum"}} 
 						{{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">Mobile Number</label>
+							   	<label class="signupLabel control-label">Mobile Number*</label>
 
 							   <div class="input-group" id="mobileCreate">
 								   <input type="text" class="form-control UMname mobileCreate" name="mobNumber" placeholder="Mobile Number" maxlength="10" required>
@@ -239,10 +239,10 @@
 					{{#if fieldNameIs "password"}} 
 						{{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">Password</label>
+							   	<label class="signupLabel control-label">Password*</label>
 
 							   <div class="input-group">
-								   <input type="password" class="form-control UMname" name="signupPassword" placeholder="Password" minlength="6" required>
+								   <input type="password" class="form-control UMname" name="signupPassword" title="This field is required." placeholder="Password" minlength="6" required>
 								   <span class="input-group-addon glyphi-custom" id="boderLeft"><i class="fa fa-unlock" aria-hidden="true"></i></span>
 							   </div>
 						    </div>

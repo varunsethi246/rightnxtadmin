@@ -65,35 +65,46 @@ import '/imports/common/common.js';
     // var forgotPasswordForm = $(e.currentTarget);
     // console.log(forgotPasswordForm);
     var email , trimInput ;
+    var nameRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
 
     // var emailVar = e.target.email.value;
     var emailVar = $("#forgotPasswordEmail").val();
-    $('.enteredEmail').text(emailVar);
-    $('.forgotEmailMessage').show();
-    
-    trimInput = function(val) {
-      return val.replace(/^\s*|\s*$/g, "");
-    }
-
-        emailtrim = trimInput(emailVar);
-        email     = emailtrim.toLowerCase();
-
-
-      Accounts.forgotPassword({email: email}, function(err) {
-        if (err) {
-          if (err.message === 'User not found [403]') {
-            // console.log('This email does not exist.');
-            Bert.alert('This email does not exist:'+err.reason);
-          } else {
-            // console.log('We are sorry but something went wrong.');
-            Bert.alert('We are sorry but something went wrong:'+err.reason);
-          }
-        } else {
-          // console.log('Email Sent. Check your mailbox.');
-          Bert.alert('Email Sent. Check your mailbox.',"success","growl-top-right");
-          $('.disableBtn').attr('disabled','disabled');
+    if(emailVar){
+      if(emailVar.match(nameRegex)){
+        
+        trimInput = function(val) {
+          return val.replace(/^\s*|\s*$/g, "");
         }
-      });
+
+            emailtrim = trimInput(emailVar);
+            email     = emailtrim.toLowerCase();
+
+
+          Accounts.forgotPassword({email: email}, function(err) {
+            if (err) {
+              if (err.message === 'User not found [403]') {
+                // console.log('This email does not exist.');
+                Bert.alert('This email does not exist: '+err.reason,'danger','growl-top-right');
+              } else {
+                // console.log('We are sorry but something went wrong.');
+                Bert.alert('We are sorry but something went wrong: '+err.reason,'danger','growl-top-right');
+              }
+            } else {
+              // console.log('Email Sent. Check your mailbox.');
+              Bert.alert('Email Sent. Check your mailbox.',"success","growl-top-right");
+              $('.disableBtn').attr('disabled','disabled');
+              $('.enteredEmail').text(emailVar);
+              $('.forgotEmailMessage').show();
+            }
+          });
+      }else{
+        Bert.alert('Please enter the valid email address.','danger','growl-top-right');
+      }
+
+    }else{
+      Bert.alert('Please enter the valid email address.','danger','growl-top-right');
+    }
 
         
       // Bert.alert( "Instructions sent! We've sent an email with instructions on how to reset your password.If you don't receive an email within a few minutes, check your spam and junk folders.", 'success', 'growl-top-right' );
@@ -103,7 +114,7 @@ import '/imports/common/common.js';
   'click .forgotEmail':function(e){
     e.preventDefault();
     $('.disableBtn').removeAttr('disabled');
-    console.log('value change');
+    // console.log('value change');
   },
 
     
@@ -214,6 +225,29 @@ import '/imports/common/common.js';
 
    'click .frgtClose': function(event) {
     $('#forgotPwdModal').modal('hide');
+  },
+  'click .forgotPwd':function(event){
+    $('.passwordWrongSpan').removeClass('passwordWrongWar');
+    $('label.error').hide();
+    $('input[type="text"]').val('');
+    $('input[type="password"]').val('');
+    $('input[type="tel"]').val('');
+    $('input[type="email"]').val('');
+    $('.loginLabel').removeClass('active');
+    $('.forgotEmailMessage').css('display','none');
+    $('.disableBtn').removeAttr('disabled');
+  },
+
+  'click .verifyotp':function(event){
+    $('#loginModal').modal('hide');
+    $('.modal-backdrop').hide();
+    $('.passwordWrongSpan').removeClass('passwordWrongWar');
+    $('label.error').hide();
+    $('input[type="text"]').val('');
+    $('input[type="password"]').val('');
+    $('input[type="tel"]').val('');
+    $('input[type="email"]').val('');
+    $('.loginLabel').removeClass('active');
   },
 
 });

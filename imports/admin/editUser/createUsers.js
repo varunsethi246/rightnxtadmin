@@ -273,7 +273,7 @@ Template.createUsers.events({
                   }          
         }
 
-        console.log('form :',formValues);
+        // console.log('form :',formValues);
         Meteor.call('createUserByAdmin', formValues, function(error,result) {
          if (error) {
             // console.log('Error: ' + error.reason);
@@ -286,7 +286,7 @@ Template.createUsers.events({
             }else{
 
               var newID = result;
-              Bert.alert( 'Staff Created!', 'success' );
+              Bert.alert( 'Staff created successfully!', 'success' );
               // console.log('newID:'+Meteor.userId());
               
               var roleToAdd = ConfigSettings.findOne({});
@@ -305,7 +305,7 @@ Template.createUsers.events({
                 }
 
                 if(event.target.salutation){
-                  event.target.salutation.value ="";
+                  event.target.salutation.value ="Mr";
                 }
 
                 if(event.target.lastName){

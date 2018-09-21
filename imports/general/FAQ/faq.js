@@ -337,6 +337,9 @@ Template.businessOwners.events({
 });
 
 Template.faq.events({
+	'click .closeMenuTab': function(event){
+		$(event.currentTarget).parent().parent().removeClass('in');
+	},
 	'click .home': function(event){
     	FlowRouter.go('/faqs/Introduction');
 	    $('.pillsContent').find('.active').removeClass('in active');
@@ -370,13 +373,29 @@ Template.faq.events({
 });
 
 Template.faq.onRendered(function(event, instance){
+	$("#visible-lg").removeClass("faqlg");
+	$("#visible-md").removeClass("faqmd");
+	$("#visible-sm").removeClass("faqsm");
+	$("#visible-xs").removeClass("faqxs");
 	$('html, body').scrollTop(0);
+	$(window).scroll(function() {
+	    if ($(document).scrollTop() > 25) {
+	    	$("#visible-lg").addClass("faqlg");
+	    	$("#visible-md").addClass("faqmd");
+	    	$("#visible-sm").addClass("faqsm");
+	    	$("#visible-xs").addClass("faqxs");
+	    } else {
+	    	$("#visible-lg").removeClass("faqlg");
+	    	$("#visible-md").removeClass("faqmd");
+	    	$("#visible-sm").removeClass("faqsm");
+	    	$("#visible-xs").removeClass("faqxs");
+	    }
+    });
 });
 
 Template.faqForm.onRendered(function(event, instance){
-	CKEDITOR.replace( 'select' );
 	$('html, body').scrollTop(0);
-
+	CKEDITOR.replace('select');
 	$("#faqadminForm").validate({
 	 	rules: {
 	        faqQue: {

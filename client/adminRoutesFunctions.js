@@ -1,7 +1,7 @@
 
 
 AdminHomepageFunction = function () {
-	console.log('in handle');
+	// console.log('in handle');
 	import('/imports/common/adminVendorHomepage/adminVendorHomepage.js')
 	.then(function (handle) {  
 		handle.AdminVendorHomepage();    
@@ -40,7 +40,7 @@ companySettingsFormFunc= function () {
 }
 
 merchantGuidelinesFunc= function () {   
-	console.log('in main'); 
+	// console.log('in main'); 
 	import('/imports/general/merchantGuidelines/merchant.js').then(function (handle) {        
 		handle.merchantGuidelinesForm();    
 	})

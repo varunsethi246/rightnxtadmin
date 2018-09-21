@@ -93,7 +93,7 @@ Template.footer.helpers({
 	},
 	footerFixed(){
 		var currentUrl = FlowRouter.current().path;
-		console.log(currentUrl);
+		// console.log(currentUrl);
 		if(currentUrl == '/'){
 			return true;
 		}else{
@@ -151,6 +151,15 @@ Template.generalHeader.helpers({
 });
 
 Template.header.events({
+	'click #loginadmin':function(e){
+		$('.passwordWrongSpan').removeClass('passwordWrongWar');
+	    $('label.error').hide();
+	    $('input[type="text"]').val('');
+	    $('input[type="password"]').val('');
+	    $('input[type="tel"]').val('');
+	    $('input[type="email"]').val('');
+	    $('.loginLabel').removeClass('active');
+	},
 	'click .primaryMenu':function(e){
 		$('.loginScreen').css('display','block');
   //       $('.genLoginSignup').hide();

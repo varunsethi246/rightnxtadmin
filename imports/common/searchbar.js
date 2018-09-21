@@ -30,7 +30,11 @@ if (Meteor.isClient) {
 
 
 Template.searchbar.onRendered(function(){
-	var getCityVal = FlowRouter.getParam('city');
+	if(FlowRouter.getParam('city')){
+		var getCityVal = FlowRouter.getParam('city');
+	}else{
+		var getCityVal = 'Pune';
+	}
 	// if(getCityVal){
 	// 	$('.hiddenCitySearchInpBox').val(getCityVal);
 	// }else{
@@ -72,8 +76,10 @@ Template.searchbar.helpers({
 			if(currentParams){
 				var busCity = Business.findOne({"businessLink":currentParams},{fields: {'businessCity': 1}});
 				var currentCity = busCity.businessCity;
-			}else{
+			}else if(FlowRouter.getParam('city')){
 				var currentCity = FlowRouter.getParam('city');
+			}else{
+				var currentCity = 'Pune';
 			}
 		}
 
@@ -172,8 +178,10 @@ Template.searchbar.events({
 			if(currentParams){
 				var busCity = Business.findOne({"businessLink":currentParams},{fields: {'businessCity': 1}});
 				var currentCity = busCity.businessCity;
-			}else{
+			}else if(FlowRouter.getParam('city')){
 				var currentCity = FlowRouter.getParam('city');
+			}else{
+				var currentCity = 'Pune';
 			}
 		}
 
@@ -312,8 +320,10 @@ Template.searchbar.events({
 			if(currentParams){
 				var busCity = Business.findOne({"businessLink":currentParams},{fields: {'businessCity': 1}});
 				var currentCity = busCity.businessCity;
-			}else{
+			}else if(FlowRouter.getParam('city')){
 				var currentCity = FlowRouter.getParam('city');
+			}else{
+				var currentCity = 'Pune';
 			}
 		}
 		$('#gridSearchBusiness').val(currentCatg); 
@@ -399,8 +409,10 @@ Template.searchbar.events({
 			if(currentParams){
 				var busCity = Business.findOne({"businessLink":currentParams},{fields: {'businessCity': 1}});
 				var currentCity = busCity.businessCity;
-			}else{
+			}else if(FlowRouter.getParam('city')){
 				var currentCity = FlowRouter.getParam('city');
+			}else{
+				var currentCity = 'Pune';
 			}
 		}
 
@@ -501,8 +513,10 @@ Template.searchbar.events({
 				if(currentParams){
 					var busCity = Business.findOne({"businessLink":currentParams},{fields: {'businessCity': 1}});
 					var currentCity = busCity.businessCity;
-				}else{
+				}else if(FlowRouter.getParam('city')){
 					var currentCity = FlowRouter.getParam('city');
+				}else{
+					var currentCity = 'Pune';
 				}
 			}
 

@@ -424,6 +424,9 @@ click-wave { 0% {
 }
 .signUpInput{
   border: #2e6da4;
+  padding: 8px 30px;
+  margin-top: 1%;
+  margin-left: 2%;
 }
 
 

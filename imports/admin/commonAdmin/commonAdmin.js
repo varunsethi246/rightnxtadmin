@@ -189,7 +189,7 @@ Template.adminHeader.events({
 	},
 	
 	'click .grears':function (){
-		$(".reportWrapper").toggle();
+		// $(".reportWrapper").toggle();
 	},
 
 	'click #adminLogoutHeader': function(event){
@@ -225,12 +225,12 @@ Template.adminHeader.events({
 Template.adminSidebar.onRendered(function(){
 	$('.wrapper').addClass('toggled');
 	var urlLinks = FlowRouter.current().path;
-	console.log(urlLinks);
+	// console.log(urlLinks);
 	var urlLink = urlLinks.split('/');
-	console.log(urlLink[1]);
+	// console.log(urlLink[1]);
 	if (urlLink[1]) {
 		var linkUrl = $('.'+urlLink[1]).attr('data-target');
-		console.log('linkUrl :',linkUrl);
+		// console.log('linkUrl :',linkUrl);
 		if (linkUrl) {
 			$('.'+linkUrl).addClass('activeCustom');
 		}

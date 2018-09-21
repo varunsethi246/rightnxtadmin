@@ -2326,6 +2326,8 @@ cursor:pointer;
 margin-top:20px
 }
 
+.bulkuploadIns,.bulkuploadInst{padding-top: 2.5%;}
+
 .bulkuploadInst img {
 cursor:pointer;
 margin-top:5%
@@ -2338,7 +2340,8 @@ overflow-x:auto
 
 .tableHeadColor {
 font-size:13px;
-font-style:normal
+font-style:normal;
+border-top:1px solid #ccc;
 }
 .cursorPointerss{
 padding-right: 7px;

@@ -112,7 +112,7 @@ Template.createEmailTemplate.events({
 
 		        	}
 		        });	
-           				Bert.alert('Successfully Inserted..!!',"success","growl-top-right");
+           		Bert.alert('Successfully Inserted..!!',"success","growl-top-right");
 				
 		        $('.templateName').value  = '';
 		        $('#messageContent').val('');
