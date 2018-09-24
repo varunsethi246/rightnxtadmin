@@ -341,7 +341,10 @@ padding:2%
 .dataWrapper {
 border:1px solid #3c8dbc;
 padding:1%;
-height:auto
+height:auto;
+margin-bottom: 10px;
+    width: 32%;
+    margin-left: 10px;
 }
 
 .holderName {

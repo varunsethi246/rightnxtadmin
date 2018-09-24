@@ -13,6 +13,9 @@ if (Meteor.isServer) {
 	Meteor.publish('categoriesListSearch', function() {
 		return Categories.find({},{fields:{"level0":1,"level1":1,"level2":1,"level3":1,"level4":1,"tags":1}});
 	});
+	Meteor.publish('noOfCategories', function() {
+		Counts.publish(this, 'noOfCategories', Categories.find({}));
+	});
 }
 
 Meteor.methods({

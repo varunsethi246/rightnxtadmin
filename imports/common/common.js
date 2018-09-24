@@ -225,6 +225,7 @@ Template.header.events({
 Template.footer.events({
 	'click .clickAddNewBusi': function(){
     	Session.set("backlinkurl",'');
+    	Bert.alert('Please log in as a Vendor to avail this facility.','danger','growl-top-right');
 	},
 });
 

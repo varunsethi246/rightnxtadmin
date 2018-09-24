@@ -770,7 +770,23 @@ Template.masterArea.helpers({
 
 
 Template.categoriesList.onRendered( ()=>{
-	Session.set('catgListLimit',10);
+	var businessCount  = Categories.find({}).count();
+	// console.log('businessCount',businessCount);
+	if (businessCount > 10) {
+		Session.set('catgListLimit',10);
+        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+	}else if(businessCount > 50){
+		Session.set('catgListLimit',50);
+		$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+	}else if(businessCount > 100){
+		Session.set('catgListLimit',100);
+		$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+	}else{
+		Session.set('catgListLimit',businessCount);
+		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	}
 });
 
 Template.categoriesList.helpers({
@@ -875,8 +891,22 @@ Template.categoriesList.events({
 		table.find('tr').each(function(index, row)
 		{
 			var allCells = $(row).find('td');
-			if(allCells.length > 0)
-			{
+			if(allCells.length > 0){
+				if (allCells.length > 10) {
+		          Session.set('catgListLimit',10);
+		          $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+		        }else if(allCells.length > 100){
+		          Session.set('catgListLimit',100);
+		          $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+		        }else if(allCells.length > 200){
+		          Session.set('catgListLimit',200);
+		          $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+		        }else{
+		          Session.set('catgListLimit',allCells.length);
+		          $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		          $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		          $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		        }
 				var found = false;
 				allCells.each(function(index, td)
 				{
@@ -900,7 +930,26 @@ Template.categoriesList.events({
 		var catgLimit50 = Session.get('catgListLimit');
 		if(catgLimit50 != 0){
 			var nextLimit = Session.get('catgListLimit') + 50;
-			Session.set('catgListLimit',nextLimit);
+    		var businessCount  = Categories.find({}).count();
+			if(businessCount > nextLimit){
+		        Session.set('catgListLimit',nextLimit);
+		        if (businessCount > 10) {
+			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+				}else if(businessCount > 50){
+					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+				}else if(businessCount > 100){
+					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+				}
+		    }else{
+		        Session.set('catgListLimit',businessCount);
+		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		    }
 		}
 	},
 
@@ -910,15 +959,37 @@ Template.categoriesList.events({
 		var catgLimit100 = Session.get('catgListLimit');
 		if(catgLimit100 != 0){
 			var nextLimit = Session.get('catgListLimit') + 100;
-			Session.set('catgListLimit',nextLimit);
+			var businessCount  = Categories.find({}).count();
+			if(businessCount > nextLimit){
+		        Session.set('catgListLimit',nextLimit);
+		        if (businessCount > 10) {
+			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+				}else if(businessCount > 50){
+					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+				}else if(businessCount > 100){
+					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+				}
+		    }else{
+		        Session.set('catgListLimit',businessCount);
+		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		    }
 		}
 	},
 
 	'click .loadMoreRowsRest': function(event){
 		$('.spinner').hide();
 		$('.loadMoreRowsRest .spinner').show();
-		var nextLimit = 0;
+		var nextLimit = Categories.find({}).count();
 		Session.set('catgListLimit',nextLimit);
+		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 	},
 
 	'click .delete':function(event){

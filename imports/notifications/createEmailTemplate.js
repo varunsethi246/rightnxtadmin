@@ -30,12 +30,26 @@ Template.createEmailTemplate.onRendered (function() {
 			}//subject
 		}//notifContent
 		
-	}//getId	
+	}//getId
+	 
+	$(".newTemplateForm").validate({
+	 	rules: {
+	        templateType: {
+	            required: true,
+	        },
+	        templateName: {
+	        	required: true,
+	        },
+	        subject: {
+	        	required: true,
+	        }
+    	}
+	});	
 
 });
 
 Template.editTemplate.onRendered (function() {
-	 $(document).ready(function() {
+	$(document).ready(function() {
 
 	  $('#editmessageContent').summernote({
         height: 140,
@@ -51,8 +65,20 @@ Template.editTemplate.onRendered (function() {
 			if(!notifContent.subject){
 				$('.subjectDiv').css({'display':'none'});
 			}//subject
-		}//notifContent
-		
+		}//notifContent	
+		$("#"+getId).validate({
+		 	rules: {
+		        templateType: {
+		            required: true,
+		        },
+		        templateName: {
+		        	required: true,
+		        },
+		        subject: {
+		        	required: true,
+		        }
+	    	}
+		});
 	}//getId	
 
 });
@@ -114,8 +140,10 @@ Template.createEmailTemplate.events({
 		        });	
            		Bert.alert('Successfully Inserted..!!',"success","growl-top-right");
 				
-		        $('.templateName').value  = '';
-		        $('#messageContent').val('');
+		        $('.templateName').val('');
+		        $('.subject').val('');
+		        $('.templateType').val('-- Select --');
+		        $('div.note-editable').empty();
 			}else{
 				// console.log('in email');
 				Meteor.call('insertNewTemplate',templateType,templateName,subject,emailContent,function(error,result){
@@ -127,15 +155,16 @@ Template.createEmailTemplate.events({
 
 		        	}
 		        });	
-           				Bert.alert('Successfully Inserted..!!',"success","growl-top-right");
+           			Bert.alert('Successfully Inserted..!!',"success","growl-top-right");
 				
 		        $('.templateName').val('');
 		        $('.subject').val('');
-		        $('#messageContent').val('');
+		        $('.templateType').val('-- Select --');
+		        $('div.note-editable').empty();
 			}
 		}else{
 		        // Bert.alert("Please insert message..!");
-           		Bert.alert('Please insert message..!',"success","growl-top-right");
+           		Bert.alert('Please insert message..!',"danger","growl-top-right");
 
 			
 		}
@@ -175,33 +204,39 @@ Template.editTemplate.events({
 		var subject          = $('.subject').val();
 		var emailContent     = $('#editmessageContent').summernote('code');
 
-		if(templateType == 'Notification' || templateType == 'SMS'){
-			Meteor.call('updateTemplate',id,templateName,emailContent,function(error,result){
-	        	if(error){
-	        		console.log(error.reason);
-	        	}else if(result){
-	        		Bert.alert("Updated Successfully..!!");
-	        	}
-	        });	
+		if($('#'+id).valid()){
+			if(emailContent != "<p><br></p>" && emailContent != ""){
+				if(templateType == 'Notification' || templateType == 'SMS'){
+					Meteor.call('updateTemplate',id,templateName,emailContent,function(error,result){
+			        	if(error){
+			        		console.log(error.reason);
+			        	}else if(result){
+			        		Bert.alert("Updated Successfully..!!");
+			        	}
+			        });	
 
-	        $('.templateName').val('');
-	        $('#editmessageContent').summernote('code','');
-		}else{
-			Meteor.call('updateNewTemplate',id,templateName,subject,emailContent,function(error,result){
-	        	if(error){
-	        		console.log(error.reason);
-	        	}else if(result){
-	        		// Bert.alert("Updated Successfully..!!");
-           			Bert.alert('Updated Successfully..!!',"success","growl-top-right");
+			        $('.templateName').val('');
+			        $('#editmessageContent').summernote('code','');
+				}else{
+					Meteor.call('updateNewTemplate',id,templateName,subject,emailContent,function(error,result){
+			        	if(error){
+			        		console.log(error.reason);
+			        	}else if(result){
+			        		// Bert.alert("Updated Successfully..!!");
+		           			Bert.alert('Updated Successfully..!!',"success","growl-top-right");
 
-	        	}
-	        });	
+			        	}
+			        });	
 
-	        $('.templateName').val('');
-	        $('.subject').val('');
-	        $('#editmessageContent').summernote('code','');
+			        $('.templateName').val('');
+			        $('.subject').val('');
+			        $('#editmessageContent').summernote('code','');
+				}
+				FlowRouter.go('/viewTemplate');
+			}else{
+           		Bert.alert('Please insert message..!',"danger","growl-top-right");
+			}
 		}
-		FlowRouter.go('/viewTemplate');
 	},
 
 })
