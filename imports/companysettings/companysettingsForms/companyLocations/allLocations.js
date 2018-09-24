@@ -15,9 +15,14 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
         'allLocationsinformationhead' : function() {
             var CSObject = CompanySettings.findOne({'companyId':101});
             if(CSObject){
-                
-                 var mainLocation = {
-                 'mainLocation': CSObject.companyLocationsInfo[0].mainLocation,
+                if(CSObject.companyLocationsInfo.length > 0){
+                        var mainLocation = {
+                     'mainLocation': CSObject.companyLocationsInfo[0].mainLocation,
+                    }
+                }else{
+                    var mainLocation = {
+                     'mainLocation':'none',
+                    }
                 }
             }else{
                 var mainLocation = {

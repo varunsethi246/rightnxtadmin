@@ -6,6 +6,7 @@ import '../companysettingsForms/companyBankDetails/companyAllBankDetails.js';
 import '../companysettingsForms/labourCharges/allLabourDetails.js';
 import '../companysettingsForms/generateEvents/generateEvent.js';
 import '../companysettingsForms/otherSettings/otherSettings.js';
+import '../companysettingsForms/companyInfo/companyInfo.js';
 
 
 

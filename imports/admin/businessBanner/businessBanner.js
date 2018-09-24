@@ -348,7 +348,8 @@ Template.bannerInvoice.helpers({
 			if(paymentCheck.paymentStatus == "paid"){
 				var selector = {"businessLink":businessLink,"status":"active"};
 			}else{
-				var selector = {"businessLink":businessLink,"status":"new"};
+				// var selector = {"businessLink":businessLink,"status":"new"};
+				var selector = {"businessLink":businessLink};
 			}
 	    	businessBanner = BusinessBanner.find(selector).fetch();
 			

@@ -301,7 +301,8 @@ Template.adsInvoice.helpers({
 		}
 
 		var totalPrice = 0;
-    	var businessAds = BusinessAds.find({"businessLink":businessLink,"status":"new"}).fetch();
+    	// var businessAds = BusinessAds.find({"businessLink":businessLink,"status":"new"}).fetch();
+    	var businessAds = BusinessAds.find({"businessLink":businessLink}).fetch();
     	if(businessAds){
     		for(i=0;i<businessAds.length;i++){
     			if(businessAds[i].areas){

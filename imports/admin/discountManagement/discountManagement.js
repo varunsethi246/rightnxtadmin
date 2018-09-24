@@ -15,20 +15,24 @@ Template.discountManagement.events({
 			var discount = $('#discount').val();
 			// console.log('id :' ,id);
 			// console.log('rate :',rate);
-			// console.log('discount :', discount);
 			if(rate != '' ){
+			// console.log('discount :', discount);
 				if(id){
-					Meteor.call('updateDiscount',id,rate,discount,function(error,result){
-						if(error){
-							console.log(error);
-						}else{
-							$('#price').val('');
-							$('#discount').val('');
-							$('#price').focus();
+					if(rate != '' && discount != ''){
+						Meteor.call('updateDiscount',id,rate,discount,function(error,result){
+							if(error){
+								console.log(error);
+							}else{
+								$('#price').val('');
+								$('#discount').val('');
+								$('#price').focus();
 
-							delete Session.keys['id'];
-						}
-					});
+								delete Session.keys['id'];
+							}
+						});
+					}else if(discount == ''){
+						Bert.alert("Please enter discount.","danger","growl-top-right");
+					}
 				}else if(rate != '' && discount != ''){
 					Meteor.call('insertDiscount',rate,discount,function(error,result){
 						if(error){
@@ -50,16 +54,17 @@ Template.discountManagement.events({
 
 	
 	'click .hello':function(event){
-		// event.preventDefault();
-		var value = this;
-		var id = value.id;
-				console.log(value);
-				console.log(id);
+		event.preventDefault();
+		// var value = this;
+		// console.log(value);
+		var id = event.currentTarget.id;
+		// console.log(id);
 
 		Meteor.call('removeDiscount',id,function(error,result){
 			if(error){
 				console.log(error);
 			}else{
+				$('.modal-backdrop').hide();
 				Bert.alert("Deleted Successfully!","success","growl-top-right");
 			}
 		})
@@ -124,7 +129,7 @@ Template.positionManagement.events({
 			var id = Session.get("positionId");
 			var position = $('.selectPosition').val();
 			// console.log('position :',position);
-			if(position != null || position == '-- Select --'){
+			if(position != null && position == '-- Select --'){
 
 				var positionAdded = '';
 				var positionTrue = false;

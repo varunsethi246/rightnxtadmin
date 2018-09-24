@@ -93,13 +93,22 @@ Template.companysettingsformCarousel.helpers({
     'formData':function(){
         var companyData1 = CompanySettings.findOne({'companyId':101});
         if(companyData1){
+            if(companyData1.companyLocationsInfo.length > 0){
+               var companyCity = companyData1.companyLocationsInfo[0].companyCity; 
+               var companyPincode = companyData1.companyLocationsInfo[0].companyPincode; 
+               var companyAddress = companyData1.companyLocationsInfo[0].companyAddress; 
+            }else{
+               var companyCity = ''; 
+               var companyPincode = ''; 
+               var companyAddress = '';
+            }
             var companyData = {
                 companyName          : companyData1.companyName,
                 companyContactNumber : companyData1.companyContactNumber,
                 companyEmail         : companyData1.companyEmail,
-                companyCity          : companyData1.companyLocationsInfo[0].companyCity,
-                companyPincode       : companyData1.companyLocationsInfo[0].companyPincode,
-                companyAddress       : companyData1.companyLocationsInfo[0].companyAddress,
+                companyCity          : companyCity,
+                companyPincode       : companyPincode,
+                companyAddress       : companyAddress,
 
             };            
         }else{

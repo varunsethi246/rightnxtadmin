@@ -40,29 +40,40 @@ Template.adsDiscountManagement.events({
 		    var id = Session.get("adsId");
 			var rate     = $('#price').val();
 			var discount = $('#discount').val();
-			if(id){
-				Meteor.call('updateAdsDiscount',id,rate,discount,function(error,result){
-					if(error){
-						console.log(error);
-					}else{
-						$('#price').val('');
-						$('#discount').val('');
+			if(rate != '' ){
+				if(id){
+					if(rate != '' && discount != ''){
+						Meteor.call('updateAdsDiscount',id,rate,discount,function(error,result){
+							if(error){
+								console.log(error);
+							}else{
+								$('#price').val('');
+								$('#discount').val('');
+								$('#price').focus();
+								
+								delete Session.keys['adsId'];
+							}
+						});
+					}else if(discount == ''){
+						Bert.alert("Please enter discount.","danger","growl-top-right");
 					}
-				})
-			}else if (rate != '' && discount != ''){
-				Meteor.call('insertAdsDiscount',rate,discount,function(error,result){
-					if(error){
-						console.log(error);
-					}else{
-						$('#price').val('');
-						$('#discount').val('');
-						$('#price').focus();
+				}else if (rate != '' && discount != ''){
+					Meteor.call('insertAdsDiscount',rate,discount,function(error,result){
+						if(error){
+							console.log(error);
+						}else{
+							$('#price').val('');
+							$('#discount').val('');
+							$('#price').focus();
 
-					}
-				});
-			}else if(rate == '' || discount == ''){
-				Bert.alert("Please select discount & rate first.","danger","growl-top-right");
+						}
+					});
+				}else if(discount == ''){
+					Bert.alert("Please enter discount.","danger","growl-top-right");
 
+				}
+			}else{
+				Bert.alert("Please enter price.","danger","growl-top-right");
 			}
 	    }
 	},
@@ -125,9 +136,9 @@ Template.adsPositionManagement.events({
 			e.preventDefault();
 			var id = Session.get("adsPositionId");
 			var position = $('.selectPosition').val();
-			if (position != '-- Select --') {
+				// console.log("position",position);
+			if(position!='-- Select --' && position != null){
 				
-				console.log("position",position);
 				if(position){
 					position = parseInt(position);
 				}
@@ -156,7 +167,7 @@ Template.adsPositionManagement.events({
 						if(error){
 							console.log(error);
 						}else{
-							$('.selectPosition').val('');
+							$('.selectPosition').val('-- Select --');
 							$('#rate').val('');
 	        				Session.set("adsPositionId",'');
 
@@ -167,14 +178,15 @@ Template.adsPositionManagement.events({
 						if(error){
 							console.log(error);
 						}else{
-							$('.selectPosition').val('');
+							$('.selectPosition').val('-- Select --');
 							$('#rate').val('');
 						}
 					})
-				}else if(position == '-- Select --' || position == "" || rate == '' || rate == null){
-					Bert.alert("Please select Position number & Rate first.","danger","growl-top-right");
-
+				}else if(rate == '' || rate == null){
+					Bert.alert("Please enter rate.","danger","growl-top-right");
 				}
+			}else{
+				Bert.alert("Please select position number.","danger","growl-top-right");
 			}
 		}
 	},
