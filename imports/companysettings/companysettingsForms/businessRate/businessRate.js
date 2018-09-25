@@ -55,11 +55,45 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 		    	if(err){
 		    		console.log(err);
 		    	}else{
-		    		console.log('Added');
+		    		// console.log('Added');
 		    		$("input#monthlyRate").val('');
 		        	$("input#categoryRate").val('');
 		        	$("input#areaRate").val('');
 		    	}
 		    });
 		}
+	});
+
+	Template.businessRate.onRendered(function(){
+		$.validator.addMethod("regrx1", function(value, element, regexpr) {          
+	    	return regexpr.test(value);
+		}, "Please enter numeric digits.");
+
+		$("#rateInfo").validate({
+		 	rules: {
+		        monthlyRate: {
+		            required: true,
+	            	regrx1: /^[0-9]*$/,
+		        },
+		        categoryRate: {
+		        	required: true,
+	            	regrx1: /^[0-9]*$/,
+		        },
+		        areaRate: {
+		        	required: true,
+	            	regrx1: /^[0-9]*$/,
+		        }
+	    	},
+	    	errorPlacement: function(error, element) {
+			    if (element.attr("name") == "monthlyRate"){
+			      error.insertAfter("#monthlyChrg");
+			    }
+			    if (element.attr("name") == "categoryRate"){
+			      error.insertAfter("#categoryChrg");
+			    }
+			    if (element.attr("name") == "areaRate"){
+			      error.insertAfter("#areaChrg");
+			    }
+			}
+		});
 	});

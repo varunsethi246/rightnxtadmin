@@ -16,9 +16,10 @@
 								<i class="fa fa-usd" aria-hidden="true"></i>
 							</div>
 							<select class="form-control HRMSTextbox" id="taxType" name="taxType" value="{{taxType}}">
-								<option value='vat'>VAT              </option>
-								<option value='sales tax'>Sales Tax  </option>
-								<option value='service tax'>Service Tax </option>	
+								<option value='GST'>GST</option>
+								<!-- <option value='vat'>VAT              </option> -->
+								<!-- <option value='sales tax'>Sales Tax  </option> -->
+								<!-- <option value='service tax'>Service Tax </option>	 -->
 							</select>
 						</div>
 					</div>
@@ -39,18 +40,17 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-calendar" aria-hidden="true"></i>
 							</div>
-							<input type="date" class="form-control HRMSTextbox" id="effectiveFrom" name="effectiveFrom" placeholder="Enter Date"  value="{{effectiveFrom}}" maxlength="6"> 
+							<input type="date" class="form-control HRMSTextbox" id="effectiveFrom" name="effectiveFrom" placeholder="Enter Date"  value="{{effectiveFrom}}" maxlength="6" required> 
 						</div>
 					</div>
-					<div class="addmoretax col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="addmoretax col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
+					<div class="addmoretax col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingGeneral">
+						<div class="addmoretax col-lg-4 col-md-4 col-sm-4 col-xs-12 pull-right">
 							<label class="HRMSTitle">&nbsp;&nbsp;&nbsp;
 							</label>
 							{{#if edittaxSettings}}
-								<input type="button" class="btn btn-danger btnUpdatetaxsettings  clearfix" value="Update">
+								<input type="button" class="btn btn-danger btnUpdatetaxsettings  clearfix col-lg-12 col-md-12 col-sm-12 col-xs-12" value="Update">
 								{{else}}
 								<input type="submit" class="btn companyBankDetails btn-primary clearfix" value="Add More Data">
-
 							{{/if}}
 						</div>
 

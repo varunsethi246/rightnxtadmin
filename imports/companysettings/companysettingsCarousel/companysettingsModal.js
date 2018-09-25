@@ -64,11 +64,12 @@ Template.companysettingsformCarousel.events({
   // var companyLogo= image.tempLogoImg;  
   
   var formValuesArray = formClass+'FormValue' ;
-  console.log('formValuesArray : ', formValuesArray);
+  // console.log('formValuesArray : ', formValuesArray);
    switch(formClass) {
 
     case 'companyInfo':
-
+        if($('#companyInfo').valid()){
+          $(event.currentTarget).attr('data-slide','next');
           window[formValuesArray] ={
 
               companyName  		     : $("input#companyName").val(),
@@ -82,8 +83,11 @@ Template.companysettingsformCarousel.events({
               companyState         : $("select#companyState").val(),
               companyCountry       : $("select#companyCountry").val(),              
               
-           }//close array
-           break;
+          }//close array
+          break;
+        }else{
+          $(event.currentTarget).removeAttr('data-slide','next');
+        }
         case 'companyLocations':
 
             window[formValuesArray] = {
@@ -146,14 +150,19 @@ Template.companysettingsformCarousel.events({
               break;
               
         case 'otherSettings':
-            
-             window[formValuesArray] = {
+            if($('#otherSettings').valid()){
+              $(event.currentTarget).attr('data-slide','next');
+              window[formValuesArray] = {
                 ratePerOffer         : $("input#ratePerOffer").val(),
                 ratePerAdvertise     : $("input#ratePerAdvertise").val(),
                 ratePerBanner        : $("input#ratePerBanner").val(),
               }
               
               break;
+            }else{
+              $(event.currentTarget).removeAttr('data-slide','next');
+            }
+            
     }//close switch
     // console.log(window[formValuesArray]);
     // console.log('formClass : =====>' ,formClass);
@@ -208,9 +217,9 @@ Template.companysettingsformCarousel.events({
       event.target.companyNewLocation.value='';
       event.target.companyNewAddress.value='';
       event.target.companyPincode.value='';
-      event.target.companyCity.value='';
-      event.target.companyState.value='';
-      event.target.companyCountry.value ='';
+      event.target.companyCity.value='Pune';
+      event.target.companyState.value='Maharashtra';
+      event.target.companyCountry.value ='India';
       
   },
 
@@ -248,7 +257,7 @@ Template.companysettingsformCarousel.events({
       Meteor.call('insertTaxSettings', taxSettingsFormValue);
    
       //Clear form
-        event.target.taxType.value         ='';
+        event.target.taxType.value         ='GST';
         event.target.applicableTax.value   ='';
         event.target.effectiveFrom.value   ='';
         console.log('event.target.applicableTax.value :',event.target.applicableTax.value);

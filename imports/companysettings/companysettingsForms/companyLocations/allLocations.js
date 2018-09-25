@@ -47,14 +47,22 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 			var confirm = window.confirm("Do you really want to delete this record?");
 
           	if(confirm){
+             $('#companyNewLocation').val('');
+             $('#companyNewAddress').val('');
+             $('#companyPincode').val('');
+             $('#companyCity').val('Pune');
+             $('#companyState').val('Maharashtra');
+             $('#companyCountry').val('India');
+             Session.set('editLocation',false);
+             Session.set('companyLocationId','');
            	 Meteor.call('removeallCompanyLocations', selectedLocation);
-            
           	}
 
 		},
 
 		'click .editLocations': function(e) {
         e.preventDefault();
+        $('.locationFormWrapper').css('display','block');
         // var locationObj = CompanySettings.find({'companyId':'101'});
 	        $('.HRMSTextbox').css({
 	        'background-color': 'transparent',
@@ -73,9 +81,9 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
         $('input[name="companyCity"]').val(this.companyCity);
         $('input[name="companyState"]').val(this.companyState);
         $('input[name="companyCountry"]').val(this.companyCountry);
-        
         Session.set('editLocation',true);        
         Session.set('companyAddress',address);        
+        Session.set('companyLocationId',this.companyLocationId);        
     }
 
 

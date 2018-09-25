@@ -25,30 +25,35 @@ Meteor.methods({
 
 	'insertCompanyInfo':function(companyInfoFormValue){
 		//Insert into collection 
-		
 		var count = CompanySettings.find({'companyId':101}).count();
 
-			if(count){
-			CompanySettings.update(
-			{"companyId"    : 101},
-			{$set:
-				{
-					"companyName"          : companyInfoFormValue.companyName,
-					"companyContactNumber" : companyInfoFormValue.companyContactNumber,
-					"companyEmail"         : companyInfoFormValue.companyEmail,
-					// "logoFilename"         : companyInfoFormValue.logoFilename,
-					// "companyLogo"          : companyInfoFormValue.companyLogo,
-					"companyLocationsInfo" : [{
-					"companyAddress"   : companyInfoFormValue.companyAddress,
-					"companyPincode"   : companyInfoFormValue.companyPincode,
-					"companyCity"	   : companyInfoFormValue.companyCity,
-					"companyState"     : companyInfoFormValue.companyState,
-					"companyCountry"   : companyInfoFormValue.companyCountry,
-					}],
+		if(count){
+			if(companyInfoFormValue.companyName != '' && companyInfoFormValue.companyContactNumber != '' &&
+				companyInfoFormValue.companyEmail != '' && companyInfoFormValue.companyAddress != '' &&
+				companyInfoFormValue.companyPincode != '' && companyInfoFormValue.companyCity != '' &&
+				companyInfoFormValue.companyState != '' && companyInfoFormValue.companyCountry != ''){		
+				CompanySettings.update(
+				{"companyId"    : 101},
+				{$set:
+					{
+						"companyName"          : companyInfoFormValue.companyName,
+						"companyContactNumber" : companyInfoFormValue.companyContactNumber,
+						"companyEmail"         : companyInfoFormValue.companyEmail,
+						// "logoFilename"         : companyInfoFormValue.logoFilename,
+						// "companyLogo"          : companyInfoFormValue.companyLogo,
+						"companyLocationsInfo" : [{
+						"companyLocationId": 0,
+						"mainLocation"     : "Headoffice",
+						"companyAddress"   : companyInfoFormValue.companyAddress,
+						"companyPincode"   : companyInfoFormValue.companyPincode,
+						"companyCity"	   : companyInfoFormValue.companyCity,
+						"companyState"     : companyInfoFormValue.companyState,
+						"companyCountry"   : companyInfoFormValue.companyCountry,
+						}],
+					}
 				}
+				);
 			}
-
-		);
 		}else{
 			CompanySettings.insert({
 				"companyId"            : 101,
@@ -58,6 +63,7 @@ Meteor.methods({
 				// "logoFilename"         : companyInfoFormValue.logoFilename,
 					// "companyLogo"      : companyInfoFormValue.companyLogo,
 				"companyLocationsInfo" : [{
+					"companyLocationId": 0,
 					"mainLocation"     : "Headoffice",
 					"companyAddress"   : companyInfoFormValue.companyAddress,
 					"companyPincode"   : companyInfoFormValue.companyPincode,
@@ -65,11 +71,11 @@ Meteor.methods({
 					"companyState"     : companyInfoFormValue.companyState,
 					"companyCountry"   : companyInfoFormValue.companyCountry,
 				}],
-				"rates" : [{
+				"rates" : {
 					"ratePerOffer"   	: 100,
 					"ratePerAdvertise"  : 100,
 					"ratePerBanner"	    : 100,
-				}],
+				},
 			});
 		}
 		Meteor.call('tempLogoImageDelete',companyInfoFormValue.logoFilename);
@@ -81,9 +87,19 @@ Meteor.methods({
 	'insertCompanyLocations':function(companyLocationFormValue){
 			// var address = Session.get("companyAddress");
 			var userId = CompanySettings.findOne({"companyId" : 101});
-			if(userId && companyLocationFormValue.companyLocation !="" && companyLocationFormValue.companyAddress !=""){			
+			if(userId && companyLocationFormValue.companyLocation !="" && companyLocationFormValue.companyAddress !=""){	
+				if(userId.companyLocationsInfo){
+					if(userId.companyLocationsInfo.length > 0){
+						var companyLocationId = userId.companyLocationsInfo.length;
+					}else{
+						var companyLocationId = 0;
+					}
+				}else{
+					var companyLocationId = 0;
+				}		
 				CompanySettings.update({"companyId" : 101},
 					{$push:{ companyLocationsInfo : {
+							companyLocationId : companyLocationId,
 							companyLocation: companyLocationFormValue.companyLocation,
 							companyAddress : companyLocationFormValue.companyAddress,
 							companyPincode : companyLocationFormValue.companyPincode,
@@ -105,8 +121,9 @@ Meteor.methods({
 		var userId = CompanySettings.findOne({"companyId" : 101});
 		
 		if(userId){
-			CompanySettings.update({'_id' : userId._id, 'companyLocationsInfo.companyAddress':companyLocationFormValue.companyAddress },
+			CompanySettings.update({'_id' : userId._id, 'companyLocationsInfo.companyLocationId':companyLocationFormValue.companyLocationId },
 					{$set: {
+							'companyLocationsInfo.$.companyLocationId': companyLocationFormValue.companyLocationId,
 							'companyLocationsInfo.$.companyLocation': companyLocationFormValue.companyLocation,
 							'companyLocationsInfo.$.companyAddress' : companyLocationFormValue.companyAddress,
 							'companyLocationsInfo.$.companyPincode' : companyLocationFormValue.companyPincode,
@@ -127,8 +144,7 @@ Meteor.methods({
 		
 		var userId = CompanySettings.findOne({"companyId" : 101});
 		if(userId && companyBankDetailsFormValue.accNumber != "" && companyBankDetailsFormValue.ifscCode != "" && companyBankDetailsFormValue.accHolderName != ""){
-			
-			CompanySettings.update({'_id': userId._id,'bankDetails.branchName':companyBankDetailsFormValue.ifscCode},
+			CompanySettings.update({'_id': userId._id,'bankDetails.accNumber':companyBankDetailsFormValue.accNumber},
 				{$set:{ 
 					'bankDetails.$.accHolderName': companyBankDetailsFormValue.accHolderName,
 					'bankDetails.$.bankName'	 : companyBankDetailsFormValue.bankName,
@@ -204,14 +220,20 @@ Meteor.methods({
 
 		//First find previous day of FromDate. 
 		//Update Previous Record for same TaxType. Put ToDate = 1 Day prior to FromDate
-		var userId = CompanySettings.findOne({"companyId" : 101});
+		if(taxSettingsFormValue.effectiveFrom != '' && taxSettingsFormValue.applicableTax != ''){
+			var userId = CompanySettings.findOne({"companyId" : 101});
 			if(userId){
 			var fromDate1 = taxSettingsFormValue.effectiveFrom.replace(/-/g, '\/');
 			var toDateForPreviousRecordISOFormat = new Date(new Date(fromDate1) - (24*60*60*1000) );
 			var formateddate = new Date(toDateForPreviousRecordISOFormat);
+			var newdate = new Date(taxSettingsFormValue.effectiveFrom);
+			newdate.setDate(newdate.getDate() - 1); // minus the date
+			var nd = new Date(newdate);
 			
 			//Convert ISO Date in to only date format 2016-06-11
-			var toDateForPreviousRecord = formateddate.getFullYear()+'-' + (formateddate.getMonth()+1) + '-'+formateddate.getDate();
+			// var toDateForPreviousRecord = formateddate.getFullYear()+'-' + (formateddate.getMonth()+1) + '-'+formateddate.getDate();
+			var toDateForPreviousRecord = moment(nd).format('YYYY-MM-DD');
+			// console.log(toDateForPreviousRecord);
 			var queryResult = CompanySettings.find({'_id': userId._id, 
 					  'taxSettings.taxType' : taxSettingsFormValue.taxType , 
 					  'taxSettings.effectiveTo' : '',}).count();	
@@ -263,6 +285,7 @@ Meteor.methods({
 				);
 			}
 			}
+		}
 		},
 		
 		removeTaxDetails: function(taxDetails){
@@ -338,18 +361,44 @@ Meteor.methods({
 	},
 
 	'insertBusinessRate':function(eventInfoFormValue){
-		console.log(eventInfoFormValue);
+		// console.log(eventInfoFormValue);
 		var userId = CompanySettings.findOne({"companyId" : 101});
-		if(userId && eventInfoFormValue.monthlyRate != "" && eventInfoFormValue.categoryRate != "" && eventInfoFormValue.areaRate != ""){
-			
-			CompanySettings.update({'_id': userId._id},
-				{$push:{ BusinessRates:{
-						monthlyRate     : eventInfoFormValue.monthlyRate,
-					    categoryRate    : eventInfoFormValue.categoryRate,
-					    areaRate        : eventInfoFormValue.areaRate,
+		if(userId){
+			if(userId.BusinessRates){
+				if(userId.BusinessRates.length > 0){
+					// if(userId.BusinessRates.length == 1){
+						CompanySettings.update(
+							{"_id" : userId._id},
+							{$set :{
+								   'BusinessRates.0.monthlyRate' : eventInfoFormValue.monthlyRate,
+								   'BusinessRates.0.categoryRate': eventInfoFormValue.categoryRate,
+								   'BusinessRates.0.areaRate' : eventInfoFormValue.areaRate,
+						        }
+							}
+						);	
+					// }
+				}else{
+					CompanySettings.update({'_id': userId._id},
+						{$push:{ BusinessRates:{
+								monthlyRate     : eventInfoFormValue.monthlyRate,
+							    categoryRate    : eventInfoFormValue.categoryRate,
+							    areaRate        : eventInfoFormValue.areaRate,
+								}
+							}
+						}
+					);
+				}
+			}else{
+				CompanySettings.update({'_id': userId._id},
+					{$push:{ BusinessRates:{
+							monthlyRate     : eventInfoFormValue.monthlyRate,
+						    categoryRate    : eventInfoFormValue.categoryRate,
+						    areaRate        : eventInfoFormValue.areaRate,
+							}
 						}
 					}
-				});
+				);
+			}
 		} //end of if userid
 	},
 
@@ -449,20 +498,35 @@ Meteor.methods({
     },
 
     'tempLogoImageUpload':function(fileName, fileData){
-		TempLogoImage.insert(
-		    {
-		        'createdAt'		: new Date(),
-		        'logoFilename'  : fileName,
-		     	'tempLogoImg'   : fileData, 
-		    }, function(error,result){
-	                // console.log(error,result);
-	                if(error) {
-	                    return error;
-	                } else {
-	                    return result;
-	                }
-            	}
-	      );
+    	var istempLogo = TempLogoImage.findOne({});
+    	if(istempLogo){
+    		TempLogoImage.update(
+	    		{'_id': istempLogo._id },
+	    		{
+	    			$set:{
+						'createdAt'		: new Date(),
+				        'logoFilename'  : fileName,
+				     	'tempLogoImg'   : fileData,
+						// "services.password.bcrypt" : password,
+		    		} //End of set
+		    	}
+	    	);
+    	}else{
+			TempLogoImage.insert(
+			    {
+			        'createdAt'		: new Date(),
+			        'logoFilename'  : fileName,
+			     	'tempLogoImg'   : fileData, 
+			    }, function(error,result){
+		                // console.log(error,result);
+		                if(error) {
+		                    return error;
+		                } else {
+		                    return result;
+		                }
+	            	}
+		    );
+    	}
 	},
 
     'tempLogoImageDelete':function(fileName){
@@ -481,8 +545,8 @@ Meteor.methods({
 	},
 
 	'insertOtherSettings':function(otherSettingsFormValue){
-		console.log("true");	
-		console.log(JSON.stringify(otherSettingsFormValue));
+		// console.log("true");	
+		// console.log(JSON.stringify(otherSettingsFormValue));
 		var userId = CompanySettings.findOne({"companyId" : 101});
 		if(userId){
 			CompanySettings.update({'_id': userId._id},

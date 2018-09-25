@@ -15,9 +15,10 @@ Template.companyBankDetails.helpers({
 });
 
 Template.companyAllBankDetails.events({
-
 	'click .editBankDetails': function(e) {
         e.preventDefault();
+        $('.bankDetailsFormWrapper').css('display','block');
+
         $('.HRMSTextbox').css({
             'background-color': 'transparent',
             'color': '#000',
@@ -35,6 +36,7 @@ Template.companyAllBankDetails.events({
         $('input[name="bankName"]').val(this.bankName);
         $('input[name="branchName"]').val(this.branchName);
         $('input[name="accNumber"]').val(this.accNumber);
+        $('input[name="accNumber"]').attr('disabled','disabled');
         $('input[name="ifscCode"]').val(this.ifscCode);
        
         
@@ -44,29 +46,47 @@ Template.companyAllBankDetails.events({
 });
 
 Template.companyBankDetails.events({
+    'keypress #accHolderName': function(e) {
+        var key = e.keyCode;
+        if (key >= 48 && key <= 57) {
+            e.preventDefault();
+        }
+    },
 
+    'keypress #bankName': function(e) {
+        var key = e.keyCode;
+        if (key >= 48 && key <= 57) {
+            e.preventDefault();
+        }
+    },
+
+    'keypress #branchName': function(e) {
+        var key = e.keyCode;
+        if (key >= 48 && key <= 57) {
+            e.preventDefault();
+        }
+    },
 
   'click .btnUpdateBankDetails': function(event){
     event.preventDefault();
-   
     companyBankDetailsFormValue = {
         accHolderName  : $("input#accHolderName").val(),
         bankName       : $("input#bankName").val(),
         branchName     : $("input#branchName").val(),
         accNumber      : $("input#accNumber").val(),
         ifscCode       : $("input#ifscCode").val(),
-   
-
     }
     
-    console.log(companyBankDetailsFormValue);
+    // console.log(companyBankDetailsFormValue);
 
     Meteor.call('updateBankDetails', companyBankDetailsFormValue);
-    // event.target.accHolderName.value ='';
-    // event.target.bankName.value ='';
-    // event.target.branchName.value ='';
-    // event.target.accNumber.value ='';
-    // event.target.ifscCode.value ='';
+     $('#accHolderName').val('');
+     $('#bankName').val('');
+     $('#branchName').val('');
+     $('#accNumber').val('');
+     $('#ifscCode').val('');
+     $('input[name="accNumber"]').removeAttr('disabled','disabled');
+     Session.set('editBankDetails',false);
     },
 
     'click .addBankDetails': function(event){

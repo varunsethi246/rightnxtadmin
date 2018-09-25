@@ -3,7 +3,7 @@
     <aside class="sidebar siderbarOverflow">
         <div class="adminPhoto">
             <img class="img-circle" src="/images/addPhoto.jpg">
-            <div class="username">Admin</div>
+            <div class="username">{{#if isInRole 'admin'}}Admin{{else}}Staff Member{{/if}}</div>
         </div>
         <ul class="sidebar-nav planeStyle" id="accordion1">
 
@@ -171,6 +171,7 @@
                 </div>
             </li>
                 <!--2-->
+            {{#if isInRole 'admin'}}
             <li id="listborder" class="panel activeMenuSubmenu">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#thirdLink" class="menusidebarClass2 panelIcon customActive"><i class="fa fa-bell"></i> <span>Notification</span>
                     <i class="fa fa-angle-right pull-right angleChange"></i>
@@ -194,6 +195,9 @@
                     </ul>
                 </div>
             </li>
+            {{/if}}
+
+
                 <!-- 3 -->
             <li id="listborder" class="panel activeMenuSubmenu">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#fourthLink"  class="menusidebarClass3 panelIcon customActive"><i aria-hidden="true" class="fa fa-bullseye"></i><span>Career</span>
@@ -219,6 +223,7 @@
                 </div>
             </li>
                 <!-- 4 -->
+            {{#if isInRole 'admin'}}
             <li id="listborder" class="panel activeMenuSubmenu">
                 <a data-toggle="collapse" data-parent="#accordion1" href="#collapse9" class="menusidebarClass8 panelIcon customActive"><i class="fa fa-users"></i> <span>Users</span>
                     <i class="fa fa-angle-right pull-right angleChange"></i>
@@ -243,6 +248,7 @@
 
                 </div>
             </li>
+            {{/if}}
             <!-- <li id="listborder" class="panel activeMenuSubmenu menusidebarClassOne " data-target="homePageBanner">
                 <a href="/homePageBanner" class="customActive">
                     <i class="fa fa-users"></i> <span>Add Home Page Video</span>

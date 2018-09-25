@@ -24,8 +24,11 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 			var confirm = window.confirm("Do you really want to delete this record?");
 
           	if(confirm){
-           	 Meteor.call('removeTaxDetails', taxDetails);
-            
+             Session.set('edittaxSettings',false);
+             $('input[name="taxType"]').val('GST');
+             $('input[name="applicableTax"]').val('');
+             $('input[name="effectiveFrom"]').val('');
+             Meteor.call('removeTaxDetails', taxDetails);
           	}
 
 		},

@@ -21,9 +21,15 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 			var confirm = window.confirm("Do you really want to delete this record?");
 
           	if(confirm){
+          	 $('#accHolderName').val('');
+          	 $('#bankName').val('');
+          	 $('#branchName').val('');
+          	 $('#accNumber').val('');
+          	 $('#ifscCode').val('');
+     		     $('input[name="accNumber"]').removeAttr('disabled','disabled');
+           	 Session.set('editBankDetails',false);
            	 Meteor.call('removeBankDetails', bankDetails);
-            
-          	}
+          }
 
 		}
 	});

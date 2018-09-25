@@ -60,7 +60,7 @@
                 </li>
 
                 <li class="dropdown userSettingadmin">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{#if isInRole 'admin'}}Admin{{else}}Staff Member{{/if}}
                         <i class="fa fa-user fa-lg">
                         </i>
                     </a>
@@ -84,12 +84,13 @@
                         </li></a>
                     </ul>
                 </li>
-                
-                <li class="grears">
-                    <a href="/companySettings" data-toggle="control-sidebar tooltip" title="Settings" class="notificationHeader pull-right cursorPointer cogWheel setting">
-                        <i class="fa fa-gears" aria-hidden="true"></i>
-                    </a>
-                </li>
+                {{#if isInRole 'admin'}}
+                    <li class="grears">
+                        <a href="/companySettings" data-toggle="control-sidebar tooltip" title="Settings" class="notificationHeader pull-right cursorPointer cogWheel setting">
+                            <i class="fa fa-gears" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                {{/if}}
             </ul>
         </div>
     </div>

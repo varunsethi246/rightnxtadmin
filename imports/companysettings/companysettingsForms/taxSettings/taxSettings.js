@@ -26,14 +26,17 @@ Template.taxSettings.events({
      var targetedID = Session.get('targetedid');
      // console.log("targetedID"+targetedID)
      var effectiveFrom = $("input#effectiveFrom").val();
-     console.log('effectiveFrom :',effectiveFrom);
+     // console.log('effectiveFrom :',effectiveFrom);
     taxSettingsFormValue = {
         taxType       : $("select#taxType").val(),
         applicableTax : $("input#applicableTax").val(),
         effectiveFrom : $("input#effectiveFrom").val(),
     }
     if (effectiveFrom != "" && effectiveFrom != null && effectiveFrom != undefined) {
-
+      $("select#taxType").val('GST');
+      $("input#applicableTax").val('');
+      $("input#effectiveFrom").val('');
+      Session.set('edittaxSettings',false);        
       Meteor.call('updatetaxSettings', taxSettingsFormValue,targetedID);
     }
     // event.target.taxType.value ='';

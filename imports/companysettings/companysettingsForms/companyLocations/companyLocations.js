@@ -12,6 +12,12 @@ Template.companyLocations.helpers({
 });
 
 Template.companyLocations.events({
+  'keypress #companyNewLocation': function(e) {
+    var key = e.keyCode;
+    if (key >= 48 && key <= 57) {
+        e.preventDefault();
+    }
+  },
 
   'click .btnUpdate': function(event){
     event.preventDefault();
@@ -22,13 +28,20 @@ Template.companyLocations.events({
         companyPincode   : $("input#companyPincode").val(),
         companyCity      : $("select#companyCity").val(),
         companyState     : $("select#companyState").val(),
-        companyCountry   : $("select#companyCountry").val()
-      
-
+        companyCountry   : $("select#companyCountry").val(),
+        companyLocationId: Session.get('companyLocationId'),
     }
     
 
     Meteor.call('updateCompanyLocations', companyLocationsFormValue);
+    $('input#companyNewLocation').val('');
+    $('input#companyNewAddress').val('');
+    $('input#companyPincode').val('');
+    $('select#companyCity').val('Pune');
+    $('select#companyState').val('Maharashtra');
+    $('select#companyCountry').val('India');
+    Session.set('editLocation',false);
+    Session.set('companyLocationId','');
    },
 
    'click .faqStyle': function(event){

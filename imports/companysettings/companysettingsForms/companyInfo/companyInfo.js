@@ -27,23 +27,52 @@ Template.companyInfo.onRendered(function(){
    
   $("#companyInfo").validate({
     rules: {
-          companyName: {
-              required: true,
-              regpx1: /^[A-za-z']+( [A-Za-z']+)*$/,
-          },
-          companyEmail: {
+        companyName: {
             required: true,
-            regpx2: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
-          },
-          companyContactNumber: {
-            required: true,
-            regpx3: /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/,
-          },
-          companyPincode: {
-            required: true,
-            regpx4: /^[1-9][0-9]{5}$|^$/,
-          },
-      }
+            regpx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+        },
+        companyEmail: {
+          required: true,
+          regpx2: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 
+        },
+        companyContactNumber: {
+          required: true,
+          regpx3: /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/,
+        },
+        companyPincode: {
+          required: true,
+          regpx4: /^[1-9][0-9]{5}$/,
+        },
+    },
+    errorPlacement: function(error, element) {
+        if (element.attr("name") == "companyName"){
+          error.insertAfter("#compInfoName");
+        }
+        if (element.attr("name") == "companyContactNumber"){
+          error.insertAfter("#compInfoNo");
+        }
+        if (element.attr("name") == "companyEmail"){
+          error.insertAfter("#compInfoEmail");
+        }
+        // if (element.attr("name") == "uploadImages"){
+        //   error.insertAfter("#compInfoLogo");
+        // }
+        if (element.attr("name") == "companyAddress"){
+          error.insertAfter("#compInfoAddr");
+        }
+        if (element.attr("name") == "companyPincode"){
+          error.insertAfter("#compInfoPincode");
+        }
+        if (element.attr("name") == "companyCity"){
+          error.insertAfter("#compInfoCity");
+        }
+        if (element.attr("name") == "companyState"){
+          error.insertAfter("#compInfoState");
+        }
+        if (element.attr("name") == "companyCountry"){
+          error.insertAfter("#compInfoCountry");
+        }
+    }
   });
 });
 
@@ -67,12 +96,7 @@ Template.companyInfo.events({
 
 Template.companyInfo.helpers({
 	"tempLogoimage" : function(){
-  
-    var logoImage = TempLogoImage.find({}).fetch();
-      return logoImage.map(function (d, i) {
-          d._index = i + 1;
-          return d;
-      });
-
+    var logoImage = TempLogoImage.findOne({});
+    return logoImage;
   },
 });

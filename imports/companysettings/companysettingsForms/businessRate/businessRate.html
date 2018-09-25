@@ -7,7 +7,7 @@
 				<div class="HRMSBackgroundWrapper taxDetailsFormWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="HRMSform-group col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
 						<label class="HRMSTitle">Monthly Charge</label>
-						<div class="input-group">
+						<div class="input-group" id="monthlyChrg">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-file-text" aria-hidden="true"></i>
 							</div>
@@ -16,28 +16,28 @@
 					</div>
 					<div class="HRMSform-group col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
 						<label class="HRMSTitle">Category Wise Charge</label>
-						<div class="input-group">
+						<div class="input-group" id="categoryChrg">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-file-text" aria-hidden="true"></i>
 							</div>
 							<input type="text" class="form-control HRMSTextbox" id="categoryRate" name="categoryRate" placeholder="Enter Category Wise Rate"  value="{{categoryRate}}"> 
 						</div>
 					</div>
-					<div class="HRMSform-group col-lg-6 col-md-6 col-sm-12 col-xs-12  ">
+					<div class="HRMSform-group col-lg-6 col-md-6 col-sm-12 col-xs-12 clear">
 						<label class="HRMSTitle">Area Wise Charge</label>
-						<div class="input-group">
+						<div class="input-group" id="areaChrg">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-file-text" aria-hidden="true"></i>
 							</div>
 							<input type="text" class="form-control HRMSTextbox" id="areaRate" name="areaRate" placeholder="Enter Area Wise Rate"  value="{{areaRate}}"> 
 						</div>
 					</div>
-					<div class="addmoretax col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="addmoretax col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingGeneral">
 						<div class="addmoretax col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right">
 							<label class="HRMSTitle">&nbsp;&nbsp;&nbsp;
 							</label>
 							
-								<input type="submit" class="btn companyBankDetails rateInfo btn-primary clearfix" value="Submit">
+								<input type="submit" class="btn companyBankDetails rateInfo btn-primary clearfix col-lg-12 col-md-12 col-sm-12 col-xs-12" value="Submit">
 
 							
 						</div>
