@@ -91,7 +91,7 @@ Template.UMlistOfUsers.helpers({
 
               var regularSource = true;
               console.log(i, ".) ", user[i].profile.name);
-
+              if (true) {}
               if(user[i].roles){
                 if(user[i].roles.indexOf('admin') >= 0){
                   var adminrole = true;                
@@ -111,7 +111,7 @@ Template.UMlistOfUsers.helpers({
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
                           'source'                : regularSource,
                         });
@@ -131,7 +131,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -167,7 +167,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -184,7 +184,7 @@ Template.UMlistOfUsers.helpers({
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
                           'source'                : regularSource,
                         });
@@ -204,7 +204,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -235,7 +235,7 @@ Template.UMlistOfUsers.helpers({
                             'status'                : user[i].profile.status,
                             'roles'                 : user[i].roles,
                             'createdAt'             : user[i].createdAt,
-                            'lastLogin'             : '',
+                            'lastLogin'             : user[i].status.lastLogin.date,
                             'adminrole'             : adminrole,
                             'source'                : regularSource,
                           });
@@ -255,7 +255,7 @@ Template.UMlistOfUsers.helpers({
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
                           'source'                : regularSource,
                         });
@@ -291,7 +291,7 @@ Template.UMlistOfUsers.helpers({
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
                           'source'                : regularSource,
                         });
@@ -308,7 +308,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -328,7 +328,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -340,13 +340,13 @@ Template.UMlistOfUsers.helpers({
       }else{
           for(i=0;i<userCount;i++){
 
-              if(user[i].roles){
-                if(user[i].roles.indexOf('admin') >= 0){
-                  var adminrole = true;                
-                }else{
-                  var adminrole = false;
-                }
+            if(user[i].roles){
+              if(user[i].roles.indexOf('admin') >= 0){
+                var adminrole = true;                
+              }else{
+                var adminrole = false;
               }
+            }
 
             if(user[i].status){
               if(user[i].status.lastLogin){
@@ -362,7 +362,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -382,7 +382,7 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
                         'source'                : regularSource,
                       });
@@ -419,7 +419,7 @@ Template.UMlistOfUsers.helpers({
                       'status'                : user[i].profile.status,
                       'roles'                 : user[i].roles,
                       'createdAt'             : user[i].createdAt,
-                      'lastLogin'             : '',
+                      'lastLogin'             : user[i].status.lastLogin.date,
                       'adminrole'             : adminrole,
                       'source'                : regularSource,
                     });
@@ -436,7 +436,7 @@ Template.UMlistOfUsers.helpers({
                       'status'                : user[i].profile.status,
                       'roles'                 : user[i].roles,
                       'createdAt'             : user[i].createdAt,
-                      'lastLogin'             : '',
+                      'lastLogin'             : user[i].status.lastLogin.date,
                       'adminrole'             : adminrole,
                       'source'                : regularSource,
                     });
@@ -456,7 +456,7 @@ Template.UMlistOfUsers.helpers({
                     'status'                : user[i].profile.status,
                     'roles'                 : user[i].roles,
                     'createdAt'             : user[i].createdAt,
-                    'lastLogin'             : '',
+                    'lastLogin'             : user[i].status.lastLogin.date,
                     'adminrole'             : adminrole,
                     'source'                : regularSource,
                   });
