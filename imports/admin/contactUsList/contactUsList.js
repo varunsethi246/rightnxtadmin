@@ -27,22 +27,22 @@ Template.contactUsList.onRendered( ()=>{
 
 Template.contactUsList.helpers({
 	Details: function(){
-		var ContactQueryCount  = Counts.get('noOfContactUs');
-		if (ContactQueryCount > 15) {
-	    	$('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-			Session.set('contactUsListLimit',15);
-		}else if(ContactQueryCount > 50){
-			$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-			Session.set('contactUsListLimit',50);
-		}else if(ContactQueryCount > 100){
-			$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-			Session.set('contactUsListLimit',100);
-		}else{
-			Session.set('contactUsListLimit',ContactQueryCount);
-			$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-			$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-			$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		}
+		// var ContactQueryCount  = Counts.get('noOfContactUs');
+		// if (ContactQueryCount > 15) {
+	 //    	$('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+		// 	Session.set('contactUsListLimit',15);
+		// }else if(ContactQueryCount > 50){
+		// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+		// 	Session.set('contactUsListLimit',50);
+		// }else if(ContactQueryCount > 100){
+		// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+		// 	Session.set('contactUsListLimit',100);
+		// }else{
+		// 	Session.set('contactUsListLimit',ContactQueryCount);
+		// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		// }
 		var listLimit = Session.get('contactUsListLimit');
 		var data = ContactUs.find({},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
 

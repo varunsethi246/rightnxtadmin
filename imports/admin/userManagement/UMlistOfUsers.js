@@ -59,22 +59,22 @@ Template.UMlistOfUsers.onRendered(function(){
 Template.UMlistOfUsers.helpers({
 
   users:function() {
-    var userCounts  = Counts.get('noOfUser');
-    if (userCounts > 10) {
-      Session.set('userListLimit',10);
-      $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-    }else if(userCounts > 100){
-      Session.set('userListLimit',100);
-      $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-    }else if(userCounts > 200){
-      Session.set('userListLimit',200);
-      $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-    }else{
-      Session.set('userListLimit',userCounts);
-      $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-      $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-      $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-    }
+    // var userCounts  = Counts.get('noOfUser');
+    // if (userCounts > 10) {
+    //   Session.set('userListLimit',10);
+    //   $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+    // }else if(userCounts > 100){
+    //   Session.set('userListLimit',100);
+    //   $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+    // }else if(userCounts > 200){
+    //   Session.set('userListLimit',200);
+    //   $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+    // }else{
+    //   Session.set('userListLimit',userCounts);
+    //   $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+    //   $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+    //   $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+    // }
     
     var roleSetArray = [];
     var roleSetVar = Session.get('roleSet');

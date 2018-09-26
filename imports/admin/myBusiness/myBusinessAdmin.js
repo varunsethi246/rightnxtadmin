@@ -118,26 +118,26 @@ Template.listOfBusiness.helpers({
 	    }
     },
 	'Details' : function(){
-		if(Session.get('busListAct') == 'activeList'){
-			var businessCount  = Counts.get('noOfBusinessActive');
-		}else{
-			var businessCount  = Counts.get('noOfBusinessInactive');
-		}
-		if (businessCount > 15) {
-			Session.set('businessListLimit',15);
-	        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-		}else if(businessCount > 50){
-			Session.set('businessListLimit',50);
-			$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-		}else if(businessCount > 100){
-			Session.set('businessListLimit',100);
-			$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-		}else{
-			Session.set('businessListLimit',businessCount);
-			$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-			$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-			$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		}
+		// if(Session.get('busListAct') == 'activeList'){
+		// 	var businessCount  = Counts.get('noOfBusinessActive');
+		// }else{
+		// 	var businessCount  = Counts.get('noOfBusinessInactive');
+		// }
+		// if (businessCount > 15) {
+		// 	Session.set('businessListLimit',15);
+	 //        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+		// }else if(businessCount > 50){
+		// 	Session.set('businessListLimit',50);
+		// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+		// }else if(businessCount > 100){
+		// 	Session.set('businessListLimit',100);
+		// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+		// }else{
+		// 	Session.set('businessListLimit',businessCount);
+		// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		// }
 
 		var listLimit = Session.get('businessListLimit');
 		var setValue = Session.get('busListAct');
