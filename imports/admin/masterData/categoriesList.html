@@ -25,8 +25,10 @@
 						<th class="catgTableLevel">L3 Catg Tags</th>
 						<th class="catgTableLevel">L4 Catg</th>
 						<th class="catgTableLevel">L4 Catg Tags</th>
+						{{#if isInRole 'admin'}}
 						<th class="catMenuAction">Menu Action</th>
 						<th class="catgTableAction">Action</th>
+						{{/if}}
 					</tr>
 				</thead>
 				<tbody>
@@ -43,6 +45,7 @@
 						<td class="catgTableLevel">{{level3Tags}}</td>
 						<td class="catgTableLevel">{{level4}}</td>						
 						<td class="catgTableLevel">{{level4Tags}}</td>
+						{{#if isInRole 'admin'}}
 						<td class=""><button class="btn btn-{{menuStatusClass}} updateCatMenu" data-docId={{_id}} data-catStatus={{menuStatus}}>{{menuStatusVal}}</button></td>
 
 						<!-- <td>
@@ -70,6 +73,7 @@
 								</div>
 							</div>
 						</td>
+						{{/if}}
 					</tr>
 					{{/each}}
 				</tbody>

@@ -1,5 +1,6 @@
 <template name="masterCity">
-	<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+	    {{#if isInRole 'admin'}}
+	    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
 			
 			<form id="cityMaster">
 				<div class="masterAreaBoxs">
@@ -41,6 +42,7 @@
 				</div>	
 			</form>
 		</div>
+		{{/if}}
 		<div class="col-lg-10 col-lg-offset-1">
 			<div class="searchBusinessList">
 				<span><i class="fa fa-search"></i></span>
@@ -56,7 +58,9 @@
 						<th>Country</th>
 						<th>State</th>
 						<th>City</th>
+						{{#if isInRole 'admin'}}
 						<th class="cityCenter">Action</th>
+						{{/if}}
 					</tr>
 				</thead>
 				<tbody>
@@ -68,6 +72,7 @@
 						<td>{{state}}</td>
 						<!-- <td>{{> editableText collection="city" field="city" }}</td> -->
 						<td>{{city}}</td>
+						{{#if isInRole 'admin'}}
 						<td class="col-lg-2 cityCenter">
 									<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusCity-{{_id}}" aria-hidden="true"></i>
 									<div class="newtooltip "> 
@@ -97,7 +102,7 @@
 							        </div>
 								</div>
 							</div>
-
+						{{/if}}
 					</tr>
 					{{/each}}
 					

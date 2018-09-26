@@ -467,6 +467,14 @@ Template.adminFooter.helpers({
 	}
 });
 
+Template.adminLayout.onRendered(function(){
+  $(window).on('popstate', function() {
+    $('.modal').modal('hide');
+    $('.modal-backdrop').hide();
+  });
+  $('html, body').scrollTop(0);
+});
+
 ViewAllNotifForm = function () {  
   BlazeLayout.render("vendorLayout",{main: 'ViewAllNotif'});
   // Blaze.render(Template.vendorLayout,document.body);

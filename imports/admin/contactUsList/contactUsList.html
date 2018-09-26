@@ -25,7 +25,9 @@
 						<th>How can we help</th>
 						<th>Message</th>
 						<th>Date</th>
+						{{#if isInRole 'admin'}}
 						<th class="bussListAction">Action</th>
+						{{/if}}
 					</tr>
 				</thead>
 				<tbody>
@@ -38,6 +40,7 @@
 							<td class="col-lg-2">{{howCanWeHelpYou}}</td>
 							<td class="col-lg-3 messageQuery">{{message}}</td>
 							<td class="col-lg-1">{{createdAt}}</td>
+							{{#if isInRole 'admin'}}
 							<td>
 								<i class="fa fa-eye fa-lg cursorPointer cursorPointerss" data-toggle="modal" data-target="#contactUsDataModal-{{_id}}"  aria-hidden="true" title="View"></i>
 								<i class="fa fa-trash-o fa-lg cursorPointer cursorPointerss" id="stateDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModalDelete-{{_id}}" aria-hidden="true" title="Delete"></i>
@@ -77,6 +80,7 @@
 							        </div>
 								</div>
 							</div>
+							{{/if}}
 						</tr>
 					{{/each}}
 				{{else}}

@@ -12,7 +12,9 @@
 		    <li class="active masterNavTabs col-lg-3"><a data-toggle="tab" href="#home">Area</a></li>
 		    <li class="masterNavTabs col-lg-3"><a data-toggle="tab" href="#menu1">City</a></li>
 		    <li class="masterNavTabs col-lg-3"><a data-toggle="tab" href="#menu2">State</a></li>
+		    {{#if isInRole 'admin'}}
 		    <li class="masterNavTabs col-lg-3"><a data-toggle="tab" href="#menu3">BulkUpLoads</a></li>
+		    {{/if}}
 		  </ul>
 		  
 		  <div class="tab-content">
@@ -28,11 +30,11 @@
 		    <div id="menu2" class="tab-pane fade">
 		      {{> masterState}}
 		    </div>
-		    
+		    {{#if isInRole 'admin'}}
 		    <div id="menu3" class="tab-pane fade">
 		      {{> masterBulkUpload}}
 		    </div>
-		  
+		  	{{/if}}
 		  </div>
 		  
 		</div>

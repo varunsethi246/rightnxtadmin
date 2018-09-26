@@ -5,6 +5,7 @@
 			 	<h1>MANAGE CATEGORIES</h1>
 			</div>
 			<hr>
+			{{#if isInRole 'admin'}}
 			<ul class="nav nav-pills masterNavTab col-lg-8 col-lg-offset-4 ">
 				<li class="active masterNavTabs col-lg-3">
 					<a data-toggle="tab" href="#home">Categories</a>
@@ -22,6 +23,7 @@
 			     {{> catgBulkUpload }}
 			    </div>
 			</div>
+			{{/if}}
 			
 			{{> categoriesList }}
 

@@ -158,6 +158,7 @@
                             <a href="/contactUsList"><i class="fa fa-circle-o"></i><span>Help Us List</span></a>
                         </li>
                     </ul>
+                    {{#if isInRole 'admin'}}
                     <ul class="sub-menu menuSubCat8 customActive">
                         <li class="sidebarlink admin-FAQ-form " data-target="admin-FAQ-form">
                             <a href="/admin-FAQ-form"><i class="fa fa-circle-o"></i> FAQ</a>
@@ -168,6 +169,7 @@
                             <a href="/editPages"><i class="fa fa-circle-o"></i> Edit Pages</a>
                         </li>
                     </ul>
+                    {{/if}}
                 </div>
             </li>
                 <!--2-->

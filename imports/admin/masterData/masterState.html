@@ -1,4 +1,5 @@
 <template name="masterState">
+	{{#if isInRole 'admin'}}
 	<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
 		<form id="stateMaster">
 			<div class="masterAreaBox">
@@ -28,8 +29,8 @@
 		    <button type="submit" class="btn btn-default btn-primary areaMasterBtn">Submit</button>
 		</div>	
 		</form>
-
 	</div>
+	{{/if}}
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="searchBusinessList">
 			<span><i class="fa fa-search"></i></span>
@@ -43,7 +44,9 @@
 					<tr class="tableHeadColor">
 						<th>Country</th>
 						<th>State</th>
+						{{#if isInRole 'admin'}}
 						<th class="stateCenter">Action</th>
+						{{/if}}
 					</tr>
 				</thead>
 				<tbody>
@@ -53,6 +56,7 @@
 						<td>{{country}}</td>
 						<!-- <td>{{> editableText collection="state" field="state" }}</td> -->
 						<td>{{state}}</td>
+						{{#if isInRole 'admin'}}
 						<td class="col-lg-2 stateCenter">
 							
 									<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusStates-{{_id}}" aria-hidden="true"></i>
@@ -87,6 +91,7 @@
 							        </div>
 								</div>
 							</div>
+						{{/if}}
 						</tr>
 					{{/each}}
 					

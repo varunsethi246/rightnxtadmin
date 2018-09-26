@@ -1,6 +1,7 @@
 <template name="masterArea">
 	<!-- <div class="masterAreaBox"> -->
 		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
+			{{#if isInRole 'admin'}}
 			<form id="areaMaster">
 			<div class="masterAreaBox">
 				<div class="masterFormHeading">
@@ -61,7 +62,7 @@
 				<button type="submit" class="btn btn-primary areaMasterBtn">Submit</button>
 				</div>			
 			</form>
-
+			{{/if}}
 			<div class="col-lg-10 noPaddingGeneral">
 				<div class="searchBusinessList">
 					<span><i class="fa fa-search"></i></span>
@@ -78,7 +79,9 @@
 							<th>City</th>
 							<th>Area</th>
 							<th>PinCode</th>
+							{{#if isInRole 'admin'}}
 							<th class="cityCenter">Action</th>
+							{{/if}}
 						</tr>
 					</thead>
 					<tbody>
@@ -94,6 +97,7 @@
 							<td>{{area}}</td>
 							<!-- <td>{{> editableText collection="area" field="zipcode" }}</td> -->
 							<td>{{zipcode}}</td>
+							{{#if isInRole 'admin'}}
 							<td class="col-lg-2 areaCenter">								
 										<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusArea-{{_id}}" aria-hidden="true"></i>
 										<div class="newtooltip"> 
@@ -123,7 +127,7 @@
 							        </div>
 								</div>
 							</div>
-
+							{{/if}}
 						</tr>
 						{{/each}}
 						
