@@ -223,10 +223,19 @@ Template.header.events({
 });
 
 Template.footer.events({
-	'click .clickAddNewBusi': function(){
+	'click .clickAddNewBusi': function(event){
     	Session.set("backlinkurl",'');
     	Bert.alert('Please log in as a Vendor to avail this facility.','danger','growl-top-right');
 	},
+	'click .clickCareer': function(event){
+		event.preventDefault();
+    	Bert.alert('Please log in as a User to avail this facility.','danger','growl-top-right');
+	},
+	'click .clickContactUs': function(event){
+		event.preventDefault();
+    	Bert.alert('Please log in as a User or Vendor to avail this facility.','danger','growl-top-right');
+	},
+
 });
 
 Template.generalHeader.events({

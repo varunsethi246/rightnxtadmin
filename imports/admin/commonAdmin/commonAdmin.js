@@ -131,10 +131,11 @@ Template.ViewAllNotif.helpers({
               'timestamp'       : notifDetails[i].timestamp,
               'statusBackground': statusClass,
               'createdAt'       : createdAt,
+              'count'			: i+1,
             })
           }//i
         }//notifDetails
-        console.log('notifArray :',notifArray);
+        // console.log('notifArray :',notifArray);
       return notifArray;
   },
  //  'AllnotifCounts':function(){

@@ -35,7 +35,9 @@ box-shadow:none
 overflow:auto!important;
 padding-right:0!important
 }
-
+.fa-trash{
+	cursor: pointer;
+}
 .topbar {
 background:#3b5998;
 border-color:#3b5998;
