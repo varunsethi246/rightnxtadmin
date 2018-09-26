@@ -97,16 +97,11 @@
 		 <!-- <img src="{{profile.displayPicture}}"> -->
 		</td>		
 		<td id="one"> 
-			<a href="/editUsersProfile/{{_id}}" >
-				<button type="button" class="fa fa-pencil-square-o editUser" title="Edit"> </button> 
-			</a> 
-
-			<!-- Trigger the modal with a button -->
-<!-- 			<button type="button" class="btn btn-info deleteUserConfirm" data-target="#userDeleteConfirm{{this._id}}">Delete <br> {{this._id}}</button>
-			{{> deleteUserConfirm userId=this._id}} -->
-			<!-- <button type="button" class="fa fa-trash deleteUserConfirm"></button> -->
-
-			<!-- <button class= "fa fa-trash userDel"></button> -->
+			{{#if source}}
+				<a href="/editUsersProfile/{{_id}}" >
+					<button type="button" class="fa fa-pencil-square-o editUser" title="Edit"> </button> 
+				</a> 
+			{{/if}}
 
 			{{#if adminrole}}
 				<!-- Do Nothing -->

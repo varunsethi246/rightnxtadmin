@@ -59,22 +59,22 @@ Template.UMlistOfUsers.onRendered(function(){
 Template.UMlistOfUsers.helpers({
 
   users:function() {
-    // var userCounts  = Counts.get('noOfUser');
-    // if (userCounts > 10) {
-    //   Session.set('userListLimit',10);
-    //   $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts > 100){
-    //   Session.set('userListLimit',100);
-    //   $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts > 200){
-    //   Session.set('userListLimit',200);
-    //   $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-    // }else{
-    //   Session.set('userListLimit',userCounts);
-    //   $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-    // }
+    var userCounts  = Counts.get('noOfUser');
+    if (userCounts > 10) {
+      Session.set('userListLimit',10);
+      $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+    }else if(userCounts > 100){
+      Session.set('userListLimit',100);
+      $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+    }else if(userCounts > 200){
+      Session.set('userListLimit',200);
+      $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+    }else{
+      Session.set('userListLimit',userCounts);
+      $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+      $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+      $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+    }
     
     var roleSetArray = [];
     var roleSetVar = Session.get('roleSet');
@@ -89,7 +89,6 @@ Template.UMlistOfUsers.helpers({
         if(roleSetVar == 'all' || roleSetVar == ''){
           for(i=0;i<userCount;i++){
 
-              var regularSource = true;
               console.log(i, ".) ", user[i].profile.name);
 
               if(user[i].roles){
@@ -103,7 +102,6 @@ Template.UMlistOfUsers.helpers({
                 if(user[i].status.lastLogin){
                   if(user[i].emails){
                       if(user[i].emails[0].address){
-                        regularSource = true;
                         roleSetArray.push({
                           'SrNo'                  : i,
                           '_id'                   : user[i]._id,
@@ -111,35 +109,25 @@ Template.UMlistOfUsers.helpers({
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
-                          'source'                : regularSource,
-                        });
+                        });    
                       }
                    }else{
-                      if(user[i].services.facebook){
-                        userEmail = user[i].services.facebook.email;
-                      }
-                      if(user[i].services.google){
-                        userEmail = user[i].services.google.email;
-                      }
-                      regularSource = false;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
-                        'emails'                : userEmail,
+                        'emails'                : user[i].services.facebook.email,
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
                       });
                   }
                 }else{
                   if(user[i].emails){
                       if(user[i].emails[0].address){
-                        regularSource = true;
                         roleSetArray.push({
                           'SrNo'                  : i,
                           '_id'                   : user[i]._id,
@@ -149,34 +137,24 @@ Template.UMlistOfUsers.helpers({
                           'createdAt'             : user[i].createdAt,
                           'lastLogin'             : '',
                           'adminrole'             : adminrole,
-                          'source'                : regularSource,
-                        });
+                        });    
                       }
                   }else{
-                      if(user[i].services.facebook){
-                        userEmail = user[i].services.facebook.email;
-                      }
-                      if(user[i].services.google){
-                        userEmail = user[i].services.google.email;
-                      }
-                      regularSource = false;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
-                        'emails'                : userEmail,
+                        'emails'                : user[i].services.facebook.email,
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
                         'lastLogin'             : '',
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
                       });
                   }
                 }
               }else{
                 if(user[i].emails){
                       if(user[i].emails[0].address){
-                        regularSource = true;
                         roleSetArray.push({
                           'SrNo'                  : i,
                           '_id'                   : user[i]._id,
@@ -186,34 +164,24 @@ Template.UMlistOfUsers.helpers({
                           'createdAt'             : user[i].createdAt,
                           'lastLogin'             : '',
                           'adminrole'             : adminrole,
-                          'source'                : regularSource,
-                        });
+                        });    
                       }
                   }else{
-                      if(user[i].services.facebook){
-                        userEmail = user[i].services.facebook.email;
-                      }
-                      if(user[i].services.google){
-                        userEmail = user[i].services.google.email;
-                      }
-                      regularSource = false;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
-                        'emails'                : userEmail,
+                        'emails'                : user[i].services.facebook.email,
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
                         'lastLogin'             : '',
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
                       });
                   }
               }
           }//roleSetVar all loop
         }else{
             for(i=0;i<userCount;i++){
-              var regularSource = true;
               if(user[i].roles){
                 if(user[i].roles.indexOf('admin') >= 0){
                   var adminrole = true;                
@@ -227,7 +195,6 @@ Template.UMlistOfUsers.helpers({
                   if(user[i].status.lastLogin){
                     if(user[i].emails){
                         if(user[i].emails[0].address){
-                          regularSource = true;
                           roleSetArray.push({
                             'SrNo'                  : i,
                             '_id'                   : user[i]._id,
@@ -235,35 +202,25 @@ Template.UMlistOfUsers.helpers({
                             'status'                : user[i].profile.status,
                             'roles'                 : user[i].roles,
                             'createdAt'             : user[i].createdAt,
-                            'lastLogin'             : '',
+                            'lastLogin'             : user[i].status.lastLogin.date,
                             'adminrole'             : adminrole,
-                            'source'                : regularSource,
-                          });
+                          });    
                         }
                     }else{
-                        if(user[i].services.facebook){
-                          userEmail = user[i].services.facebook.email;
-                        }
-                        if(user[i].services.google){
-                          userEmail = user[i].services.google.email;
-                        }
-                        regularSource = false;
                         roleSetArray.push({
                           'SrNo'                  : i,
                           '_id'                   : user[i]._id,
-                          'emails'                : userEmail,
+                          'emails'                : user[i].services.facebook.email,
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
-                          'lastLogin'             : '',
+                          'lastLogin'             : user[i].status.lastLogin.date,
                           'adminrole'             : adminrole,
-                          'source'                : regularSource,
                         });
                     }
                   }else{
                     if(user[i].emails){
                         if(user[i].emails[0].address){
-                          regularSource = true;
                           roleSetArray.push({
                             'SrNo'                  : i,
                             '_id'                   : user[i]._id,
@@ -273,34 +230,24 @@ Template.UMlistOfUsers.helpers({
                             'createdAt'             : user[i].createdAt,
                             'lastLogin'             : '',
                             'adminrole'             : adminrole,
-                            'source'                : regularSource,
-                          });
+                          }); 
                         }
                     }else{
-                        if(user[i].services.facebook){
-                          userEmail = user[i].services.facebook.email;
-                        }
-                        if(user[i].services.google){
-                          userEmail = user[i].services.google.email;
-                        }
-                        regularSource = false;
                         roleSetArray.push({
                           'SrNo'                  : i,
                           '_id'                   : user[i]._id,
-                          'emails'                : userEmail,
+                          'emails'                : user[i].services.facebook.email,
                           'status'                : user[i].profile.status,
                           'roles'                 : user[i].roles,
                           'createdAt'             : user[i].createdAt,
                           'lastLogin'             : '',
                           'adminrole'             : adminrole,
-                          'source'                : regularSource,
                         });
                       }
                   }
               }else{
                 if(user[i].emails){
                     if(user[i].emails[0].address){
-                      regularSource = true;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
@@ -310,28 +257,19 @@ Template.UMlistOfUsers.helpers({
                         'createdAt'             : user[i].createdAt,
                         'lastLogin'             : '',
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
-                      });
+                      }); 
                     }
                   }else{
-                      if(user[i].services.facebook){
-                        userEmail = user[i].services.facebook.email;
-                      }
-                      if(user[i].services.google){
-                        userEmail = user[i].services.google.email;
-                      }
-                      regularSource = false;
-                      roleSetArray.push({
-                        'SrNo'                  : i,
-                        '_id'                   : user[i]._id,
-                        'emails'                : userEmail,
-                        'status'                : user[i].profile.status,
-                        'roles'                 : user[i].roles,
-                        'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
-                        'adminrole'             : adminrole,
-                        'source'                : regularSource,
-                      });
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].services.facebook.email,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : '',
+                      'adminrole'             : adminrole,
+                    });
                   }
                 }
               }
@@ -354,7 +292,6 @@ Template.UMlistOfUsers.helpers({
                 console.log(i, ".) ", user[i].profile.name, " | ", user[i].emails);
                 if(user[i].emails){
                     if(user[i].emails[0].address){
-                      regularSource = true;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
@@ -362,36 +299,26 @@ Template.UMlistOfUsers.helpers({
                         'status'                : user[i].profile.status,
                         'roles'                 : user[i].roles,
                         'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
+                        'lastLogin'             : user[i].status.lastLogin.date,
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
                       });
                     }
                   }else{
-                      if(user[i].services.facebook){
-                        userEmail = user[i].services.facebook.email;
-                      }
-                      if(user[i].services.google){
-                        userEmail = user[i].services.google.email;
-                      }
-                      regularSource = false;
-                      roleSetArray.push({
-                        'SrNo'                  : i,
-                        '_id'                   : user[i]._id,
-                        'emails'                : userEmail,
-                        'status'                : user[i].profile.status,
-                        'roles'                 : user[i].roles,
-                        'createdAt'             : user[i].createdAt,
-                        'lastLogin'             : '',
-                        'adminrole'             : adminrole,
-                        'source'                : regularSource,
-                      });
+                    roleSetArray.push({
+                      'SrNo'                  : i,
+                      '_id'                   : user[i]._id,
+                      'emails'                : user[i].services.facebook.email,
+                      'status'                : user[i].profile.status,
+                      'roles'                 : user[i].roles,
+                      'createdAt'             : user[i].createdAt,
+                      'lastLogin'             : user[i].status.lastLogin.date,
+                      'adminrole'             : adminrole,
+                    });
                   }
                 
               }else{
                 if(user[i].emails){
                     if(user[i].emails[0].address){
-                      regularSource = true;
                       roleSetArray.push({
                         'SrNo'                  : i,
                         '_id'                   : user[i]._id,
@@ -401,34 +328,24 @@ Template.UMlistOfUsers.helpers({
                         'createdAt'             : user[i].createdAt,
                         'lastLogin'             : '',
                         'adminrole'             : adminrole,
-                        'source'                : regularSource,
                       });
                     }
                   }else{
-                    if(user[i].services.facebook){
-                      userEmail = user[i].services.facebook.email;
-                    }
-                    if(user[i].services.google){
-                      userEmail = user[i].services.google.email;
-                    }
-                    regularSource = false;
                     roleSetArray.push({
                       'SrNo'                  : i,
                       '_id'                   : user[i]._id,
-                      'emails'                : userEmail,
+                      'emails'                : user[i].services.facebook.email,
                       'status'                : user[i].profile.status,
                       'roles'                 : user[i].roles,
                       'createdAt'             : user[i].createdAt,
                       'lastLogin'             : '',
                       'adminrole'             : adminrole,
-                      'source'                : regularSource,
                     });
                   }
                 }
             }else{
               if(user[i].emails){
                   if(user[i].emails[0].address){
-                    regularSource = true;
                     roleSetArray.push({
                       'SrNo'                  : i,
                       '_id'                   : user[i]._id,
@@ -438,27 +355,18 @@ Template.UMlistOfUsers.helpers({
                       'createdAt'             : user[i].createdAt,
                       'lastLogin'             : '',
                       'adminrole'             : adminrole,
-                      'source'                : regularSource,
                     });
                   }
                 }else{
-                  if(user[i].services.facebook){
-                    userEmail = user[i].services.facebook.email;
-                  }
-                  if(user[i].services.google){
-                    userEmail = user[i].services.google.email;
-                  }
-                  regularSource = false;
                   roleSetArray.push({
                     'SrNo'                  : i,
                     '_id'                   : user[i]._id,
-                    'emails'                : userEmail,
+                    'emails'                : user[i].services.facebook.email,
                     'status'                : user[i].profile.status,
                     'roles'                 : user[i].roles,
                     'createdAt'             : user[i].createdAt,
                     'lastLogin'             : '',
                     'adminrole'             : adminrole,
-                    'source'                : regularSource,
                   });
                 }
             }
