@@ -2,15 +2,15 @@
 	<section class="Content">
 		<div class="row">
 			<div class="col-md-10 col-lg-12 col-sm-12 col-xs-12 noLRPad">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+				<div class="col-lg-6 col-lg-offset-3 col-md-12 col-sm-12 col-xs-12 noLRPad">
 				
-					{{> UMaddRoles}}
+					<!-- {{> UMaddRoles}} -->
 
 
-					<table class="table-responsive table table-striped table-hover myTable table-bordered dataTable no-footer">
+					<table class="table-responsive table table-striped table-hover myTable table-bordered dataTable no-footer ">
 						<thead class="table-head umtblhdr">
 							<th class="umHeader centertextadmin"> Role </th>
-							<th class="umHeader centertextadmin"> Action </th>
+							<!-- <th class="umHeader centertextadmin"> Action </th> -->
 						</thead>
 						<tbody>
 							{{#each addrole}}
@@ -27,17 +27,14 @@
 <template name="UMadd_role">
 	<tr>
 		<td> {{name}}</td>			
-		<td> 
+		<!-- <td> 
 			<button class="editrole fa fa-pencil-square-o" data-toggle="modal" data-target="#{{_id}}-{{idForModal}}" title="Edit Role"></button>
 
-			<!-- Modal -->
 			<div id="{{_id}}-{{idForModal}}" class="modal fade dismissModalEdit" role="dialog">
 			  <div class="modal-dialog">
 
-			    <!-- Modal content-->
 			    <div class="modal-content reportWrapper">
 			      <div class="modal-header">
-			        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
 			        <h4 class="modal-title">Edit Role</h4>
 			      </div>
 			      <div class="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -49,9 +46,10 @@
 			    </div>
 
 			  </div>
-			</div> <!-- End of Modal-->
+			</div>  -->
+			<!-- End of Modal-->
 			<!-- <a href="UMeditroles/{{_id}}" class="umbtnEdit"> Edit </a>  -->&nbsp;&nbsp;
-			
+			<!-- 
 			<button class= "roleDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target="#{{idForModal}}-{{ _id }}" title="Delete Role"></button>
 
 			 <div class="modal fade" id="{{idForModal}}-{{ _id }}" role="dialog">
@@ -72,6 +70,6 @@
 			    </div>
 			  </div>
 
-		</td>		
+		</td>		 -->
 	</tr>
 </template>

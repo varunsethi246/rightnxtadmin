@@ -83,14 +83,12 @@ Template.UMlistOfUsers.helpers({
     var user       =  Meteor.users.find({},{ limit: listLimit}).fetch();
     if(user){
       var userCount =  user.length;
-      console.log("roleSetVar = ", roleSetVar);
 
       if(roleSetVar){ 
         if(roleSetVar == 'all' || roleSetVar == ''){
           for(i=0;i<userCount;i++){
 
               var regularSource = true;
-              console.log(i, ".) ", user[i].profile.name);
               if (true) {}
               if(user[i].roles){
                 if(user[i].roles.indexOf('admin') >= 0){
@@ -351,7 +349,6 @@ Template.UMlistOfUsers.helpers({
             if(user[i].status){
               if(user[i].status.lastLogin){
 
-                console.log(i, ".) ", user[i].profile.name, " | ", user[i].emails);
                 if(user[i].emails){
                     if(user[i].emails[0].address){
                       regularSource = true;
@@ -466,7 +463,6 @@ Template.UMlistOfUsers.helpers({
             
           }
       }
-      console.log('roleSetArray 1',roleSetArray);
       return roleSetArray;
     } 
     
@@ -563,21 +559,21 @@ Template.UMlistOfUsers.events({
 
     var userCounts  = Meteor.users.find({"roles":selectedValue}).fetch();
     // console.log(userCounts);
-    if (userCounts.length > 10) {
-      Session.set('userListLimit',10);
-      $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-    }else if(userCounts.length > 100){
-      Session.set('userListLimit',100);
-      $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-    }else if(userCounts.length > 200){
-      Session.set('userListLimit',200);
-      $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-    }else{
-      Session.set('userListLimit',userCounts);
-      $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-      $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-      $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-    }
+    // if (userCounts.length > 10) {
+    //   Session.set('userListLimit',10);
+    //   $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+    // }else if(userCounts.length > 100){
+    //   Session.set('userListLimit',100);
+    //   $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+    // }else if(userCounts.length > 200){
+    //   Session.set('userListLimit',200);
+    //   $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+    // }else{
+    //   Session.set('userListLimit',userCounts);
+    //   $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+    //   $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+    //   $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+    // }
 
     var selectedUsers = template.findAll( "input[type=checkbox]:checked");
     // console.log(selectedUsers );
