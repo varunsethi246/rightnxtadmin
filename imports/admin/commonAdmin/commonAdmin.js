@@ -75,42 +75,49 @@ Template.ViewAllNotif.helpers({
       	var userId = Meteor.userId();
       	
 		var userDetail = Meteor.users.findOne({'_id':userId});
+		console.log('userDetail ==>',userDetail);
 		var notifArr = ["businessDone-report-acknowledgedOne","Payment Successfull","Invoice","Mail Receipt","User Enquiry Messages","Vendor Enquiry Message","Claim","Vendor Modal Image Report", "Vendor Modal Image Report", "business-report-acknowledged", "business-image-report-acknowledged", "User Modal Image Report", "Admin Business Page Modal Report", "Admin Business Page Modal Report", "Vendor Business Page Bookmark", "Vendor Business Page Bookmark", "User Business Page Bookmark", "Vendor Business Page Been There", "Vendor Business Page Been There", "User Business Page Been There", "Business Page Share", "Vendor Business Page Report", "Vendor Business Page Report", "Vendor Business Page Report", "User Business Page Report", "Admin Business Page Report", "Admin Business Page Report", "You have been Tagged", "You have been Tagged", "Delete Business Admin", "Delete Business Admin", "Delete Business Vendor", "Delete Business Vendor", "Anything Else Business Admin", "Anything Else Business Admin", "Thanks for Submiting Offer", "Thanks for Submiting Offer", "Vendor has Submiting Offer", "Vendor has Submiting Offer", "Payment Received", "Payment Received", "Vendor Paid for Offer", "Vendor Paid for Offer", "Offer Deleted", "Offer Deleted", "Vendor deleted Offer", "Vendor deleted Offer", "Vendor Message Send", "Thanks for Registering New Business", "Thanks for Registering New Business", "Vendor Added New Business", "Vendor Added New Business"];
 
-		if(userDetail.notificationConfiguration){
-			if(userDetail.notificationConfiguration.enquiry == "true"){
+		if(userDetail){
+			// console.log('userDetail.notificationConfiguration ==>',userDetail.notificationConfiguration);
+
+			if(userDetail){
 				var arr = ["Vendor Business Enquiry", "Vendor Business Enquiry", "Vendor Business Enquiry", "User Business Enquiry", "Enquiry Message Send", "User Business Enquiry All"];
 				for(j=0;j<arr.length;j++){
 					notifArr.push(arr[j]);
 				}
 			}
-			if(userDetail.notificationConfiguration.rating == "true"){
+			if(userDetail){
 				var arr = ["Vendor Review and Rating", "Vendor Review and Rating", "User Review and Rating", "User Added Review and Rating", "User Added Review and Rating", "Business Page Review Share", "Business Page Review Share"];
 				for(j=0;j<arr.length;j++){
 					notifArr.push(arr[j]);
 				}
 			}
-			if(userDetail.notificationConfiguration.follow == "true"){
+			if(userDetail){
 				var arr = ["Follow User Other", "Follow User Other", "Follow User Current","Follow","UnFollow"];
 				for(j=0;j<arr.length;j++){
 					notifArr.push(arr[j]);
 				}
 			}
-			if(userDetail.notificationConfiguration.like == "true"){
+			if(userDetail){
 				var arr = ["Vendor Modal Image Like", "Vendor Modal Image Like", "User Modal Image Like", "Vendor Modal Image Comment Like", "Vendor Modal Image Comment Like", "User Modal Image Added Comment Like", "User Modal Image Added Comment Like", "User Modal Image Comment Like", "Vendor Modal Image Comment Reply Like", "Vendor Modal Image Comment Reply Like", "User Modal Image Added Comment Reply Like", "User Modal Image Added Comment Reply Like", "User Modal Image Added Comment SubReply Like", "User Modal Image Added Comment SubReply Like", "User Modal Image Comment SubReply Like", "Vendor Business Page Like", "Vendor Business Page Like", "User Business Page Like", "Vendor Review and Rating Like", "Vendor Review and Rating Like", "Other User Review and Rating Like", "Other User Review and Rating Like", "Current User Review and Rating Like", "Vendor Review Comment Like", "Vendor Review Comment Like", "User Comment Review and Rating Like", "User Comment Review and Rating Like", "User Review Comment Like", "User Review Comment Like", "Current User Review Comment Like", "Vendor Review Comment SubReply Like", "Vendor Review Comment SubReply Like", "User Added Review and Rating SubReply Like", "User Added Review and Rating SubReply Like", "User Review Comment SubReply Like", "User Review Comment SubReply Like", "User Added Review Reply SubReply Like", "User Added Review Reply SubReply Like", "Current User Review Comment Reply Like"];
 				for(j=0;j<arr.length;j++){
 					notifArr.push(arr[j]);
 				}
 			}
-			if(userDetail.notificationConfiguration.comment == "true"){
+			if(userDetail){
 				var arr = ["Vendor Modal Image Comment", "Vendor Modal Image Comment", "User Modal Image Comment", "Vendor Modal Image Comment Reply", "Vendor Modal Image Comment Reply", "User Modal Image Added Comment Reply", "User Modal Image Added Comment Reply", "User Modal Image Comment Reply", "Vendor Review and Rating Comment", "Vendor Review and Rating Comment", "Other User Review and Rating Comment", "Other User Review and Rating Comment", "Current User Review and Rating Comment", "Vendor Review Comment Reply", "Vendor Review Comment Reply", "User Review Comment", "User Review Comment", "Current User Review Comment Reply"];
 				for(j=0;j<arr.length;j++){
 					notifArr.push(arr[j]);
 				}
 			}
+			console.log('notifArr ==>',notifArr);
 		}
 		var notificationLocs = notifArr.map(function(x) { return x } );
+		console.log('notificationLocs ==>',notificationLocs);
 	    var notifDetails = Notification.find({'toUserId': Meteor.userId(), 'event': {"$in": notificationLocs}},{sort:{'date':-1}}).fetch();
+		console.log('notifDetails ==>',notifDetails);
+	    
         if(notifDetails){
         	var notifCount = Notification.find({'toUserId': Meteor.userId(), 'event': {"$in": notificationLocs}}).count();
         	var notifArray = [];

@@ -361,6 +361,7 @@ Template.imageReportModal.events({
 									    picId		 : picId
 
 									}
+
 									sendMailNotification(inputObj);
 
 									//Send Notification, Mail and SMS to Current User
@@ -385,6 +386,7 @@ Template.imageReportModal.events({
 									    picId		 : picId
 									    
 									}
+
 									sendMailNotification(inputObj); 
 
 									//Send Notification and Mail to Admin
@@ -416,6 +418,7 @@ Template.imageReportModal.events({
 			                                    templateName  : 'Admin Business Page Modal Report',
 			                                    variables     : msgvariable,
 			                        }
+
 			                        sendMailNotification(inputObj);
                 				}
 							}
