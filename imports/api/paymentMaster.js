@@ -166,8 +166,11 @@ Meteor.methods({
 
 	'updateBannerPaymentOnline':function(businessLink){
 		var businessBanner = BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
+		console.log(businessBanner);
 		var paymentCheck = Payment.findOne({"businessLink":businessLink,"orderType":"Banner","paymentStatus":"unpaid"});
+		console.log(paymentCheck);
 		var businessUser = Business.findOne({"businessLink":businessLink});
+		console.log(businessUser);
 
 		if(!businessUser.ownerMobile){
 			businessUser.ownerMobile = "9730190305";
@@ -184,7 +187,6 @@ Meteor.methods({
 		  	var METEOR_URL = 'localhost:3000'; // your production server url
 		}else{
 			var quickWalletUrl = 'https://uat.quikwallet.com';
-
 			var METEOR_URL = current;
 		}
 
@@ -197,7 +199,6 @@ Meteor.methods({
 			var userObj      	= Meteor.users.findOne({"_id":userId});
 			var mobileNumber 	= businessUser.ownerMobile;
 			var grandTotal 		= paymentCheck.totalAmount;
-			console.log("METEOR_URL: ",METEOR_URL);
 			var quickWalletInput = {
 				"partnerid"	:   quickwalletDetail.partnerid,
 				"mobile"   	:   mobileNumber,
@@ -207,6 +208,8 @@ Meteor.methods({
 				"redirecturl" : 'http://'+METEOR_URL+'/paymentAds-response?payId='+paymentCheck._id+"&InvNo="+paymentCheck.invoiceNumber+"&BusLink="+paymentCheck.businessLink,
 			};
 
+			console.log('quickWalletInput: ',quickWalletInput);
+			
 			try {
 				console.log("Im trying");
 				if (Meteor.isServer) {
@@ -248,7 +251,6 @@ Meteor.methods({
 		  	var METEOR_URL = 'localhost:3000'; // your production server url
 		}else{
 			var quickWalletUrl = 'https://uat.quikwallet.com';
-
 			var METEOR_URL = current;
 		}
 
@@ -339,7 +341,7 @@ Meteor.methods({
 
 		if(receiptObj.totalAmount){
 			var quickwalletDetail 	= QuickwalletDetails.findOne({'_id':'2'});
-			console.log('quickwalletDetail :',quickwalletDetail);
+			// console.log('quickwalletDetail :',quickwalletDetail);
 			var userId       		= Meteor.userId();
 			var userObj      		= Meteor.users.findOne({"_id":userId});
 			var mobileNumber 		= userObj.profile.mobile;

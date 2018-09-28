@@ -73,26 +73,27 @@
 						<p>2) xxx xxx xxx xxx xxx xxx</p>
 						<p>3) xxx xxx xxx xxx xxx xxx</p>									
 					</div>
-					
-					{{#if checkPaymentStatus paymentCheck}}
-						<div class="col-lg-7 col-md-4 col-sm-4 col-xs-4">
-							<div>
-								<strong>Select Payment Mode:</strong><br>
-								{{#if isInRole "Vendor"}}
-								<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="online" checked> Creditcard / Debit Card / Netbanking <br>
-								{{else}}
-									<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="Nocash" checked> Creditcard / Debit Card / Netbanking <br>
-									<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="cash" checked> Cash / Cheque (Subject to Amount Received)
-								{{/if}}
-								<h4 class="bannerPayButton" data-busLink="{{businessLink}}">
+					{{#if viewDisable}}
+						{{#if checkPaymentStatus paymentCheck}}
+							<div class="col-lg-7 col-md-4 col-sm-4 col-xs-4">
+								<div>
+									<strong>Select Payment Mode:</strong><br>
 									{{#if isInRole "Vendor"}}
-										Make Payment
+									<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="online" checked> Creditcard / Debit Card / Netbanking <br>
 									{{else}}
-										Proceed									
+										<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="Nocash" checked> Creditcard / Debit Card / Netbanking <br>
+										<input type="radio" name="payBanner" class="bannerPayButtonRadio" value="cash" checked> Cash / Cheque (Subject to Amount Received)
 									{{/if}}
-								</h4>
+									<h4 class="bannerPayButton" data-busLink="{{businessLink}}">
+										{{#if isInRole "Vendor"}}
+											Make Payment
+										{{else}}
+											Proceed									
+										{{/if}}
+									</h4>
+								</div>
 							</div>
-						</div>
+						{{/if}}
 					{{/if}}
 				</div>
 			</div>

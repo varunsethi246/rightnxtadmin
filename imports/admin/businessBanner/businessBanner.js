@@ -306,6 +306,15 @@ Template.businessBanner.helpers({
 
 
 Template.bannerInvoice.helpers({
+	viewDisable(){
+		var businessLink = FlowRouter.getParam('businessLink');
+		var currentPath = FlowRouter.current().path;
+		if(currentPath == '/businessbannersInvoice/'+businessLink+'/view'){
+			return false;
+		}else{
+			return true;
+		}
+	},
 	checkPaymentStatus(data){
 		if(data == "paid"){
 			return false;

@@ -1,6 +1,6 @@
 <template name="adminDashboard">
 	{{#if currentUser}}
-		{{#if isInRole 'admin'}}
+		{{#if isInRole 'admin,Staff'}}
 			{{> adminStatistics }}
 	<!-- {{> dashboradheading}} -->
 		{{/if}}

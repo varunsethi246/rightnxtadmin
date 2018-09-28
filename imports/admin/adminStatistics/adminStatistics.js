@@ -17,13 +17,12 @@ Template.adminStatistics.helpers({
 		// console.log('busInactCounts :',busInactCounts);
 		
 
-		var noOfoffer 		= Counts.get('noOfoffer')
+		var noOfoffer 		= Counts.get('noOfoffer');
 		// console.log('offerYear :' , offerYear);
-		var noOfBanner 		= Counts.get('noOfBanner')
+		var noOfBanner 		= Counts.get('noOfBanner');
 		
-		var noOfAdd 		= Counts.get('noOfAdd')
+		var noOfAdd 		= Counts.get('noOfAdd');
 
-noOfBanner
 		var value = {
 						"userCounts" 		: userCounts,
 						"vendorCounts" 		: vendorCounts,
@@ -37,7 +36,7 @@ noOfBanner
 						"noOfBanner"			: noOfBanner,
 						"noOfAdd"			: noOfAdd,
 						
-					}
+					};
 		// console.log('value', value);
 		return value;
 

@@ -266,6 +266,16 @@ Template.adsInvoice.events({
 
 
 Template.adsInvoice.helpers({
+	viewDisable(){
+		var businessLink = FlowRouter.getParam('businessLink');
+		var currentPath = FlowRouter.current().path;
+		if(currentPath == '/businessAdsInvoice/'+businessLink+'/view'){
+			return false;
+		}else{
+			return true;
+		}
+	},
+
 	checkPaymentStatus(data){
 		if(data == "paid"){
 			return false;
