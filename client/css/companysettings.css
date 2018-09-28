@@ -358,11 +358,11 @@ margin-bottom:1px
 margin-top:35px
 }
 
-.tooltip {
+/*.tooltip {
 position:relative;
 display:inline-block;
 border-bottom:1px dotted #000
-}
+}*/
 
 .tooltip .tooltiptext {
 visibility:hidden;
