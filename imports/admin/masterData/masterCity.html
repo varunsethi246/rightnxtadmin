@@ -53,40 +53,38 @@
 		<div class="cityTable">
 	
 			<table class="table table-hover table-striped" id="CityTable">
-				<thead>
-					<tr class="tableHeadColor">
-						<th>Country</th>
-						<th>State</th>
-						<th>City</th>
-						{{#if isInRole 'admin'}}
-						<th class="cityCenter">Action</th>
-						{{/if}}
-					</tr>
-				</thead>
-				<tbody>
-					
-					{{#each masterCity}}
-					<tr>
-						<td>{{country}}</td>
-						<!-- <td>{{> editableText collection="city" field="state" }}</td> -->
-						<td>{{state}}</td>
-						<!-- <td>{{> editableText collection="city" field="city" }}</td> -->
-						<td>{{city}}</td>
-						{{#if isInRole 'admin'}}
-						<td class="col-lg-2 cityCenter">
-									<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusCity-{{_id}}" aria-hidden="true"></i>
-									<div class="newtooltip "> 
-										<span class="texttooltilps ">
-											Click to {{statusTooltipCity}}
-										</span> 
-										<div class="newAngleDown">
+				{{#if isInRole 'admin'}}
+					<thead>
+						<tr class="tableHeadColor">
+							<th>Country</th>
+							<th>State</th>
+							<th>City</th>
+							<th class="cityCenter">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{{#each masterCity}}
+						<tr>
+							<td>{{country}}</td>
+							<!-- <td>{{> editableText collection="city" field="state" }}</td> -->
+							<td>{{state}}</td>
+							<!-- <td>{{> editableText collection="city" field="city" }}</td> -->
+							<td>{{city}}</td>
+							<td class="col-lg-2 cityCenter">
+										<i class="fa fa-lg {{statusIconClass}} {{status}}Status showTooltip" id="statusCity-{{_id}}" aria-hidden="true"></i>
+										<div class="newtooltip "> 
+											<span class="texttooltilps ">
+												Click to {{statusTooltipCity}}
+											</span> 
+											<div class="newAngleDown">
+											</div>
 										</div>
-									</div>
-									<i class="fa fa-trash-o fa-lg bussDelete" id="cityDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModal-{{_id}}"></i>
-						<!-- <button class="btn btn-danger" id="cityDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModal-{{_id}}"><i class="fa fa-trash-o"></i></button> -->
-						</td>
+										<i class="fa fa-trash-o fa-lg bussDelete" id="cityDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModal-{{_id}}"></i>
+							<!-- <button class="btn btn-danger" id="cityDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModal-{{_id}}"><i class="fa fa-trash-o"></i></button> -->
+							</td>
 
-						<div class="modal fade" id="deleteDataModal-{{_id}}" role="dialog">
+							<div class="modal fade" id="deleteDataModal-{{_id}}" role="dialog">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header delete-close">
@@ -102,11 +100,29 @@
 							        </div>
 								</div>
 							</div>
-						{{/if}}
-					</tr>
-					{{/each}}
-					
-				</tbody>
+						</tr>
+						{{/each}}
+						
+					</tbody>
+				{{else}}
+					<thead>
+						<tr class="tableHeadColor">
+							<th>Country</th>
+							<th>State</th>
+							<th>City</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{{#each masterCityStaff}}
+						<tr>
+							<td>{{country}}</td>
+							<td>{{state}}</td>
+							<td>{{city}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				{{/if}}
 			</table>
 
 	</div>	

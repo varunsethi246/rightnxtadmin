@@ -27,22 +27,6 @@ Template.contactUsList.onRendered( ()=>{
 
 Template.contactUsList.helpers({
 	Details: function(){
-		// var ContactQueryCount  = Counts.get('noOfContactUs');
-		// if (ContactQueryCount > 15) {
-	 //    	$('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-		// 	Session.set('contactUsListLimit',15);
-		// }else if(ContactQueryCount > 50){
-		// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-		// 	Session.set('contactUsListLimit',50);
-		// }else if(ContactQueryCount > 100){
-		// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-		// 	Session.set('contactUsListLimit',100);
-		// }else{
-		// 	Session.set('contactUsListLimit',ContactQueryCount);
-		// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		// }
 		var listLimit = Session.get('contactUsListLimit');
 		var data = ContactUs.find({},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
 
@@ -67,17 +51,14 @@ Template.contactUsList.events({
 			var nextLimit = Session.get('contactUsListLimit') + 50;
 			var ContactQueryCount  = Counts.get('noOfContactUs');
 			if(ContactQueryCount > nextLimit){
+				Session.set('contactUsListLimit',nextLimit);
 				if (ContactQueryCount > 15) {
 			    	$('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-					Session.set('contactUsListLimit',15);
 				}else if(ContactQueryCount > 50){
 					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-					Session.set('contactUsListLimit',50);
 				}else if(ContactQueryCount > 100){
 					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-					Session.set('contactUsListLimit',100);
 				}else{
-					Session.set('contactUsListLimit',ContactQueryCount);
 					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
@@ -101,17 +82,14 @@ Template.contactUsList.events({
 			var nextLimit = Session.get('contactUsListLimit') + 100;
 			var ContactQueryCount  = Counts.get('noOfContactUs');
 			if(ContactQueryCount > nextLimit){
+				Session.set('contactUsListLimit',nextLimit);
 				if (ContactQueryCount > 15) {
 			    	$('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-					Session.set('contactUsListLimit',15);
 				}else if(ContactQueryCount > 50){
 					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-					Session.set('contactUsListLimit',50);
 				}else if(ContactQueryCount > 100){
 					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-					Session.set('contactUsListLimit',100);
 				}else{
-					Session.set('contactUsListLimit',ContactQueryCount);
 					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
@@ -149,6 +127,12 @@ Template.contactUsList.events({
 		});
 		$('.modal-backdrop').hide();
 	},
+	'focus #searchQuery': function(event){
+		Session.set('contactUsListLimit',0);
+		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	},
 	'keyup #searchQuery': _.throttle(function(event) {
 		event.preventDefault();
 		var searchText = event.currentTarget.value;
@@ -159,21 +143,6 @@ Template.contactUsList.events({
 		  // Loop through all table rows, and hide those who don't match the search query
 		if(tr){
 			if(tr.length > 0){
-				if (tr.length > 15) {
-		          Session.set('contactUsListLimit',15);
-		          $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-		        }else if(tr.length > 100){
-		          Session.set('contactUsListLimit',100);
-		          $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-		        }else if(tr.length > 200){
-		          Session.set('contactUsListLimit',200);
-		          $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-		        }else{
-		          Session.set('contactUsListLimit',tr.length);
-		          $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		          $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		          $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		        }
 
 			  for (var i=0; i<tr.length; i++) {
 			    var td = tr[i].getElementsByTagName("td")[0];
@@ -203,11 +172,6 @@ Template.contactUsList.events({
 
 			    }
 			  }
-			}else{
-				Session.set('contactUsListLimit',tr.length);
-				$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 			}
 		}
 		else{

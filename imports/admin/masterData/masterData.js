@@ -212,6 +212,13 @@ Template.masterState.events({
 // ========================================================================
 
 Template.masterCity.helpers({
+	masterCityStaff: function () {
+		var data = City.find({},{sort:{'createdAt': -1}}).fetch();
+		if(data.length > 0){			
+			// console.log(data);
+			return data;
+		}
+	},
 
     masterCity: function () {
 		if(Session.get('stateValue')){
@@ -723,6 +730,12 @@ Template.masterArea.events({
 });// end of events masterArea.
 
 Template.masterArea.helpers({
+	masterAreaStaff: function () {
+		var allRec = Area.find({},{sort:{'createdAt': -1}}).fetch(); 
+		if(allRec.length > 0){
+			return allRec;
+		}
+	},
 	masterArea: function () {
 		var state = Session.get('State');
 		var city = Session.get('City');
@@ -792,23 +805,6 @@ Template.categoriesList.onRendered( ()=>{
 Template.categoriesList.helpers({
 
 	masterCategories: function () { 
-		// var businessCount  = Categories.find({}).count();
-		// if (businessCount > 10) {
-		// 	Session.set('catgListLimit',10);
-	 //        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-		// }else if(businessCount > 50){
-		// 	Session.set('catgListLimit',50);
-		// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-		// }else if(businessCount > 100){
-		// 	Session.set('catgListLimit',100);
-		// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-		// }else{
-		// 	Session.set('catgListLimit',businessCount);
-		// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		// }
-
 		var listLimit = Session.get('catgListLimit');
 		if(listLimit == 0){
   			var catVal = Categories.find({},{sort:{categoryIndex: -1}}).fetch();
@@ -899,6 +895,9 @@ Template.categoriesList.events({
 	},
 	'focus #searchCategoriesTable': function(event){
 		Session.set('catgListLimit',0);
+		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 	},
 
 	'keyup #searchCategoriesTable': _.throttle(function(event) {
@@ -909,21 +908,6 @@ Template.categoriesList.events({
 		{
 			var allCells = $(row).find('td');
 			if(allCells.length > 0){
-				if (allCells.length > 10) {
-		          Session.set('catgListLimit',10);
-		          $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-		        }else if(allCells.length > 100){
-		          Session.set('catgListLimit',100);
-		          $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-		        }else if(allCells.length > 200){
-		          Session.set('catgListLimit',200);
-		          $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-		        }else{
-		          Session.set('catgListLimit',allCells.length);
-		          $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		          $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		          $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		        }
 				var found = false;
 				allCells.each(function(index, td)
 				{

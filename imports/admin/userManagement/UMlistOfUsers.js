@@ -17,22 +17,6 @@ Template.UMlistOfUsers.onCreated(function(){
   Meteor.subscribe('rolefunction');
   Meteor.subscribe('allOrders');
   Session.set('roleSet','');
-  var userCounts  = Counts.get('noOfUser');
-  if (userCounts > 10) {
-    Session.set('userListLimit',10);
-    $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-  }else if(userCounts > 100){
-    Session.set('userListLimit',100);
-    $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-  }else if(userCounts > 200){
-    Session.set('userListLimit',200);
-    $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-  }else{
-    Session.set('userListLimit',userCounts);
-    $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-    $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-    $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-  }
 });
 
 Template.UMlistOfUsers.onRendered(function(){
@@ -59,23 +43,6 @@ Template.UMlistOfUsers.onRendered(function(){
 Template.UMlistOfUsers.helpers({
 
   users:function() {
-    // var userCounts  = Counts.get('noOfUser');
-    // if (userCounts > 10) {
-    //   Session.set('userListLimit',10);
-    //   $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts > 100){
-    //   Session.set('userListLimit',100);
-    //   $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts > 200){
-    //   Session.set('userListLimit',200);
-    //   $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-    // }else{
-    //   Session.set('userListLimit',userCounts);
-    //   $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-    // }
-    
     var roleSetArray = [];
     var roleSetVar = Session.get('roleSet');
     var listLimit = Session.get('userListLimit');
@@ -558,23 +525,6 @@ Template.UMlistOfUsers.events({
     // console.log('role : ' + role);
 
     var userCounts  = Meteor.users.find({"roles":selectedValue}).fetch();
-    // console.log(userCounts);
-    // if (userCounts.length > 10) {
-    //   Session.set('userListLimit',10);
-    //   $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts.length > 100){
-    //   Session.set('userListLimit',100);
-    //   $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-    // }else if(userCounts.length > 200){
-    //   Session.set('userListLimit',200);
-    //   $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-    // }else{
-    //   Session.set('userListLimit',userCounts);
-    //   $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-    //   $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-    // }
-
     var selectedUsers = template.findAll( "input[type=checkbox]:checked");
     // console.log(selectedUsers );
     // $('#myCheckbox').prop('checked', false);
@@ -721,9 +671,15 @@ Template.UMlistOfUsers.events({
     $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
   },
 
+  'focus #searchUser': function(event){
+    Session.set('userListLimit',0);
+    $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+    $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+    $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+  },
+
   'keyup #searchUser': _.throttle(function(event) {
     event.preventDefault();
-    // Session.set('userListLimit',0);
     var searchText = event.currentTarget.value;
     var filter = searchText.toUpperCase();
     var table = $("#userListTable");
@@ -731,24 +687,7 @@ Template.UMlistOfUsers.events({
         table.find('tr').each(function(index, row)
     {
       var allCells = $(row).find('td');
-      console.log(allCells.length);
       if(allCells.length > 0){
-        if (allCells.length > 10) {
-          Session.set('userListLimit',10);
-          $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-        }else if(allCells.length > 100){
-          Session.set('userListLimit',100);
-          $('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-        }else if(allCells.length > 200){
-          Session.set('userListLimit',200);
-          $('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-        }else{
-          Session.set('userListLimit',allCells.length);
-          $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-        }
-
         var found = false;
         allCells.each(function(index, td)
         {
@@ -760,11 +699,6 @@ Template.UMlistOfUsers.events({
           }
         });
         if(found == true)$(row).show();else $(row).hide();
-      }else{
-        Session.set('userListLimit',allCells.length);
-        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
       }
     });
   }, 200),
