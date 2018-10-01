@@ -1049,7 +1049,7 @@ Meteor.methods({
 				Business.insert({ 
 					// "categoryIndex"			: categoryIndexSrno,
 					
-				 	"businessOwnerId"		: null,
+				 	"businessOwnerId"		: 'null',
 					"businessTitle" 		: BusinessTitle,
 					"businessLink" 			: BusinessLink,
 					"businessAboutBus"		: AboutBusiness,
