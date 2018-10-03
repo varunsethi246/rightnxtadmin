@@ -186,7 +186,7 @@ Template.UMlistOfUsers.helpers({
                   var adminrole = false;
                 }
               }
-
+              console.log('roleSetVar===>',roleSetVar);
               if ( Roles.userIsInRole( user[i]._id, roleSetVar ) ) {
                 if(user[i].status){
                   if(user[i].status.lastLogin){
@@ -521,8 +521,9 @@ Template.UMlistOfUsers.events({
     var keywordSelectedValue = selectedValue.split('$')[0];
     var role = selectedValue.split('$')[1];
 
+    // console.log('target : ' + target);
+    // console.log('selectedValue : ' + selectedValue);
     // console.log('keywordSelectedValue : ' + keywordSelectedValue);
-    // console.log('role : ' + role);
 
     var userCounts  = Meteor.users.find({"roles":selectedValue}).fetch();
     var selectedUsers = template.findAll( "input[type=checkbox]:checked");
@@ -596,7 +597,7 @@ Template.UMlistOfUsers.events({
     event.preventDefault();
     var target        = event.target; 
     var selectedValue = event.target.value;
-    // console.log('selectedValue : ' + selectedValue);
+    console.log('selectedValue : ' + selectedValue);
     Session.set("roleSet", selectedValue);
   },
 

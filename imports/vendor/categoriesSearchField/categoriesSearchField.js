@@ -128,7 +128,7 @@ Template.categoriesSearchField.events({
 	    var text = $(e.target).val().trim();
 	    categorySearch1.search(text);
 	    
-	  }, 200)
+	  }, 50)
 
 	
 });

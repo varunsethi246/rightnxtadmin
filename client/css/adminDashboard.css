@@ -23,7 +23,15 @@ padding-right:0!important
 input[type=text]:focus {
 outline:#f89b1c!important
 }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+input[type=number] {
+    -moz-appearance:textfield;
+}
 .getBusiness1:focus {
 border:1px solid #f89b1c;
 box-shadow:none
