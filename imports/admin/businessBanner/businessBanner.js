@@ -68,6 +68,14 @@ Template.businessBanner.onRendered(function(){
     $('.enddate').val(futureMonth);
 });
 
+Template.businessBanner.onCreated(function () {
+	Session.set("businessLink",null);
+	Session.set('paymentBannerTable',null);
+	Session.set('catgArray',null);
+	Session.set('areaBannerArray',null);
+
+});
+
 Template.businessBanner.helpers({
 	getbusiness: function() {
 	    return bannerBussinessSearch1.getData();
@@ -411,90 +419,94 @@ Template.businessBanner.events({
 		// console.log('invoiceNumber :',invoiceNumber);
 		var businessLink 	= Session.get("businessLink");
 		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
+		if (businessData) {
+			var totalPrice 		= 0;
+	    	var businessBanner 	= BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
+	    	
+	    	if(businessBanner){
+	    		for(i=0;i<businessBanner.length;i++){
+	    			if(businessBanner[i].areas){
+	    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
+	    			}else{
+	    				businessBanner[i].numOfAreas=0;
+	    			}
+					var monthlyRate = Position.findOne({'position':businessBanner[i].position});
 
-		var totalPrice 		= 0;
-    	var businessBanner 	= BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
-    	
-    	if(businessBanner){
-    		for(i=0;i<businessBanner.length;i++){
-    			if(businessBanner[i].areas){
-    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
-    			}else{
-    				businessBanner[i].numOfAreas=0;
-    			}
-				var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+	    			businessBanner[i].monthlyRate 	= monthlyRate.rate;
+					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
+	    			totalPrice= totalPrice + businessBanner[i].totalAmount;
+	    		}
+	    	}
 
-    			businessBanner[i].monthlyRate 	= monthlyRate.rate;
-				businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
-    			totalPrice= totalPrice + businessBanner[i].totalAmount;
-    		}
-    	}
+	    	var discountData = Discount.find({}).fetch();
 
-    	var discountData = Discount.find({}).fetch();
+			// To sort an discount percent array by price
+			function sortArrOfObjectsByParam(a, b) {
+			  const genreA = parseInt(a.price);
+			  const genreB = parseInt(b.price);
+			  let comparison = 0;
+			  if (genreA > genreB) {
+			    comparison = 1;
+			  } else if (genreA < genreB) {
+			    comparison = -1;
+			  }
+			  return comparison;
+			}
+			discountData.sort(sortArrOfObjectsByParam);
 
-		// To sort an discount percent array by price
-		function sortArrOfObjectsByParam(a, b) {
-		  const genreA = parseInt(a.price);
-		  const genreB = parseInt(b.price);
-		  let comparison = 0;
-		  if (genreA > genreB) {
-		    comparison = 1;
-		  } else if (genreA < genreB) {
-		    comparison = -1;
-		  }
-		  return comparison;
-		}
-		discountData.sort(sortArrOfObjectsByParam);
-
-		var discountPercent = 0;
-		if(discountData){
-			for(i=0;i<discountData.length;i++){
-				if(totalPrice>discountData[i].price){
-					discountPercent = discountData[i].discount;
+			var discountPercent = 0;
+			if(discountData){
+				for(i=0;i<discountData.length;i++){
+					if(totalPrice>discountData[i].price){
+						discountPercent = discountData[i].discount;
+					}
 				}
 			}
-		}
 
-		var totalDiscount = totalPrice*(discountPercent/100)
-		var discountedPrice = totalPrice-totalDiscount;
+			var totalDiscount = totalPrice*(discountPercent/100)
+			var discountedPrice = totalPrice-totalDiscount;
 
-		formValues = {
-			'vendorId' 			: 	businessData.businessOwnerId,
-			'businessId' 		: 	businessData._id,
-			'businessLink' 		: 	businessLink,
-			'invoiceNumber'		: 	invoiceNumber,
-			'totalAmount'		:	totalPrice,
-			'discountPercent'	: 	discountPercent,
-			'totalDiscount'		: 	totalDiscount,
-			'discountedPrice'	: 	discountedPrice,
-		}
+			formValues = {
+				'vendorId' 			: 	businessData.businessOwnerId,
+				'businessId' 		: 	businessData._id,
+				'businessLink' 		: 	businessLink,
+				'invoiceNumber'		: 	invoiceNumber,
+				'totalAmount'		:	totalPrice,
+				'discountPercent'	: 	discountPercent,
+				'totalDiscount'		: 	totalDiscount,
+				'discountedPrice'	: 	discountedPrice,
+			}
 
-		var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Banner'}).fetch();
-
-		if(paymentCheck.length>0) {
-			formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
-			Meteor.call('updateBannerPayment', formValues, function(error,position){
-				if(error){
-					console.log('Error occured while updating Business Banner: ', error);
-				}else{
-					if(formValues.totalAmount>0){
-						FlowRouter.go('/businessbannersInvoice/:businessLink',{'businessLink':businessLink});
+			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Banner'}).fetch();
+			console.log(formValues.totalPrice);
+			if(paymentCheck.length>0) {
+				formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
+				Meteor.call('updateBannerPayment', formValues, function(error,position){
+					if(error){
+						console.log('Error occured while updating Business Banner: ', error);
+					}else{
+						if(formValues.totalAmount>0){
+							FlowRouter.go('/businessbannersInvoice/:businessLink',{'businessLink':businessLink});
+						}
 					}
-				}
-			});
-		} else{
-			Meteor.call('insertBannerPayment', formValues, function(error,position){
-				if(error){
-					console.log('Error occured while inserting Business Banner: ', error);
-				}else{
-					if(formValues.totalAmount>0){
-						FlowRouter.go('/businessbannersInvoice/:businessLink',{'businessLink':businessLink});
+				});
+			} else{
+				Meteor.call('insertBannerPayment', formValues, function(error,position){
+					if(error){
+						console.log('Error occured while inserting Business Banner: ', error);
+					}else{
+						if(formValues.totalAmount>0){
+							FlowRouter.go('/businessbannersInvoice/:businessLink',{'businessLink':businessLink});
+						}
 					}
-				}
-			});
+				});
+			}
+			
+
+		}else{
+			Bert.alert( 'Please provide all data!', 'danger', 'growl-top-right' );
 		}
 		
-
 		
 
 	},

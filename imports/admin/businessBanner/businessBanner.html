@@ -187,7 +187,26 @@
 			            </div>
 		                
 		                <div class="col-lg-12 noPaddingGeneral">
-		                	<input type="submit" class="btn btn-primary col-lg-2 pull-right bannerButton" value="Submit" />
+		                	<input type="button" class="btn btn-primary col-lg-2 pull-right bannerandAds" data-toggle="modal" data-target="#confirm" value="Submit"/>
+		                	<div class="modal fade" id="confirm" role="dialog">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header delete-close">
+							        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
+							   			 </div>
+							            <div class="modal-body">
+							            	<p class="text-center text-centerEnq">Are you sure you want to continue?</p>
+							         		<div class="body-close">
+							                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		                						<!-- <input type="submit" class="btn btn-primary col-lg-2 pull-right bannerButton" value="Submit" />
+ -->
+								            	<button  data-dismiss="modal"  type="submit" class="btn btn-primary bannerButton" value="Submit">Submit</button>
+							                </div>
+							            </div>
+							        </div>
+								</div>
+							</div>
+
 		                </div>
 
 		            </div>   

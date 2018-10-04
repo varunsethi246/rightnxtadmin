@@ -425,7 +425,7 @@ Template.createUsers.onRendered(function(){
             required:false,
           },
           zip:{
-            required:true,
+            required:false,
           }, 
 
       },

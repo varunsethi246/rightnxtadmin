@@ -2671,12 +2671,14 @@ font-size:14px
 font-size:14px;
 color:#555
 }
-
+.bannerandAds{
+	margin-bottom: 10px;
+}
 .bannerMargin {
 margin-top:15px
 }
-
-.bannerInvDate,.bannerButton,.adsButton {
+/*bannerButton,.*/
+.bannerInvDate {
 margin-bottom:10px
 }
 
