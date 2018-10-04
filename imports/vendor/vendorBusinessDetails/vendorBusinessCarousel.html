@@ -4,11 +4,15 @@
 			<!-- video present  -->
 			<div class="vedio col-lg-2 col-md-2 col-sm-3 col-xs-6" >
 				{{#each showVideo }}
-					<video  src="{{fileURL this}}?play=true" data-toggle="modal" data-target="#carouselvideo" class="showVideoDiv video-js vjs-default-skin video" type="video/mp4" id="bussCarouselVideo" ></video>
-					<!-- <video controls="controls" width="300" height="200" src="{{fileURL this}}?play=true" class="videoBkImg"> -->
-													<!-- </video> -->
+					<!-- <video  src="{{fileURL this}}?play=true" data-toggle="modal" data-target="#carouselvideo" class="showVideoDiv video-js vjs-default-skin video" type="video/mp4" id="bussCarouselVideo" ></video> -->
+					<video data-toggle="modal" data-target="#carouselvideo" class="showVideoDiv video-js vjs-default-skin video" id="bussCarouselVideo">
+					  <source src="{{fileURL this}}?play=true" type="video/mp4">
+					  <source src="{{fileURL this}}?play=true" type="video/3gp">
+					  <source src="{{fileURL this}}?play=true" type="video/ogv">
+					  <source src="{{fileURL this}}?play=true" type="video/webm">
+					  Your browser does not support HTML5 video.
+					</video>
 					<!-- Modal  -->
-					<!-- <div class="playpause"></div> -->
 					<i class="fa fa-play fa-2x playButtonCss"></i>
 					<div id="carouselvideo" class="modal fade" role="dialog">
 						<div class="modal-dialog">
@@ -16,7 +20,14 @@
 							<button type="button" class="close closeVideo closeVideoModal" data-dismiss="modal">&times;</button>
 							<div class="modal-content">
 						 		<div class="carouselVideoBody modal-body">
-									<video controls="controls" src="{{fileURL this}}?play=true" class="showVideoDiv showVideoDivAdj" type="video/mp4" id="bussVideo" controlsList="nodownload"></video>
+									<!-- <video controls="controls" src="{{fileURL this}}?play=true" class="showVideoDiv showVideoDivAdj" type="video/mp4" id="bussVideo" controlsList="nodownload"></video> -->
+									<video controls class="showVideoDiv showVideoDivAdj" id="bussVideo" controlsList="nodownload">
+									  <source src="{{fileURL this}}?play=true" type="video/mp4">
+									  <source src="{{fileURL this}}?play=true" type="video/3gp">
+									  <source src="{{fileURL this}}?play=true" type="video/ogv">
+									  <source src="{{fileURL this}}?play=true" type="video/webm">
+									  Your browser does not support HTML5 video.
+									</video>
 						 		</div>
 						  	</div>
 						</div>
