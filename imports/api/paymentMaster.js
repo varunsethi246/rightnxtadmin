@@ -35,6 +35,7 @@ if (Meteor.isServer) {
 				"totalAmount"			: '',  
 				"paymentStatus"			: '',  
 				"paymentDate"			: '',  
+				"orderNumber" 			: 111111, 
   		});
   	}  	
   }
@@ -78,6 +79,7 @@ Meteor.methods({
 				var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
 				if(maxInvNum.length > 0){
 					var invNum = maxInvNum[0].invoiceNumber + 1;
+					var orderNum = maxInvNum[0].orderNumber + 1;
 				}
 			
 				return Payment.insert({  
@@ -86,6 +88,7 @@ Meteor.methods({
 					"businessLink" 			: formValues.businessLink, 
 					"offerId"				: newOffersArr,
 					"invoiceNumber"			: invNum,
+					"orderNumber"			: orderNum,
 					"invoiceDate"			: new Date(), 
 					"offerPricePerMonth"	: companyRates.rates.ratePerOffer, 
 					"numberOfOffers"		: newOffers.length, 
@@ -108,11 +111,17 @@ Meteor.methods({
 	},//End of Method
 
 	'insertBannerPayment':function(formValues){
+		var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
+		if(maxInvNum.length > 0){
+			var orderNum = maxInvNum[0].orderNumber + 1;
+		}
+
 		return Payment.insert({  
 			"vendorId"  			: formValues.vendorId,
 			"businessId"  			: formValues.businessId,
 			"businessLink" 			: formValues.businessLink, 
 			"invoiceNumber"			: formValues.invoiceNumber,
+			"orderNumber"			: orderNum,
 			"invoiceDate"			: new Date(), 
 			"discountPercent"		: formValues.discountPercent, 
 			"discountedPrice"		: formValues.discountedPrice, 
@@ -517,11 +526,17 @@ Meteor.methods({
 	},
 
 	'insertAdsPayment':function(formValues){
+		var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
+		if(maxInvNum.length > 0){
+			var orderNum = maxInvNum[0].orderNumber + 1;
+		}
+
 		return Payment.insert({  
 			"vendorId"  			: formValues.vendorId,
 			"businessId"  			: formValues.businessId,
 			"businessLink" 			: formValues.businessLink, 
 			"invoiceNumber"			: formValues.invoiceNumber,
+			"orderNumber"			: orderNum,
 			"invoiceDate"			: new Date(), 
 			"discountPercent"		: formValues.discountPercent, 
 			"discountedPrice"		: formValues.discountedPrice, 
