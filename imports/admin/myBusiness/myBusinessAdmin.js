@@ -122,7 +122,7 @@ Template.listOfBusiness.helpers({
 		// console.log('data ', data);
 		if(data){
 			for(i=0; i< data.length; i++){
-				var createdBy = Meteor.users.findOne({"_id":data[i].createdBy});
+				var createdBy = Meteor.users.findOne({"_id":data[i].businessOwnerId});
 				// console.log('createdBy :',createdBy);
 				if(createdBy){
 					data[i].userEmailID = createdBy.emails[0].address;
