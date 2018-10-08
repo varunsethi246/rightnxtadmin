@@ -41,6 +41,10 @@ Template.registerHelper('compare', function(v1, v2) {
   }
 });
 
+Template.registerHelper('isEqual', function (lhs, rhs) {
+    return lhs === rhs;
+});
+
 Template.editMyProfiles.events({
 
 
@@ -70,10 +74,11 @@ Template.editMyProfiles.events({
 
         doc = {
         salutationVar1   : event.target.salutation1.value,
-        lastNameVar1     : event.target.lastName1.value,
-        firstNameVar1    : event.target.firstName1.value,
+        // lastNameVar1     : event.target.lastName1.value,
+        // firstNameVar1    : event.target.firstName1.value,
         // emailVar1        : event.target.signupEmail1.value,
         // userNameVar1     : event.target.userName1.value,
+        nameVar1         : event.target.name1.value,
         signGenderVar1   : event.target.signGender1.value,
         homeAddVar1      : event.target.homeAdd1.value,
         cityVar1         : event.target.city1.value,
@@ -81,19 +86,19 @@ Template.editMyProfiles.events({
         zipVar1          : event.target.zip1.value,
         countryVar1      : event.target.country1.value,
         mobNumberVar1    : event.target.mobNumber1.value,
-        alterNumberVar1  :event.target.alterNumber1.value,
+        alterNumberVar1  : event.target.alterNumber1.value,
         passwordVar1     : event.target.signupPassword1.value,
-        displayPicture1  : fileData1,
+        // displayPicture1  : fileData1,
         signupConfirmPasswordVar1 : event.target.signupConfirmPassword1.value,
        }
 
 
 
-    // console.log(doc);
+    // console.log(doc.passwordVar1);
     var pass        = doc.passwordVar1;
     var confirmPass = doc.signupConfirmPasswordVar1;
     // var user = Meteor.users.findOne({'_id': userId}) ;
-    if(pass == null || confirmPass == null){
+    if(pass =='' && confirmPass ==''){
          pass        = 'demopassword';
          confirmPass = 'demopassword';      
     }else{
@@ -115,7 +120,7 @@ Template.editMyProfiles.events({
                                 });
        } else {
          return swal({
-            title: 'Passwords dont match',
+            title: "Passwords don't match",
             text: 'Please try again',
             showConfirmButton: true,
             type: 'error'
@@ -131,10 +136,10 @@ Template.editMyProfiles.events({
 
       }else{
         if(doc.passwordVar1 != '' || doc.passwordVar1 != null || doc.passwordVar1 != undefined){
-          Bert.alert('Profile updated!');
+          Bert.alert('Profile updated!','success','growl-top-right');
         
         }else{
-          Bert.alert('Password Changed. Please login again!');
+          Bert.alert('Password Changed. Please login again!','success','growl-top-right');
           FlowRouter.go('/editUsersProfile'); 
         }
 
@@ -160,7 +165,21 @@ Template.editMyProfiles.events({
     // event.target.signupConfirmPassword1.value ='';
 
 
-    } //End of submit update form
+    }, //End of submit update form
+
+    'click .resettingForm': function(event){
+        event.preventDefault();
+        $("#editMyProfile label").each(function(){
+            var labelVal = $(this).siblings('input').attr('id');
+            // console.log(labelVal);
+            if(!labelVal){
+                $(this).siblings('input').val('');
+                $(this).siblings('textarea').val('');
+                $(this).siblings('select').val('Mr');
+                $(this).children('input[name=signGender1]').attr('checked',false);
+            }
+        });
+    },
   }); //End of Template Events
 Template.editMyProfiles.onRendered(function(){
    $('html','body').scrollTop(0);
@@ -171,10 +190,7 @@ Template.editMyProfiles.onRendered(function(){
  
   $.validator.addMethod("reg", function(value, element, regexpr) {          
       return regexpr.test(value);
-  }, "Invalid Pincode Number.");
-   // var messages = {
-  //       'firstNameRequired': "Please enter your first name."
-  //   };
+  }, "Please enter valid Pincode Number.");
    $("#editMyProfile").validate({
     rules: {
           area: {

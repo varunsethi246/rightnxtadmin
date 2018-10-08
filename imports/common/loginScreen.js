@@ -50,7 +50,7 @@ import '/imports/common/common.js';
     'click .forgotEmail':function(e){
       e.preventDefault();
       $('.disableBtn').removeAttr('disabled');
-      console.log('value change');
+      // console.log('value change');
     },
     'click .frgtClose':function(e){
       $('.forgotEmailMessage').hide();
@@ -65,7 +65,7 @@ import '/imports/common/common.js';
     // var forgotPasswordForm = $(e.currentTarget);
     // console.log(forgotPasswordForm);
     var email , trimInput ;
-    var nameRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+    var nameRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
     // var emailVar = e.target.email.value;
@@ -126,27 +126,8 @@ import '/imports/common/common.js';
     event.preventDefault();
 
     $('#loginModal').hide();
-    var email = event.target.email.value;
+    var email = event.target.email.value.toLowerCase();
     var pwd   = event.target.pwd.value;
-
-    // var userObj = Meteor.users.find({}).fetch();
-    // if(userObj){
-    //   for (var i = 0; i < userObj.length; i++) {
-    //     if(userObj[i].emails){
-    //       var verify = userObj[i].emails[0].verified; 
-    //       if(verify == false){
-    //         var emailVal = userObj[i].emails[0].address;
-    //       }
-    //     // console.log("emailVal: "+userObj[i].emails[0].address);
-
-    //       if(email == emailVal){
-    //         $('.wrongLoginEmailSpan').text("Email already exists.");
-    //         $('.wrongLoginEmailSpan').addClass('passwordWrongWar');
-    //       }
-    //     }
-    //   }
-    // }
-
 
     Meteor.call('checkEmailVerification', email, (error,data)=>{
     if (data == "verified"){
@@ -273,18 +254,13 @@ Template.loginScreen.onRendered(function(){
    $(".loginForm").validate({
     rules:{
             email:{
-            regex_1: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+            regex_1: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           },
         
          
       }
    });
 
-   // $('.loginEmail').on('focus',function(){
-   //    $(this).siblings('.loginLabel').addClass('newLoginLabel');
-
-
-   // });
 
     if($('.loginForm').find('input').val() !== ''){
       $('.loginForm').find('input').prev('.loginLabel').addClass('active highlight');

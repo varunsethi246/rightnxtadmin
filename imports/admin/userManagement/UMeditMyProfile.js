@@ -46,15 +46,19 @@ Template.UMeditMyProfile.onRendered(function(){
 
     $("#editMyProfile").validate({
         rules: {
-            firstName1: {
-                required: true,
-                regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
-            },
-            lastName1: {
-                required: true,
-                regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
-            },
-            userName1: {
+            // firstName1: {
+            //     required: true,
+            //     regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            // },
+            // lastName1: {
+            //     required: true,
+            //     regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            // },
+            // userName1: {
+            //     required: true,
+            //     regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
+            // },
+            name1: {
                 required: true,
                 regx1: /^[A-za-z']+( [A-Za-z']+)*$/,
             },
@@ -90,6 +94,10 @@ Template.registerHelper('compare', function(v1, v2) {
   } else {
     return v1 === v2;
   }
+});
+
+Template.registerHelper('isEqual', function (lhs, rhs) {
+    return lhs === rhs;
 });
 
 Template.UMeditMyProfile.events({
@@ -130,10 +138,11 @@ Template.UMeditMyProfile.events({
 
         doc = {
         salutationVar1   : event.target.salutation1.value,
-        lastNameVar1     : event.target.lastName1.value,
-        firstNameVar1    : event.target.firstName1.value,
+        // lastNameVar1     : event.target.lastName1.value,
+        // firstNameVar1    : event.target.firstName1.value,
         // emailVar1        : event.target.signupEmail1.value,
         // userNameVar1     : event.target.userName1.value,
+        nameVar1         : event.target.name1.value,
         signGenderVar1   : event.target.signGender1.value,
         homeAddVar1      : event.target.homeAdd1.value,
         cityVar1         : event.target.city1.value,
@@ -141,9 +150,9 @@ Template.UMeditMyProfile.events({
         zipVar1          : event.target.zip1.value,
         countryVar1      : event.target.country1.value,
         mobNumberVar1    : event.target.mobNumber1.value,
-        alterNumberVar1  :event.target.alterNumber1.value,
+        alterNumberVar1  : event.target.alterNumber1.value,
         passwordVar1     : event.target.signupPassword1.value,
-        displayPicture1  : fileData1,
+        // displayPicture1  : fileData1,
         signupConfirmPasswordVar1 : event.target.signupConfirmPassword1.value,
        }
 
@@ -151,7 +160,7 @@ Template.UMeditMyProfile.events({
 
         var userId = Meteor.userId();
         var user = Meteor.users.findOne({'_id': userId}) ;
-        if(pass == null || confirmPass == null){
+        if(pass == '' && confirmPass == ''){
            var pass        = 'demopassword';
            var confirmPass = 'demopassword';            
         }else{
@@ -159,8 +168,8 @@ Template.UMeditMyProfile.events({
            var confirmPass = doc.signupConfirmPasswordVar1;         
         }
 
-        console.log(pass +"  "+confirmPass);
-   //Check password is at least 6 chars long
+        // console.log(pass +"  "+confirmPass);
+       //Check password is at least 6 chars long
     var isValidPassword = function(pass, confirmPass) {
        if (pass === confirmPass) {
         // console.log('passwordVar.length'+ passwordVar.length >= 6 ? true : swal(''));
@@ -173,7 +182,7 @@ Template.UMeditMyProfile.events({
                                                 });
        } else {
          return swal({
-            title: 'Passwords dont match',
+            title: "Passwords don't match",
             text: 'Please try again',
             showConfirmButton: true,
             type: 'error'

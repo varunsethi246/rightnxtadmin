@@ -139,22 +139,23 @@ Meteor.methods({
         {
           $set:{
               // "emails.0.address" : doc.emailVar1,
-              "profile.firstName": doc.firstNameVar1 ,
+              // "profile.firstName": doc.firstNameVar1 ,
               // "profile.userName": doc.userNameVar1,
+              "profile.name": doc.nameVar1 ,
               "profile.signGender": doc.signGenderVar1,
               "profile.homeAdd": doc.homeAddVar1,
               "profile.city": doc.cityVar1,
               "profile.state": doc.stateVar1,
               "profile.zip": doc.zipVar1,
               "profile.country": doc.countryVar1, 
-              "profile.mobNumber": doc.mobNumberVar1,
+              "profile.mobile": doc.mobNumberVar1,
               "profile.alterNumber": doc.alterNumberVar1,
               "profile.salutation": doc.salutationVar1,
-              "profile.lastName": doc.lastNameVar1,
-              "profile.displayPicture":  doc.displayPicture1,
+              // "profile.lastName": doc.lastNameVar1,
+              // "profile.displayPicture":  doc.displayPicture1,
               // "profile.signupConfirmPassword":  doc.signupConfirmPasswordVar1,
-                      "profile.status"      :  'Active',
-                      "profile.createdOn" :  new Date(),
+              "profile.status"      :  'Active',
+              "profile.createdOn" :  new Date(),
 
         } //End of set
       }

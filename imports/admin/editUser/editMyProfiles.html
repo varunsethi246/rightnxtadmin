@@ -4,15 +4,15 @@
 	  	<h1 class="formTitle">Edit My Profile</h1>
 	  	<hr class="editFormUnderline">
 	    <div class="form-group col-lg-2 col-md-2 col-xs-2 col-sm-2 ">
-		   <label class="signupLabel control-label">Title*</label>
-		   <select class="form-control" name="salutation1">
-				<option>Mr</option>
-				<option>Mrs</option>
-				<option>Ms</option>
+		    <label class="signupLabel control-label">Title*</label>
+		    <select class="form-control" name="salutation1">
+				<option selected="{{isEqual edit.profile.salutation 'Mr'}}">Mr</option>
+				<option selected="{{isEqual edit.profile.salutation 'Mrs'}}">Mrs</option>
+				<option selected="{{isEqual edit.profile.salutation 'Ms'}}">Ms</option>
 			</select>
 	    </div>
 
-	   <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
+	   <!-- <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">First Name*</label>
 		   <input type="text" class="form-control" name="firstName1" placeholder="" pattern="[A-Za-z]+" value={{ edit.profile.firstName }} required>
 	    </div>
@@ -20,22 +20,27 @@
 	    <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Last Name*</label>
 		   <input type="text" class="form-control" name="lastName1" pattern="[A-Za-z]+" placeholder="" value={{ edit.profile.lastName }} required>
+	    </div> -->
+
+	    <div class="form-group col-lg-10 col-md-4 col-xs-12 col-sm-12 ">
+		   <label class="signupLabel control-label">Name*</label>
+		   <input type="text" class="form-control" name="name1" pattern="[a-zA-Z ]+" placeholder="" value={{ edit.profile.name }} required title="Only alphabetic value is allowed.">
 	    </div>
 
-	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
+	    <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Email address*</label>
-		   <input type="email" class="form-control" name="signupEmail1" placeholder="" value= {{ edit.emails.[0].address }} disabled>
+		   <input type="email" class="form-control" id="signupEmail1" name="signupEmail1" placeholder="" value= {{ edit.emails.[0].address }} disabled>
 	    </div>
 
-	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
+	    <!-- <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Username*</label>
 		   <input type="text" class="form-control required" name="userName1" placeholder="" value={{ edit.profile.name }} disabled>
-	    </div>
+	    </div> -->
 
 	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
-		   		<label class="radio-inline"><input type="radio" name="signGender1" value="Male" checked="{{#if compare edit.profile.signGender "Male" }}checked{{/if}}">Male</label>
-		   		<label class="radio-inline"><input type="radio" name="signGender1" value="Female" checked="{{#if compare edit.profile.signGender "Female" }}checked{{/if}}">Female</label>
-		   		<label class="radio-inline"><input type="radio" name="signGender1" value="Transgen" checked="{{#if compare edit.profile.signGender "Transgen" }}checked{{/if}}">Other</label>
+	   		<label class="radio-inline"><input type="radio" name="signGender1" value="Male" checked="{{#if compare edit.profile.signGender "Male" }}checked{{/if}}">Male</label>
+	   		<label class="radio-inline"><input type="radio" name="signGender1" value="Female" checked="{{#if compare edit.profile.signGender "Female" }}checked{{/if}}">Female</label>
+	   		<label class="radio-inline"><input type="radio" name="signGender1" value="Transgen" checked="{{#if compare edit.profile.signGender "Transgen" }}checked{{/if}}">Other</label>
 	    </div>
 
 	<!--    <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
@@ -65,12 +70,12 @@
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 marginbtmProfile">
 		   <label class="signupLabel control-label">Country*</label>
-		  <input type="text" class="form-control required" name="country1" placeholder="" value='India' disabled="true">
+		  <input type="text" class="form-control required" id="country1" name="country1" placeholder="" value='India' disabled="true">
 	    </div>
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Mobile Number*</label>
-		  <input type="number" class="form-control" name="mobNumber1" placeholder="" maxlength="10" minlength="10" value= {{ edit.profile.mobNumber }} required>
+		  <input type="number" class="form-control" name="mobNumber1" placeholder="" maxlength="10" minlength="10" value= {{ edit.profile.mobile }} required>
 	    </div>
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 marginbtmProfile">
@@ -80,7 +85,7 @@
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">New Password</label>
-		   <input type="password" class="form-control" name="signupPassword1" placeholder="" required>
+		   <input type="password" class="form-control" name="signupPassword1" placeholder="">
 	    </div>
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
@@ -89,14 +94,9 @@
 	    </div>
 
 	    <!-- {{> reCAPTCHA}} -->
-	    <div class="col-lg-12">
-	    	
-		   	<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-		    	<input type="reset" value="Reset" class="btn-primary signUpInput pull-right">
-		   	</div>
-		   	<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12">
-		    	<input type="submit" value="Update" class="btn-primary signUpInput pull-left">
-		    </div>
+	    <div class="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	    	<input type="submit" value="Update" class="btn-primary signUpInput pull-right">
+	    	<input type="button" value="Reset" class="btn-primary signUpInput pull-right resettingForm">
 	    </div>
 
 

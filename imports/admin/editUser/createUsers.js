@@ -255,8 +255,8 @@ Template.createUsers.events({
                     companyDomain   : companyDomainVar,
                     // companyName   : companyNameVar,  
                     salutation  : salutationVar, 
-                    firstName   : firstNameVar,
-                    lastName    : lastNameVar,
+                    name        : firstNameVar,
+                    // lastName    : lastNameVar,
                     // signGender  : signGenderVar,
                     homeAdd     : homeAddVar,
                     city        : cityVar,
@@ -264,7 +264,7 @@ Template.createUsers.events({
                     country     : countryVar, 
                     zip         : zipVar,
                     deliveryAdd : [],
-                    mobNumber   : mobNumberVar,
+                    mobile      : mobNumberVar,
                     alterNumber : alterNumberVar,
                     displayPicture        :  displayPicture,
                     // signupConfirmPassword : signupConfirmPasswordVar,
@@ -385,7 +385,7 @@ Template.createUsers.onRendered(function(){
 
   $.validator.addMethod("regexx", function(value, element, regexpr) {          
       return regexpr.test(value);
-  }, "Invalid Pincode Number.");
+  }, "Please enter a valid Pincode Number.");
    // var messages = {
   //       'firstNameRequired': "Please enter your first name."
   //   };
@@ -393,18 +393,11 @@ Template.createUsers.onRendered(function(){
    $("#createRequired").validate({
     rules: {
           area: {
-              required: true,
-              Areavali: /^[A-Za-z0-9\s\.\-\/]{3,30}$/,
+            required: true,
+            Areavali: /^[A-Za-z0-9\s\.\-\/]{3,30}$/,
           },
           zipcode: {
-              required: true,
-              regexx: /^\d{6}(?:[-\s]\d{6})?$/,
-          },
-          state:{
-            required:true,
-          },
-          city:{
-            required:true,
+            regexx: /^\d{6}(?:[-\s]\d{6})?$|^$/,
           },
           firstName:{
             required:true,
@@ -430,12 +423,12 @@ Template.createUsers.onRendered(function(){
 
       },
       errorPlacement: function(error, element) {
-            if (element.attr("name") == "state"){
-              error.insertAfter("#stateCreate");
-            }
-            if (element.attr("name") == "city"){
-              error.insertAfter("#cityCreate");
-            }
+            // if (element.attr("name") == "state"){
+            //   error.insertAfter("#stateCreate");
+            // }
+            // if (element.attr("name") == "city"){
+            //   error.insertAfter("#cityCreate");
+            // }
             if (element.attr("name") == "firstName"){
               error.insertAfter("#firstnameCreate");
             }
@@ -462,29 +455,6 @@ Template.createUsers.onRendered(function(){
       });
 
 });
-
-
-
-// $(".addNewJobForm").validate({
-//     rules: {
-//           jobTitle: {
-//               required: true,
-//           },
-//           date: {
-//             required: true,
-//           },
-//       },
-//       errorPlacement: function(error, element) {
-//         if (element.attr("name") == "jobTitle"){
-//           error.insertAfter("#title");
-//         }
-//         if (element.attr("name") == "date"){
-//           error.insertAfter("#dateInput");
-//         }
-//     }
-//   });
-//    $("body").scrollTop(0);
-// });
 
 createUsersForm = function () {  
   BlazeLayout.render("adminLayout",{main: 'createUsers'});

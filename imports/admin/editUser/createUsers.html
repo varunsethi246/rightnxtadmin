@@ -49,11 +49,20 @@
 
 				  	{{#if fieldNameIs "firstName" }}
 					  	{{#if displayIs "yes" }}
-					   <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
+					    <!-- <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
 							   <label class="signupLabel control-label">First Name*</label>
 						   <div class="input-group"  id="firstnameCreate">
 
 							   <input type="text" class="form-control UMname" name="firstName" placeholder="First Name" pattern="[A-Za-z]+">
+							   <span class="input-group-addon" id="boderLeft"><i class="fa fa-user" aria-hidden="true"></i></span>
+						   </div>
+					    </div> -->
+
+					    <div class="form-group col-lg-10 col-md-4 col-xs-12 col-sm-12 ">
+							<label class="signupLabel control-label">Name*</label>
+						    <div class="input-group"  id="firstnameCreate">
+
+							   <input type="text" class="form-control UMname" name="firstName" placeholder="Name" pattern="[a-zA-Z ]+">
 							   <span class="input-group-addon" id="boderLeft"><i class="fa fa-user" aria-hidden="true"></i></span>
 						   </div>
 					    </div>
@@ -61,7 +70,7 @@
 				    {{/if}}
 
 
-				    {{#if fieldNameIs "lastName"}}
+				    <!-- {{#if fieldNameIs "lastName"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 " >
 							   	<label class="signupLabel control-label">Last Name*</label>
@@ -71,7 +80,7 @@
 							   </div>
 						    </div>
 					    {{/if}}
-				    {{/if}}
+				    {{/if}} -->
 
 				    {{#if fieldNameIs "emailAddress"}}
 					    {{#if displayIs "yes" }}
@@ -140,10 +149,10 @@
 				    {{#if fieldNameIs "country"}}
 						{{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">Country</label>
+							   	<label class="signupLabel control-label">Country*</label>
 
 							   <div class="input-group">
-								    <select class="form-control selectpicker areaMasterSelect col-lg-9" name="country" id="countryopt">
+								    <select class="form-control selectpicker areaMasterSelect col-lg-9" name="country" id="countryopt" required>
 								    	<option>India</option>
 								    </select>
 								 <!--   <input type="text" class="form-control UMname" name="country" placeholder="Country" required> -->
@@ -156,7 +165,7 @@
 				    {{#if fieldNameIs "state"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">State*</label>
+							   	<label class="signupLabel control-label">State</label>
 
 							   <div class="input-group" id="stateCreate">
 								    <select class="form-control stateBorder UMname" name="state" id="statesOne">
@@ -175,7 +184,7 @@
 				    {{#if fieldNameIs "city"}}
 					    {{#if displayIs "yes" }}
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
-							   	<label class="signupLabel control-label">City*</label>
+							   	<label class="signupLabel control-label">City</label>
 
 							   <div class="input-group" id="cityCreate">
 								    <select class="form-control selectpicker areaMasterSelect citySelect col-lg-9"  name="city" id="cityOne">
@@ -194,7 +203,7 @@
 					{{#if fieldNameIs "pin"}} 
 						{{#if displayIs "yes" }}  
 					   		<div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 marginbtmProfile">
-							   	<label class="signupLabel control-label">Zip Code*</label>
+							   	<label class="signupLabel control-label">Zip Code</label>
 
 							   <div class="input-group" id="zipCreate">
 							    <label for="zipcode"></label>

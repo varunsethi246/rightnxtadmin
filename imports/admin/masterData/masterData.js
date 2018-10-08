@@ -811,10 +811,10 @@ Template.categoriesList.helpers({
   			if(catVal){
   				for(i=0;i<catVal.length;i++){
   					if(catVal[i].menuStatus=="Enable"){
-  						catVal[i].menuStatusVal   = 'Disable';
+  						catVal[i].menuStatusVal   = 'Disabled Now';
   						catVal[i].menuStatusClass = 'danger';
   					} else{
-  						catVal[i].menuStatusVal   = 'Enable';
+  						catVal[i].menuStatusVal   = 'Enabled Now';
   						catVal[i].menuStatusClass = 'success';
   					}
   				}
@@ -830,10 +830,10 @@ Template.categoriesList.helpers({
   			if(catVal){
   				for(i=0;i<catVal.length;i++){
   					if(catVal[i].menuStatus=="Enable"){
-  						catVal[i].menuStatusVal   = 'Disable';
+  						catVal[i].menuStatusVal   = 'Disabled Now';
   						catVal[i].menuStatusClass = 'danger';
   					} else{
-  						catVal[i].menuStatusVal   = 'Enable';
+  						catVal[i].menuStatusVal   = 'Enabled Now';
   						catVal[i].menuStatusClass = 'success';
   					}
   				}

@@ -7,13 +7,13 @@
 	    <div class="form-group col-lg-2 col-md-2 col-xs-2 col-sm-2 ">
 		   <label class="signupLabel control-label">Title*</label>
 		   <select class="form-control" name="salutation1">
-				<option>Mr</option>
-				<option>Mrs</option>
-				<option>Ms</option>
+				<option selected="{{isEqual edit.profile.salutation 'Mr'}}">Mr</option>
+				<option selected="{{isEqual edit.profile.salutation 'Mrs'}}">Mrs</option>
+				<option selected="{{isEqual edit.profile.salutation 'Ms'}}">Ms</option>
 			</select>
 	    </div>
 
-	   <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
+	   <!-- <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">First Name*</label>
 		   <input type="text" class="form-control" name="firstName1" placeholder="" pattern="[A-Za-z]+" value={{ edit.profile.firstName }} required>
 	    </div>
@@ -21,6 +21,11 @@
 	    <div class="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Last Name*</label>
 		   <input type="text" class="form-control" name="lastName1" pattern="[A-Za-z]+" placeholder="" value={{ edit.profile.lastName }} required>
+	    </div> -->
+
+	    <div class="form-group col-lg-10 col-md-4 col-xs-12 col-sm-12 ">
+		   <label class="signupLabel control-label">Name*</label>
+		   <input type="text" class="form-control" name="name1" pattern="[a-zA-Z ]+" placeholder="" value={{ edit.profile.name }} required title="Only alphabetic value is allowed.">
 	    </div>
 
 	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
@@ -28,14 +33,14 @@
 		   <input type="email" class="form-control" id="signupEmail1" name="signupEmail1" placeholder="" value= {{ edit.emails.[0].address }} disabled>
 	    </div>
 
-	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
+	    <!-- <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Username*</label>
 		   {{#if isInRole 'admin'}}
 		   	<input type="text" class="form-control required" id="userName1" name="userName1" placeholder="" value="{{ edit.username }}" disabled>
 		   {{else}}
 		   	<input type="text" class="form-control required" id="userName1" name="userName1" placeholder="" value="{{ edit.username }}">
 		   {{/if}}
-	    </div>
+	    </div> -->
 
 	   <div class="form-group col-lg-12 col-md-4 col-xs-12 col-sm-12 ">
 		   		<label class="radio-inline"><input type="radio" name="signGender1" value="Male" checked="{{#if compare edit.profile.signGender "Male" }}checked{{/if}}">Male</label>
@@ -70,7 +75,7 @@
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
 		   <label class="signupLabel control-label">Country*</label>
-		  <input type="text" class="form-control required" name="country1" placeholder="" value={{ edit.profile.country}}>
+		  <input type="text" class="form-control required" id="country1" name="country1" placeholder="" value={{ edit.profile.country}} disabled>
 	    </div>
 
 	   <div class="form-group col-lg-6 col-md-4 col-xs-12 col-sm-12 ">
