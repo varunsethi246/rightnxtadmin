@@ -103,10 +103,10 @@ Template.mainBusinessSearch.events({
 			var flowGo = "/" + selectedBus;
 	    	FlowRouter.go(flowGo);
 		}else if(!selectedBus&&e.keyCode===13){
-			var searchCatg = $('.selectedSearchHomePage').attr('data-catg');
-			var searchString = $('#getBusiness').val();
+			var searchCatg = $('.selectedSearchHomePage').attr('data-catg').split(' ').join('-');
+			var searchString = $('#getBusiness').val().split(' ').join('-');
 			var currentCity = $('#getCity').val();
-			var currentArea = $('#getArea').val();
+			var currentArea = $('#getArea').val().split(' ').join('-');
 
 			if(searchCatg){
 				// For Category Only
@@ -137,9 +137,9 @@ Template.mainBusinessSearch.events({
 	    	FlowRouter.go(flowGo);
 		}
 		if(!selectedBus){
-			var searchCatg = $(e.currentTarget).attr('data-catg');
+			var searchCatg = $(e.currentTarget).attr('data-catg').split(' ').join('-');
 			var currentCity = $('#getCity').val();
-			var currentArea = $('#getArea').val();
+			var currentArea = $('#getArea').val().split(' ').join('-');
 
 			var path =  "/search/"+currentCity+"/"+currentArea+"/"+searchCatg;
 			FlowRouter.go(path);
