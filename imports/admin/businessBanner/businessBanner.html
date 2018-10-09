@@ -108,7 +108,7 @@
 				               		<datalist id="searchArea">
 										{{#each getArea}}
 											<option > 
-												{{area}}, {{city}}
+												{{area}}
 											</option>
 										{{/each}}
 									</datalist>
@@ -169,9 +169,10 @@
 										<th>Number of Areas</th>		                			
 										<th>Number of Months</th>		                			
 										<th>Total Amount</th>		                			
+										<th>Action</th>		                			
 			                		</thead>
 			                		<tbody>
-			                			{{ #each selectedCategoryPayment	 }}
+			                			{{ #each selectedCategoryPayment}}
 			                			<tr>
 				                			<td> {{category}} </td>
 				                			<td> {{position}}-{{rank}} </td>
@@ -179,6 +180,7 @@
 				                			<td> {{numOfAreas}} </td>
 				                			<td> {{noOfMonths}} </td>
 				                			<td> {{totalAmount}} </td>
+				                			<td> <i class="fa fa-trash-o fa-lg bannerDelete" id="{{_id}}"></i> </td>
 				                		</tr>
 				                		{{/each}}
 			                		</tbody>

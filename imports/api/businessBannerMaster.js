@@ -58,6 +58,9 @@ Meteor.methods({
 		BusinessBanner.remove({"businessLink": businessLink, "category":catg,"position":pos,"rank":rank});
 	},
 
+	'removeBusinessBannerId': function(id){
+		BusinessBanner.remove({"_id": id});
+	},
 
 	'removeBusinessBannerAll': function(businessLink,catg){
 		BusinessBanner.remove({"businessLink": businessLink, "category":catg});

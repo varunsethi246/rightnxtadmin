@@ -82,26 +82,52 @@ Template.searchbar.helpers({
 				var currentCity = 'Pune';
 			}
 		}
-
+		
+		var areaArray = [];
+        var areaList = [];
 	    var currentArea =  FlowRouter.getParam('area');
 	    var currentAreaData = Area.find({'city':currentCity}).fetch();
-	    
+	    if(currentAreaData){
+            for(var i=0;i<currentAreaData.length;i++){
+	          areaArray.push({'area':currentAreaData[i].area})
+	        }//i
+	        var pluck = _.pluck(areaArray, 'area');
+	        data = _.uniq(pluck);
+	        // console.log('data ...',data);
+
+	        if(data.length>0){
+	          for(var j=0;j<data.length;j++){
+	              var uniqueArea = data[j];
+	              var areaLists = Area.findOne({'area':uniqueArea});
+	              if(areaLists){
+	                areaList.push({
+	                              'area'    : uniqueArea,
+	                              'country' : areaLists.country,
+	                              'state'   : areaLists.state,
+	                              'city'    : areaLists.city,
+	                              'zipcode' : areaLists.zipcode,
+	                              'status'  : areaLists.status,
+	                            });
+	              }
+	          }//j
+	        }//length
+        }
 	    // To Arrange the Area object Alphabetically
-	    currentAreaData.sort(function(a, b) {
+	    areaList.sort(function(a, b) {
 		    var textA = a.area.toUpperCase();
 		    var textB = b.area.toUpperCase();
 		    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 		});
 
-		for(i=0;i<currentAreaData.length;i++){
-		  	if(currentAreaData[i].area == currentArea){
-		  		currentAreaData[i].selected = 'selected';
+		for(i=0;i<areaList.length;i++){
+		  	if(areaList[i].area == currentArea){
+		  		areaList[i].selected = 'selected';
 		  	} else {
-		  		currentAreaData[i].selected = '';
+		  		areaList[i].selected = '';
 		  	}
 		}
 		
-	    return currentAreaData;
+	    return areaList;
 	},
 
 	searchbartext(){

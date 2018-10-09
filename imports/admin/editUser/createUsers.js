@@ -420,6 +420,10 @@ Template.createUsers.onRendered(function(){
           zip:{
             required:false,
           }, 
+          signupPassword:{
+            required:true,
+            minlength:6,
+          }, 
 
       },
       errorPlacement: function(error, element) {
@@ -449,6 +453,9 @@ Template.createUsers.onRendered(function(){
             }
             if (element.attr("name") == "zip"){
               error.insertAfter("#zipCreate");
+            }
+            if (element.attr("name") == "signupPassword"){
+              error.insertAfter("#passCreate");
             }
 
         }

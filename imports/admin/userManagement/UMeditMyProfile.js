@@ -132,7 +132,7 @@ Template.UMeditMyProfile.events({
  'submit #editMyProfile': function (event) {
       event.preventDefault();
 
-         if(!window.fileData1){fileData1 = '';}
+        if(!window.fileData1){fileData1 = '';}
         // var userId = FlowRouter.getParam('userId');
         var userId =Meteor.userId();
 
@@ -160,7 +160,7 @@ Template.UMeditMyProfile.events({
 
         var userId = Meteor.userId();
         var user = Meteor.users.findOne({'_id': userId}) ;
-        if(pass == '' && confirmPass == ''){
+        if(doc.passwordVar1 == '' && doc.signupConfirmPasswordVar1 == ''){
            var pass        = 'demopassword';
            var confirmPass = 'demopassword';            
         }else{

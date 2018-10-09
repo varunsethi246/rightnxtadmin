@@ -19,7 +19,7 @@ SearchSource.defineSource('area', function(currentArr, options) {
   }
   
   console.log("newAreaExcldArr: ",newAreaExcldArr);
-  if(newAreaExcldArr.length>1){
+  if(newAreaExcldArr.length>0){
     if(searchText) {
       //Area | City
       var splitText = searchText.split('|');
