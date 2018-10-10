@@ -17,7 +17,6 @@ Template.homepageProductCarousel.events({
         $("html,body").scrollTop(0);
         event.preventDefault();
         var searchCatg = $(event.target).attr('title').split(' ').join('-'); 
-        // console.log("searchCatg; ",searchCatg);
         
         var currentCity = $('#getCity').val();
         var currentArea = $('#getArea').val().split(' ').join('-');
@@ -32,7 +31,6 @@ Template.homepageServicesCarousel.events({
         $("html,body").scrollTop(0);
         event.preventDefault();
         var searchCatg = $(event.target).attr('title').split(' ').join('-'); 
-        // console.log("searchCatg; ",searchCatg);
         
         var currentCity = $('#getCity').val();
         var currentArea = $('#getArea').val().split(' ').join('-');

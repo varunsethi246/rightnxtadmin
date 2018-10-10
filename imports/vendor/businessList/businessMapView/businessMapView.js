@@ -247,3 +247,4 @@ Template.businessMap.events({
         FlowRouter.go(path);
     }
 });
+

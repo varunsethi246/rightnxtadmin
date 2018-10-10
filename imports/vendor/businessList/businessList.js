@@ -7,6 +7,7 @@ import { BusinessBanner } from '/imports/api/businessBannerMaster.js';
 import { BusinessAds } from '/imports/api/businessAdsMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { EnquiryImage } from '/imports/videoUploadClient/enquiryImageClient.js';
+import ImageCompressor from 'image-compressor.js';
 
 import '../../common/searchinitialisation.js'
 import './businessList.html'
@@ -24,11 +25,6 @@ import '../../common/common.js';
 import '../BusinessEnquiry/businessEnquiry.js';
 import './businessMapView/businessMapView.js';
 
-
-Session.set('showMapView',false);
-Session.set('showGridView',true);
-
-
 var options = {
 	keepHistory: 0,
 	localSearch: true
@@ -45,6 +41,7 @@ Template.businessList.onRendered(function(){
 	    $('.modal').modal('hide');
 	    $('.modal-backdrop').hide();
 	});
+	
     $("html,body").scrollTop(0);
 
 	$('.mapViewBusList').hide();
@@ -70,7 +67,6 @@ Template.businessList.onRendered(function(){
 	}else{
 		var sesArea= '';
 	}
-
 	if(sesArea){
 		area = sesArea;
 	}else {
@@ -98,6 +94,8 @@ Template.businessList.onRendered(function(){
 		$('#gridSearchBusiness').val("");
 	}
 
+	Session.set('showMapView',false);
+	Session.set('showGridView',true);
 });
 
 
@@ -106,6 +104,7 @@ Template.thumbnailBusinessList.helpers({
 	gridviewBusinessList() {
 		var listCategory = [];
 		var busList = businessSearch1.getData();
+
 		//**************************************************************
 		//*******************To get Current Location********************
 		//**************************************************************
@@ -218,11 +217,17 @@ Template.thumbnailBusinessList.helpers({
 		//*********************************************************************
 
 		}
-
+		// console.log(busList);
 		return busList;
 
 	},
-
+	'offerIngridview'(){
+		var offerCount = Offers.find({"offerStatus":"Active"}).fetch();
+		var offerLength = offerCount.length;
+		// console.log(offerCount);
+		// console.log(offerLength);
+		return offerLength;
+	},
 	isGridViewVisible(){
 		if(Session.get('showGridView')){
 			var searchText = FlowRouter.getParam('searchText');
@@ -262,30 +267,150 @@ Template.rightSidebarBusList.helpers({
 var filesM = [];
 
 Template.allbusinessList.events({
+	'click .enqSendClose':function(event){
+        event.preventDefault();
+        // console.log(filesM.length);
+        var userId = Meteor.userId();
+        if (userId) {
+            $('.enquiryDesc').val('');
+            $('.ErrorRedText').text('');
+            $('.vEnqModalC').removeClass('SpanLandLineRedBorder');
+        }else{
+            $('.enquiryName').val('');
+            $('.enquiryDesc').val('');
+            $('.enquiryPhone').val('');
+            $('.enquiryName').val('');
+            $('.enquiryEmail').val('');
+            $('.ErrorRedText').text('');
+            $('.vEnqModalC').removeClass('SpanLandLineRedBorder');
+        }
+        if(filesM.length > 0){
+            $('.showEnquiryImgAll').find('span').empty(); 
+            $( '<i class="fa fa-camera fa-5x" aria-hidden="true"></i>').appendTo( ".showEnquiryImgAll" );
+            $('.enquiryPhotoAll').val('');
+        }
+    },
 	'click .listRelevance': function(){
 		$('.busListSelectedPre').removeClass('busListSelected');
 		$('.listRelevance').addClass('busListSelected');
 		$('.thumBusOffers').css('display','none');
 		$('.thumBusDistance').css('display','none');
-		$('.busNoOffer').css('display','block');
+		// $('.busNoOffer').css('display','block');
+		/*==offer==*/
+		$(".listRelevance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusList').each(function(){
+			if($(this).attr("data-offer") >= 0){
+				$(this).show();
+			}
+		});
+		// $(".listRelevance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusLists').each(function(){
+		// 	if($(this).attr("data-offer") == 0){
+		// 		$(this).hide();
+		// 	}
+		// });
+		/*==map==*/
+		$(".listRelevance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusList').each(function(){
+			if($(this).attr("data-target") >= 0){
+				$(this).show();
+			}
+		});
+		// $(".listRelevance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusLists').each(function(){
+		// 	if($(this).attr("data-target") == 0){
+		// 		$(this).show();
+		// 	}
+		// });
+		$(".listRelevance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).hide();
+			}
+		});
+		$(".listOffers").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).hide();
+			}
+		});
 
 	},
-	'click .listOffers': function(){
+	'click .listOffers': function(event){
+		/*==offer==*/
 		$('.busListSelectedPre').removeClass('busListSelected');
 		$('.listOffers').addClass('busListSelected');
 		$('.thumBusDistance').css('display','none');
 		$('.thumBusOffers').css('display','block');
-		$('.busNoOffer').css('display','none');
+		// $('.busNoOffer').css('display','none');
+
+		/*==map==*/
+
+		$(".listOffers").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusList').each(function(){
+			if($(this).attr("data-target") == 0){
+				$(this).hide();
+			}
+		});
+		$(".listOffers").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).show();
+			}
+		});
+		/*==offer==*/
+		$(".listOffers").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusList').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).hide();
+			}
+		});
+		$(".listOffers").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).show();
+			}
+		});
+
 	},
 	'click .listDistance': function(){
 		$('.busListSelectedPre').removeClass('busListSelected');
 		$('.listDistance').addClass('busListSelected');
 		$('.thumBusOffers').css('display','none');
 		$('.thumBusDistance').css('display','inline-block');
-		$('.busNoOffer').css('display','block');
+		// $('.busNoOffer').css('display','block');
+
+		/*==offer==*/
+		$(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusList').each(function(){
+			if($(this).attr("data-offer") >= 0 ){
+				// $(this).css('display','blobk');
+				$(this).show();
+			}
+		});
+		// $(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusLists').each(function(){
+		// 	if($(this).attr("data-offer") == 0){
+		// 		$(this).hide();
+		// 	}
+		// });
+		/*==map==*/
+
+		$(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusList').each(function(){
+			if($(this).attr("data-target") >= 0){
+				$(this).show();
+			}
+		});
+		// $(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusLists').each(function(){
+		// 	if($(this).attr("data-target") == 0){
+		// 		$(this).show();
+		// 	}
+		// });
+		$(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.gridViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).hide();
+			}
+		});
+		$(".listDistance").parent().parent().parent().parent().siblings(".busThumbnailsSection").children(".busThumbnailsRow").children(".displayGridView").children(".thumbBusList").children(".row").children('.mapViewBusLists').each(function(){
+			if($(this).attr("data-offer") == 0){
+				$(this).hide();
+			}
+		});
+
 
 	},
 	'click .sidebarMapPre': function(){
+		var data = Template.currentData(self.view);
+		// console.log('data:',data);
+        Blaze.renderWithData(Template.businessMap, data, $(".mapContainer")[0]);
 		$('.sidebarMapPre').css('display','none');
 		
         $('.displayMapView').show();
@@ -302,7 +427,15 @@ Template.allbusinessList.events({
 
 		Session.set('showMapView',true);
 		Session.set('showGridView',false);
-
+		var searchText = FlowRouter.getParam('searchText');
+		
+		if(searchText){
+			var flowGo = "/search/"+FlowRouter.getParam('city')+"/"+FlowRouter.getParam('area')+"/"+searchText;
+			FlowRouter.go(flowGo);
+		}else{
+			var flowGo = "/search/"+FlowRouter.getParam('city')+"/"+FlowRouter.getParam('area');
+			FlowRouter.go(flowGo);
+		}
 
 		setTimeout(function() {
         	if($('.listRelevance').hasClass('busListSelected')){
@@ -319,7 +452,7 @@ Template.allbusinessList.events({
 	},
 	'change .enquiryPhotoAll' : function(event){
 	    filesM = event.target.files; // FileList object
-	     $('.showEnquiryImgAll').empty();
+	    $('.showEnquiryImgAll').empty();
 	    for (var i = 0, f; f = filesM[i]; i++) {
 	        if (!f.type.match('image.*')) {
 	          continue;
@@ -336,8 +469,13 @@ Template.allbusinessList.events({
 	        })(f); //end of onload
 	        reader.readAsDataURL(f);
 	    }// end of for loop
+	    if (filesM.length == 0){
+            $( '<i class="fa fa-camera fa-5x" aria-hidden="true"></i>').appendTo( ".showEnquiryImgAll" );
+        }
 	  },
-	'click .busListEnq':function(){
+	'click .busListEnq':function(event){
+		event.preventDefault();
+
 		var getUserRole = Meteor.userId();
 		if(getUserRole){
 			var userLogData = Meteor.users.findOne({"_id":getUserRole},{fields:{"roles":1}});
@@ -356,6 +494,8 @@ Template.allbusinessList.events({
 		}
 	},
 	'click .thumbEnqBtn':function(event){
+		event.preventDefault();
+
 		var getUserRole = Meteor.userId();
 		if(getUserRole){
 			var userLogData = Meteor.users.findOne({"_id":getUserRole},{fields:{"roles":1}});
@@ -409,7 +549,6 @@ Template.allbusinessList.events({
 		}else{
 			var enqSendByRole = "User";
 		}
-	   
 
 		if(Session.get("sendEnqToAll")){
 			$('.thumImgDescP').each(function() {
@@ -426,6 +565,7 @@ Template.allbusinessList.events({
         }
 
 		if(errorIn!="true" && enquiryName && enquiryEmail && enquiryPhoneTwo && enquiryDesc) {
+        	$(event.currentTarget).css('display','none');
 			if(filesM.length > 0){
 		      for(i = 0 ; i < filesM.length; i++){
 		      		const imageCompressor = new ImageCompressor();
@@ -450,8 +590,7 @@ Template.allbusinessList.events({
 				        upload.on('end', function (error, fileObj) {
 				          if (error) {
 				            // alert('Error during upload: ' + error);
-				            console.log('Error during upload 1: ' + error);
-				            console.log('Error during upload 1: ' + error.reason);
+				            
 				          } else {
 				            // alert('File "' + fileObj._id + '" successfully uploaded');
 				            Bert.alert('Enquiry Image uploaded.','success','growl-top-right');
@@ -460,7 +599,19 @@ Template.allbusinessList.events({
 				            for(j=0;j<serched.length;j++){
 								var id = serched[j];
 								var businessid = Business.findOne({"businessLink":id});
+
 								if(businessid){
+									if(businessid.blockedUsers.length > 0){
+						                var blockUserFlag = businessid.blockedUsers.indexOf(enquirySentBy);
+						                if(blockUserFlag < 0){
+						                    var commentblock = false;
+						                }else{
+						                    var commentblock = true;
+						                }
+						            }else{
+						                var commentblock = false;
+						            }
+
 							    	var formValues = {
 						                "businessid"        : businessid._id,
 						                "businessTitle"     : businessid.businessTitle,
@@ -472,6 +623,7 @@ Template.allbusinessList.events({
 						                "enquiryDesc"       : enquiryDesc,
 						                "enquiryPhoto"      : enquiryPhoto,
 						                "enquiryType"       : enqSendByRole,
+						                "commentblock" 		: commentblock,
 						            }
 
 									Meteor.call('insertBusEnquiry',formValues,function(err,result){
@@ -483,10 +635,11 @@ Template.allbusinessList.events({
 						                else if(result){
 						                	$('#vEnqModal').modal( "hide" );
 	                                    	$('#vEnqModal').modal({show: false});
+        									$(event.currentTarget).css('display','inline-block');
 						                	var newBusinessId = result;
 						                  	Bert.alert('Vendor will soon get back you. Thank you.','success','growl-top-right');
 											
-											if(!Meteor.userId()){
+											if(!(Meteor.userId())){
 												$('.enquiryName').val('');
 												$('.enquiryEmail').val('');
 												$('.enquiryPhone').val('');
@@ -628,6 +781,17 @@ Template.allbusinessList.events({
 					var businessid = Business.findOne({"businessLink":id});
 
 					if(businessid){
+						if(businessid.blockedUsers.length > 0){
+			                var blockUserFlag = businessid.blockedUsers.indexOf(enquirySentBy);
+			                if(blockUserFlag < 0){
+			                    var commentblock = false;
+			                }else{
+			                    var commentblock = true;
+			                }
+			            }else{
+			                var commentblock = false;
+			            }
+
 				    	var formValues = {
 			                "businessid"        : businessid._id,
 			                "businessTitle"     : businessid.businessTitle,
@@ -639,6 +803,7 @@ Template.allbusinessList.events({
 			                "enquiryDesc"       : enquiryDesc,
 			                "enquiryPhoto"      : enquiryPhoto,
 			                "enquiryType"       : enqSendByRole,
+			                "commentblock" 		: commentblock,
 			              }
 
 						Meteor.call('insertBusEnquiry',formValues, function(err,result){
@@ -648,13 +813,11 @@ Template.allbusinessList.events({
 			                }else if(result){
 			                	$('#vEnqModal').modal( "hide" );
 	                            $('#vEnqModal').modal({show: false});
+        						$(event.currentTarget).css('display','inline-block');
 			                	var newBusinessId = result;
 			                  	Bert.alert('Enquiry Sent successfully!','success','growl-top-right');
-								// $('.enquiryName').val('');
-							    // $('.enquiryEmail').val('');
-							    // $('.enquiryPhone').val('');
-								// $('.enquiryDesc').val('');
-								if(!Meteor.userId()){
+								
+								if(!(Meteor.userId())){
 									$('.enquiryName').val('');
 									$('.enquiryEmail').val('');
 									$('.enquiryPhone').val('');
@@ -811,7 +974,6 @@ Template.businessList.events({
 
 	// Map View Click Events
 	'click .mapVwPointer': function() {
-		console.log('mapVwPointer: ');
 		$('.displayMapView').show();
 		$('.displayMapView').addClass('col-lg-5');
 		$('.displayGridView').removeClass('col-lg-8');
@@ -850,7 +1012,6 @@ Template.businessList.events({
 	},
 	// Grid View Click Events
 	'click .gridVwBus': function() {
-		console.log('gridVwBus: ');
 		$('.sidebarMapPre').css('display','block');
 		$('.displayMapView').hide();
 		$('.displayGridView').addClass('col-lg-8');
@@ -925,7 +1086,6 @@ Template.thumbnailBusinessList.events({
 		$('.vEnqModalCShowOne').children().attr('data-link',linkName);
 	},
 	'click .enqRightDiv':function(event){
-		console.log("enqRightDiv");
 		var currentMarker = $(event.currentTarget).attr('cords-ids');
 		$('.displayMapView').show();
 		$('.displayMapView').addClass('col-lg-5');
@@ -957,7 +1117,6 @@ Template.thumbnailBusinessList.events({
 		  if(!searchText){
 			searchText = " ";
 		  }
-		  console.log("im clicked");
 		  
 
 
