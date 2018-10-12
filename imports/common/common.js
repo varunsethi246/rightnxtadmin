@@ -151,6 +151,16 @@ Template.generalHeader.helpers({
 });
 
 Template.header.events({
+	'click .login-margin': function(event){
+		$('.passwordWrongSpan').removeClass('passwordWrongWar');
+	    $('label.error').hide();
+	    $('input[type="text"]').val('');
+	    $('input[type="password"]').val('');
+	    $('input[type="tel"]').val('');
+	    $('input[type="email"]').val('');
+    	$('.loginLabel').removeClass('active');
+	},
+	
 	'click #loginadmin':function(e){
 		$('.passwordWrongSpan').removeClass('passwordWrongWar');
 	    $('label.error').hide();
@@ -176,16 +186,16 @@ Template.header.events({
 	},
 
 	'click .login': function(event){
-		$('.loginScreen').hide();
+		$('.loginScreen').show();
 		$('.signupScreen').hide();
 		$('.thankyouscreen').hide();
-		$('.genLoginSignup').show();
+		// $('.genLoginSignup').show();
 		$('.thankyouscreen').hide();
 		$('.signUpBox').hide();
 	},
 	'click .loginTxt': function(event){
-		$('.loginScreen').hide();
-		$('.genLoginSignup').show();
+		$('.loginScreen').show();
+		// $('.genLoginSignup').show();
 		$('.thankyouscreen').hide();
 	},
 	'click .signUp-btn': function(event){
@@ -214,8 +224,8 @@ Template.header.events({
 		$('.signUpBox').show();
 	},
 	'click .loginTxt2': function(event){
-		$('.loginScreen').hide();
-		$('.genLoginSignup').show();
+		$('.loginScreen').show();
+		// $('.genLoginSignup').show();
 		$('.signupScreen').hide();
 		$('.thankyouscreen').hide();
 		$('.signUpBox').hide();

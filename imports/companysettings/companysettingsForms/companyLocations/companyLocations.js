@@ -19,6 +19,23 @@ Template.companyLocations.events({
     }
   },
 
+  'keydown #companyPincode': function(e) {
+    // console.log(e);
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    },
+
   'click .btnUpdate': function(event){
     event.preventDefault();
    
@@ -32,16 +49,17 @@ Template.companyLocations.events({
         companyLocationId: Session.get('companyLocationId'),
     }
     
-
-    Meteor.call('updateCompanyLocations', companyLocationsFormValue);
-    $('input#companyNewLocation').val('');
-    $('input#companyNewAddress').val('');
-    $('input#companyPincode').val('');
-    $('select#companyCity').val('Pune');
-    $('select#companyState').val('Maharashtra');
-    $('select#companyCountry').val('India');
-    Session.set('editLocation',false);
-    Session.set('companyLocationId','');
+    if($('#companyLocations').valid()){
+        Meteor.call('updateCompanyLocations', companyLocationsFormValue);
+        $('input#companyNewLocation').val('');
+        $('input#companyNewAddress').val('');
+        $('input#companyPincode').val('');
+        $('select#companyCity').val('Pune');
+        $('select#companyState').val('Maharashtra');
+        $('select#companyCountry').val('India');
+        Session.set('editLocation',false);
+        Session.set('companyLocationId','');
+    }
    },
 
    'click .faqStyle': function(event){
@@ -51,4 +69,23 @@ Template.companyLocations.events({
 
    }
     
+});
+
+Template.companyLocations.onRendered(function(){
+  
+  $("#companyLocations").validate({
+    rules: {
+    },
+    errorPlacement: function(error, element) {
+        if (element.attr("name") == "companyNewLocation"){
+          error.insertAfter("#companyLocVal");
+        }
+        if (element.attr("name") == "companyNewAddress"){
+          error.insertAfter("#companyAddrVal");
+        }
+        if (element.attr("name") == "companyPincode"){
+          error.insertAfter("#companyPinVal");
+        }
+    }
+  });
 });

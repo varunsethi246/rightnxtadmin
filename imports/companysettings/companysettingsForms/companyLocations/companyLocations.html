@@ -14,7 +14,7 @@
 			<div class="HRMSBackgroundWrapper locationFormWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="HRMSform-group   HRMSform-head-group1 col-lg-6 col-md-6 col-xs-6 col-sm-12 ">
 						<label class="HRMSTitle">Company Location*</label>
-						<div class="input-group">
+						<div class="input-group" id="companyLocVal">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
 							</div>
@@ -25,20 +25,20 @@
 				<!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> -->
 					<div class="HRMSform-group HRMSform-head-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label class="HRMSTitle">Company Address*</label>
-						<div class="input-group">
+						<div class="input-group" id="companyAddrVal">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
 							</div>
 							<input type="text" class="form-control HRMSTextbox" name="companyNewAddress" value="{{companyAddressDetails.companyLocationsInfo.companyAddress}}" id="companyNewAddress" placeholder="Enter Company Address" required>
 				 		</div>
 					</div>
-					<div class="HRMSform-group col-lg-3 col-md-3  col-sm-6 col-xs-12">
+					<div class="HRMSform-group col-lg-3 col-md-3  col-sm-6 col-xs-12 clear">
 						<label class="HRMSTitle">Pincode*</label>
-						<div class="input-group">
+						<div class="input-group" id="companyPinVal">
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-address-card-o" aria-hidden="true"></i>
 							</div>
-							<input type="number" class="form-control HRMSTextbox" id="companyPincode" name="companyPincode" value="{{companyAddressDetails.companyLocationsInfo.companyAddress}}" placeholder="Enter Pincode" maxlength="6" required> 
+							<input type="text" class="form-control HRMSTextbox" id="companyPincode" name="companyPincode" value="{{companyAddressDetails.companyLocationsInfo.companyAddress}}" placeholder="Enter Pincode" minlength="6" maxlength="6" required> 
 				  		</div>
 			  		</div>
 
@@ -99,7 +99,7 @@
 
 			  	
 			<!-- </div> -->
-		  	<div class="addmorelocations col-lg-4 col-lg-offset-5 col-md-4 col-md-offset-6 col-sm-12 col-xs-12">
+		  	<div class="addmorelocations col-lg-4 col-lg-offset-5 col-md-4 col-md-offset-6 col-sm-12 col-xs-12 clear">
 		  	
 		  	{{#if editLocation}}
 		  		<input type="button" class="btn btn-danger btnUpdate clearfix" value="Update Location">

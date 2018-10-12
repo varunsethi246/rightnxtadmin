@@ -30,7 +30,7 @@ Template.UMeditMyProfile.helpers({
 Template.UMeditMyProfile.onRendered(function(){
     $.validator.addMethod("regx1", function(value, element, regexpr) {          
         return regexpr.test(value);
-    }, "Name should only contains uppercase, lowercase letters and space.");
+    }, "Only alphabetic value is allowed.");
     
     $.validator.addMethod("regx2", function(value, element, regexpr) {          
         return regexpr.test(value);

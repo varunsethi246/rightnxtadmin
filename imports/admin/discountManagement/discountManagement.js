@@ -130,7 +130,10 @@ Template.positionManagement.events({
 			var position = $('.selectPosition').val();
 			// console.log('position :',position);
 			if(position != null && position == '-- Select --'){
-
+				if(position){
+					position = parseInt(position);
+				}
+				
 				var positionAdded = '';
 				var positionTrue = false;
 				var posId = id;

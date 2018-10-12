@@ -446,10 +446,10 @@ Template.imageReportModal.events({
 
 		}else{
 			$('#loginModal').modal('show');
-			$('.loginScreen').hide();
+			$('.loginScreen').show();
 			$('.signupScreen').hide();
 			$('.thankyouscreen').hide();
-			$('.genLoginSignup').show();
+			// $('.genLoginSignup').show();
 			$('.thankyouscreen').hide();
 			$('.signUpBox').hide();
 			// $('.nonuserlike').hide();
@@ -717,10 +717,10 @@ Template.imageReports.events({
 					);			
 			}else{
 				$('#loginModal').modal('show');
-				$('.loginScreen').hide();
+				$('.loginScreen').show();
 				$('.signupScreen').hide();
 				$('.thankyouscreen').hide();
-				$('.genLoginSignup').show();
+				// $('.genLoginSignup').show();
 				$('.thankyouscreen').hide();
 				$('.signUpBox').hide();
 
@@ -766,10 +766,10 @@ Template.imageReports.events({
 
 		}else{
 			$('#loginModal').modal('show');
-			$('.loginScreen').hide();
+			$('.loginScreen').show();
 			$('.signupScreen').hide();
 			$('.thankyouscreen').hide();
-			$('.genLoginSignup').show();
+			// $('.genLoginSignup').show();
 			$('.thankyouscreen').hide();
 			$('.signUpBox').hide();
 			$('.nonuserShare').hide();
@@ -817,10 +817,10 @@ Template.imageReports.events({
 	'click .likeIconModal':function(event){
 		event.preventDefault();
 		$('#loginModal').modal('show');
-		$('.loginScreen').hide();
+		$('.loginScreen').show();
 		$('.signupScreen').hide();
 		$('.thankyouscreen').hide();
-		$('.genLoginSignup').show();
+		// $('.genLoginSignup').show();
 		$('.thankyouscreen').hide();
 		$('.signUpBox').hide();
 		$('#imageReportShare').hide();

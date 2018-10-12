@@ -29,6 +29,20 @@ Template.offersTabContent.onCreated(function(){
 });
 
 Template.offersTabContent.events({
+	'click .shareOfferTab':function(event){
+		event.preventDefault();
+		if(!(Meteor.userId())){
+			$('#loginModal').modal('show');
+			$('.loginScreen').show();
+			$('.signupScreen').hide();
+			$('.thankyouscreen').hide();
+			// $('.genLoginSignup').show();
+			$('.thankyouscreen').hide();
+			$('.signUpBox').hide();
+		}else{
+			$('#noserreview').modal('show');
+		}
+	},
 	'click .offerContentfb':function(event){
 		var id = event.currentTarget.id;
 		var url = window.location.href;

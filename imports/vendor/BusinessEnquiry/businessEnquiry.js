@@ -456,14 +456,15 @@ Template.businessEnquiry.events({
         
     'click .vCmtEnqPage': function(event){
         if(!(Meteor.userId())){
-            $('#loginModal').modal('hide');
-            $('.loginScreen').hide();
+            // $('#loginModal').modal('hide');
+            $('#loginModal').modal('show');
+            $('.loginScreen').show();
             $('.signupScreen').hide();
             $('.thankyouscreen').hide();
-            $('.genLoginSignup').show();
+            // $('.genLoginSignup').show();
             $('.thankyouscreen').hide();
             $('.signUpBox').hide();
-            $('#vEnqModal').show();
+            // $('#vEnqModal').show();
         } 
         // if ((Meteor.userId())) {
         //     var getId = Meteor.userId();
