@@ -525,6 +525,11 @@ Template.businessBanner.helpers({
   	states(){
   		var states = State.find({"country":"India","status":"active"}).fetch();
          if(states){
+         	states.sort(function(a, b) {
+			    var textA = a.states;
+			    var textB = b.states;
+			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+			});
             return states;
         }
   	},
@@ -534,6 +539,11 @@ Template.businessBanner.helpers({
       	if(bannerState){
 	  		var cities = City.find({"country":"India","state":bannerState,"status":"active"}).fetch();
 	         if(cities){
+				cities.sort(function(a, b) {
+				    var textA = a.cities;
+				    var textB = b.cities;
+				    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+				});
 	            return cities;
 	        }
 	    }

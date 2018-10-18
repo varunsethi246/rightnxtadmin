@@ -75,7 +75,7 @@ Template.ViewAllNotif.helpers({
       	var userId = Meteor.userId();
       	
 		var userDetail = Meteor.users.findOne({'_id':userId});
-		console.log('userDetail ==>',userDetail);
+		// console.log('userDetail ==>',userDetail);
 		var notifArr = ["businessDone-report-acknowledgedOne","Payment Successfull","Invoice","Mail Receipt","User Enquiry Messages","Vendor Enquiry Message","Claim","Vendor Modal Image Report", "Vendor Modal Image Report", "business-report-acknowledged", "business-image-report-acknowledged", "User Modal Image Report", "Admin Business Page Modal Report", "Admin Business Page Modal Report", "Vendor Business Page Bookmark", "Vendor Business Page Bookmark", "User Business Page Bookmark", "Vendor Business Page Been There", "Vendor Business Page Been There", "User Business Page Been There", "Business Page Share", "Vendor Business Page Report", "Vendor Business Page Report", "Vendor Business Page Report", "User Business Page Report", "Admin Business Page Report", "Admin Business Page Report", "You have been Tagged", "You have been Tagged", "Delete Business Admin", "Delete Business Admin", "Delete Business Vendor", "Delete Business Vendor", "Anything Else Business Admin", "Anything Else Business Admin", "Thanks for Submiting Offer", "Thanks for Submiting Offer", "Vendor has Submiting Offer", "Vendor has Submiting Offer", "Payment Received", "Payment Received", "Vendor Paid for Offer", "Vendor Paid for Offer", "Offer Deleted", "Offer Deleted", "Vendor deleted Offer", "Vendor deleted Offer", "Vendor Message Send", "Thanks for Registering New Business", "Thanks for Registering New Business", "Vendor Added New Business", "Vendor Added New Business"];
 
 		if(userDetail){
@@ -111,12 +111,12 @@ Template.ViewAllNotif.helpers({
 					notifArr.push(arr[j]);
 				}
 			}
-			console.log('notifArr ==>',notifArr);
+			// console.log('notifArr ==>',notifArr);
 		}
 		var notificationLocs = notifArr.map(function(x) { return x } );
-		console.log('notificationLocs ==>',notificationLocs);
+		// console.log('notificationLocs ==>',notificationLocs);
 	    var notifDetails = Notification.find({'toUserId': Meteor.userId(), 'event': {"$in": notificationLocs}},{sort:{'date':-1}}).fetch();
-		console.log('notifDetails ==>',notifDetails);
+		// console.log('notifDetails ==>',notifDetails);
 	    
         if(notifDetails){
         	var notifCount = Notification.find({'toUserId': Meteor.userId(), 'event': {"$in": notificationLocs}}).count();

@@ -2070,7 +2070,7 @@ background:#fff;
 border-top:3px solid #3c8dbc;
 border-radius:5px;
 box-shadow:1px 1px 3px;
-height:460px;
+height:auto;
 margin:8% 15px 7%
 }
 
@@ -2292,7 +2292,8 @@ background:#eaeaea;
 width:75%;
 margin-left:13%;
 overflow-y:hidden;
-height:150px
+height: auto;
+padding-bottom: 1%;
 }
 
 .bulkuploadInstructions img {
