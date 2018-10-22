@@ -68,6 +68,7 @@ import '../imports/api/userViewMaster.js';
 import '../imports/api/discountMaster.js';
 import '../imports/api/businessBannerMaster.js';
 import '../imports/api/businessAdsMaster.js';
+import '../imports/api/thumbnailMaster.js';
 
 
 
