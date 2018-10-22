@@ -50,12 +50,15 @@ Template.UMlistOfUsers.helpers({
     var user       =  Meteor.users.find({},{ limit: listLimit}).fetch();
     if(user){
       var userCount =  user.length;
+      // console.log("roleSetVar = ", roleSetVar);
 
       if(roleSetVar){ 
         if(roleSetVar == 'all' || roleSetVar == ''){
           for(i=0;i<userCount;i++){
 
               var regularSource = true;
+
+              // console.log(i, ".) ", user[i].profile.name);
               if (true) {}
               if(user[i].roles){
                 if(user[i].roles.indexOf('admin') >= 0){
