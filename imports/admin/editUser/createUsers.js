@@ -229,7 +229,7 @@ Template.createUsers.events({
 
         var companyDomainVar         = companyDomainExist;
         var salutationVar            = salutationExist;
-        var lastNameVar              = lastNameExist;
+        // var lastNameVar              = lastNameExist;
         var firstNameVar             = firstNameExist;
         var emailVar                 = signupEmailExist;
         // var userNameVar              = userNameExist;
