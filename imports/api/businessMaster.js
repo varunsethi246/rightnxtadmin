@@ -725,7 +725,7 @@ Meteor.methods({
 			
 				
 				// console.log('BusinessLink ',BusinessLink);
-				var AboutyourBusiness 	= bussMgmt["About your Business"];
+				// var AboutyourBusiness 	= bussMgmt["About your Business"];
 					
 				var BusinessEmailId 	= bussMgmt["Business Email Id"];
 			
@@ -767,7 +767,7 @@ Meteor.methods({
 					var textCategory2	= '--';
 				}
 				
-				if (bussMgmt["Business Categories 2"]) {
+				if (bussMgmt["Business Categories 3"]) {
 					var textCategory3   = bussMgmt["Business Categories 3"];
 					 catg3 = textCategory3.split("|");				
 				}else
@@ -775,7 +775,7 @@ Meteor.methods({
 					var textCategory3	= '--';
 				}
 				
-				if (bussMgmt["Business Categories 2"]) {
+				if (bussMgmt["Business Categories 4"]) {
 					var textCategory4   = bussMgmt["Business Categories 4"];
 					 catg4 = textCategory4.split("|");
 				}else
@@ -784,7 +784,7 @@ Meteor.methods({
 				}
 				var category = [];
 				for(var j = 0 ; j < catg1.length; j++){
-					var catgData = [ catg1[j] + ' > ' + catg2[j] + ' > ' + catg3[j] + ' > ' + catg4[j] ];	
+					var catgData =  catg1[j] + ' > ' + catg2[j] + ' > ' + catg3[j] + ' > ' + catg4[j] ;	
 					category.push(catgData);
 				}
 
@@ -792,7 +792,7 @@ Meteor.methods({
 				// var categoryL1Tags2 		= bussMgmt["Business Categories Tags 2"];
 				// var categoryL1Tags3 		= bussMgmt["Business Categories Tags 3"];
 				// var categoryL1Tags4 		= bussMgmt["Business Categories Tags 4"];
-			    var allCategories           = category.toString();
+			    // var allCategories           = category.toString();
 			    var allCategories           = category.toString();
 
 				
@@ -1064,6 +1064,7 @@ Meteor.methods({
 					"businessLongitude"		: Longitude,
 					"businessTimings"		: timeSlotArray,
 					"status"				: "inactive",
+					"businessTimings"		: [],
 					"blockedUsers"			: [],
 					"businesscategories" 	: category,
 					"allCategories" 		: allCategories,
@@ -1073,14 +1074,17 @@ Meteor.methods({
 					"businessAltMobile" 	: addOthernumber,
 					"businessWebAdress" 	: Website,
 					"businessTag" 			: Tags,
-					"businessModeOfPay" 	: ModesofPayment,
+					"businessModeOfPay" 	: {},
+					// "businessModeOfPay" 	: ModesofPayment,
+					// "alltags"        		: formValues.alltags,
 					"ownerFullName" 		: OwnerName,
 					"ownerRole" 			: OwnerRole,
 					"ownerMobile" 			: addOwnerMbNumber,
 					"ownerEmail" 			: OwnerEmail,
 					"ownerDesc" 			: Description,
-					"ownerPhoto" 			: OwnerPicture,
+					// "ownerPhoto" 			: OwnerPicture,
 					"businessTermNCon" 		: "checked",
+					"createdBy"				: Meteor.userId(),
 					"createdAt"				: new Date(),
 				},function(error,result){
 					if(error){
