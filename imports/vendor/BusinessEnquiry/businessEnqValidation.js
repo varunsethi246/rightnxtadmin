@@ -68,7 +68,7 @@ Template.businessEnquiry.events({
 		if (myFuncVar==null||myFuncVar==""||!myFuncVar.match(nameRegex)) {
 			$(".spanEnqEmail").addClass("ErrorRedText");
 			$(".enquiryEmail").addClass("SpanLandLineRedBorder");
-			$( ".spanEnqEmail" ).text("Please Enter Valid Business Email Id" );
+			$( ".spanEnqEmail" ).text("Please enter valid Business email address" );
 		} else {
 			$( ".spanEnqEmail" ).text("" );
 			$(".spanEnqEmail").removeClass("ErrorRedText");
