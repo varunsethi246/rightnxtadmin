@@ -174,7 +174,7 @@ import '/imports/common/common.js';
                       FlowRouter.go('/vendorDashboard');
                 }
                 else{
-                      FlowRouter.go('/adminDashBoard');
+                      FlowRouter.go('/adminDashboard');
                 }                      
               }
               
