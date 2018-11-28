@@ -149,6 +149,7 @@ Meteor.methods({
               "profile.zip": doc.zipVar1,
               "profile.country": doc.countryVar1, 
               "profile.mobile": doc.mobNumberVar1,
+              "profile.mobNumber"    : doc.mobNumberVar1,
               "profile.alterNumber": doc.alterNumberVar1,
               "profile.salutation": doc.salutationVar1,
               // "profile.lastName": doc.lastNameVar1,
