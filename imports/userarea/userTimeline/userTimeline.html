@@ -23,7 +23,7 @@
               </div>
               <div class="logoNamePhoto col-lg-3 pull-right col-xs-3 col-md-3 col-sm-3   ">
                 <div class="userPicReview"> 
-                  <a href="/userReview/{{redirectUid}}" target="_blank">
+                  <a href="https://rightnxt.com/userReview/{{redirectUid}}" target="_blank">
                     <img src="{{userProfilePic}}"  height="40px" width="40px" alt="userProfilePic" class="bgGif">
                   </a>
                 </div>
@@ -31,7 +31,7 @@
                   {{#if checkCurrentUser userId}}
                     <p>{{username}}</p>
                   {{else}}
-                    <a href="/userReview/{{redirectUid}}" target="_blank"><p>{{username}}</p> </a>
+                    <a href="https://rightnxt.com/userReview/{{redirectUid}}" target="_blank"><p>{{username}}</p> </a>
                   {{/if}}
                 </div> 
               </div>
@@ -166,7 +166,7 @@
               {{#each tagedFriendsArray}}
               <div class="tagedFrndSpansOuter">
                 <span  data-tagedId="{{userTagged}}" data-reviewId="{{../_id}}" class="bus-page-edit-outerFrnd1 bus-page-edit-outerFrnd1-{{../_id}}">x</span>
-                <a class="tagedFrndSpans tagnames" href="/userReview/{{tagedFriendsUrl}}" target="_blank">
+                <a class="tagedFrndSpans tagnames" href="https://rightnxt.com/userReview/{{tagedFriendsUrl}}" target="_blank">
                   <div class="taggedFrndShowLiImg">
                     <img src="{{imagePath}}" class="{{checkpngImg}}">
                   </div>
@@ -300,7 +300,7 @@
                       {{#if checkCurrentUser userId}}
                       <div class="col-lg-12 col-xs-12 col-md-6 revName">{{commentUserName}} </div>
                       {{else}}
-                      <a href="/userReview/{{redirectCommUsrId}}" target="_blank"><div class="col-lg-12 revName">  {{commentUserName}} </div></a>
+                      <a href="https://rightnxt.com/userReview/{{redirectCommUsrId}}" target="_blank"><div class="col-lg-12 revName">  {{commentUserName}} </div></a>
                       {{/if}}
                     </div>
                     <div class="col-lg-4 col-xs-4 col-md-6 userCommDt timelineRevDate">   {{userCommentDateAgo}} </div>
@@ -447,7 +447,7 @@
                         {{#if checkCurrentUser userId}}
                         <div class="col-lg-12 col-xs-12 col-md-6 revName">{{commentUserName}} </div>
                         {{else}}
-                        <a href="/userReview/{{redirectCommUsrId}}" target="_blank"><div class="col-lg-12 revName">  {{commentUserName}} </div></a>
+                        <a href="https://rightnxt.com/userReview/{{redirectCommUsrId}}" target="_blank"><div class="col-lg-12 revName">  {{commentUserName}} </div></a>
                         {{/if}}
                       </div>
                       <div class="col-lg-4 col-xs-4 col-md-6 userCommDt timelineRevDate">   {{userCommentDateAgo}} </div>

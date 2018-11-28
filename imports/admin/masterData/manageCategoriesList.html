@@ -18,14 +18,17 @@
 			<div class="tab-content">
 			    <div id="home" class="tab-pane fade in active">
 			      {{> categoriesLevels }}
+				  {{> categoriesList }}
 			    </div>
 			    <div id="menu1" class="tab-pane fade">
 			     {{> catgBulkUpload }}
 			    </div>
 			</div>
+			{{else}}
+				{{> categoriesList }}
 			{{/if}}
 			
-			{{> categoriesList }}
+			<!-- {{> categoriesList }} -->
 
 		</div>
 	</div>
