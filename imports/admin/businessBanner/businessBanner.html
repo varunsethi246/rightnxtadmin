@@ -8,7 +8,7 @@
 		            <div class="row">	
 		            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom areaMarginTop">
 		                	<div class="row">
-			                	<div class="col-lg-4">
+			                	<div class="col-lg-6">
 			                		<label for="">State</label>
 			                        <select class="form-control selectpicker addbannerState" name="businessState" title="Select your State" required>
 										<option>--Select--</option>
@@ -18,7 +18,7 @@
 									</select>
 									<span class="SpanBusinessState"></span>
 			                	</div>   
-		                    	 <div class="col-lg-4">
+		                    	 <div class="col-lg-6">
 		                    	    <label for="">City</label>
 		                    	    <select class="form-control businessCityC addbannerCity" name="businessCity" title="Select your City" required>
 										<option>--Select--</option>
@@ -28,30 +28,39 @@
 									</select>
 									<span class="SpanBusinessCity"></span>
 		                    	 </div> 
-			                    <div class="col-lg-4">
-			                		<label for="">Area</label>
-			                		<select class="form-control businessAreaC addbannerArea" name="businessArea" title="Select your Area" required>
-										<option>--Select--</option>
-										{{#each areas}}
-											<option >{{area}}</option>
-										{{/each}}
-									</select>
-									<span class="SpanBusinessArea"></span>
-			                	</div>
-			                	
 			                </div>
-		                </div>	            
+		                </div>	        
+		                   
 		        		<div class=" col-md-12 col-sm-12 col-xs-12 marginBottom">
 	                    	<label for="jobTitle">Select your Business</label>
 	                         <input type="text" id="business" name="" class="form-control businessBanners" list="searchBusiness" placeholder="" value="">
 		                    <datalist id="searchBusiness">
 								{{#each getbusiness}}
 									<option class="biz" data-businessid="{{_id}}" > 
-										{{businessTitle}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Link = rightnxt.com/{{businessLink}}
+										{{businessTitle}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Link = rightnxt.com/{{businessLink}} &nbsp;| Area = {{businessArea}}
 									</option>
 								{{/each}}
 							</datalist>
 		                </div>
+		                
+		                <div class=" col-md-12 col-sm-12 col-xs-12 marginBottom">
+		                	<div class="row">
+			                	<div class="col-lg-12">
+			                		<label for="">Area</label>
+			                		<select class="form-control businessAreaC addbannerArea" name="businessArea" title="Select your Area" required disabled="disabled">
+										<!-- {{#each areas}}
+											<option >{{area}}</option>
+										{{/each}} -->
+										{{#if disableArea}}
+											<option>{{disableArea}}</option>
+										{{else}}
+											<option>--Select--</option>
+										{{/if}}
+									</select>
+									<span class="SpanBusinessArea"></span>
+			                	</div>
+		                	</div>
+		                </div> 
 		                
 		                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom">
 		                	<div class="row">

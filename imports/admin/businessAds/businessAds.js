@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { Business } from '/imports/api/businessMaster.js';
 import { Area } from '/imports/api/masterData/areaMaster.js';
+import { City } from '/imports/api/masterData/cityMaster.js';
+import { State } from '/imports/api/masterData/stateMaster.js';
 import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 import { BusinessBanner } from '/imports/api/businessBannerMaster.js';
 import { BusinessAds } from '/imports/api/businessAdsMaster.js';
@@ -52,6 +54,8 @@ Template.businessAds.onCreated(function () {
 	Session.set('areaAdsArray',null);
 	Session.set("addAdsCategory",null);
 	Session.set('catgAdsArray',null);
+	Session.set('addadsStateSess',null);
+   	Session.set("addadsCitySess",null);
 });
 
 Template.businessAds.helpers({
@@ -76,16 +80,54 @@ Template.businessAds.helpers({
   		return catgArray;
   	},
   	getAdsArea: function() {
-	    return areaAdsSearch1.getData({
-	      	docTransform: function(doc) {
-		        return _.extend(doc, {
-		          	owner: function() {
-		            	return Area.find({status :"active"})
-		        	}
-		        })
-	      },
-	      sort: {isoScore: -1}
-	    }, true);
+  		var areaArray = [];
+		var areaList = [];
+		var areas = areaAdsSearch1.getData();
+		// console.log(areas);
+		if(areas){
+		    for(var i=0;i<areas.length;i++){
+		      areaArray.push({'area':areas[i].area})
+		    }//i
+		    var pluck = _.pluck(areaArray, 'area');
+		    data = _.uniq(pluck);
+		    // console.log('data ...',data);
+
+		    if(data.length>0){
+		      for(var j=0;j<data.length;j++){
+		          var uniqueArea = data[j];
+		          var areaLists = Area.findOne({'area':uniqueArea});
+		          if(areaLists){
+		            areaList.push({
+		                          'area'    : uniqueArea,
+		                          'country' : areaLists.country,
+		                          'state'   : areaLists.state,
+		                          'city'    : areaLists.city,
+		                          'zipcode' : areaLists.zipcode,
+		                          'status'  : areaLists.status,
+		                        });
+		          }
+		      }//j
+		    }//length
+		}
+		areaList.sort(function(a, b) {
+		    var textA = a.area.toUpperCase();
+		    var textB = b.area.toUpperCase();
+		    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+		});
+
+        return areaList;
+
+		//old code of area
+	    // return areaAdsSearch1.getData({
+	    //   	docTransform: function(doc) {
+		   //      return _.extend(doc, {
+		   //        	owner: function() {
+		   //          	return Area.find({status :"active"})
+		   //      	}
+		   //      })
+	    //   },
+	    //   sort: {isoScore: -1}
+	    // }, true);
 	},
 	selectedAdsAreas(){
   		var areaArray = Session.get('areaAdsArray');
@@ -98,6 +140,46 @@ Template.businessAds.helpers({
   	// 		return false;
   	// 	}
   	// },
+  	states(){
+  		var states = State.find({"country":"India","status":"active"}).fetch();
+        if(states){
+         	states.sort(function(a, b) {
+			    var textA = a.states;
+			    var textB = b.states;
+			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+			});
+            return states;
+        }
+  	},
+
+  	cities(){
+      	var adsState = Session.get("addadsStateSess");
+      	if(adsState){
+	  		var cities = City.find({"country":"India","state":adsState,"status":"active"}).fetch();
+	         if(cities){
+				cities.sort(function(a, b) {
+				    var textA = a.cities;
+				    var textB = b.cities;
+				    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+				});
+	            return cities;
+	        }
+	    }
+  	},
+
+  	disableArea(){
+  		var businessLink = Session.get("adsBusinessLink");
+  		if(businessLink){
+  			var businessObj = Business.findOne({'businessLink':businessLink});
+  			if(businessObj){
+  				if(businessObj.businessArea){
+  					// console.log(businessObj.businessArea);
+			  		return businessObj.businessArea;
+  				}
+  			}
+  		}
+  	},
+
   	'businessAdsCategories':function(){
   		var businessLink = Session.get("adsBusinessLink");
   		var categoryArray = [];  
@@ -347,7 +429,41 @@ Template.adsInvoice.helpers({
 
 
 Template.businessAds.events({
-	
+	'change .addadsState':function(event){
+		event.preventDefault();
+		var state = $(".addadsState").val();
+      	Session.set("addadsStateSess",state);
+
+      	var myFuncVar = $(".addadsState").val();
+      	// console.log(state,myFuncVar);
+        if (myFuncVar==null||myFuncVar==""||myFuncVar=='--Select--') {
+            $(".SpanAdsBusinessState").addClass("ErrorRedText");
+            $(".addadsState").addClass("SpanLandLineRedBorder");
+            $( ".SpanAdsBusinessState" ).text("Please select Valid State" );
+        } else {
+            $(".SpanAdsBusinessState").removeClass("ErrorRedText");
+            $(".SpanAdsBusinessState").text("");
+            $(".addadsState").removeClass("SpanLandLineRedBorder");
+        }
+	},
+
+	'change .addadsCity':function(event){
+		event.preventDefault();
+		var city = $(".addadsCity").val();
+      	Session.set("addadsCitySess",city);
+
+      	var myFuncVar = $(".addadsCity").val();
+      	// console.log(city,myFuncVar);
+        if (myFuncVar==null||myFuncVar==""||myFuncVar=='--Select--') {
+	        $(".SpanAdsBusinessCity").addClass("ErrorRedText");
+	        $(".addadsCity").addClass("SpanLandLineRedBorder");
+	        $( ".SpanAdsBusinessCity" ).text("Please Enter Valid City" );
+	    } else {
+	        $(".SpanAdsBusinessCity").removeClass("ErrorRedText");
+	        $(".SpanAdsBusinessCity").text("");
+	        $(".addadsCity").removeClass("SpanLandLineRedBorder");
+	    }
+	},
 	
 	'click .adsButton':function(event){
 		event.preventDefault();
@@ -444,7 +560,19 @@ Template.businessAds.events({
 	},
 	"keyup #business": _.throttle(function(e) {
 	    var searchText = $(e.target).val().trim();
-	    adsBussinessSearch1.search(searchText);		    
+	    var state = Session.get("addadsStateSess");
+	    var city = Session.get("addadsCitySess");
+	    // var area = $('.addbannerArea').val();
+	    // console.log('state,city',city,state);
+
+	    if(state && city && state!="--Select--" && city!="--Select--" && searchText){
+	    	var searchTxt = state + '|' + city + '|' + 'undefined' + '|' + searchText;
+	    	// console.log('searchTxt',searchTxt);
+	    	if(searchTxt){
+	    		// bannerBussinessSearch1.search(searchTxt);		    
+	    		adsBussinessSearch1.search(searchText);		    
+	    	}
+	    }
 	}, 200),
 
 	"keyup #getAdsCategory": _.throttle(function(e) {
@@ -461,22 +589,31 @@ Template.businessAds.events({
 
 	'change #business': function(event){
 		var selectedOption = event.currentTarget.value;
-		var splitOption = selectedOption.split('|');
+		if(selectedOption){
+			var splitOption = selectedOption.split('|');
 
-		var title    = splitOption[0].trim();
-		var splitBusinessLink = splitOption[1].split('/');
-		var businessLink = splitBusinessLink[1].trim();
-		Session.set("adsBusinessLink",businessLink);
+			var title    = splitOption[0].trim();
+			var splitBusinessLink = splitOption[1].split('/');
+			var businessLink = splitBusinessLink[1].trim();
+			Session.set("adsBusinessLink",businessLink);
 
-		// Add Area of business from address
-		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
-		var businessArea = [];
-		if(businessData){
-			Session.set("busAdsAreaCity",businessData.businessCity);
-			var busArea = businessData.businessArea;
-			businessArea = [busArea];
+			// Add Area of business from address
+			var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
+			var businessArea = [];
+			if(businessData){
+				Session.set("busAdsAreaCity",businessData.businessCity);
+				var busArea = businessData.businessArea;
+				businessArea = [busArea];
+			}
+			Session.set('areaAdsArray',businessArea);
+		}else{
+			Session.set('catgAdsArray',null);
+			Session.set('areaAdsArray',null);
+			Session.set("addadsStateSess",'--Select--');
+		    Session.set("addadsCitySess",null);
+			Session.set("adsBusinessLink",null);
+			$('.addadsState').val('--Select--');
 		}
-		Session.set('areaAdsArray',businessArea);
 	},
 	'change #getAdsCategory': function(event){
 		var val = event.currentTarget.value;

@@ -73,7 +73,8 @@ Template.businessBanner.onCreated(function () {
 	Session.set('paymentBannerTable',null);
 	Session.set('catgArray',null);
 	Session.set('areaBannerArray',null);
-
+	Session.set("addbannerCitySess",null);
+	Session.set("addbannerStateSess",null);
 });
 
 Template.businessBanner.helpers({
@@ -153,219 +154,28 @@ Template.businessBanner.helpers({
 	   				for(var i=0; i <bannerDetails.length ; i++){
 	   					var buscategoryVal = bannerDetails[i].category;
 	   					// console.log(buscategoryVal);
-	   					// First check if the category value already been processed.
-	   					// if yes, then skip this category processing.
-	   					var catgAlreadyProcessed = false;
-
-	   					if(buscategoryVal != ""){  					
-							var categoryVal = buscategoryVal.trim();
-
-		   					if(categoryArray.length > 0){
-			   					for(var j=0; j<categoryArray.length; j++){
-								    if (categoryArray[j].category == categoryVal) {
-								        catgAlreadyProcessed = true;
-								        break;
-								    }
-			   					}	   						
-		   					}
-
-		   					if(!catgAlreadyProcessed){
-								var categoryBusObj = {
-									"category" : categoryVal,
-									"businessArray" : [],
-								};
-								categoryArray.push(categoryBusObj);		   						
-		   					}
-
-	 					}// if buscategoryVal
-
-	 	  			}// for i loop
+	   					var categoryBusObj = {
+							"category" : buscategoryVal,
+							"businessArray" : [],
+						};
+						categoryArray.push(categoryBusObj);
+	   				}
+	   			}	
+	   		}
 
 
-	   				//Add categories coming from "add Category" input field.
-	 	  			if(Session.get("catgArray")){
-		   				catgAlreadyProcessed = false;
-				    	var addCategory = Session.get("catgArray");
-				    	// console.log('helper addCategory: ', addCategory);
-	   					if(categoryArray.length > 0){
-		   					for(var j=0; j<categoryArray.length; j++){
-		   						for(var k=0; k<addCategory.length; k++){
-								    if(categoryArray[j].category == addCategory[k]) {
-								        catgAlreadyProcessed = true;
-								        break;
-								    }		   							
-		   						}
-		   						if(catgAlreadyProcessed){break;}
-		   					}	   						
-	   					}
-
-	   					if(!catgAlreadyProcessed){
-	   						for(var k=0; k<addCategory.length; k++){
-								var categoryBusObj = {
-									"category" : addCategory[k],
-									"businessArray" : [],
-								};
-								categoryArray.push(categoryBusObj);
-							}
-	   					}
-
-	 	  			}
-	    		}else{
-		 	  		if(businessDetails){
-			   			if(businessDetails.businesscategories.length > 0){
-			 	  			var busCatLength = businessDetails.businesscategories.length;
-			 	  			// Category Loop
-			   				for(var i=0; i <busCatLength ; i++){
-			   					var buscategoryVal = businessDetails.businesscategories[i];
-			   					// First check if the category value already been processed.
-			   					// if yes, then skip this category processing.
-			   					var catgAlreadyProcessed = false;
-
-			   					if(buscategoryVal != ""){
-			 	  					var split = buscategoryVal.split(">");
-				  					var category = split[1];  					
-									var categoryVal = category.trim();
-
-				   					if(categoryArray.length > 0){
-					   					for(var j=0; j<categoryArray.length; j++){
-										    if (categoryArray[j].category == categoryVal) {
-										        catgAlreadyProcessed = true;
-										        break;
-										    }
-					   					}	   						
-				   					}
-
-				   					if(!catgAlreadyProcessed){
-										var categoryBusObj = {
-											"category" : categoryVal,
-											"businessArray" : [],
-										};
-										categoryArray.push(categoryBusObj);		   						
-				   					}
-
-			 					}// if buscategoryVal
-
-			 	  			}// for i loop
-
-
-			   				//Add categories coming from "add Category" input field.
-			 	  			if(Session.get("catgArray")){
-				   				catgAlreadyProcessed = false;
-						    	var addCategory = Session.get("catgArray");
-						    	// console.log('helper addCategory: ', addCategory);
-			   					if(categoryArray.length > 0){
-				   					for(var j=0; j<categoryArray.length; j++){
-				   						for(var k=0; k<addCategory.length; k++){
-										    if(categoryArray[j].category == addCategory[k]) {
-										        catgAlreadyProcessed = true;
-										        break;
-										    }		   							
-				   						}
-				   						if(catgAlreadyProcessed){break;}
-				   					}	   						
-			   					}
-
-			   					if(!catgAlreadyProcessed){
-			   						for(var k=0; k<addCategory.length; k++){
-										var categoryBusObj = {
-											"category" : addCategory[k],
-											"businessArray" : [],
-										};
-										categoryArray.push(categoryBusObj);
-									}
-			   					}
-
-			 	  			}
-
-			 	  		}//businessDetails.businesscategories
-			 	  		// Session.set('businessUrl', businessurl);
-		 	  		}//businessDetails
-		    	}
-	    	}else{
-	 	  		if(businessDetails){
-		   			if(businessDetails.businesscategories.length > 0){
-		 	  			var busCatLength = businessDetails.businesscategories.length;
-		 	  			// Category Loop
-		   				for(var i=0; i <busCatLength ; i++){
-		   					var buscategoryVal = businessDetails.businesscategories[i];
-		   					// First check if the category value already been processed.
-		   					// if yes, then skip this category processing.
-		   					var catgAlreadyProcessed = false;
-
-		   					if(buscategoryVal != ""){
-		 	  					var split = buscategoryVal.split(">");
-			  					var category = split[1];  					
-								var categoryVal = category.trim();
-
-			   					if(categoryArray.length > 0){
-				   					for(var j=0; j<categoryArray.length; j++){
-									    if (categoryArray[j].category == categoryVal) {
-									        catgAlreadyProcessed = true;
-									        break;
-									    }
-				   					}	   						
-			   					}
-
-			   					if(!catgAlreadyProcessed){
-									var categoryBusObj = {
-										"category" : categoryVal,
-										"businessArray" : [],
-									};
-									categoryArray.push(categoryBusObj);		   						
-			   					}
-
-		 					}// if buscategoryVal
-
-		 	  			}// for i loop
-
-
-		   				//Add categories coming from "add Category" input field.
-		 	  			if(Session.get("catgArray")){
-			   				catgAlreadyProcessed = false;
-					    	var addCategory = Session.get("catgArray");
-					    	// console.log('helper addCategory: ', addCategory);
-		   					if(categoryArray.length > 0){
-			   					for(var j=0; j<categoryArray.length; j++){
-			   						for(var k=0; k<addCategory.length; k++){
-									    if(categoryArray[j].category == addCategory[k]) {
-									        catgAlreadyProcessed = true;
-									        break;
-									    }		   							
-			   						}
-			   						if(catgAlreadyProcessed){break;}
-			   					}	   						
-		   					}
-
-		   					if(!catgAlreadyProcessed){
-		   						for(var k=0; k<addCategory.length; k++){
-									var categoryBusObj = {
-										"category" : addCategory[k],
-										"businessArray" : [],
-									};
-									categoryArray.push(categoryBusObj);
-								}
-		   					}
-
-		 	  			}
-
-		 	  		}//businessDetails.businesscategories
-		 	  		// Session.set('businessUrl', businessurl);
-	 	  		}//businessDetails
-	    	}	
- 	  		// if(businessDetails){
-	   		// 	if(businessDetails.businesscategories.length > 0){
-	 	  	// 		var busCatLength = businessDetails.businesscategories.length;
-	 	  	// 		// Category Loop
-	   		// 		for(var i=0; i <busCatLength ; i++){
-	   		// 			var buscategoryVal = businessDetails.businesscategories[i];
+	    	// if(bannerDetails){
+	    	// 	if(bannerDetails.length > 0){
+	    	// 		// Category Loop
+	   		// 		for(var i=0; i <bannerDetails.length ; i++){
+	   		// 			var buscategoryVal = bannerDetails[i].category;
+	   		// 			// console.log(buscategoryVal);
 	   		// 			// First check if the category value already been processed.
 	   		// 			// if yes, then skip this category processing.
 	   		// 			var catgAlreadyProcessed = false;
 
-	   		// 			if(buscategoryVal != ""){
-	 	  	// 				var split = buscategoryVal.split(">");
-		  		// 			var category = split[1];  					
-						// 	var categoryVal = category.trim();
+	   		// 			if(buscategoryVal != ""){  					
+						// 	var categoryVal = buscategoryVal.trim();
 
 		   	// 				if(categoryArray.length > 0){
 			   // 					for(var j=0; j<categoryArray.length; j++){
@@ -417,10 +227,148 @@ Template.businessBanner.helpers({
 	   		// 			}
 
 	 	  	// 		}
+	    	// 	}
+	    	// 	else{
+		 	  // 		if(businessDetails){
+			   // 			if(businessDetails.businesscategories.length > 0){
+			 	 //  			var busCatLength = businessDetails.businesscategories.length;
+			 	 //  			// Category Loop
+			   // 				for(var i=0; i <busCatLength ; i++){
+			   // 					var buscategoryVal = businessDetails.businesscategories[i];
+			   // 					// First check if the category value already been processed.
+			   // 					// if yes, then skip this category processing.
+			   // 					var catgAlreadyProcessed = false;
 
-	 	  	// 	}//businessDetails.businesscategories
-	 	  	// 	// Session.set('businessUrl', businessurl);
- 	  		// }//businessDetails
+			   // 					if(buscategoryVal != ""){
+			 	 //  					var split = buscategoryVal.split(">");
+				  // 					var category = split[1];  					
+						// 			var categoryVal = category.trim();
+
+				  //  					if(categoryArray.length > 0){
+					 //   					for(var j=0; j<categoryArray.length; j++){
+						// 				    if (categoryArray[j].category == categoryVal) {
+						// 				        catgAlreadyProcessed = true;
+						// 				        break;
+						// 				    }
+					 //   					}	   						
+				  //  					}
+
+				  //  					if(!catgAlreadyProcessed){
+						// 				var categoryBusObj = {
+						// 					"category" : categoryVal,
+						// 					"businessArray" : [],
+						// 				};
+						// 				categoryArray.push(categoryBusObj);		   						
+				  //  					}
+
+			 		// 			}// if buscategoryVal
+
+			 	 //  			}// for i loop
+
+
+			   // 				//Add categories coming from "add Category" input field.
+			 	 //  			if(Session.get("catgArray")){
+				  //  				catgAlreadyProcessed = false;
+						//     	var addCategory = Session.get("catgArray");
+						//     	// console.log('helper addCategory: ', addCategory);
+			   // 					if(categoryArray.length > 0){
+				  //  					for(var j=0; j<categoryArray.length; j++){
+				  //  						for(var k=0; k<addCategory.length; k++){
+						// 				    if(categoryArray[j].category == addCategory[k]) {
+						// 				        catgAlreadyProcessed = true;
+						// 				        break;
+						// 				    }		   							
+				  //  						}
+				  //  						if(catgAlreadyProcessed){break;}
+				  //  					}	   						
+			   // 					}
+
+			   // 					if(!catgAlreadyProcessed){
+			   // 						for(var k=0; k<addCategory.length; k++){
+						// 				var categoryBusObj = {
+						// 					"category" : addCategory[k],
+						// 					"businessArray" : [],
+						// 				};
+						// 				categoryArray.push(categoryBusObj);
+						// 			}
+			   // 					}
+
+			 	 //  			}
+
+			 	 //  		}//businessDetails.businesscategories
+			 	 //  		// Session.set('businessUrl', businessurl);
+		 	  // 		}//businessDetails
+		    // 	}
+	    	// }
+ 	  		if(businessDetails){
+	   			if(businessDetails.businesscategories.length > 0){
+	 	  			var busCatLength = businessDetails.businesscategories.length;
+	 	  			// Category Loop
+	   				for(var i=0; i <busCatLength ; i++){
+	   					var buscategoryVal = businessDetails.businesscategories[i];
+	   					// First check if the category value already been processed.
+	   					// if yes, then skip this category processing.
+	   					var catgAlreadyProcessed = false;
+
+	   					if(buscategoryVal != ""){
+	 	  					var split = buscategoryVal.split(">");
+		  					var category = split[1];  					
+							var categoryVal = category.trim();
+
+		   					if(categoryArray.length > 0){
+			   					for(var j=0; j<categoryArray.length; j++){
+								    if (categoryArray[j].category == categoryVal) {
+								        catgAlreadyProcessed = true;
+								        break;
+								    }
+			   					}	   						
+		   					}
+
+		   					if(!catgAlreadyProcessed){
+								var categoryBusObj = {
+									"category" : categoryVal,
+									"businessArray" : [],
+								};
+								categoryArray.push(categoryBusObj);		   						
+		   					}
+
+	 					}// if buscategoryVal
+
+	 	  			}// for i loop
+
+
+	   				//Add categories coming from "add Category" input field.
+	 	  			if(Session.get("catgArray")){
+		   				catgAlreadyProcessed = false;
+				    	var addCategory = Session.get("catgArray");
+				    	// console.log('helper addCategory: ', addCategory);
+	   					if(categoryArray.length > 0){
+		   					for(var j=0; j<categoryArray.length; j++){
+		   						for(var k=0; k<addCategory.length; k++){
+								    if(categoryArray[j].category == addCategory[k]) {
+								        catgAlreadyProcessed = true;
+								        break;
+								    }		   							
+		   						}
+		   						if(catgAlreadyProcessed){break;}
+		   					}	   						
+	   					}
+
+	   					if(!catgAlreadyProcessed){
+	   						for(var k=0; k<addCategory.length; k++){
+								var categoryBusObj = {
+									"category" : addCategory[k],
+									"businessArray" : [],
+								};
+								categoryArray.push(categoryBusObj);
+							}
+	   					}
+
+	 	  			}
+
+	 	  		}//businessDetails.businesscategories
+	 	  		// Session.set('businessUrl', businessurl);
+ 	  		}//businessDetails
     	}//businessId
  
 
@@ -513,10 +461,11 @@ Template.businessBanner.helpers({
     			}else{
     				businessBanner[i].numOfAreas=0;
     			}
-				var monthlyRate = Position.findOne({'position':businessBanner[i].position});
-
-    			businessBanner[i].monthlyRate 	= monthlyRate.rate;
-				businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
+				var monthlyRate = Position.findOne({'position':parseInt(businessBanner[i].position)});
+				if(monthlyRate){
+    				businessBanner[i].monthlyRate 	= monthlyRate.rate;
+					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
+				}
     		}
     	}
 		return businessBanner;
@@ -548,6 +497,20 @@ Template.businessBanner.helpers({
 	        }
 	    }
   	},
+
+  	disableArea(){
+  		var businessLink = Session.get("businessLink");
+  		if(businessLink){
+  			var businessObj = Business.findOne({'businessLink':businessLink});
+  			if(businessObj){
+  				if(businessObj.businessArea){
+  					// console.log(businessObj.businessArea);
+			  		return businessObj.businessArea;
+  				}
+  			}
+  		}
+  	},
+
   	areas(){
 	    var areaArray = [];
         var areaList = [];
@@ -589,9 +552,6 @@ Template.businessBanner.helpers({
 	    }
   	},
 });
-
-
-
 
 Template.bannerInvoice.helpers({
 	viewDisable(){
@@ -690,7 +650,6 @@ Template.bannerInvoice.events({
 		}
 	},
 });
-
 
 Template.businessBanner.events({
 	'click .bannerDelete':function(event){
@@ -822,33 +781,41 @@ Template.businessBanner.events({
 	'change #business': function(event){
 		Session.set('catgArray','');
 		var selectedOption = event.currentTarget.value;
+		if(selectedOption){
+			var splitOption = selectedOption.split('|');
+			if(splitOption){
+				var title    = splitOption[0].trim();
+				if(splitOption[1]){
+					var splitBusinessLink = splitOption[1].split('/');
+					if(splitBusinessLink){
+						var businessLink = splitBusinessLink[1].trim();
+						Session.set("businessLink",businessLink);
 
-		var splitOption = selectedOption.split('|');
-		if(splitOption){
-			var title    = splitOption[0].trim();
-			if(splitOption[1]){
-				var splitBusinessLink = splitOption[1].split('/');
-				if(splitBusinessLink){
-					var businessLink = splitBusinessLink[1].trim();
-					Session.set("businessLink",businessLink);
+						// Add Area of business from address
+						var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
+						
+						var businessArea = [];
+						if(businessData){
 
-					// Add Area of business from address
-					var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
-					
-					var businessArea = [];
-					if(businessData){
+							// New Code
+							Session.set("busAreaCity",businessData.businessCity);
 
-						// New Code
-						Session.set("busAreaCity",businessData.businessCity);
-
-						// var busArea = businessData.businessArea+', '+businessData.businessCity;
-						var busArea = businessData.businessArea;
-						businessArea = [busArea];
+							// var busArea = businessData.businessArea+', '+businessData.businessCity;
+							var busArea = businessData.businessArea;
+							businessArea = [busArea];
+						}
+						// console.log(businessArea);
+						Session.set('areaBannerArray',businessArea);
 					}
-					// console.log(businessArea);
-					Session.set('areaBannerArray',businessArea);
 				}
 			}
+		}else{
+			Session.set('catgArray',null);
+			Session.set('areaBannerArray',null);
+			Session.set("addbannerStateSess",'--Select--');
+		    Session.set("addbannerCitySess",null);
+			Session.set("businessLink",null);
+			$('.addbannerState').val('--Select--');
 		}
 	},
 	'change #getCategory': function(event){
@@ -914,7 +881,6 @@ Template.businessBanner.events({
 	},
 
 	'click .blankRow': function(event){
-
 		var busTitle 			= $("#business").val();
 		var splitOption 		= busTitle.split('|');
 		var title    			= splitOption[0].trim();
@@ -958,7 +924,6 @@ Template.businessBanner.events({
 			areaNames = [];
 		}
 
-
 		var formValues = {
 			"businessLink" 	: businessLink,
 			"category" 		: dataCatg,
@@ -1001,13 +966,18 @@ Template.businessBanner.events({
 		var splitBusinessLink = splitOption[1].split('/');
 		var businessLink = splitBusinessLink[1].trim();
 
+		var checkBanner = BusinessBanner.findOne({
+													"businessLink" : businessLink,
+													"category"     : dataCatg,
+												});
+
 		var checkBannerActive = BusinessBanner.findOne({
 			"businessLink" : businessLink,
 			"category"     : dataCatg,
 			"status"	   : "active",
 		}); 
 
-		if(!checkBannerActive){
+		if(checkBanner&&!checkBannerActive){
 			Meteor.call('removeBusinessBanner', businessLink, dataCatg, dataPos, dataRank, function(error,position){
 				if(error){
 					console.log('Error occured while removing Business Banner: ', error);
@@ -1024,9 +994,14 @@ Template.businessBanner.events({
 		    var searchText = $(e.target).val().trim();
 		    var state = Session.get("addbannerStateSess");
 		    var city = Session.get("addbannerCitySess");
-		    var area = $('.addbannerArea').val();
-		    var searchTxt = state + '|' + city + '|' + area + '|' + searchText;
-		    bannerBussinessSearch1.search(searchTxt);		    
+		    // var area = $('.addbannerArea').val();
+
+		    if(state!="--Select--" && city!="--Select--" && searchText){
+		    	var searchTxt = state + '|' + city + '|' + 'undefined' + '|' + searchText;
+		    	if(searchTxt){
+		    		bannerBussinessSearch1.search(searchTxt);		    
+		    	}
+		    }
 		}, 200),
 
 

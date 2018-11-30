@@ -37,7 +37,7 @@ Meteor.startup(function () {
   TimeSync.loggingEnabled = false;
 
 	generateURLid =function(id){
-		var newurl = 'visituser?q=rightnxt+url&oq=user..69i57j0j69i60l2j0l2.4907j0j7&'+id+'&sourceid=chrome&ie=UTF-8';
+		var newurl = 'visituser?q=rightnxt+url&oq=user..69i57j0j69i60l2j0l2.4907j0j7&id='+id+'&sourceid=chrome&ie=UTF-8';
 		return newurl;
 	}
 	

@@ -5,19 +5,59 @@
 	            <h1>Add Business Ads</h1>
 	            <hr class="webpageFormUnderline">
 	            <form class="adsForm">
-		            <div class="row">		            
+		            <div class="row">
+		            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom areaMarginTop">
+		                	<div class="row">
+			                	<div class="col-lg-6">
+			                		<label for="">State</label>
+			                        <select class="form-control selectpicker addadsState" name="businessState" title="Select your State" required>
+										<option>--Select--</option>
+										{{#each states}}
+											<option >{{state}}</option>
+										{{/each}}
+									</select>
+									<span class="SpanAdsBusinessState"></span>
+			                	</div>   
+		                    	 <div class="col-lg-6">
+		                    	    <label for="">City</label>
+		                    	    <select class="form-control businessCityC addadsCity" name="businessCity" title="Select your City" required>
+										<option>--Select--</option>
+										{{#each cities}}
+											<option >{{city}}</option>
+										{{/each}}
+									</select>
+									<span class="SpanAdsBusinessCity"></span>
+		                    	 </div> 
+			                </div>
+		                </div>	   		            
 		        		<div class=" col-md-12 col-sm-12 col-xs-12 marginBottom">
 	                    	<label for="jobTitle">Select your Business</label>
 	                         <input type="text" id="business" name="" class="form-control businessAds" list="searchAdsBusiness" placeholder="" value="">
 		                    <datalist id="searchAdsBusiness">
 								{{#each getAdsbusiness}}
 									<option class="biz" data-businessid="{{_id}}" > 
-										{{businessTitle}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Link = rightnxt.com/{{businessLink}}
+										{{businessTitle}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Link = rightnxt.com/{{businessLink}} &nbsp;| Area = {{businessArea}}
 									</option>
 								{{/each}}
 							</datalist>
 		                </div>
 		                
+		                <div class=" col-md-12 col-sm-12 col-xs-12 marginBottom">
+		                	<div class="row">
+			                	<div class="col-lg-12">
+			                		<label for="">Area</label>
+			                		<select class="form-control businessAreaC addadsArea" name="businessArea" title="Select your Area" required disabled="disabled">
+										{{#if disableArea}}
+											<option>{{disableArea}}</option>
+										{{else}}
+											<option>--Select--</option>
+										{{/if}}
+									</select>
+									<span class="SpanBusinessArea"></span>
+			                	</div>
+		                	</div>
+		                </div> 
+
 		                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 marginBottom">
 		                	<div class="row">
 			                	<div class="col-lg-4">
@@ -37,28 +77,29 @@
 		                </div>
 
 
-		              <!--   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		                	<div class="row">
 			                	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 marginBottom">
 			                    	<label for="jobTitle">Add Categories</label>
 			                        <span id="alistAdsCategory"></span>
-									<input type="text" list="adsSearchCat" class="form-control getAdsCategory1" placeholder="" id="getAdsCategory">
-									<datalist id="adsSearchCat">
+									<input type="text" list="adsSearchCat" class="form-control getAdsCategory1" placeholder="" id="getAdsCategory" disabled="disabled">
+									<!-- <datalist id="adsSearchCat">
 										{{#each getAdscategory}}
 											<option> 
 												{{#if ifDashData level1}} {{level1}} {{/if}} 
 											</option>
 										{{/each}}
-									</datalist>
+									</datalist> -->
 			                	</div>
 			                	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 categoryAdsValues">
-			                    	<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Added Categories</span>
+			                    	<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Selected Categories will show here</span>
 									<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 selectedAdsCategories"> 
-										{{#each selectedAdsCategories}} 
+										<!-- {{#each selectedAdsCategories}} 
 											<span class="bunchCategory">
-												{{this}}<span class="bunchCatCross">x</span>
+												{{this}}
+												<span class="bunchCatCross">x</span>
 											</span>
-										{{/each}}
+										{{/each}} -->
 									</div>
 			                	</div>		 
 			                </div>               	
@@ -72,13 +113,13 @@
 				               		<datalist id="searchAdsArea">
 										{{#each getAdsArea}}
 											<option > 
-												{{area}}, {{city}}
+												{{area}}
 											</option>
 										{{/each}}
 									</datalist>
 			                	</div>
 			                	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 areaAdsValues">
-			                    	<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Added Areas</span>
+			                    	<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Selected Areas will show here.</span>
 									<div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12 selectedAdsAreas"> 
 										{{#each selectedAdsAreas}}
 											<span class="bunchAreas">
@@ -92,7 +133,7 @@
 		        		</div>
 		        		<div class="col-lg-12 vendorPayHidden">
 							<input type="text" class="vendorPayHideInput">
-						</div> -->
+						</div>
 
 
 		        		<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 categoryAdsRanking">

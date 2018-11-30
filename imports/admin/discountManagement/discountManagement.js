@@ -129,7 +129,7 @@ Template.positionManagement.events({
 			var id = Session.get("positionId");
 			var position = $('.selectPosition').val();
 			// console.log('position :',position);
-			if(position != null && position == '-- Select --'){
+			if(position != null && position != '-- Select --'){
 				if(position){
 					position = parseInt(position);
 				}
