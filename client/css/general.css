@@ -2525,7 +2525,7 @@ margin-bottom:15px
 	padding: 0px;
 font-size:16px;
 margin-bottom:0;
-word-break:break-all
+word-break:break-word;
 }
 
 .reportModalForm ul {
@@ -2788,7 +2788,7 @@ margin-right:1px
 }
 
 #reviewslide {
-word-break:break-all
+word-break:break-word;
 }
 
 #reviewslide p {

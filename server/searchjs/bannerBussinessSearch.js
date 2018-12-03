@@ -43,6 +43,7 @@ SearchSource.defineSource('bannerBusiness', function(searchText) {
   selector["$and"].push({"status" : "active"}); 
     
   searchResult = Business.find(selector, options).fetch();
+  console.log(searchResult);
   return searchResult;
 });
 

@@ -49,10 +49,10 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
           	if(confirm){
              $('#companyNewLocation').val('');
              $('#companyNewAddress').val('');
-             $('#companyPincode').val('');
-             $('#companyCity').val('Pune');
-             $('#companyState').val('Maharashtra');
-             $('#companyCountry').val('India');
+             $('#companyPincodeLoc').val('');
+             $('#companyCityLoc').val('Pune');
+             $('#companyStateLoc').val('Maharashtra');
+             $('#companyCountryLoc').val('India');
              // $('#companyNewLocation').removeClass('error');
              // $('#companyNewAddress').removeClass('error');
              // $('#companyPincode').removeClass('error');
@@ -74,16 +74,21 @@ import { CompanySettings } from '/imports/api/companysettingsAPI.js';
 	        'font-size': '15px'
     	});
         var rule = this;
+        console.log('rule: ',rule);
         var address = rule.companyAddress;
         var id = {id : e.currentTarget.name};
 
         FlowRouter.setQueryParams(id);
-        $('input[name="companyNewLocation"]').val(this.companyLocation);
+        if(this.mainLocation){
+            $('input[name="companyNewLocation"]').val(this.mainLocation);
+        }else{
+            $('input[name="companyNewLocation"]').val(this.companyLocation);
+        }
         $('input[name="companyNewAddress"]').val(this.companyAddress);
-        $('input[name="companyPincode"]').val(this.companyPincode);
-        $('input[name="companyCity"]').val(this.companyCity);
-        $('input[name="companyState"]').val(this.companyState);
-        $('input[name="companyCountry"]').val(this.companyCountry);
+        $('input[name="companyPincodeLoc"]').val(this.companyPincode);
+        $('select[name="companyCityLoc"]').val(this.companyCity);
+        $('select[name="companyStateLoc"]').val(this.companyState);
+        $('select[name="companyCountryLoc"]').val(this.companyCountry);
         Session.set('editLocation',true);        
         Session.set('companyAddress',address);        
         Session.set('companyLocationId',this.companyLocationId);        

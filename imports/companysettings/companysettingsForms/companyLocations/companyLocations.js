@@ -19,7 +19,7 @@ Template.companyLocations.events({
     }
   },
 
-  'keydown #companyPincode': function(e) {
+  'keydown #companyPincodeLoc': function(e) {
     // console.log(e);
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
@@ -42,10 +42,10 @@ Template.companyLocations.events({
     companyLocationsFormValue = {
         companyLocation  : $("input#companyNewLocation").val(),
         companyAddress   : $("input#companyNewAddress").val(),
-        companyPincode   : $("input#companyPincode").val(),
-        companyCity      : $("select#companyCity").val(),
-        companyState     : $("select#companyState").val(),
-        companyCountry   : $("select#companyCountry").val(),
+        companyPincode   : $("input#companyPincodeLoc").val(),
+        companyCity      : $("select#companyCityLoc").val(),
+        companyState     : $("select#companyStateLoc").val(),
+        companyCountry   : $("select#companyCountryLoc").val(),
         companyLocationId: Session.get('companyLocationId'),
     }
     
@@ -53,10 +53,10 @@ Template.companyLocations.events({
         Meteor.call('updateCompanyLocations', companyLocationsFormValue);
         $('input#companyNewLocation').val('');
         $('input#companyNewAddress').val('');
-        $('input#companyPincode').val('');
-        $('select#companyCity').val('Pune');
-        $('select#companyState').val('Maharashtra');
-        $('select#companyCountry').val('India');
+        $('input#companyPincodeLoc').val('');
+        $('select#companyCityLoc').val('Pune');
+        $('select#companyStateLoc').val('Maharashtra');
+        $('select#companyCountryLoc').val('India');
         Session.set('editLocation',false);
         Session.set('companyLocationId','');
     }
@@ -83,7 +83,7 @@ Template.companyLocations.onRendered(function(){
         if (element.attr("name") == "companyNewAddress"){
           error.insertAfter("#companyAddrVal");
         }
-        if (element.attr("name") == "companyPincode"){
+        if (element.attr("name") == "companyPincodeLoc"){
           error.insertAfter("#companyPinVal");
         }
     }

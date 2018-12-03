@@ -13,8 +13,6 @@ import { AdsPosition } from '/imports/api/discountMaster.js';
 import { Payment } from '/imports/api/paymentMaster.js';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
-
-
 import './adsInvoice.html';
 import './businessAds.html';
 import './businessAdsList.html';
@@ -50,7 +48,7 @@ Template.businessAds.onRendered(function(){
 });
 Template.businessAds.onCreated(function () {
 	Session.set("adsBusinessLink",null);
-	Session.set("businessLink",null);
+	// Session.set("businessLink",null);
 	Session.set('areaAdsArray',null);
 	Session.set("addAdsCategory",null);
 	Session.set('catgAdsArray',null);
@@ -76,7 +74,9 @@ Template.businessAds.helpers({
   			return true;
   	},
   	selectedAdsCategories: function(){
-  		var catgArray = Session.get('catgAdsArray');
+  		// var catgArray = Session.get('catgAdsArray');
+  		//updated code
+  		var catgArray = Session.get('catgoryAdsArray');
   		return catgArray;
   	},
   	getAdsArea: function() {
@@ -156,7 +156,8 @@ Template.businessAds.helpers({
       	var adsState = Session.get("addadsStateSess");
       	if(adsState){
 	  		var cities = City.find({"country":"India","state":adsState,"status":"active"}).fetch();
-	         if(cities){
+	        console.log(cities);
+	        if(cities){
 				cities.sort(function(a, b) {
 				    var textA = a.cities;
 				    var textB = b.cities;
@@ -182,7 +183,8 @@ Template.businessAds.helpers({
 
   	'businessAdsCategories':function(){
   		var businessLink = Session.get("adsBusinessLink");
-  		var categoryArray = [];  
+  		var categoryArray = []; 
+  		var newCatgArray = []; 
     	if(businessLink){
 	  		var businessDetails = Business.findOne({'businessLink':businessLink});
  	  		if(businessDetails){
@@ -215,6 +217,7 @@ Template.businessAds.helpers({
 									"businessArray" : [],
 								};
 								categoryArray.push(categoryBusObj);		   						
+								newCatgArray.push(categoryVal);
 		   					}
 
 	 					}// if buscategoryVal
@@ -246,11 +249,12 @@ Template.businessAds.helpers({
 									"businessArray" : [],
 								};
 								categoryArray.push(categoryBusObj);
+								newCatgArray.push(categoryVal);
 							}
 	   					}
 
 	 	  			}
-
+					Session.set('catgoryAdsArray',newCatgArray);
 	 	  		}//businessDetails.businesscategories
 	 	  		// Session.set('businessUrl', businessurl);
  	  		}//businessDetails
@@ -309,7 +313,7 @@ Template.businessAds.helpers({
     			}
 	    	}
     	}
- 
+		
  	  	return categoryArray; 
   	},
   	selectedAdsCategoryPayment(){		
@@ -333,6 +337,34 @@ Template.businessAds.helpers({
     		}
     	}
 		return businessAds;
+  	},
+  	states(){
+  		var states = State.find({"country":"India","status":"active"}).fetch();
+         if(states){
+         	states.sort(function(a, b) {
+			    var textA = a.states;
+			    var textB = b.states;
+			    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+			});
+            return states;
+        }
+  	},
+
+  	cities(){
+      	var bannerState = Session.get("addadsStateSess");
+      	if(bannerState){
+	  		var cities = City.find({"country":"India","state":bannerState,"status":"active"}).fetch();
+	         if(cities){
+				cities.sort(function(a, b) {
+				    var textA = a.cities;
+				    var textB = b.cities;
+				    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+				});
+	            return cities;
+	        }
+	    }else{
+	    	return [];
+	    }
   	},
 });
 
@@ -558,6 +590,19 @@ Template.businessAds.events({
 		}
 		
 	},
+	// 'focus #business': function(event){
+	// 	$('#searchAdsBusiness').find('option').empty();
+	// 	var searchState = $('select[name="businessState"]').val();
+	//     var searchCity = $('select[name="businessCity"]').val();
+	//     if(searchState =="--Select--" && searchCity =="--Select--"){
+	//     	Session.set("addadsStateSess",null);
+	//     	Session.set("addadsCitySess",null);		
+	//     }else if(searchState =="--Select--"){
+	//     	Session.set("addadsStateSess",null);
+	//     }else if(searchCity =="--Select--"){
+	//     	Session.set("addadsCitySess",null);
+	//     }
+	// },
 	"keyup #business": _.throttle(function(e) {
 	    var searchText = $(e.target).val().trim();
 	    var state = Session.get("addadsStateSess");
@@ -573,6 +618,21 @@ Template.businessAds.events({
 	    		adsBussinessSearch1.search(searchText);		    
 	    	}
 	    }
+// =======
+// 	    var state = Session.get("addadsStateSess");
+// 	    var city = Session.get("addadsCitySess");
+// 	    var searcharea = $('.addbannerArea').val();
+// 	    if(searcharea){
+// 		    var area = searcharea;
+// 	    }else{
+// 	    	var area = 'undefined';
+// 	    }
+
+// 		if(state && city && searchText){
+// 	    	var searchTxt = state + '|' + city + '|' + area + '|' + searchText;
+// 	    	adsBussinessSearch1.search(searchTxt);		    
+// 		}
+// >>>>>>> Stashed changes
 	}, 200),
 
 	"keyup #getAdsCategory": _.throttle(function(e) {

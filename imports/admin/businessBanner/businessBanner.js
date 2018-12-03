@@ -121,7 +121,6 @@ Template.businessBanner.helpers({
 		// return areaSearch1.getData();
 	},
 
-
   	getcategory: function() {
 	    var data =  bannerCategorySearch1.getData();
 	    data = _.uniq(data, function(p){ return p.level1; });
@@ -428,7 +427,6 @@ Template.businessBanner.helpers({
  	  	return 	categoryArray; 
   	},
 
-
   	businessRankEqualToa(businessRank){
   		if(businessRank == 'a'){
   			return true;
@@ -440,13 +438,13 @@ Template.businessBanner.helpers({
   		var newCatArry = _.uniq(catgArray);
   		return catgArray; 
   	},
+
   	selectedAreas(){
   		var areaArray = Session.get('areaBannerArray');
   		// console.log(areaArray);
   		var newareaArray = _.uniq(areaArray);
   		return newareaArray; 
   	},
-
 
   	selectedCategoryPayment(){		
 
@@ -729,7 +727,7 @@ Template.businessBanner.events({
 			}
 
 			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Banner'}).fetch();
-			console.log(formValues.totalPrice);
+			// console.log(formValues.totalPrice);
 			if(paymentCheck.length>0) {
 				formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
 				Meteor.call('updateBannerPayment', formValues, function(error,position){
@@ -781,6 +779,7 @@ Template.businessBanner.events({
 	'change #business': function(event){
 		Session.set('catgArray','');
 		var selectedOption = event.currentTarget.value;
+
 		if(selectedOption){
 			var splitOption = selectedOption.split('|');
 			if(splitOption){
@@ -988,6 +987,19 @@ Template.businessBanner.events({
 		}
 		
 	},
+	// 'focus #business': function(event){
+	// 	$('#searchBusiness').find('option').empty();
+	// 	var searchState = $('select[name="businessState"]').val();
+	//     var searchCity = $('select[name="businessCity"]').val();
+	//     if(searchState =="--Select--" && searchCity =="--Select--"){
+	//     	Session.set("addbannerStateSess",null);
+	//     	Session.set("addbannerCitySess",null);		
+	//     }else if(searchState =="--Select--"){
+	//     	Session.set("addbannerStateSess",null);
+	//     }else if(searchCity =="--Select--"){
+	//     	Session.set("addbannerCitySess",null);
+	//     }
+	// },
 
 	"keyup #business": _.throttle(function(e) {
 		$('.displayListShow').show();

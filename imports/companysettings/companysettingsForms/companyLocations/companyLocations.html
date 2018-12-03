@@ -18,7 +18,7 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
 							</div>
-							<input type="text" class="form-control HRMSTextbox" name="companyNewLocation"  id="companyNewLocation" value= "{{companyLocation}}" placeholder= "E.g Pune/Mumbai" required>
+							<input type="text" class="form-control HRMSTextbox" name="companyNewLocation"  id="companyNewLocation" value= "{{#if companyLocation}}{{companyLocation}}{{else}}{{mainLocation}}{{/if}}" placeholder= "E.g Pune/Mumbai" required>
 					  	</div>
 					</div>
 				
@@ -38,7 +38,7 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-address-card-o" aria-hidden="true"></i>
 							</div>
-							<input type="text" class="form-control HRMSTextbox" id="companyPincode" name="companyPincode" value="{{companyAddressDetails.companyLocationsInfo.companyAddress}}" placeholder="Enter Pincode" minlength="6" maxlength="6" required> 
+							<input type="text" class="form-control HRMSTextbox" id="companyPincodeLoc" name="companyPincodeLoc" value="{{companyAddressDetails.companyLocationsInfo.companyPincode}}" placeholder="Enter Pincode" minlength="6" maxlength="6" required> 
 				  		</div>
 			  		</div>
 
@@ -48,14 +48,14 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-globe" aria-hidden="true"></i>
 							</div>
-							<select class="form-control HRMSTextbox" id="companyCity" name="companyCity" required>
+							<select class="form-control HRMSTextbox" id="companyCityLoc" name="companyCityLoc" required value={{companyAddressDetails.companyLocationsInfo.companyCity}}>
 								<option value='Pune'>Pune        </option>
-								<option value='Satara'>Bangalore </option>
-								<option value='Kolhapur'>London  </option>
-								<option value='Beed'>UK          </option>
-								<option value='Solapur'>Chicago  </option>
-								<option value='Sangli'>Kolkata   </option>
-								<option value='Karmala'>Agra     </option>
+								<option value='Bangalore'>Bangalore </option>
+								<option value='London'>London  </option>
+								<option value='UK'>UK          </option>
+								<option value='Chicago'>Chicago  </option>
+								<option value='Kolkata'>Kolkata   </option>
+								<option value='Agra'>Agra     </option>
 							</select>
 				  	  	</div>
 			  		</div>
@@ -66,7 +66,7 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-globe" aria-hidden="true"></i>
 							</div>
-							<select class="form-control HRMSTextbox" id="companyState" name="companyState" required>
+							<select class="form-control HRMSTextbox" id="companyStateLoc" name="companyStateLoc" required value={{companyAddressDetails.companyLocationsInfo.companyState}}>
 								<option value='Maharashtra'>Maharashtra   </option>
 								<option value='Asam'>Asam                 </option>
 								<option value='Delhi'>Delhi               </option>
@@ -84,7 +84,7 @@
 							<div class="input-group-addon HRMSAddon">
 								<i class="fa fa-globe" aria-hidden="true"></i>
 							</div>
-							<select class="form-control HRMSTextbox" id="companyCountry" name="companyCountry" required>
+							<select class="form-control HRMSTextbox" id="companyCountryLoc" name="companyCountryLoc" required value={{companyAddressDetails.companyLocationsInfo.companyCountry}}>
 								<option value='India'>India</option>
 								<option value='America'>America</option>
 								<option value='Australia'>Australia</option>

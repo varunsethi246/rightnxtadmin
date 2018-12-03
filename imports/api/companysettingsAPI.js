@@ -28,28 +28,27 @@ Meteor.methods({
 		var count = CompanySettings.find({'companyId':101}).count();
 
 		if(count){
+			// console.log('true');
 			if(companyInfoFormValue.companyName != '' && companyInfoFormValue.companyContactNumber != '' &&
 				companyInfoFormValue.companyEmail != '' && companyInfoFormValue.companyAddress != '' &&
 				companyInfoFormValue.companyPincode != '' && companyInfoFormValue.companyCity != '' &&
 				companyInfoFormValue.companyState != '' && companyInfoFormValue.companyCountry != ''){		
 				CompanySettings.update(
-				{"companyId"    : 101},
+				{"companyId"    : 101,"companyLocationsInfo.companyLocationId":0},
 				{$set:
 					{
 						"companyName"          : companyInfoFormValue.companyName,
 						"companyContactNumber" : companyInfoFormValue.companyContactNumber,
 						"companyEmail"         : companyInfoFormValue.companyEmail,
+						"companyLocationsInfo.$.companyLocationId" : 0,
+						"companyLocationsInfo.$.mainLocation" : "Headoffice",
+						"companyLocationsInfo.$.companyAddress" : companyInfoFormValue.companyAddress,
+						"companyLocationsInfo.$.companyPincode" : companyInfoFormValue.companyPincode,
+						"companyLocationsInfo.$.companyCity" : companyInfoFormValue.companyCity,
+						"companyLocationsInfo.$.companyState" : companyInfoFormValue.companyState,
+						"companyLocationsInfo.$.companyCountry" : companyInfoFormValue.companyCountry,
 						// "logoFilename"         : companyInfoFormValue.logoFilename,
 						// "companyLogo"          : companyInfoFormValue.companyLogo,
-						"companyLocationsInfo" : [{
-						"companyLocationId": 0,
-						"mainLocation"     : "Headoffice",
-						"companyAddress"   : companyInfoFormValue.companyAddress,
-						"companyPincode"   : companyInfoFormValue.companyPincode,
-						"companyCity"	   : companyInfoFormValue.companyCity,
-						"companyState"     : companyInfoFormValue.companyState,
-						"companyCountry"   : companyInfoFormValue.companyCountry,
-						}],
 					}
 				}
 				);
@@ -78,10 +77,8 @@ Meteor.methods({
 				},
 			});
 		}
-		Meteor.call('tempLogoImageDelete',companyInfoFormValue.logoFilename);
+		// Meteor.call('tempLogoImageDelete',companyInfoFormValue.logoFilename);
 		// TempLogoImage.remove({'logoFilename' : logoFilename});
-
-
 	},
 
 	'insertCompanyLocations':function(companyLocationFormValue){

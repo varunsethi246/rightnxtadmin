@@ -93,10 +93,10 @@ Template.companysettingsformCarousel.events({
             window[formValuesArray] = {
               companyLocation      : $("input#companyNewLocation").val(),
               companyAddress       : $("input#companyNewAddress").val(),
-              companyPincode       : $("input#companyPincode").val(),
-              companyCity          : $("select#companyCity").val(),
-              companyState         : $("select#companyState").val(),
-              companyCountry       : $("select#companyCountry").val(),
+              companyPincode       : $("input#companyPincodeLoc").val(),
+              companyCity          : $("select#companyCityLoc").val(),
+              companyState         : $("select#companyStateLoc").val(),
+              companyCountry       : $("select#companyCountryLoc").val(),
 
               }
               break;
@@ -204,10 +204,10 @@ Template.companysettingsformCarousel.events({
     companyLocationsFormValue = {
         companyLocation  : event.target.companyNewLocation.value,
         companyAddress  : event.target.companyNewAddress.value,
-        companyPincode  : event.target.companyPincode.value,
-        companyCity      : event.target.companyCity.value,
-        companyState     : event.target.companyState.value,
-        companyCountry   : event.target.companyCountry.value,
+        companyPincode  : event.target.companyPincodeLoc.value,
+        companyCity      : event.target.companyCityLoc.value,
+        companyState     : event.target.companyStateLoc.value,
+        companyCountry   : event.target.companyCountryLoc.value,
         
     }
 
@@ -216,10 +216,10 @@ Template.companysettingsformCarousel.events({
     //Clear form
       event.target.companyNewLocation.value='';
       event.target.companyNewAddress.value='';
-      event.target.companyPincode.value='';
-      event.target.companyCity.value='Pune';
-      event.target.companyState.value='Maharashtra';
-      event.target.companyCountry.value ='India';
+      event.target.companyPincodeLoc.value='';
+      event.target.companyCityLoc.value='Pune';
+      event.target.companyStateLoc.value='Maharashtra';
+      event.target.companyCountryLoc.value ='India';
       
   },
 

@@ -28,7 +28,7 @@ Meteor.methods({
 				"level3"				: formValues.level3,
 				"level4"				: formValues.level4,		
 				"tags"					: formValues.tags,
-				"menuStatus"			: "Disable",		
+				"menuStatus"			: "Enable",		
 			},function(error,result){
 				if(error){
 					console.log(error);
@@ -136,7 +136,7 @@ Meteor.methods({
 				"level4" 				: formValues.level4Name,		
 				"level4Tags" 			: formValues.level4Tags,		
 				"tags"					: formValues.allTags,	
-				"menuStatus"			: "Disable",		
+				"menuStatus"			: "Enable",		
 					
 			},function(error,result){
 				if(error){
@@ -238,7 +238,7 @@ Meteor.methods({
 					"level4"	 			: level4Name,		
 					"level4Tags" 			: level4Tags,		
 					"tags"					: allTags,
-					"menuStatus"			: "Disable",		
+					"menuStatus"			: "Enable",		
 				},function(error,result){
 					if(error){
 						console.log(error);
