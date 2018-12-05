@@ -390,7 +390,8 @@ Template.adsInvoice.helpers({
 	viewDisable(){
 		var businessLink = FlowRouter.getParam('businessLink');
 		var currentPath = FlowRouter.current().path;
-		if(currentPath == '/businessAdsInvoice/'+businessLink+'/view'){
+		var paymentId = FlowRouter.getParam('paymentId');
+		if(currentPath == '/businessAdsInvoice/'+businessLink+'/'+paymentId){
 			return false;
 		}else{
 			return true;
@@ -405,53 +406,91 @@ Template.adsInvoice.helpers({
 		}
 	},
 	adsInvoiceData(){
+		var id = FlowRouter.getParam('paymentId');
 		var businessLink = FlowRouter.getParam('businessLink');
   		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
-		var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":"Ads"}).fetch();
+  		var businessAdsArray = [];
+  		if(id){
+			var paymentCheck = Payment.find({"_id":id}).fetch();
+  		}else{
+			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":"Ads",'paymentStatus':'unpaid'}).fetch();
+  		}
 
 		if(paymentCheck.length>0) {
 			businessDetails.invoiceNumber 	= paymentCheck[0].invoiceNumber;
 	    	businessDetails.discountPercent = paymentCheck[0].discountPercent;
 	    	businessDetails.totalDiscount 	= paymentCheck[0].totalDiscount;
 	    	businessDetails.discountedPrice = paymentCheck[0].discountedPrice;
+	   //  	if(paymentCheck[0].paymentStatus == 'unpaid'){
+				// businessDetails.invoiceDate = moment(paymentCheck[0].invoiceDate).format('DD/MM/YYYY');
+	   //  	}else{
+				// businessDetails.invoiceDate = moment(paymentCheck[0].paymentDate).format('DD/MM/YYYY');
+	   //  	}
+			businessDetails.invoiceDate = moment(paymentCheck[0].invoiceDate).format('DD/MM/YYYY');
 
+			var totalPrice = 0;
+			if(paymentCheck[0].businessAds){
+				if(paymentCheck[0].businessAds.length > 0){
+					for (var i = 0; i < paymentCheck[0].businessAds.length; i++) {
+	    				var businessAds = BusinessAds.findOne({"_id":paymentCheck[0].businessAds[i].businessAdsId});
+						if(businessAds){
+			    			if(businessAds.areas){
+			    				var numOfAreas=businessAds.areas.length;
+			    			}else{
+			    				var numOfAreas=0;
+			    			}
+							var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds.position)});
+			    			monthlyRate1 	= monthlyRate.rate;
+							var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds.areas.length) * parseInt(businessAds.noOfMonths);
+			    			totalPrice= totalPrice + totalAmount;
+			    			businessAdsArray.push({
+			    				'numOfAreas'  : numOfAreas,
+			    				'monthlyRate' : monthlyRate1,
+			    				'totalAmount' : totalAmount,
+			    				'totalPrice'  : totalPrice,
+			    				'category'	  : businessAds.category,
+			    				'position'	  : businessAds.position,
+			    				'noOfMonths'  : businessAds.noOfMonths,
+			    			});
+				    	}			
+					}
+				}
+			}
+	  		// if(id){
+	    // 		var businessAds = BusinessAds.find({"businessLink":businessLink}).fetch();
+	    // 	}else{
+	    // 		var businessAds = BusinessAds.find({"businessLink":businessLink,"status":"new"}).fetch();
+	    // 	}
+	    // 	if(businessAds){
+	    // 		for(i=0;i<businessAds.length;i++){
+	    // 			if(businessAds[i].areas){
+	    // 				businessAds[i].numOfAreas=businessAds[i].areas.length;
+	    // 			}else{
+	    // 				businessAds[i].numOfAreas=0;
+	    // 			}
+					// var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds[i].position)});
+	    // 			businessAds[i].monthlyRate 	= monthlyRate.rate;
+					// businessAds[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds[i].areas.length) * parseInt(businessAds[i].noOfMonths);
+	    // 			totalPrice= totalPrice + businessAds[i].totalAmount;
+	    // 		}
+	    // 	}
 
 		}else{
 			businessDetails.invoiceNumber = 'None';
 		}
+
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
 
-		businessDetails.invoiceDate = moment(new Date()).format('DD/MM/YYYY');
 		if(companyDetails){
 			businessDetails.companyName = companyDetails.companyName;
 			businessDetails.companyAddress = companyDetails.companyLocationsInfo[0].companyAddress;
 			businessDetails.companyCity = companyDetails.companyLocationsInfo[0].companyCity;
 			businessDetails.companyState = companyDetails.companyLocationsInfo[0].companyState;
 			businessDetails.companyPincode = companyDetails.companyLocationsInfo[0].companyPincode;
-
 		}
 
-		var totalPrice = 0;
-    	// var businessAds = BusinessAds.find({"businessLink":businessLink,"status":"new"}).fetch();
-    	var businessAds = BusinessAds.find({"businessLink":businessLink}).fetch();
-    	if(businessAds){
-    		for(i=0;i<businessAds.length;i++){
-    			if(businessAds[i].areas){
-    				businessAds[i].numOfAreas=businessAds[i].areas.length;
-    			}else{
-    				businessAds[i].numOfAreas=0;
-    			}
-				var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds[i].position)});
-    			businessAds[i].monthlyRate 	= monthlyRate.rate;
-				businessAds[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds[i].areas.length) * parseInt(businessAds[i].noOfMonths);
-    			totalPrice= totalPrice + businessAds[i].totalAmount;
-    		}
-    	}
-
-
-
     	businessDetails.totalPrice = totalPrice;
-    	businessDetails.businessAds = businessAds;
+    	businessDetails.businessAds = businessAdsArray;
 		return businessDetails;
 	},
 });
@@ -502,12 +541,14 @@ Template.businessAds.events({
 		var invoiceNumber 	= Counts.get('noOfInvoiceCount')+1;
 		var businessLink 	= Session.get("adsBusinessLink");
 		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
+		var businessAdsArr = [];
 		if (businessData) {
 			var totalPrice 		= 0;
 	    	var businessAds 	= BusinessAds.find({"businessLink":businessLink,"status":"new"}).fetch();
 	    	
 	    	if(businessAds){
-	    		for(i=0;i<businessAds.length;i++){
+	    		for(var i=0;i<businessAds.length;i++){
+	    			businessAdsArr.push({"businessAdsId": businessAds[i]._id});
 	    			if(businessAds[i].areas){
 	    				businessAds[i].numOfAreas=businessAds[i].areas.length;
 	    			}else{
@@ -538,7 +579,7 @@ Template.businessAds.events({
 
 			var discountPercent = 0;
 			if(discountData){
-				for(i=0;i<discountData.length;i++){
+				for(var i=0;i<discountData.length;i++){
 					if(totalPrice>discountData[i].price){
 						discountPercent = discountData[i].discount;
 					}
@@ -557,9 +598,10 @@ Template.businessAds.events({
 				'discountPercent'	: 	discountPercent,
 				'totalDiscount'		: 	totalDiscount,
 				'discountedPrice'	: 	discountedPrice,
+				'businessAds' 		: 	businessAdsArr,
 			}
 
-			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Ads'}).fetch();
+			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Ads','paymentStatus':'unpaid'}).fetch();
 			if(paymentCheck.length>0) {
 				formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
 				Meteor.call('updateAdsPayment', formValues, function(error,position){

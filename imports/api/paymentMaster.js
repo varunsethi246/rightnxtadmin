@@ -542,6 +542,7 @@ Meteor.methods({
 			"discountedPrice"		: formValues.discountedPrice, 
 			"totalAmount"			: formValues.totalAmount, 
 			"totalDiscount"			: formValues.totalDiscount,
+			"businessAds" 			: formValues.businessAds,
 			"paymentStatus"			: 'unpaid',
 			"paymentDate"			: '', 
 			"orderType"				: 'Ads',				
@@ -557,7 +558,7 @@ Meteor.methods({
 	},
 	'updateAdsPayment':function(formValues){
 		Payment.update( 
-			{"businessLink": formValues.businessLink,"orderType":'Ads'},
+			{"businessLink": formValues.businessLink,"orderType":'Ads',"invoiceNumber": formValues.invoiceNumber},
 			{$set : {
 			 	"vendorId"  			: formValues.vendorId,
 				"businessId"  			: formValues.businessId,
@@ -568,6 +569,7 @@ Meteor.methods({
 				"discountedPrice"		: formValues.discountedPrice, 
 				"totalAmount"			: formValues.totalAmount, 
 				"totalDiscount"			: formValues.totalDiscount,
+				"businessAds" 			: formValues.businessAds,
 				"paymentStatus"			: 'unpaid',
 				"paymentDate"			: '', 
 				"orderType"				: 'Ads',				

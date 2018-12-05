@@ -459,7 +459,8 @@ Template.businessBanner.helpers({
     			}else{
     				businessBanner[i].numOfAreas=0;
     			}
-				var monthlyRate = Position.findOne({'position':parseInt(businessBanner[i].position)});
+				var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+				// console.log("monthlyRate: ",monthlyRate);
 				if(monthlyRate){
     				businessBanner[i].monthlyRate 	= monthlyRate.rate;
 					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
@@ -580,14 +581,19 @@ Template.bannerInvoice.helpers({
 		    	businessDetails.discountPercent = paymentCheck.discountPercent;
 		    	businessDetails.totalDiscount 	= paymentCheck.totalDiscount;
 		    	businessDetails.discountedPrice = paymentCheck.discountedPrice;
-
+				businessDetails.invoiceDate = moment(paymentCheck.invoiceDate).format('DD/MM/YYYY');
+				
+				// if(paymentCheck.paymentStatus == 'unpaid'){
+				// 	businessDetails.invoiceDate = moment(paymentCheck.invoiceDate).format('DD/MM/YYYY');
+		  //   	}else{
+				// 	businessDetails.invoiceDate = moment(paymentCheck.paymentDate).format('DD/MM/YYYY');
+		  //   	}
 
 			}else{
 				businessDetails.invoiceNumber = 'None';
 			}
 			var companyDetails 	= CompanySettings.findOne({'companyId':101});
 
-			businessDetails.invoiceDate = moment(new Date()).format('DD/MM/YYYY');
 			if(companyDetails){
 				businessDetails.companyName = companyDetails.companyName;
 				businessDetails.companyAddress = companyDetails.companyLocationsInfo[0].companyAddress;
@@ -943,6 +949,7 @@ Template.businessBanner.events({
 		Session.set('paymentBannerTable',payTableArray);
 
 		if(!checkBannerActive){
+			console.log(formValues);
 			Meteor.call('insertBusinessBanner',formValues,function(error,result){
 				if (error) {
 					console.log('Error in Business Banners Insert: ', error);

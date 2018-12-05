@@ -64,7 +64,7 @@ Template.todaysSalesReport.helpers({
             allOrders[i] = {
               "orderId"       	: paymentAds[i]._id ,
               "businessLink"   	: paymentAds[i].businessLink ,
-              "orderNo"       	: paymentAds[i].invoiceNumber,
+              "orderNo"       	: paymentAds[i].orderNumber,
               "discountPercent" : paymentAds[i].discountPercent,
               "date"          	: t ,
               "discountedPrice" : paymentAds[i].discountedPrice,
