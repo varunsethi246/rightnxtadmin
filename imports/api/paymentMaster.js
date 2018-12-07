@@ -130,7 +130,8 @@ Meteor.methods({
 			"paymentStatus"			: 'unpaid',
 			"paymentDate"			: '', 
 			"orderType"				: 'Banner',				
-			// "offers" 				: offers,				
+			// "offers" 				: offers,
+			"businessBanner" 		: formValues.businessBanner,
 		}, function(error,result){
 			if(error){
 				console.log(error);
@@ -143,7 +144,7 @@ Meteor.methods({
 	},
 	'updateBannerPayment':function(formValues){
 		Payment.update( 
-			{"businessLink": formValues.businessLink,"orderType":'Banner'},
+			{"businessLink": formValues.businessLink,"orderType":'Banner',"invoiceNumber": formValues.invoiceNumber,},
 			{$set : {
 			 	"vendorId"  			: formValues.vendorId,
 				"businessId"  			: formValues.businessId,
@@ -158,6 +159,7 @@ Meteor.methods({
 				"paymentDate"			: '', 
 				"orderType"				: 'Banner',				
 				// "offers" 				: offers,			
+				"businessBanner" 		: formValues.businessBanner,
 				}
 			}, 
 			function(error,result){

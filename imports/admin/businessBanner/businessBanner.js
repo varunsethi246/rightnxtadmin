@@ -391,7 +391,7 @@ Template.businessBanner.helpers({
     								 "position"  	: businessPosition,
 									 "category" 	: categoryArray[i].category, 
 									 "rank" 		: businessRank,
-									 "status" 		: {$in : ['new']},
+									 "status" 		: {$in : ['active','new']},
 									};
 					// console.log('selector = ',selector);
 
@@ -555,8 +555,9 @@ Template.businessBanner.helpers({
 Template.bannerInvoice.helpers({
 	viewDisable(){
 		var businessLink = FlowRouter.getParam('businessLink');
+		var id = FlowRouter.getParam('paymentId');
 		var currentPath = FlowRouter.current().path;
-		if(currentPath == '/businessbannersInvoice/'+businessLink+'/view'){
+		if(currentPath == '/businessbannersInvoice/'+businessLink+'/'+id){
 			return false;
 		}else{
 			return true;
@@ -570,10 +571,15 @@ Template.bannerInvoice.helpers({
 		}
 	},
 	bannerInvoiceData(){
+		var id = FlowRouter.getParam('paymentId');
 		var businessLink = FlowRouter.getParam('businessLink');
   		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
-		var paymentCheck = Payment.findOne({"businessLink":businessLink,"orderType":"Banner"});
-
+		var businessBannerArray = [];
+  		if(id){
+  			var paymentCheck = Payment.findOne({"_id":id});
+  		}else{
+			var paymentCheck = Payment.findOne({"businessLink":businessLink,"orderType":"Banner",'paymentStatus':'unpaid'});
+		}
 		if(businessDetails){
 			if(paymentCheck) {
 				// console.log('paymentCheck: ',paymentCheck);
@@ -582,12 +588,44 @@ Template.bannerInvoice.helpers({
 		    	businessDetails.totalDiscount 	= paymentCheck.totalDiscount;
 		    	businessDetails.discountedPrice = paymentCheck.discountedPrice;
 				businessDetails.invoiceDate = moment(paymentCheck.invoiceDate).format('DD/MM/YYYY');
+		    	businessDetails.paymentCheck = paymentCheck.paymentStatus;
 				
 				// if(paymentCheck.paymentStatus == 'unpaid'){
 				// 	businessDetails.invoiceDate = moment(paymentCheck.invoiceDate).format('DD/MM/YYYY');
 		  //   	}else{
 				// 	businessDetails.invoiceDate = moment(paymentCheck.paymentDate).format('DD/MM/YYYY');
 		  //   	}
+
+		  		var totalPrice = 0;
+				if(paymentCheck.businessBanner){
+					if(paymentCheck.businessBanner.length > 0){
+						for (var i = 0; i < paymentCheck.businessBanner.length; i++) {
+		    				var businessBanner = BusinessBanner.findOne({"_id":paymentCheck.businessBanner[i].businessBannerId});
+							if(businessBanner){
+				    			if(businessBanner.areas){
+				    				var numOfAreas=businessBanner.areas.length;
+				    			}else{
+				    				var numOfAreas=0;
+				    			}
+
+				    			var monthlyRate = Position.findOne({'position':businessBanner.position});
+				    			var monthlyRate1 	= monthlyRate.rate;
+								var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner.areas.length) * parseInt(businessBanner.noOfMonths);
+				    			totalPrice= totalPrice + totalAmount;
+				    			businessBannerArray.push({
+				    				'numOfAreas'  : numOfAreas,
+				    				'monthlyRate' : monthlyRate1,
+				    				'totalAmount' : totalAmount,
+				    				'totalPrice'  : totalPrice,
+				    				'category'	  : businessBanner.category,
+				    				'position'	  : businessBanner.position,
+				    				'noOfMonths'  : businessBanner.noOfMonths,
+				    				'rank'  	  : businessBanner.rank,
+				    			});
+					    	}			
+						}
+					}
+				}
 
 			}else{
 				businessDetails.invoiceNumber = 'None';
@@ -604,34 +642,33 @@ Template.bannerInvoice.helpers({
 			}
 
 			
-			var totalPrice = 0;
-			var businessBanner = [];
-			if(paymentCheck.paymentStatus == "paid"){
-				var selector = {"businessLink":businessLink,"status":"active"};
-			}else{
-				// var selector = {"businessLink":businessLink,"status":"new"};
-				var selector = {"businessLink":businessLink};
-			}
-	    	businessBanner = BusinessBanner.find(selector).fetch();
+			// var totalPrice = 0;
+			// var businessBanner = [];
+			// if(paymentCheck.paymentStatus == "paid"){
+			// 	var selector = {"businessLink":businessLink,"status":"active"};
+			// }else{
+			// 	// var selector = {"businessLink":businessLink,"status":"new"};
+			// 	var selector = {"businessLink":businessLink};
+			// }
+	  //   	businessBanner = BusinessBanner.find(selector).fetch();
 			
-			if(businessBanner && businessBanner.length>0){
-	    		for(var i=0;i<businessBanner.length;i++){
-	    			if(businessBanner[i].areas){
-	    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
-	    			}else{
-	    				businessBanner[i].numOfAreas=0;
-	    			}
-					var monthlyRate = Position.findOne({'position':businessBanner[i].position});
-	    			businessBanner[i].monthlyRate 	= monthlyRate.rate;
-					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
-	    			totalPrice= totalPrice + businessBanner[i].totalAmount;
-	    		}
-	    	}
+			// if(businessBanner && businessBanner.length>0){
+	  //   		for(var i=0;i<businessBanner.length;i++){
+	  //   			if(businessBanner[i].areas){
+	  //   				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
+	  //   			}else{
+	  //   				businessBanner[i].numOfAreas=0;
+	  //   			}
+			// 		var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+	  //   			businessBanner[i].monthlyRate 	= monthlyRate.rate;
+			// 		businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
+	  //   			totalPrice= totalPrice + businessBanner[i].totalAmount;
+	  //   		}
+	  //   	}
 
-	    	businessDetails.paymentCheck = paymentCheck.paymentStatus;
 	    	businessDetails.businessLink = businessLink;
 	    	businessDetails.totalPrice = totalPrice;
-	    	businessDetails.businessBanner = businessBanner;
+	    	businessDetails.businessBanner = businessBannerArray;
     	}
 		return businessDetails;
 	},
@@ -674,12 +711,14 @@ Template.businessBanner.events({
 		// console.log('invoiceNumber :',invoiceNumber);
 		var businessLink 	= Session.get("businessLink");
 		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
+		var businessBannerArr = [];
 		if (businessData) {
 			var totalPrice 		= 0;
 	    	var businessBanner 	= BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
 	    	
 	    	if(businessBanner){
 	    		for(var i=0;i<businessBanner.length;i++){
+	    			businessBannerArr.push({"businessBannerId": businessBanner[i]._id});
 	    			if(businessBanner[i].areas){
 	    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
 	    			}else{
@@ -730,9 +769,10 @@ Template.businessBanner.events({
 				'discountPercent'	: 	discountPercent,
 				'totalDiscount'		: 	totalDiscount,
 				'discountedPrice'	: 	discountedPrice,
+				'businessBanner' 	: 	businessBannerArr,
 			}
 
-			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Banner'}).fetch();
+			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Banner','paymentStatus':'unpaid'}).fetch();
 			// console.log(formValues.totalPrice);
 			if(paymentCheck.length>0) {
 				formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
@@ -949,7 +989,7 @@ Template.businessBanner.events({
 		Session.set('paymentBannerTable',payTableArray);
 
 		if(!checkBannerActive){
-			console.log(formValues);
+			// console.log(formValues);
 			Meteor.call('insertBusinessBanner',formValues,function(error,result){
 				if (error) {
 					console.log('Error in Business Banners Insert: ', error);
