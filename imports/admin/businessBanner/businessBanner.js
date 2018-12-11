@@ -453,20 +453,23 @@ Template.businessBanner.helpers({
     	var businessBanner = BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
     	// console.log("businessBanner: ",businessBanner);
     	if(businessBanner){
-    		for(var i=0;i<businessBanner.length;i++){
-    			if(businessBanner[i].areas){
-    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
-    			}else{
-    				businessBanner[i].numOfAreas=0;
-    			}
-				var monthlyRate = Position.findOne({'position':businessBanner[i].position});
-				// console.log("monthlyRate: ",monthlyRate);
-				if(monthlyRate){
-    				businessBanner[i].monthlyRate 	= monthlyRate.rate;
-					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
-				}
+    		if(businessBanner.length > 0){
+	    		for(var i=0;i<businessBanner.length;i++){
+	    			if(businessBanner[i].areas){
+	    				businessBanner[i].numOfAreas=businessBanner[i].areas.length;
+	    			}else{
+	    				businessBanner[i].numOfAreas=0;
+	    			}
+					var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+					console.log("monthlyRate: ",monthlyRate);
+					if(monthlyRate){
+	    				businessBanner[i].monthlyRate 	= monthlyRate.rate;
+						businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
+					}
+	    		}
     		}
     	}
+    	console.log("businessBanner: ",businessBanner);
 		return businessBanner;
   	},
 
