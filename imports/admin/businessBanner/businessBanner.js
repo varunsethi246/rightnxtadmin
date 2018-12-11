@@ -460,7 +460,7 @@ Template.businessBanner.helpers({
 	    			}else{
 	    				businessBanner[i].numOfAreas=0;
 	    			}
-					var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+					var monthlyRate = Position.findOne({'position':parseInt(businessBanner[i].position)});
 					console.log("monthlyRate: ",monthlyRate);
 					if(monthlyRate){
 	    				businessBanner[i].monthlyRate 	= monthlyRate.rate;
@@ -611,7 +611,7 @@ Template.bannerInvoice.helpers({
 				    				var numOfAreas=0;
 				    			}
 
-				    			var monthlyRate = Position.findOne({'position':businessBanner.position});
+				    			var monthlyRate = Position.findOne({'position':parseInt(businessBanner.position)});
 				    			var monthlyRate1 	= monthlyRate.rate;
 								var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner.areas.length) * parseInt(businessBanner.noOfMonths);
 				    			totalPrice= totalPrice + totalAmount;
@@ -727,7 +727,7 @@ Template.businessBanner.events({
 	    			}else{
 	    				businessBanner[i].numOfAreas=0;
 	    			}
-					var monthlyRate = Position.findOne({'position':businessBanner[i].position});
+					var monthlyRate = Position.findOne({'position':parseInt(businessBanner[i].position)});
 
 	    			businessBanner[i].monthlyRate 	= monthlyRate.rate;
 					businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
