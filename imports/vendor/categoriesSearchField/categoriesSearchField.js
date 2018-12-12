@@ -63,7 +63,7 @@ Template.categoriesSearchField.events({
 			}
 		}
 
-		if($('#alistCategory>.str-tags-each1').length<5){
+		if($('.str-tags-each1').length<5){
 			if(temp == 0){
 				selectedCategoriesList.push(data);	
 				$('#alistCategory').append("<div class='js-click-tag1 str-tags-each1' id='catgIndex-" + dataIndex + "' > <div class='str-category str-category1' > " + showData + " x </div> </div>");
@@ -182,7 +182,7 @@ Template.categoriesSearchField.events({
 					}
 				}
 
-				if($('#alistCategory>.str-tags-each1').length<5){
+				if($('.str-tags-each1').length<5){
 					if(temp == 0){
 						selectedCategoriesList.push(text);	
 						$('#alistCategory').append("<div class='js-click-tag1 str-tags-each1' id='catgIndex-" + dataIndex + "' > <div class='str-category str-category1' > " + showData + " x </div> </div>");
