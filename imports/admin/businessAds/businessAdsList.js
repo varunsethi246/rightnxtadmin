@@ -96,22 +96,22 @@ Template.businessAdsList.helpers({
 });
 
 Template.businessAdsList.events({
-	'click .activeBanner':function(){
+	'click .activeBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.activeBanner').addClass('activeBannerColor');
 		Session.set("activeAds","active");
 	},
-	'click .newBanner':function(){
+	'click .newBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.newBanner').addClass('activeBannerColor');
 		Session.set("activeAds","new");
 	},
-	'click .inactiveBanner':function(){
+	'click .inactiveBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.inactiveBanner').addClass('activeBannerColor');
 		Session.set("activeAds","inactive");
 	},
-	'keyup .listBannerSearch': function(){
+	'keyup .listBannerSearch': function(event){
 		var textBanner = $('.listBannerSearch').val();
 		Session.set('adsTextSearch',textBanner);
 	},
@@ -179,9 +179,11 @@ Template.businessAdsList.events({
 	'click .btnDeleteAction': function(event){
 		var businessLink = $(event.currentTarget).parent().parent().parent().parent().parent().parent().siblings('.bannerTitleFont').children('.bannerLinkFont').text();
     	var bannerData = BusinessAds.find({"businessLink":businessLink}).fetch();
+    	var selector = [];
     	
 		for(i=0;i<bannerData.length;i++){
 			var catg = bannerData[i].category;
+			selector.push({"businessAdsId" : bannerData[i]._id});
 			Meteor.call('removeBusinessAdsAll', businessLink, catg, function(error,position){
 				if(error){
 					console.log('Error occured while removing Business Banner: ', error);
@@ -191,6 +193,14 @@ Template.businessAdsList.events({
 				}
 			});
 		}
+
+		// Meteor.call('removeAdsinPayment',selector, function(error,result){
+		// 	if(error){
+		// 		console.log('Error occured while removing Business Banner: ', error);
+		// 	}else{
+		// 		console.log('Ads from payment removed successfully.');	
+		// 	}
+		// });
 	},
 });
 

@@ -173,7 +173,7 @@ Template.createEmailTemplate.events({
 	},
 
 	
-	'click .tempCategory':function(){
+	'click .tempCategory':function(event){
 
 		var dataToToggle = $(this).find('.fa-angle-right').toggleClass('.fa-angle-down');
 		
@@ -347,13 +347,13 @@ Template.viewTemplate.events({
 			}
 		});
 	},
-	'click .smsPill':function(){
+	'click .smsPill':function(event){
 		// $('.smsValue').val('');
 	},
-	'click .NotificationPill':function(){
+	'click .NotificationPill':function(event){
 		// $('.notificationValue').val('');
 	},
-	'click .EmailPill':function(){
+	'click .EmailPill':function(event){
 		// $('.emailValue').val('');
 	},
 

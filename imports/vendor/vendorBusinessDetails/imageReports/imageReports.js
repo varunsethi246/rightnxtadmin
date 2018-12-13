@@ -271,7 +271,7 @@ Template.imageReportModal.events({
 		var id = $(event.target).parent().attr('id');
 		// console.log('id ' , id);
 	},
-	'click .imageReportClose':function(){
+	'click .imageReportClose':function(event){
 		event.preventDefault();
 		$('#imageReportOne').modal('hide');
 		// $('.modal-backdrop').hide('#imageReportOne');
@@ -859,7 +859,7 @@ Template.imageReports.events({
 		}//businessData
 		
 	},
-	'click .bussImgShareGP ':function(){
+	'click .bussImgShareGP ':function(event){
 		event.preventDefault();
 		var url = window.location.href;
 		var title = Session.get('urlforModal');

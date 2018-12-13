@@ -729,7 +729,7 @@ Template.addvendorImagesVideos.events({
 	});
 	},
 
-	'click #saveImgAndVideos':function () {
+	'click #saveImgAndVideos':function (event) {
 		  var businessLink = FlowRouter.getParam('businessLink');
 		  var currentVendorURL = "/addNewBusiness/imagesAndVideos/"+businessLink;
 	      var currentPathURL = FlowRouter.current().path;

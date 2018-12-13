@@ -203,20 +203,20 @@ Template.vendorPhotos.events({
 		}
 	},
 
-	'click .newestFirst' : function(){
+	'click .newestFirst' : function(event){
 		Session.set("sortedOld",'');
 		Session.set("sortedNew",-1);
 	},
-	'click .oldestFirst' : function(){
+	'click .oldestFirst' : function(event){
 		Session.set("sortedNew",'');
 		Session.set("sortedOld",1);
 	},
-	'click .newestFirstUser' : function(){
+	'click .newestFirstUser' : function(event){
 		sortOrderUser = -1;
 		Session.set("sortedOldest",'');
 		Session.set("sortedNewest",sortOrderUser);
 	},
-	'click .oldestFirstUser' : function(){
+	'click .oldestFirstUser' : function(event){
 		sortOrderUser = 1;
 		Session.set("sortedNewest",'');
 		Session.set("sortedOldest",sortOrderUser);
@@ -405,19 +405,19 @@ Template.vendorPhotos.events({
 		});
 	},
 
-	'click .nav-tabsAct1':function(){
+	'click .nav-tabsAct1':function(event){
 		$('.nav-tabsAct1').addClass('nav-tabsAct');
 		$('.nav-tabsAct2').removeClass('nav-tabsAct');
 	},
-	'click .nav-tabsAct2':function(){
+	'click .nav-tabsAct2':function(event){
 		$('.nav-tabsAct1').removeClass('nav-tabsAct');
 		$('.nav-tabsAct2').addClass('nav-tabsAct');
 	},
-	'click .nav-tabsAct11':function(){
+	'click .nav-tabsAct11':function(event){
 		$('.nav-tabsAct11').addClass('nav-tabsAct');
 		$('.nav-tabsAct22').removeClass('nav-tabsAct');
 	},
-	'click .nav-tabsAct22':function(){
+	'click .nav-tabsAct22':function(event){
 		$('.nav-tabsAct11').removeClass('nav-tabsAct');
 		$('.nav-tabsAct22').addClass('nav-tabsAct');
 	},

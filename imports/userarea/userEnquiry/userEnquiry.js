@@ -691,7 +691,7 @@ Template.userEnquiryPage.events({
 	},
 
 	//All, Read, Unread Options of Active and Flagged Menus: done
-	'click .ADAll': function(){
+	'click .ADAll': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);
@@ -699,7 +699,7 @@ Template.userEnquiryPage.events({
 		$(".commonCheckbox").prop('checked', false);
 		$('.vEnqRowTwo').show();
 	},
-	'click .ADRead': function(){
+	'click .ADRead': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);
@@ -708,7 +708,7 @@ Template.userEnquiryPage.events({
 		$('.vEnqRowTwo').hide();
 		$('.readEnq').show();
 	},
-	'click .ADUnread': function(){
+	'click .ADUnread': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);
@@ -717,7 +717,7 @@ Template.userEnquiryPage.events({
 		$('.vEnqRowTwo').hide();
 		$('.unreadEnq').show();
 	},
-	'click .ADFAll': function(){
+	'click .ADFAll': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);
@@ -725,7 +725,7 @@ Template.userEnquiryPage.events({
 		$(".commonCheckbox").prop('checked', false);
 		$('.vEnqRowTwo').show();
 	},
-	'click .ADFRead': function(){
+	'click .ADFRead': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);
@@ -734,7 +734,7 @@ Template.userEnquiryPage.events({
 		$('.vEnqRowTwo').hide();
 		$('.readEnq').show();
 	},
-	'click .ADFUnread': function(){
+	'click .ADFUnread': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('userSort',vSort);

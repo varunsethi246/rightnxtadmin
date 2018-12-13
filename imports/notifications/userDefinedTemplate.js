@@ -19,7 +19,7 @@ Template.userDefinedTemplate.onRendered (function() {
 
 Template.userDefinedTemplate.events({
 	
-'change .radioId':function(){
+'change .radioId':function(event){
 	var radioVal = $(".radioId:checked").val();
 	// console.log(radioVal);
 	Session.set("radioData",radioVal);

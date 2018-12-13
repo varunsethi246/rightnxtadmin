@@ -771,7 +771,7 @@ Template.vendorEnquiry.events({
 	},
 
 	//All, Read, Unread Options of Active and Flagged Menus
-	'click .ADAll': function(){
+	'click .ADAll': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -779,7 +779,7 @@ Template.vendorEnquiry.events({
 		$(".commonCheckbox").prop('checked', false);
 		$('.vEnqRowTwo').show();
 	},
-	'click .ADRead': function(){
+	'click .ADRead': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -788,7 +788,7 @@ Template.vendorEnquiry.events({
 		$('.vEnqRowTwo').hide();
 		$('.readEnq').show();
 	},
-	'click .ADUnread': function(){
+	'click .ADUnread': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -797,7 +797,7 @@ Template.vendorEnquiry.events({
 		$('.vEnqRowTwo').hide();
 		$('.unreadEnq').show();
 	},
-	'click .ADFAll': function(){
+	'click .ADFAll': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -805,7 +805,7 @@ Template.vendorEnquiry.events({
 		$(".commonCheckbox").prop('checked', false);
 		$('.vEnqRowTwo').show();
 	},
-	'click .ADFRead': function(){
+	'click .ADFRead': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -814,7 +814,7 @@ Template.vendorEnquiry.events({
 		$('.vEnqRowTwo').hide();
 		$('.readEnq').show();
 	},
-	'click .ADFUnread': function(){
+	'click .ADFUnread': function(event){
 		Session.set("EnqIDSes",'');
 		var vSort = $(event.target).text();
 		Session.set('vendorSort',vSort);
@@ -833,7 +833,7 @@ Template.vendorEnquiry.events({
 		$('.activeDownListFlag').removeClass('activeDownListBlockFlag');
 		$('.activeDownList').toggle();
 	},
-	'click .activeDownListFlagPre': function(){
+	'click .activeDownListFlagPre': function(event){
     	event.preventDefault();
     	event.stopPropagation();
 
@@ -841,16 +841,16 @@ Template.vendorEnquiry.events({
 		$('.activeDownList').removeClass('activeDownListBlock');
 		$('.activeDownListFlag').toggle();
 	},
-	'click .activeEnquiryTabsPre': function(){
+	'click .activeEnquiryTabsPre': function(event){
 		$('.activeDownListFlag').removeClass('activeDownListBlockFlag');
 		$('.activeDownList').removeClass('activeDownListBlock');
 	},
 
 	// Checked Items Click Events
-	'click .EnqListCheckbox':function(){
+	'click .EnqListCheckbox':function(event){
 		 $(".EnqListCheckboxAll").prop('checked', $('.EnqListCheckbox').prop("checked"));
 	},
-	'click .commonCheckbox': function(){
+	'click .commonCheckbox': function(event){
 		// To select and unselect all checkboxes when click on checked all
 		var businessLink = FlowRouter.getParam('businessLink');
 		var enqListCount = Enquiry.find({"businessLink":businessLink,"vendorArchive":"noArchived"}).count();
@@ -881,7 +881,7 @@ Template.vendorEnquiry.events({
 			$(".vEnqActiveDiv").removeClass('vEnqSpanShow');
 		}
 	},
-	'click .EnqListCheckboxAll':function(){
+	'click .EnqListCheckboxAll':function(event){
 		 $(".EnqListCheckbox").prop('checked', false);
 	},
 	

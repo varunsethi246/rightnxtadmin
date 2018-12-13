@@ -122,7 +122,7 @@ Template.todaysSalesReport.events({
 		Session.set('newDate', newDate2);
 	},
 
-	'click .fapdf': function() {
+	'click .fapdf': function(event) {
 		// var docDefinition = { content: 'My Text' };
 
 		// pdfMake.createPdf(docDefinition).open();

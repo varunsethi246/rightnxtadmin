@@ -75,7 +75,7 @@ Template.offersTabContent.events({
 		
 	},
 
-	'click .offerContentgp ':function(){
+	'click .offerContentgp ':function(event){
 		var url = window.location.href;
 		// googleplusshare(url);
 

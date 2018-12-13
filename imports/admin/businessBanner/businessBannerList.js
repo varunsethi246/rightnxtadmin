@@ -101,7 +101,7 @@ Template.businessBannerList.helpers({
 });
 
 Template.businessBannerList.events({
-	'click .activeBanner':function(){
+	'click .activeBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.activeBanner').addClass('activeBannerColor');
 		Session.set("activeBanners","active");
@@ -111,7 +111,7 @@ Template.businessBannerList.events({
 		// 	}
 		// },1);
 	},
-	'click .newBanner':function(){
+	'click .newBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.newBanner').addClass('activeBannerColor');
 		Session.set("activeBanners","new");
@@ -119,7 +119,7 @@ Template.businessBannerList.events({
 		// 	$('.deleteBanner').addClass('activeBannerShow').removeClass('activeBannerHide');
 		// }
 	},
-	'click .inactiveBanner':function(){
+	'click .inactiveBanner':function(event){
 		$('.bannerComClass').removeClass('activeBannerColor');
 		$('.inactiveBanner').addClass('activeBannerColor');
 		Session.set("activeBanners","inactive");
@@ -127,7 +127,7 @@ Template.businessBannerList.events({
 		// 	$('.deleteBanner').addClass('activeBannerShow').removeClass('activeBannerHide');
 		// }
 	},
-	'keyup .listBannerSearch': function(){
+	'keyup .listBannerSearch': function(event){
 		var textBanner = $('.listBannerSearch').val();
 		Session.set('bannerTextSearch',textBanner);
 		
@@ -204,8 +204,18 @@ Template.businessBannerList.events({
 		var businessLink = $(event.currentTarget).parent().parent().parent().parent().parent().parent().siblings('.bannerTitleFont').children('.bannerLinkFont').text();
     	var bannerData = BusinessBanner.find({"businessLink":businessLink}).fetch();
     	
+    	var selector = [];
+
 		for(i=0;i<bannerData.length;i++){
 			var catg = bannerData[i].category;
+			// selector.push({"businessBannerId" : bannerData[i]._id});
+			// Meteor.call('removeBannerinPayment',selector, function(error,result){
+			// 	if(error){
+			// 		console.log('Error occured while removing Business Banner: ', error);
+			// 	}else{
+			// 		console.log('Banner from payment removed successfully.');	
+			// 	}
+			// });
 			Meteor.call('removeBusinessBannerAll', businessLink, catg, function(error,position){
 				if(error){
 					console.log('Error occured while removing Business Banner: ', error);
@@ -215,6 +225,7 @@ Template.businessBannerList.events({
 				}
 			});
 		}
+		
 	},
 });
 

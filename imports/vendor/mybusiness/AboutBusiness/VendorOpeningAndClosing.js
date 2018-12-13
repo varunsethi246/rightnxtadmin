@@ -40,7 +40,7 @@ Template.vendorOpeningAndClosing.events({
   'click #toTime':function(event){
     $( ".toTimeC" ).click();
   },
-  'focusin .vendorPayHideInput':function(){
+  'focusin .vendorPayHideInput':function(event){
     // $('.selectOption').css('background','red');
     $('.selectOption').focus();
     if($('.selectOption').focus()){
@@ -297,7 +297,7 @@ Template.vendorOpeningAndClosing.events({
     }
   }, 
 
-  'change #editcheckAll' : function(){
+  'change #editcheckAll' : function(event){
     $(".selectAll").prop('checked',$('#editcheckAll').prop('checked'));
     if($('#editcheckAll').prop('checked')){
       paymentModeE = {
@@ -350,7 +350,7 @@ Template.vendorOpeningAndClosing.events({
     e.stopPropagation(); 
   },
 
-  'focusout .selectOption': function(){
+  'focusout .selectOption': function(event){
     $('.showOption').addClass('hideDiv');
   },
 

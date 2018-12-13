@@ -173,7 +173,7 @@ Template.ViewAllNotif.events({
 	    });
 	},
 
-	'click .trash':function(){
+	'click .trash':function(event){
 	    var value = this;
 	    var id = this.id;
 	    Meteor.call('deleteNotification',id,function(error,result){
@@ -189,14 +189,14 @@ Template.ViewAllNotif.events({
 });
 
 Template.adminHeader.events({
-	'click .sidebar-toggle':function (){
+	'click .sidebar-toggle':function (event){
 		// $(".adminPhoto").toggleClass("");
 		// $(".wrapper").toggleClass("toggled");
 		// $(".username").toggleClass("userDisplaynone");
 
 	},
 	
-	'click .grears':function (){
+	'click .grears':function (event){
 		// $(".reportWrapper").toggle();
 	},
 
@@ -284,14 +284,14 @@ Template.adminSidebar.events({
 	},	
 
 
-	'click .menuSubCat14':function(){
+	'click .menuSubCat14':function(event){
 		
 		Session.set("businessLink",null);
 		Session.set('areaBannerArray',null);
 		Session.set('catgArray',null);
 	},
 	
-	'click .menuSubCat17':function(){		
+	'click .menuSubCat17':function(event){		
 		Session.set("adsBusinessLink",null);
 		Session.set('areaAdsArray',null);
 		Session.set('catgAdsArray',null);

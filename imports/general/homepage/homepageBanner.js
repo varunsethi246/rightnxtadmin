@@ -169,7 +169,7 @@ Template.homepageBanner.events({
     // $("#getCity").val($(e.currentTarget).text());var id=$(e.currentTarget).text().trim();id=id.toLowerCase().replace(/\b[a-z]/g,function(e){return e.toUpperCase()}),Session.set("userSelectedCity",id),$("#changeCityModal").modal("hide");var cityCookie="getCurrentCityName="+id;document.cookie=cityCookie;var currentCity=Cookie.get("getCurrentCityName");if(currentCity)$(".curUserCity").text(currentCity);else{var sesCity=Session.get("userSelectedCity");sesCity?$(".curUserCity").text(sesCity):$(".curUserCity").text("Pune")}
   },
 
-  'click .searchBusList':function() {
+  'click .searchBusList':function(event) {
     $(".homeSearchBarList").addClass("searchDisplayShow").removeClass("searchDisplayHide");
     var searchString=$("#getBusiness").val();
     var currentCity = $('#getCity').val();

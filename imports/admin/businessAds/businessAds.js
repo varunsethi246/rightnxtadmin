@@ -749,13 +749,13 @@ Template.businessAds.events({
 		// Session.set('catgAdsArray',catgAdsArray);
 		// $('#getAdsCategory').val('');
 	},
-	'focusout .getAdsmonth':function(template){
+	'focusout .getAdsmonth':function(event){
 		var month = $('.getAdsmonth').val(); 
 		var startDate = moment($('.getAdsdate').val());
         var futureMonth = moment(startDate).add(month, 'M').format('YYYY-MM-DD');
 		$('.enddate').val(futureMonth);
 	},
-	'focusout .getAdsdate':function(){
+	'focusout .getAdsdate':function(event){
 		var month = $('.getAdsmonth').val(); 
 		var startDate = moment($('.getAdsdate').val());
         var futureMonth = moment(startDate).add(month, 'M').format('YYYY-MM-DD');

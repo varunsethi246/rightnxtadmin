@@ -12,7 +12,7 @@ import './VendorBusinessInformation.html'
 // });
 
 Template.vendorBusinessInformation.events({
-  'keydown .businessAbtBus':function(){
+  'keydown .businessAbtBus':function(event){
       setTimeout(function() {
          var aboutBus = $('.businessAbtBus').val();
          if(aboutBus){
@@ -24,7 +24,7 @@ Template.vendorBusinessInformation.events({
          }
       }, 1);
    },
-   'focusout .businessAbtBus':function(){
+   'focusout .businessAbtBus':function(event){
         var myFuncVar = $(".businessAbtBus").val();
         if ((myFuncVar.length>0&&myFuncVar.length<150)||myFuncVar.length>2500) {
             $(".SpanbusinessAbtBus").addClass("ErrorRedText");
@@ -96,7 +96,7 @@ Template.vendorBusinessInformation.events({
     }
     $("#businessLink").val(myFuncVarLink.replace(/ /g,''));
   },
-  'keyup .businessTitleC':function(){
+  'keyup .businessTitleC':function(event){
     if($('.businessLinkC').val().length <= 50 ){
       // $('.businessLinkC').val(($('#businessTitle').val()).replace(/ /g,'').substring(0,50));
     }
@@ -276,7 +276,7 @@ Template.vendorBusinessInformation.events({
       errorIn = "true";
     } 
 
-    if(errorIn!="true" && formValues.businessTitle && formValues.businessLink && formValues.businessEmailId && formValues.businessAddress && formValues.businessCountry && formValues.businessState && formValues.businessCity && formValues.businessArea && formValues.businessZipCode && venState != "--Select--" && venCity != "--Select--" && venArea != "--Select--") {
+    if(errorIn!="true" && formValues.businessTitle && formValues.businessLink && formValues.businessAddress && formValues.businessCountry && formValues.businessState && formValues.businessCity && formValues.businessArea && formValues.businessZipCode && venState != "--Select--" && venCity != "--Select--" && venArea != "--Select--") {
       // if(venState != "--Select--" && venCity != "--Select--" && venArea != "--Select--") {
         Meteor.call('updateBusInfoAcc', id, formValues, 
           function(error,result){

@@ -589,5 +589,21 @@ Meteor.methods({
 		);
 		// return businessLink;
 	},
+	'removeBannerinPayment': function(bannerSelector){
+		// console.log('bannerSelector',bannerSelector);
+		var paymentObj = Payment.findOne({'businessBanner':bannerSelector});
+		// console.log('paymentObj',paymentObj);
+		if(paymentObj){
+			Payment.remove({'_id':paymentObj._id});
+		}
+	},
+	'removeAdsinPayment': function(adsSelector){
+		// console.log('adsSelector',adsSelector);
+		var paymentObj = Payment.findOne({'businessAds':adsSelector});
+		// console.log('paymentObj',paymentObj);
+		if(paymentObj){
+			Payment.remove({'_id':paymentObj._id});
+		}
+	},
 	
 });

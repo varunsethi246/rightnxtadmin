@@ -109,7 +109,7 @@ Template.monthlySalesReport.events({
 		Session.set('selectedMonth', newMonth);
 	},
 
-	'click .fapdf': function() {
+	'click .fapdf': function(event) {
 		// var docDefinition = { content: 'My Text' };
 
 		// pdfMake.createPdf(docDefinition).open();

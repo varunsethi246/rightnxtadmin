@@ -130,34 +130,34 @@ Template.vendorSidebar.helpers({
 });
 
 Template.vendorSidebar.events({
-	'click .clickAddNewBusi': function(){
+	'click .clickAddNewBusi': function(event){
     	Session.set("backlinkurl",'');
 	},
-	'click .myBussinessList': function(){
+	'click .myBussinessList': function(event){
 		Session.set('EnqIDSes','');
 	},
 
 	//Sidebar Menu My Business, Add New Business, Payment Menu Click Events for Selected item
-	'click .menusidebarClass0':function(){
+	'click .menusidebarClass0':function(event){
 		$('.menusidebarClass0').toggleClass('mymenucolorSelect');
 		$('.menusidebarClass1').removeClass('mymenucolorSelect');
 		$('.menusidebarClass2').removeClass('mymenucolorSelect');
 		$('.menusidebarClass3').removeClass('mymenucolorSelect');
 	},
-	'click .menusidebarClass1': function(){
+	'click .menusidebarClass1': function(event){
 		$('.menusidebarClass0').removeClass('mymenucolorSelect');
 		$('.menusidebarClass1').toggleClass('mymenucolorSelect');
 		$('.menusidebarClass2').removeClass('mymenucolorSelect');
 		$('.menusidebarClass3').removeClass('mymenucolorSelect');
 	},
-	'click .menusidebarClass2': function(){
+	'click .menusidebarClass2': function(event){
 		$('.menusidebarClass0').removeClass('mymenucolorSelect');
 		$('.menusidebarClass1').removeClass('mymenucolorSelect');
 		$('.menusidebarClass2').toggleClass('mymenucolorSelect');
 		$('.menusidebarClass3').removeClass('mymenucolorSelect');
 		// Session.set("backlinkurl",'');
 	},
-	'click .menusidebarClass3': function(){
+	'click .menusidebarClass3': function(event){
 		$('.menusidebarClass0').removeClass('mymenucolorSelect');
 		$('.menusidebarClass1').removeClass('mymenucolorSelect');
 		$('.menusidebarClass2').removeClass('mymenucolorSelect');
@@ -170,39 +170,39 @@ Template.vendorSidebar.events({
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$(".menuSubCat1").addClass('mymenucolorSelect');
 	},
-	'click .menuSubCat2': function(){
+	'click .menuSubCat2': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat2').addClass('mymenucolorSelect');
 	},
-	'click .menuSubCat3': function(){
+	'click .menuSubCat3': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat3').addClass('mymenucolorSelect');
 	},
-	'click .menuSubCat4': function(){
+	'click .menuSubCat4': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat4').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat5': function(){
+	'click .menuSubCat5': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat5').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat6': function(){
+	'click .menuSubCat6': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat6').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat7': function(){
+	'click .menuSubCat7': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat7').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat8': function(){
+	'click .menuSubCat8': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat8').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat9': function(){
+	'click .menuSubCat9': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat9').addClass('mymenucolorSelect');		
 	},
-	'click .menuSubCat10': function(){
+	'click .menuSubCat10': function(event){
 		$('.menuSubCat').removeClass('mymenucolorSelect');
 		$('.menuSubCat10').addClass('mymenucolorSelect');		
 	},

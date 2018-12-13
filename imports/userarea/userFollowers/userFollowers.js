@@ -533,7 +533,7 @@ Template.findYourFriends.events({
 
 	},
 
-	'focus #userSearch': function(){
+	'focus #userSearch': function(event){
 		$('.secondDiv').hide();
 		$('.firstDiv').css('display','block');
 	},

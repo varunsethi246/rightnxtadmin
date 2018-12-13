@@ -343,7 +343,7 @@ Template.allbusinessList.events({
             $('.enquiryPhotoAll').val('');
         }
     },
-	'click .listRelevance': function(){
+	'click .listRelevance': function(event){
 		$('.busListSelectedPre').removeClass('busListSelected');
 		$('.listRelevance').addClass('busListSelected');
 		$('.thumBusOffers').css('display','none');
@@ -416,7 +416,7 @@ Template.allbusinessList.events({
 		});
 
 	},
-	'click .listDistance': function(){
+	'click .listDistance': function(event){
 		$('.busListSelectedPre').removeClass('busListSelected');
 		$('.listDistance').addClass('busListSelected');
 		$('.thumBusOffers').css('display','none');
@@ -460,7 +460,7 @@ Template.allbusinessList.events({
 
 
 	},
-	'click .sidebarMapPre': function(){
+	'click .sidebarMapPre': function(event){
 		var data = Template.currentData(self.view);
 		// console.log('data:',data);
         Blaze.renderWithData(Template.businessMap, data, $(".mapContainer")[0]);
@@ -1026,7 +1026,7 @@ Template.businessList.events({
 	},
 
 	// Map View Click Events
-	'click .mapVwPointer': function() {
+	'click .mapVwPointer': function(event) {
 		$('.displayMapView').show();
 		$('.displayMapView').addClass('col-lg-5');
 		$('.displayGridView').removeClass('col-lg-8');
@@ -1064,7 +1064,7 @@ Template.businessList.events({
     	}, 1);
 	},
 	// Grid View Click Events
-	'click .gridVwBus': function() {
+	'click .gridVwBus': function(event) {
 		$('.sidebarMapPre').css('display','block');
 		$('.displayMapView').hide();
 		$('.displayGridView').addClass('col-lg-8');

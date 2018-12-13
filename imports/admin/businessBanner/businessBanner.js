@@ -1115,13 +1115,13 @@ Template.businessBanner.events({
 	    bannerCategorySearch1.search(currentText);
 	    
 	  }, 200),
-	'focusout .getdate':function(){
+	'focusout .getdate':function(event){
 		var month = $('.getmonth').val(); 
 		var startDate = moment($('.startDate').val());
         var futureMonth = moment(startDate).add(month, 'M').format('YYYY-MM-DD');
 		$('.enddate').val(futureMonth);
 	},
-	'focusout .getmonth':function(template){
+	'focusout .getmonth':function(event){
 		var month = $('.getmonth').val(); 
 		
 		var startDate = moment($('.getdate').val());
@@ -1159,7 +1159,7 @@ Template.businessBanner.events({
 
 	},
 
-	'change .addbannerState':function(){
+	'change .addbannerState':function(event){
 		var state = $(".addbannerState").val();
       	Session.set("addbannerStateSess",state);
 
@@ -1174,7 +1174,7 @@ Template.businessBanner.events({
         }
 	},
 	
-	'change .addbannerCity':function(){
+	'change .addbannerCity':function(event){
 		var city = $(".addbannerCity").val();
       	Session.set("addbannerCitySess",city);
 
