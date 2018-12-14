@@ -21,6 +21,9 @@
 						<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">
 							<i class="fa fa-question-circle vBusTitleI pull-right" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Select the category according to your Business. For eg. Sweet Shop, Furniture Shop etc. You can select max upto 5 categories"></i>
 						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<span class="SpanCategoryErrors"></span>
+						</div>
 					</div>
 				</div>
 
@@ -93,7 +96,7 @@
 							</div>
 						</div>
 						<!-- Add Time Frame Button -->
-						<div class="col-lg-4 col-md-4 col-sm-4 outerTimeFrame">
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 outerTimeFrame">
 							<div class="visible-xs TimeFrameBtnPre"></div>
 							<div  class="btn TimeFrameBtn">Add Time Frame</div>
 							<div class="row">
@@ -112,7 +115,7 @@
 											<td>{{toTime}}</td>
 											<!-- <td> <a href="#"> close </a> </td> -->
 											<td class="text-center">
-												<a href="" id="bt-{{day}}" class="btClear"> 
+												<a href="" id="bt-{{day}}" class="btClear" data-index="{{index}}"> 
 													<i class="fa fa-trash text-danger" aria-hidden="true"></i> 
 												</a>
 											</td>
@@ -128,12 +131,12 @@
 				<div class="form-group vContactInfoFormTwo">
 					<h5>Contact Information</h5>
 					<div class="row">
-						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 							<label>Landline</label><br>
 							<input type="text" class="form-control businessLandlineC" name="businessLandline" id="businessLandline" value="{{businessLandline}}" maxlength="12" placeholder="020-XXXXXXXX">
 							<span class="SpanLandLine"></span>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 							<label>Mobile</label><br>
 							<div class="input-group MoBInputGroup">
 							  <span class="input-group-addon">+91</span>
@@ -141,7 +144,7 @@
 							</div>
 							<span class="SpanMobile"></span>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 							<label>Alternate Mobile</label><br>
 							<div class="input-group">
 							  <span class="input-group-addon">+91</span>
@@ -211,6 +214,9 @@
 						</div>
 						<div class="col-lg-12 vendorPayHidden">
 							<input type="text" class="vendorPayHideInput">
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<span class="SpanModeOfPayErrors"></span>
 						</div>
 					</div>
 				</div>

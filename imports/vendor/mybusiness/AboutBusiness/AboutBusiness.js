@@ -260,7 +260,7 @@ Template.aboutBusiness.helpers({
 	      	}
 			
 	      	if(data.businessVideo ){
-	      		if(data.businessVideo == '' ){
+	      		if(!data.businessVideo){
 	      			data.businessVideo = false;
 	      		}else{
 			      	Session.set("videoPresent",1);
@@ -328,9 +328,8 @@ Template.aboutBusiness.helpers({
 			    			
 			    			if(catVal){
 			    				if(catVal.menuStatus=="Disable"){
-
 			    					statusEnable = "disabledCatMenu";
-			    				} else {
+			    				}else {
 			    					statusEnable = "enabledCatMenu";
 			    					break;
 			    				}
@@ -445,7 +444,7 @@ Template.aboutBusiness.events({
 			if(error){
 				Bert.alert(error.reason,"danger",'growl-top-right');
 			}else{
-				Bert.alert('Business inactivated successfully!','success','growl-top-right');
+				Bert.alert('Business deleted Successfully','success','growl-top-right');
 
 				// ============================================================
 				// 			Notification Email / SMS / InApp
@@ -604,6 +603,10 @@ Template.aboutBusiness.events({
 
 Template.aboutBusiness.onRendered(function(){
 	$('html, body').scrollTop(0);
+	var windowWidth = $(window).width();
+	if (windowWidth >= 320 && windowWidth <= 767){
+	    $('[data-toggle="tooltip"]').tooltip(); 
+	}
 });
 
 aboutBusinessForm = function () {  

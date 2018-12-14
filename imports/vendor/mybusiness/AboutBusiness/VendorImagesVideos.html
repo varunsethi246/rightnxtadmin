@@ -95,6 +95,7 @@
 						        {{else}}
 									{{#unless businessVideo}}
 							            <input id="fileInput" type="file" accept=".mp4,.3gp,.ogv,.webm"/>
+							            <!-- <img src="" height="100px" width="100px"> -->
 						            {{/unless}}
 						    {{/with}}
 
@@ -103,7 +104,7 @@
 								
 									<div class="row vPhotosYouRow">
 										{{#each files}} 
-										<div class="col-lg-4 col-md-4 col-sm-4  col-xs-12 vPhotosUserRowSec noPaddingGeneral">
+										<div class="col-lg-4 col-md-4 col-sm-4  col-xs-12 vPhotosUserRowSec">
 											<div class="vPhotosYouRImgNew vPhotosYouRImgPost">
 												<i class="fa fa-times-circle pull-right deleteVideo cursorPointer" id="video-{{_id}}" aria-hidden="true"></i>
 												<div class="videoShow">

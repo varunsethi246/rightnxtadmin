@@ -12,7 +12,7 @@ import './VendorBusinessInformation.html'
 // });
 
 Template.vendorBusinessInformation.events({
-  'keydown .businessAbtBus':function(event){
+  'keydown .businessAbtBus':function(){
       setTimeout(function() {
          var aboutBus = $('.businessAbtBus').val();
          if(aboutBus){
@@ -24,7 +24,7 @@ Template.vendorBusinessInformation.events({
          }
       }, 1);
    },
-   'focusout .businessAbtBus':function(event){
+   'focusout .businessAbtBus':function(){
         var myFuncVar = $(".businessAbtBus").val();
         if ((myFuncVar.length>0&&myFuncVar.length<150)||myFuncVar.length>2500) {
             $(".SpanbusinessAbtBus").addClass("ErrorRedText");
@@ -96,7 +96,7 @@ Template.vendorBusinessInformation.events({
     }
     $("#businessLink").val(myFuncVarLink.replace(/ /g,''));
   },
-  'keyup .businessTitleC':function(event){
+  'keyup .businessTitleC':function(){
     if($('.businessLinkC').val().length <= 50 ){
       // $('.businessLinkC').val(($('#businessTitle').val()).replace(/ /g,'').substring(0,50));
     }

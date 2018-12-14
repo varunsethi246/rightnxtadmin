@@ -58,7 +58,12 @@ Template.businessAds.onCreated(function () {
 
 Template.businessAds.helpers({
 	getAdsbusiness: function() {
-	    return adsBussinessSearch1.getData()
+		var state = Session.get("addadsStateSess");
+	    var city = Session.get("addadsCitySess");
+
+	    if(state && city && state!="--Select--" && city!="--Select--"){
+	    	return adsBussinessSearch1.getData();
+	    }
   	},
   	getAdscategory: function() {
 	    var data =  adsCategorySearch1.getData();
@@ -330,7 +335,7 @@ Template.businessAds.helpers({
     				businessAds[i].numOfAreas=0;
     			}
 				var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds[i].position)});
-				console.log("monthlyRate: ",monthlyRate);
+				// console.log("monthlyRate: ",monthlyRate);
 
     			businessAds[i].monthlyRate 	= monthlyRate.rate;
 				businessAds[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds[i].areas.length) * parseInt(businessAds[i].noOfMonths);
@@ -440,9 +445,11 @@ Template.adsInvoice.helpers({
 			    				var numOfAreas=0;
 			    			}
 							var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds.position)});
-			    			var monthlyRate1 	= monthlyRate.rate;
-							var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds.areas.length) * parseInt(businessAds.noOfMonths);
-			    			totalPrice= totalPrice + totalAmount;
+			    			if(monthlyRate){
+				    			var monthlyRate1 	= monthlyRate.rate;
+								var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds.areas.length) * parseInt(businessAds.noOfMonths);
+				    			totalPrice= totalPrice + totalAmount;
+			    			}
 			    			businessAdsArray.push({
 			    				'numOfAreas'  : numOfAreas,
 			    				'monthlyRate' : monthlyRate1,
@@ -500,6 +507,19 @@ Template.adsInvoice.helpers({
 
 
 Template.businessAds.events({
+	'change #dateCurrent': function(event){
+		var changeFromDate = new Date(event.currentTarget.value);
+		var months = $('#adsMonth').val();
+		if(months){
+			var numOfMonths = months;
+		}else{
+			var numOfMonths = 1;
+		}
+
+		var result = moment(changeFromDate).add(numOfMonths, 'months');
+		var newToDate = moment(result).format('YYYY-MM-DD');
+		$('#adsEndDate').val(newToDate);
+	},
 	'change .addadsState':function(event){
 		event.preventDefault();
 		var state = $(".addadsState").val();
@@ -602,6 +622,7 @@ Template.businessAds.events({
 			}
 
 			var paymentCheck = Payment.find({"businessLink":businessLink,"orderType":'Ads','paymentStatus':'unpaid'}).fetch();
+			// console.log('paymentCheck',paymentCheck);
 			if(paymentCheck.length>0) {
 				formValues.invoiceNumber = paymentCheck[0].invoiceNumber;
 				Meteor.call('updateAdsPayment', formValues, function(error,position){
@@ -628,29 +649,21 @@ Template.businessAds.events({
 		}else{
 			console.log('error')
 			Bert.alert( 'Please provide all data!', 'danger', 'growl-top-right' );
-
 		}
-		
 	},
-	// 'focus #business': function(event){
-	// 	$('#searchAdsBusiness').find('option').empty();
-	// 	var searchState = $('select[name="businessState"]').val();
-	//     var searchCity = $('select[name="businessCity"]').val();
-	//     if(searchState =="--Select--" && searchCity =="--Select--"){
-	//     	Session.set("addadsStateSess",null);
-	//     	Session.set("addadsCitySess",null);		
-	//     }else if(searchState =="--Select--"){
-	//     	Session.set("addadsStateSess",null);
-	//     }else if(searchCity =="--Select--"){
-	//     	Session.set("addadsCitySess",null);
-	//     }
-	// },
+	'keydown #business': function(e){
+        var state = Session.get("addadsStateSess");
+	    var city = Session.get("addadsCitySess");
+	    // console.log('state,city',city,state);
+		if(!state||!city||state=="--Select--"||city=="--Select--"){
+			e.preventDefault();
+		}
+    },
 	"keyup #business": _.throttle(function(e) {
 	    var searchText = $(e.target).val().trim();
 	    var state = Session.get("addadsStateSess");
 	    var city = Session.get("addadsCitySess");
 	    // var area = $('.addbannerArea').val();
-	    // console.log('state,city',city,state);
 
 	    if(state && city && state!="--Select--" && city!="--Select--" && searchText){
 	    	var searchTxt = state + '|' + city + '|' + 'undefined' + '|' + searchText;
@@ -660,21 +673,6 @@ Template.businessAds.events({
 	    		adsBussinessSearch1.search(searchText);		    
 	    	}
 	    }
-// =======
-// 	    var state = Session.get("addadsStateSess");
-// 	    var city = Session.get("addadsCitySess");
-// 	    var searcharea = $('.addbannerArea').val();
-// 	    if(searcharea){
-// 		    var area = searcharea;
-// 	    }else{
-// 	    	var area = 'undefined';
-// 	    }
-
-// 		if(state && city && searchText){
-// 	    	var searchTxt = state + '|' + city + '|' + area + '|' + searchText;
-// 	    	adsBussinessSearch1.search(searchTxt);		    
-// 		}
-// >>>>>>> Stashed changes
 	}, 200),
 
 	"keyup #getAdsCategory": _.throttle(function(e) {

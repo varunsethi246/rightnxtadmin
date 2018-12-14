@@ -35,7 +35,7 @@ Template.vendorAboutOwner.events({
          }
       }, 1);
    },
-  'click #venFileUpldbutton': function(event){
+  'click #venFileUpldbutton': function(){
     $(".vendorImg").trigger('click');
   },
   'change .vendorImg' : function(event,template){

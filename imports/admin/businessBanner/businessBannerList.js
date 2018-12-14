@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { Business } from '/imports/api/businessMaster.js';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { Payment } from '/imports/api/paymentMaster.js';
 import '/imports/admin/commonAdmin/commonAdmin.js';
 import './businessBannerList.html';
 
@@ -32,47 +33,90 @@ Template.businessBannerList.helpers({
 			bannerStatus = "inactive";
 		}
 
-    	var bannerData = BusinessBanner.find({"status":bannerStatus}).fetch();
+		var paymentArr = Payment.find({"orderType":"Banner"}).fetch();
+		if(paymentArr.length > 0){
+			for (var i = 0; i < paymentArr.length; i++) {
+				var bannerArray = paymentArr[i].businessBanner;
+				if(bannerArray.length>0){
+					var categoryArr = [];
+    				var positionArr = [];
+					for (var j = 0; j < bannerArray.length; j++) {
+    					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
+						if(bannerData){
+							var buttonStatus = '';
+				    		var buttonStatusText = '';
+				    		if(bannerData.status=="active"){
+				    			buttonStatus = "danger";
+				    			buttonStatusText = "Deactivate";
+				    		}else{
+				    			buttonStatus = "success";
+				    			buttonStatusText = "Activate";
+				    		}
 
-    	if(bannerData){
-    		var data = _.uniq(bannerData, function(p){ return p.businessLink; });
-    		for(i=0;i<data.length;i++){
-    			var categoryArr = [];
-    			var positionArr = [];
-    			for(j=0;j<bannerData.length;j++){
-	    			if(data[i].businessLink==bannerData[j].businessLink){
-	    				categoryArr.push(bannerData[j].category);
-	    				var position = bannerData[j].position + "-" + bannerData[j].rank;
-	    				positionArr.push(position);
-	    			}
-	    		}
+				    		categoryArr.push(bannerData.category);
+		    				var position = bannerData.position + "-" + bannerData.rank;
+		    				positionArr.push(position);
 
-	    		var buttonStatus = '';
-	    		var buttonStatusText = '';
-	    		if(data[i].status=="active"){
-	    			buttonStatus = "danger";
-	    			buttonStatusText = "Deactivate";
-	    		}else{
-	    			buttonStatus = "success";
-	    			buttonStatusText = "Activate";
-	    		}
+				    		var objData = {
+			    				categoryArrList		: categoryArr,
+			    				businessLink		: bannerData.businessLink,
+			    				bussinessTitle		: bannerData.businessTitle,
+			    				businessPosition	: positionArr,
+			    				bannerDuration		: bannerData.noOfMonths,
+			    				buttonStatusText 	: buttonStatusText,
+								buttonStatus 		: buttonStatus,
+								startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+								endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+			    			};
+			    			
+			    			bannerListDetails.push(objData);
+						}	
+					}
+				}
+			}
+		}
 
-	    		var objData = {
-    				categoryArrList		: categoryArr,
-    				businessLink		: data[i].businessLink,
-    				bussinessTitle		: data[i].businessTitle,
-    				businessPosition	: positionArr,
-    				bannerDuration		: data[i].noOfMonths,
-    				buttonStatusText 	: buttonStatusText,
-					buttonStatus 		: buttonStatus,
-					startDate			: moment(data[i].startDate).format('DD/MM/YYYY'),
-					endDate				: moment(data[i].endDate).format('DD/MM/YYYY'),
-    			};
+    	// var bannerData = BusinessBanner.find({"status":bannerStatus}).fetch();
+
+    	// if(bannerData){
+    	// 	var data = _.uniq(bannerData, function(p){ return p.businessLink; });
+    	// 	for(i=0;i<data.length;i++){
+    	// 		var categoryArr = [];
+    	// 		var positionArr = [];
+    	// 		for(j=0;j<bannerData.length;j++){
+	    // 			if(data[i].businessLink==bannerData[j].businessLink){
+	    // 				categoryArr.push(bannerData[j].category);
+	    // 				var position = bannerData[j].position + "-" + bannerData[j].rank;
+	    // 				positionArr.push(position);
+	    // 			}
+	    // 		}
+
+	    // 		var buttonStatus = '';
+	    // 		var buttonStatusText = '';
+	    // 		if(data[i].status=="active"){
+	    // 			buttonStatus = "danger";
+	    // 			buttonStatusText = "Deactivate";
+	    // 		}else{
+	    // 			buttonStatus = "success";
+	    // 			buttonStatusText = "Activate";
+	    // 		}
+
+	    // 		var objData = {
+    	// 			categoryArrList		: categoryArr,
+    	// 			businessLink		: data[i].businessLink,
+    	// 			bussinessTitle		: data[i].businessTitle,
+    	// 			businessPosition	: positionArr,
+    	// 			bannerDuration		: data[i].noOfMonths,
+    	// 			buttonStatusText 	: buttonStatusText,
+					// buttonStatus 		: buttonStatus,
+					// startDate			: moment(data[i].startDate).format('DD/MM/YYYY'),
+					// endDate				: moment(data[i].endDate).format('DD/MM/YYYY'),
+    	// 		};
     			
-    			bannerListDetails.push(objData);
+    	// 		bannerListDetails.push(objData);
 	    		
-    		}
-    	}
+    	// 	}
+    	// }
 
     	// Search by Business Title or Business Category
     	if(Session.get('bannerTextSearch')){
@@ -201,30 +245,48 @@ Template.businessBannerList.events({
 		}
 	},
 	'click .btnDeleteAction': function(event){
-		var businessLink = $(event.currentTarget).parent().parent().parent().parent().parent().parent().siblings('.bannerTitleFont').children('.bannerLinkFont').text();
-    	var bannerData = BusinessBanner.find({"businessLink":businessLink}).fetch();
-    	
+		// console.log('bannerArray:',this);
     	var selector = [];
-
-		for(i=0;i<bannerData.length;i++){
-			var catg = bannerData[i].category;
-			// selector.push({"businessBannerId" : bannerData[i]._id});
-			// Meteor.call('removeBannerinPayment',selector, function(error,result){
-			// 	if(error){
-			// 		console.log('Error occured while removing Business Banner: ', error);
-			// 	}else{
-			// 		console.log('Banner from payment removed successfully.');	
-			// 	}
-			// });
-			Meteor.call('removeBusinessBannerAll', businessLink, catg, function(error,position){
+		var categoryArray = this.categoryArrList;
+		if(categoryArray.length>0){
+			for (var i = 0; i < categoryArray.length; i++) {
+    			var bannerData = BusinessBanner.findOne({"businessLink":this.businessLink,"category":categoryArray[i]});
+    			if(bannerData){
+					selector.push({"businessBannerId" : bannerData._id});
+					Meteor.call('removeBusinessBannerAll', this.businessLink, categoryArray[i], function(error,position){
+						if(error){
+							console.log('Error occured while removing Business Banner: ', error);
+						}else{
+							console.log('Business Bannerremoved successfully');
+							$('.modal-backdrop').hide();
+						}
+					});
+    			}
+			}
+			Meteor.call('removeBannerinPayment',selector, function(error,result){
 				if(error){
 					console.log('Error occured while removing Business Banner: ', error);
 				}else{
-					console.log('Business Bannerremoved successfully');
-					$('.modal-backdrop').hide();
+					console.log('Banner from payment removed successfully.');	
 				}
 			});
 		}
+
+		//Old Code
+		// var businessLink = $(event.currentTarget).parent().parent().parent().parent().parent().parent().siblings('.bannerTitleFont').children('.bannerLinkFont').text();
+  //   	var bannerData = BusinessBanner.find({"businessLink":businessLink}).fetch();
+    	
+		// for(i=0;i<bannerData.length;i++){
+		// 	var catg = bannerData[i].category;
+		// 	Meteor.call('removeBusinessBannerAll', businessLink, catg, function(error,position){
+		// 		if(error){
+		// 			console.log('Error occured while removing Business Banner: ', error);
+		// 		}else{
+		// 			console.log('Business Bannerremoved successfully');
+		// 			$('.modal-backdrop').hide();
+		// 		}
+		// 	});
+		// }
 		
 	},
 });

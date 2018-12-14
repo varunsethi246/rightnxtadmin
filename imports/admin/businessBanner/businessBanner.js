@@ -79,7 +79,12 @@ Template.businessBanner.onCreated(function () {
 
 Template.businessBanner.helpers({
 	getbusiness: function() {
-	    return bannerBussinessSearch1.getData();
+		var state = Session.get("addbannerStateSess");
+	    var city = Session.get("addbannerCitySess");
+	    // console.log(state,city);
+		if(state&&city&&state!="--Select--"&&city!="--Select--"){
+	    	return bannerBussinessSearch1.getData();
+		}
   	},
 
 	getArea: function() {
@@ -145,7 +150,7 @@ Template.businessBanner.helpers({
 	  		var businessDetails = Business.findOne({'businessLink':businessLink});
   			// console.log('businessLink :',businessDetails);
   			
-  			var bannerDetails = BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
+  			var bannerDetails = BusinessBanner.find({"businessLink":businessLink,"status":{$in : ['active','new']}}).fetch();
 	    	// console.log("businessBanner: ",bannerDetails);
 	    	if(bannerDetails){
 	    		if(bannerDetails.length > 0){
@@ -461,7 +466,7 @@ Template.businessBanner.helpers({
 	    				businessBanner[i].numOfAreas=0;
 	    			}
 					var monthlyRate = Position.findOne({'position':parseInt(businessBanner[i].position)});
-					console.log("monthlyRate: ",monthlyRate);
+					// console.log("monthlyRate: ",monthlyRate);
 					if(monthlyRate){
 	    				businessBanner[i].monthlyRate 	= monthlyRate.rate;
 						businessBanner[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessBanner[i].areas.length) * parseInt(businessBanner[i].noOfMonths);
@@ -469,7 +474,7 @@ Template.businessBanner.helpers({
 	    		}
     		}
     	}
-    	console.log("businessBanner: ",businessBanner);
+    	// console.log("businessBanner: ",businessBanner);
 		return businessBanner;
   	},
 
@@ -696,6 +701,19 @@ Template.bannerInvoice.events({
 });
 
 Template.businessBanner.events({
+	'change #dateCurrent': function(event){
+		var changeFromDate = new Date(event.currentTarget.value);
+		var months = $('#bannerMonth').val();
+		if(months){
+			var numOfMonths = months;
+		}else{
+			var numOfMonths = 1;
+		}
+
+		var result = moment(changeFromDate).add(numOfMonths, 'months');
+		var newToDate = moment(result).format('YYYY-MM-DD');
+		$('#bannerEndDate').val(newToDate);
+	},
 	'click .bannerDelete':function(event){
 		event.preventDefault();
 		var id = event.currentTarget.id;
@@ -1037,34 +1055,31 @@ Template.businessBanner.events({
 		}
 		
 	},
-	// 'focus #business': function(event){
-	// 	$('#searchBusiness').find('option').empty();
-	// 	var searchState = $('select[name="businessState"]').val();
-	//     var searchCity = $('select[name="businessCity"]').val();
-	//     if(searchState =="--Select--" && searchCity =="--Select--"){
-	//     	Session.set("addbannerStateSess",null);
-	//     	Session.set("addbannerCitySess",null);		
-	//     }else if(searchState =="--Select--"){
-	//     	Session.set("addbannerStateSess",null);
-	//     }else if(searchCity =="--Select--"){
-	//     	Session.set("addbannerCitySess",null);
-	//     }
-	// },
+	'keydown #business': function(e){
+        var state = Session.get("addbannerStateSess");
+	    var city = Session.get("addbannerCitySess");
+	    // console.log(state,city);
+		if(!state||!city||state=="--Select--"||city=="--Select--"){
+			e.preventDefault();
+		}
+    },
 
 	"keyup #business": _.throttle(function(e) {
+	    var state = Session.get("addbannerStateSess");
+	    var city = Session.get("addbannerCitySess");
+	    // var area = $('.addbannerArea').val();
+		
 		$('.displayListShow').show();
-		    var searchText = $(e.target).val().trim();
-		    var state = Session.get("addbannerStateSess");
-		    var city = Session.get("addbannerCitySess");
-		    // var area = $('.addbannerArea').val();
+	    var searchText = $(e.target).val().trim();
 
-		    if(state!="--Select--" && city!="--Select--" && searchText){
-		    	var searchTxt = state + '|' + city + '|' + 'undefined' + '|' + searchText;
-		    	if(searchTxt){
-		    		bannerBussinessSearch1.search(searchTxt);		    
-		    	}
-		    }
-		}, 200),
+	    if(state&&city&&state!="--Select--"&&city!="--Select--"&&searchText){
+	    	var searchTxt = state + '|' + city + '|' + 'undefined' + '|' + searchText;
+	    	if(searchTxt){
+	    		bannerBussinessSearch1.search(searchTxt);		    
+	    	}
+	    }
+		
+	}, 200),
 
 
 	'click .areaName': function(event){

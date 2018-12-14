@@ -603,7 +603,7 @@ Template.vendorImagesVideos.events({
 	});
 	},
 
-	'click #editsaveImgAndVideos':function (event) {
+	'click #editsaveImgAndVideos':function () {
 		  var businessLink = FlowRouter.getParam('businessLink');
 		  var currentVendorURL = "/aboutBusiness/"+businessLink;
 	      var currentPathURL = FlowRouter.current().path;
