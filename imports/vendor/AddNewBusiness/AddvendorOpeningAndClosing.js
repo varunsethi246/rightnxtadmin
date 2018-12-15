@@ -227,6 +227,19 @@ Template.addvendorOpeningAndClosing.onRendered(function(){
 
 
 Template.addvendorOpeningAndClosing.events({
+  'change #businessAnythingElse':function(event){
+    if($('#businessAnythingElse').val()||$('.str-tags-each1').length>0){
+      $(".SpanCategoryErrors").removeClass("ErrorRedText");
+      $("#businessAnythingElse").removeClass("SpanLandLineRedBorder");
+      $(".SpanCategoryErrors").text("");
+      $(".focus-agetCategory1").removeClass("SpanLandLineRedBorder");
+    }else{
+      $(".SpanCategoryErrors").addClass("ErrorRedText");
+      $("#businessAnythingElse").addClass("SpanLandLineRedBorder");
+      $(".SpanCategoryErrors").text("Please enter either 'Categories' or 'Anything Else'.");
+      $(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
+    }
+  },
   'click .backlinkClick':function(event){
     var BusLink = FlowRouter.getParam('businessLink');
     // console.log(BusLink);
@@ -264,7 +277,7 @@ Template.addvendorOpeningAndClosing.events({
   'click .showCategoryAdd' : function(event){
     var businessLink = FlowRouter.getParam('businessLink');
     
-    var getdataIndex = $(event.target).parent().attr('id');
+    var getdataIndex = $(event.currentTarget).parent().attr('id');
     
     var ind = getdataIndex.split('-') ;
     var integerInd = parseInt(ind[1]);
@@ -281,6 +294,7 @@ Template.addvendorOpeningAndClosing.events({
           $(".SpanCategoryErrors").addClass("ErrorRedText");
           $(".SpanCategoryErrors").text("Please enter either 'Categories' or 'Anything Else'.");
           $(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
+          $("#businessAnythingElse").addClass("SpanLandLineRedBorder");
         }
         
         var indexx = selectedCategoriesList.indexOf(removeCategory.businesscategories[integerInd]);
@@ -412,6 +426,7 @@ Template.addvendorOpeningAndClosing.events({
       $(".businessMobileC").removeClass("SpanLandLineRedBorder");
       $(".selectOption").removeClass("SpanLandLineRedBorder");
       $(".focus-agetCategory1").removeClass("SpanLandLineRedBorder");
+      $("#businessAnythingElse").removeClass("SpanLandLineRedBorder");
       Meteor.call('updateBusinessOpenAndClose', businessLink, formValues, 
         function(error,result){
           if(error){
@@ -538,6 +553,7 @@ Template.addvendorOpeningAndClosing.events({
           $(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
           $(".SpanCategoryErrors").text("Please enter either 'Categories' or 'Anything Else'."); 
           $('.SpanLandLineRedBorder').find('input').focus();
+          $("#businessAnythingElse").addClass("SpanLandLineRedBorder");
         }else{
           $('.SpanLandLineRedBorder:visible:first').focus();
         }

@@ -56,23 +56,22 @@ Template.businessBannerList.helpers({
 				    		categoryArr.push(bannerData.category);
 		    				var position = bannerData.position + "-" + bannerData.rank;
 		    				positionArr.push(position);
-
-				    		var objData = {
-			    				categoryArrList		: categoryArr,
-			    				businessLink		: bannerData.businessLink,
-			    				bussinessTitle		: bannerData.businessTitle,
-			    				businessPosition	: positionArr,
-			    				bannerDuration		: bannerData.noOfMonths,
-			    				buttonStatusText 	: buttonStatusText,
-								buttonStatus 		: buttonStatus,
-								startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
-								endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
-			    			};
-			    			
-			    			bannerListDetails.push(objData);
 						}	
 					}
 				}
+				var objData = {
+			    	categoryArrList		: categoryArr,
+    				businessLink		: bannerData.businessLink,
+    				bussinessTitle		: bannerData.businessTitle,
+    				businessPosition	: positionArr,
+    				bannerDuration		: bannerData.noOfMonths,
+    				buttonStatusText 	: buttonStatusText,
+					buttonStatus 		: buttonStatus,
+					startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+					endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+    			};
+    			
+    			bannerListDetails.push(objData);
 			}
 		}
 
