@@ -199,6 +199,11 @@
 								</div>
 							{{/if}}
 							<div>{{reason}}</div>
+							{{#if isInRole 'Staff'}}
+								{{#if adminReviewComment}}
+									<p><b>Reason: </b>"{{adminReviewComment}}"</p>
+								{{/if}}
+							{{/if}}
 						</td>
 						{{#if showStatus status}}
 						<td class="bussTabletwo oneform">		
@@ -208,11 +213,21 @@
 								</span>
 							</a>
 						
-							<a href="/editBusinessAdmin/{{businessLink}}">
-								<span class="buttonform">
-									<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="Edit"></i>
-								</span>
-							</a>
+							{{#if isInRole 'admin'}}						
+								<a href="/editBusinessAdmin/{{businessLink}}">
+									<span class="buttonform">
+										<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="Edit"></i>
+									</span>
+								</a>
+							{{else}}
+								{{#if isRejected}}
+									<a href="/editBusinessAdmin/{{businessLink}}">
+										<span class="buttonform">
+											<i class="fa fa-pencil-square-o fa-lg" aria-hidden="true" title="Edit"></i>
+										</span>
+									</a>
+								{{/if}}
+							{{/if}}
 							<!-- <span class="buttonformone"> -->
 								<i class="fa fa-check-circle-o fa-lg bussDeleted showTooltipBussList" id="stateDelete {{_id}}" data-toggle="modal" data-target="#deleteDataModal-{{_id}}" title="Click To Deactivate"></i>
 								<div class="newTooltipBuss"> 
@@ -232,11 +247,21 @@
 										<i class="fa fa-eye fa-lg" title="View" aria-hidden="true"></i>
 									</span>
 								</a>
-								<a href="/editBusinessAdmin/{{businessLink}}">
-									<span class="buttonform">
-										<i class="fa fa-pencil-square-o fa-lg" title="Edit" aria-hidden="true"></i>
-									</span>
-								</a>
+								{{#if isInRole 'admin'}}
+									<a href="/editBusinessAdmin/{{businessLink}}">
+										<span class="buttonform">
+											<i class="fa fa-pencil-square-o fa-lg" title="Edit" aria-hidden="true"></i>
+										</span>
+									</a>
+								{{else}}
+									{{#if isRejected}}
+										<a href="/editBusinessAdmin/{{businessLink}}">
+											<span class="buttonform">
+												<i class="fa fa-pencil-square-o fa-lg" title="Edit" aria-hidden="true"></i>
+											</span>
+										</a>
+									{{/if}}
+								{{/if}}
 								<!-- <span class="buttonformone"> -->
 									<i class="fa fa-check-circle-o fa-lg  showTooltipOneList" id="statusBusiness-{{_id}}" aria-hidden="true" data-toggle="modal" data-target="#ActiveBusiness-{{_id}}" title="Click To Activate"></i>
 									<div class="newtooltipList"> 

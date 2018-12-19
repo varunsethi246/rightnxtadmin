@@ -159,7 +159,18 @@ Template.listOfBusiness.helpers({
 				}else{
 					data[i].businessAnythingElseShow = "";
 				}
-				data[i].reason = data[i].StatusReview;
+
+				if(data[i].StatusReview){
+					if(data[i].StatusReview == "Reject"){
+						data[i].reason = "Rejected";
+						data[i].isRejected = true;
+					}else{
+						data[i].reason = "Approved";
+						data[i].isRejected = false;
+					}
+				}else{
+					data[i].isRejected = true;
+				}
 	  		}
 			// console.log('before return data ', data);
 		      return data;

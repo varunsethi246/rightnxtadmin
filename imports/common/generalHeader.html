@@ -122,7 +122,10 @@
 							    {{#if isInRole 'admin'}}
 							    	<h5 class="col-lg-4">Admin</h5>
 							    {{/if}}
-								<!-- {{profile.name}} -->
+							    {{#if isInRole 'Staff'}}
+									<!-- <h5 class="col-lg-7" style="padding-right: 0px;">{{profile.name}}</h5> -->
+									<h5 class="col-lg-7" style="padding-right: 0px;">Staff Member</h5>
+							    {{/if}}
 								<i class="fa fa-angle-down fa-2x userFaAngle"></i>
 							</a>
 							<ul class="dropdown-menu pull-right logoutRight logoutBtnDropdown">
