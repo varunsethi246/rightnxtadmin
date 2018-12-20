@@ -125,77 +125,76 @@ import '/imports/common/common.js';
   'submit .loginForm': function(event) {
     event.preventDefault();
 
-    $('#loginModal').hide();
+    // $('#loginModal').hide();
     var email = event.target.email.value.toLowerCase();
     var pwd   = event.target.pwd.value;
 
-    Meteor.call('checkEmailVerification', email, (error,data)=>{
-    if (data == "verified"){
+    var adminObj = Meteor.users.findOne({"emails.address":email});
+    // console.log(adminObj);
+    if(adminObj){
+      if(adminObj.roles[0] == 'admin' || adminObj.roles[0] == 'Staff'){
+        Meteor.call('checkEmailVerification', email, (error,data)=>{
+          if (data == "verified"){
+            Meteor.loginWithPassword(email, pwd, (error)=> {
+               if (error) {
+                  // $('#loginModal').show();
+                  $('.passwordWrongSpan').text("The email address or password you entered is not valid. Please try again");
+                  $('.passwordWrongSpan').addClass('passwordWrongWar');
+                  
+                  // Bert.alert( error.reason, 'danger', 'fixed-top', 'fa-frown-o' );
+                } else {
+                  // Bert.alert('Welcome To Rightnxt.com!');
+                 
+                  $('.passwordWrongSpan').removeClass('passwordWrongWar');
+                   
+                  event.target.email.value   ='';
+                  event.target.pwd.value     =''; 
+                  // FlowRouter.go('/');
+                                        
+                  $('#loginModal').modal('hide');
+                  $('.modal-backdrop').hide();
+                  // $('.modal-backdrop').remove();
 
-
-      Meteor.loginWithPassword(email, pwd, (error)=> {
-         if (error) {
-            $('#loginModal').show();
-            $('.passwordWrongSpan').text("Please Enter Valid Email or Password");
-            $('.passwordWrongSpan').addClass('passwordWrongWar');
-            
-            // Bert.alert( error.reason, 'danger', 'fixed-top', 'fa-frown-o' );
-          } else {
-            // Bert.alert('Welcome To Rightnxt.com!');
-           
-            $('.passwordWrongSpan').removeClass('passwordWrongWar');
-             
-          event.target.email.value   ='';
-          event.target.pwd.value     =''; 
-          // FlowRouter.go('/');
-                                  
-            $('.modal-backdrop').remove();
-
-            var loggedInUser = Meteor.userId();
-            // var user = Meteor.users.findOne({'_id' : loggedInUser });
-            var user = Meteor.user();
-            if(user){
-                if (Roles.userIsInRole(loggedInUser, ['user'])) {
-                      // var msgvariable = {
-                      //    '[username]'      : user.profile.name,
-                      //    '[currentDate]'   : currentDate,
-                      // };
-                      // var inputObj = {
-                      //                   notifPath     : '',
-                      //                   from          : adminId,
-                      //                   to            : Meteor.userId(),
-                      //                   templateName  : 'Thanks for Registering',
-                      //                   variables     : msgvariable,
-                      //                }
-                      // sendMailNotification(inputObj);
+                  var loggedInUser = Meteor.userId();
+                  // var user = Meteor.users.findOne({'_id' : loggedInUser });
+                  var user = Meteor.user();
+                  if(user){
+                    if (Roles.userIsInRole(loggedInUser, ['user'])) {
                       FlowRouter.go('/userProfile',{'userId':loggedInUser});
-
-                }else if (Roles.userIsInRole(loggedInUser, ['Vendor'])) {
+                    }else if (Roles.userIsInRole(loggedInUser, ['Vendor'])) {
                       FlowRouter.go('/vendorDashboard');
-                }
-                else{
+                    }
+                    else{
                       FlowRouter.go('/adminDashboard');
-                }                      
+                    }                      
+                  }    
+                }
               }
-              
-          }
-        }
-        );
-
-    }else if(data == "unverified"){
+            );
+          }else if(data == "unverified"){
            $('#loginModal').show();
            $('.passwordWrongSpan').text("Please use the option Verify Account for OTP verification.");
            $('.passwordWrongSpan').addClass('passwordWrongWar');
-    }else if(data == "Blocked"){
+          }else if(data == "Blocked"){
            $('#loginModal').show();
            $('.passwordWrongSpan').text("You're profile is blocked. Please contact Admin.");
            $('.passwordWrongSpan').addClass('passwordWrongWar');
-    }else{    
-          $('#loginModal').show();
-          $('.passwordWrongSpan').text("Please Enter Valid Email or Password");
-          $('.passwordWrongSpan').addClass('passwordWrongWar');         
+          }else{    
+            $('#loginModal').show();
+            $('.passwordWrongSpan').text("Please Enter Valid Email or Password");
+            $('.passwordWrongSpan').addClass('passwordWrongWar');         
+          }
+        });
+      }else{
+        $('.passwordWrongSpan').text("The email address or password you entered is not valid. Please try again");
+        $('.passwordWrongSpan').addClass('passwordWrongWar');
+      }
+    }else{
+      $('.passwordWrongSpan').text("Please enter your registered email address.");
+      $('.passwordWrongSpan').addClass('passwordWrongWar');
     }
-  });
+
+    
     // console.log('data');
     return false;
   },
