@@ -144,7 +144,7 @@ Meteor.methods({
 	},
 	'insertBusinessInfo':function(formValues){
 		var loggedInUser = Meteor.user();
-		if (Roles.userIsInRole(loggedInUser, 'admin')) {
+		if (Roles.userIsInRole(loggedInUser, ['admin','Staff'])) {
 			var businessOwnerId = 'null';
 		}else{
 			var businessOwnerId = Meteor.userId();
@@ -185,7 +185,7 @@ Meteor.methods({
 	},
 	'updateBusinessInfo':function(businessLink,formValues){
 		var loggedInUser = Meteor.user();
-		if (Roles.userIsInRole(loggedInUser, 'admin')) {
+		if (Roles.userIsInRole(loggedInUser, ['admin','Staff'])) {
 			var businessOwnerId = 'null';
 		}else{
 			var businessOwnerId = Meteor.userId();
