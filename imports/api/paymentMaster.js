@@ -113,6 +113,7 @@ Meteor.methods({
 	'insertBannerPayment':function(formValues){
 		var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
 		if(maxInvNum.length > 0){
+			var invNum = maxInvNum[0].invoiceNumber + 1;
 			var orderNum = maxInvNum[0].orderNumber + 1;
 		}
 
@@ -120,7 +121,7 @@ Meteor.methods({
 			"vendorId"  			: formValues.vendorId,
 			"businessId"  			: formValues.businessId,
 			"businessLink" 			: formValues.businessLink, 
-			"invoiceNumber"			: maxInvNum[0].invoiceNumber+1,
+			"invoiceNumber"			: invNum+1,
 			"orderNumber"			: orderNum,
 			"invoiceDate"			: new Date(), 
 			"discountPercent"		: formValues.discountPercent, 
@@ -531,6 +532,8 @@ Meteor.methods({
 		// console.log(formValues);
 		var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
 		if(maxInvNum.length > 0){
+			console.log(maxInvNum[0].orderNumber);
+			var invNum = maxInvNum[0].invoiceNumber + 1;
 			var orderNum = maxInvNum[0].orderNumber + 1;
 		}
 
@@ -538,7 +541,7 @@ Meteor.methods({
 			"vendorId"  			: formValues.vendorId,
 			"businessId"  			: formValues.businessId,
 			"businessLink" 			: formValues.businessLink, 
-			"invoiceNumber"			: maxInvNum[0].invoiceNumber+1,
+			"invoiceNumber"			: invNum,
 			"orderNumber"			: orderNum,
 			"invoiceDate"			: new Date(), 
 			"discountPercent"		: formValues.discountPercent, 

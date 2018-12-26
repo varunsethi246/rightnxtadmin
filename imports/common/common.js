@@ -169,6 +169,8 @@ Template.header.events({
 	    $('input[type="tel"]').val('');
 	    $('input[type="email"]').val('');
 	    $('.loginLabel').removeClass('active');
+    	$('#forgotPwdModal').modal('hide');
+	    
 	},
 	'click .primaryMenu':function(e){
 		$('.loginScreen').css('display','block');

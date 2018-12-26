@@ -122,18 +122,27 @@ Template.listOfBusiness.helpers({
 		// console.log('data ', data);
 		if(data){
 			for(i=0; i< data.length; i++){
-				var createdBy = Meteor.users.findOne({"_id":data[i].businessOwnerId});
-				// console.log('createdBy :',createdBy);
-				if(createdBy){
-					data[i].userEmailID = createdBy.emails[0].address;
+				// var ownerDetails = Meteor.users.findOne({"_id":data[i].businessOwnerId});
+				var ownerDetails = Meteor.users.findOne({"_id":data[i].createdBy});
+				// console.log('ownerDetails :',ownerDetails);
+				if(ownerDetails){
+					data[i].userEmailID = ownerDetails.emails[0].address;
 					data[i].userEmailIDVal = true;
-					if(createdBy.profile.name){
-						data[i].createdBy = createdBy.profile.name;
+					if(ownerDetails.profile.name){
+						data[i].createdByName = ownerDetails.profile.name;
+					}else if(ownerDetails.username){
+						data[i].createdByName = ownerDetails.username;
 					}else{
-						data[i].createdBy = createdBy.emails[0].address;
+						data[i].createdByName = ownerDetails.emails[0].address;
 					}
+
 				}else{
-					data[i].createdBy = 'admin';
+					var loggedInUser = Meteor.user();
+					if (Roles.userIsInRole(loggedInUser, ['Staff'])) {
+						data[i].createdByName = 'Staff';
+					}else{
+						data[i].createdByName = 'admin';
+					}
 					data[i].userEmailIDVal = false;
 				}
 				// for (var j = 0; j < data[i].createdBy.length; j++) {
@@ -148,6 +157,13 @@ Template.listOfBusiness.helpers({
 				// 	console.log('staff :',data[i].createdBy.roles);
 				// 	data[i].createdByStaff == 'staffCreatedy';
 				// }
+
+				// console.log(data[i].createdBy,Meteor.userId());
+				if(data[i].createdBy == Meteor.userId()){
+					data[i].showToOnly = true;		
+				}else{
+					data[i].showToOnly = false;		
+				}
 
 				if(data[i].status == "inactive"){
 					data[i].statusTooltipone = 'Activate';

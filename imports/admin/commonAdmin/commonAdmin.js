@@ -201,12 +201,14 @@ Template.adminHeader.events({
 	},
 
 	'click #adminLogoutHeader': function(event){
+		FlowRouter.go('/');
+		location.reload();
 		Meteor.logout(function(error,result){
 			if(error){
 				console.log(error);
 				return;
 			}else{
-				FlowRouter.go('/');
+				// FlowRouter.go('/');
 				return;
 			}
 		});
