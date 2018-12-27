@@ -198,12 +198,10 @@
 								<div class="adminReviewSts"> 
 									<i class="fa fa-pencil-square-o fa-lg" data-toggle="modal" data-target="#reviewDataModal-{{_id}}"  aria-hidden="true" title="Review Status"></i>
 								</div>
+								<div>{{reason}}</div>
 							{{/if}}
-							<div>{{reason}}</div>
 							{{#if isInRole 'Staff'}}
-								{{#if adminReviewComment}}
-									<p><b>Reason: </b>"{{adminReviewComment}}"</p>
-								{{/if}}
+								<a href="" data-toggle="tooltip" title='{{#if adminReviewComment}}Reason: "{{adminReviewComment}}"{{/if}}'>{{reason}}</a>
 							{{/if}}
 						</td>
 						{{#if showStatus status}}
@@ -509,12 +507,13 @@
 								<div class="adminReviewSts"> 
 									<i class="fa fa-pencil-square-o fa-lg" data-toggle="modal" data-target="#reviewDataModal-{{_id}}"  aria-hidden="true" title="Review Status"></i>
 								</div>
+								<div>{{reason}}</div>
 							{{/if}}
-							<div>{{reason}}</div>
 							{{#if isInRole 'Staff'}}
-								{{#if adminReviewComment}}
+								<!-- {{#if adminReviewComment}}
 									<p><b>Reason: </b>"{{adminReviewComment}}"</p>
-								{{/if}}
+								{{/if}} -->
+								<a href="" data-toggle="tooltip" title='{{#if adminReviewComment}}Reason: "{{adminReviewComment}}"{{/if}}'>{{reason}}</a>
 							{{/if}}
 						</td>
 						{{#if showStatus status}}

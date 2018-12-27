@@ -256,44 +256,50 @@ Template.categoriesSearchField.helpers({
 	    });
 	    var temp = 0;
 	    var dataReturn = [];
+	    console.log(data);
 	    
-	    for(var i = 0 ; i < data.length; i++){
-	    	temp = 0;
+	    if(data.length > 0){
+		    for(var i = 0 ; i < data.length; i++){
+		    	temp = 0;
 
-	    	var collectionData = '';
-	    	if(data[i].level0 != '--' || (typeof data[i].level0 == 'undefined')){
-    			collectionData = data[i].level0;
-    		}
-    		if(data[i].level1 != '--' || (typeof data[i].level1 == 'undefined')){
-    			collectionData = collectionData + ' > ' + data[i].level1;
-    		}
-    		if(data[i].level2 != '--' || (typeof data[i].level2 == 'undefined')){
-    			collectionData = collectionData + ' > ' + data[i].level2;
-    		}
-    		if(data[i].level3 != '--' || (typeof data[i].level3 == 'undefined')){
-    			collectionData = collectionData + ' > ' + data[i].level3;
-    		}
-    		if(data[i].level4 != '--' || (typeof data[i].level4 == 'undefined')){
-    			collectionData = collectionData + ' > ' + data[i].level4;
-    		}
-    		
-	    	for(var j = 0 ; j < selectedCategoriesList.length ; j++){
-	    		if(collectionData == selectedCategoriesList[j]){
-			    	temp = 1;
+		    	var collectionData = '';
+		    	if(data[i].level0 != '--' || (typeof data[i].level0 == 'undefined')){
+	    			collectionData = data[i].level0;
+	    		}
+	    		if(data[i].level1 != '--' || (typeof data[i].level1 == 'undefined')){
+	    			collectionData = collectionData + ' > ' + data[i].level1;
+	    		}
+	    		if(data[i].level2 != '--' || (typeof data[i].level2 == 'undefined')){
+	    			collectionData = collectionData + ' > ' + data[i].level2;
+	    		}
+	    		if(data[i].level3 != '--' || (typeof data[i].level3 == 'undefined')){
+	    			collectionData = collectionData + ' > ' + data[i].level3;
+	    		}
+	    		if(data[i].level4 != '--' || (typeof data[i].level4 == 'undefined')){
+	    			collectionData = collectionData + ' > ' + data[i].level4;
+	    		}
+	    		
+		    	for(var j = 0 ; j < selectedCategoriesList.length ; j++){
+		    		if(collectionData == selectedCategoriesList[j]){
+				    	temp = 1;
+				    }
+			    }
+			    if(temp == 0){
+			    	dataReturn.push({
+				    		'_id'	 : data[i]._id,
+				    		'level0' : data[i].level0.trim(),
+				    		'level1' : data[i].level1.trim(),
+				    		'level2' : data[i].level2.trim(),
+				    		'level3' : data[i].level3.trim(),
+				    		'level4' : data[i].level4.trim(),
+				    		'status' : ''
+				    });
 			    }
 		    }
-		    if(temp == 0){
-		    	dataReturn.push({
-			    		'_id'	 : data[i]._id,
-			    		'level0' : data[i].level0.trim(),
-			    		'level1' : data[i].level1.trim(),
-			    		'level2' : data[i].level2.trim(),
-			    		'level3' : data[i].level3.trim(),
-			    		'level4' : data[i].level4.trim(),
-			    		'status' : ''
-			    });
-		    }
 	    }
+
+	    console.log('dataReturn:',dataReturn);
+
 	    return dataReturn;
   	},
 

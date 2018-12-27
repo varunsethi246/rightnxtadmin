@@ -8,25 +8,27 @@
 			</div>
 		</div>
 	</div>
-	<datalist id="categoryShow">
-		{{#each getcategory}}
-			<option class="{{status}}"> 
-				{{#if ifDashData level0}} 
-					 {{level0}} 
-				{{/if}}
-				{{#if ifDashData level1}}
-					> {{level1}} 
-				{{/if}}
-				{{#if ifDashData level2}}
-					> {{level2}} 
-				{{/if}}
-				{{#if ifDashData level3}}
-					> {{level3}} 
-				{{/if}} 
-				{{#if ifDashData level4}}
-					> {{level4}} 
-				{{/if}}
-			</option>
-		{{/each}}
-	</datalist>
+	<!-- {{#if getcategory}} -->
+		<datalist id="categoryShow">
+			{{#each getcategory}}
+				<option class="{{status}}"> 
+					{{#if ifDashData level0}} 
+						 {{level0}} 
+					{{/if}}
+					{{#if ifDashData level1}}
+						> {{level1}} 
+					{{/if}}
+					{{#if ifDashData level2}}
+						> {{level2}} 
+					{{/if}}
+					{{#if ifDashData level3}}
+						> {{level3}} 
+					{{/if}} 
+					{{#if ifDashData level4}}
+						> {{level4}} 
+					{{/if}}
+				</option>
+			{{/each}}
+		</datalist>
+	<!-- {{/if}} -->
 </template>

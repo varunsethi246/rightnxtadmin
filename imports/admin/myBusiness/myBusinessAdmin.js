@@ -55,6 +55,7 @@ var fields = ['businessTitle'];
 listbusinessSearchVar = new SearchSource('listbusinessSearch', fields, options);
 
 Template.listOfBusiness.onRendered( ()=>{
+	$('[data-toggle="tooltip"]').tooltip();
 	$('.actInactAdminOn').addClass('actInactAdminColor');
 	Session.set('busListAct','activeList');
 	$("html,body").scrollTop(0);
@@ -248,6 +249,10 @@ Template.listOfBusiness.helpers({
 });
 
 Template.listOfBusiness.events({
+	'mouseover a[data-toggle="tooltip"]'(event) {
+		// console.log(event);
+		$('[data-toggle="tooltip"]').tooltip();
+	},
 	'change #fileInputs'(e, template) {
 	    if (e.currentTarget.files && e.currentTarget.files[0]) {
 	    		var businessLink  = $(e.currentTarget).attr("data-businessLink");
