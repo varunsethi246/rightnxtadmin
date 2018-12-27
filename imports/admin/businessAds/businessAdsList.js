@@ -18,29 +18,30 @@ Template.businessAdsList.onRendered(function(){
 
 Template.businessAdsList.helpers({
 	adsDetails: function(){
-		var bannerStatus = '';
-		var bannerListDetails = [];
+		var adsStatus = '';
+		var adsListDetails = [];
 		if(Session.get("activeAds")=="active"){
-			bannerStatus = "active";
+			adsStatus = "active";
 		}else if(Session.get("activeAds")=="new"){
-			bannerStatus = "new";
+			adsStatus = "new";
 		} else {
-			bannerStatus = "inactive";
+			adsStatus = "inactive";
 		}
 
-		var paymentArr = Payment.find({"orderType":"Ads"}).fetch();
-		if(paymentArr.length > 0){
-			for (var i = 0; i < paymentArr.length; i++) {
-				var adsArray = paymentArr[i].businessAds;
+		var paymentAdsArr = Payment.find({"orderType":"Ads"}).fetch();
+		// console.log(paymentAdsArr);
+		if(paymentAdsArr.length > 0){
+			for (var i = 0; i < paymentAdsArr.length; i++) {
+				var adsArray = paymentAdsArr[i].businessAds;
 				if(adsArray.length>0){
-					var categoryArr = [];
-    				var positionArr = [];
+					var categoryAdsArr = [];
+    				var positionAdsArr = [];
 					for (var j = 0; j < adsArray.length; j++) {
-				    	var bannerData = BusinessAds.findOne({"_id":adsArray[i].businessAdsId,"status":bannerStatus});
-						if(bannerData){
+    					var adsData = BusinessAds.findOne({"_id":adsArray[j].businessAdsId,"status":adsStatus});
+						if(adsData){
 							var buttonStatus = '';
 				    		var buttonStatusText = '';
-				    		if(bannerData.status=="active"){
+				    		if(adsData.status=="active"){
 				    			buttonStatus = "danger";
 				    			buttonStatusText = "Deactivate";
 				    		}else{
@@ -48,39 +49,39 @@ Template.businessAdsList.helpers({
 				    			buttonStatusText = "Activate";
 				    		}
 
-				    		categoryArr.push(bannerData.category);
-		    				positionArr.push(bannerData.position);
-
-				    		var objData = {
-			    				categoryArrList		: categoryArr,
-			    				businessLink		: bannerData.businessLink,
-			    				bussinessTitle		: bannerData.businessTitle,
-			    				businessPosition	: positionArr,
-			    				bannerDuration		: bannerData.noOfMonths,
-			    				buttonStatusText 	: buttonStatusText,
-								buttonStatus 		: buttonStatus,
-								startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
-								endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
-			    			};
-			    			
-			    			bannerListDetails.push(objData);
+				    		categoryAdsArr.push(adsData.category);
+		    				positionAdsArr.push(adsData.position);
 						}	
 					}
 				}
+				var objData = {
+			    	categoryArrList		: categoryAdsArr,
+    				businessLink		: adsData.businessLink,
+    				bussinessTitle		: adsData.businessTitle,
+    				businessPosition	: positionAdsArr,
+    				bannerDuration		: adsData.noOfMonths,
+    				buttonStatusText 	: buttonStatusText,
+					buttonStatus 		: buttonStatus,
+					startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
+					endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
+    			};
+    			
+    			adsListDetails.push(objData);
 			}
 		}
-		
-    	// var adsData = BusinessAds.find({"status":bannerStatus}).fetch();
-    	// // console.log('adsData:',adsData);
-    	// if(adsData){
-    	// 	var data = _.uniq(adsData, function(p){ return p.businessLink; });
+
+    	// var bannerData = BusinessBanner.find({"status":bannerStatus}).fetch();
+
+    	// if(bannerData){
+    	// 	var data = _.uniq(bannerData, function(p){ return p.businessLink; });
     	// 	for(i=0;i<data.length;i++){
     	// 		var categoryArr = [];
     	// 		var positionArr = [];
-    	// 		for(j=0;j<adsData.length;j++){
-	    // 			if(data[i].businessLink==adsData[j].businessLink){
-	    // 				categoryArr.push(adsData[j].category);
-	    // 				positionArr.push(adsData[j].position);
+    	// 		for(j=0;j<bannerData.length;j++){
+	    // 			if(data[i].businessLink==bannerData[j].businessLink){
+	    // 				categoryArr.push(bannerData[j].category);
+	    // 				var position = bannerData[j].position + "-" + bannerData[j].rank;
+	    // 				positionArr.push(position);
 	    // 			}
 	    // 		}
 
@@ -115,17 +116,17 @@ Template.businessAdsList.helpers({
     	if(Session.get('adsTextSearch')){
     		var textSearch = (Session.get('adsTextSearch')).toUpperCase();
     		filteredArr = [];
-    		for(i=0;i<bannerListDetails.length;i++){
+    		for(var i=0;i<adsListDetails.length;i++){
 
 				var searchTextString = false;
-				for(j=0;j<bannerListDetails[i].categoryArrList.length;j++){
-					if(((bannerListDetails[i].categoryArrList[j]).toUpperCase()).indexOf(textSearch) != -1){
+				for(var j=0;j<adsListDetails[i].categoryArrList.length;j++){
+					if(((adsListDetails[i].categoryArrList[j]).toUpperCase()).indexOf(textSearch) != -1){
 						searchTextString = true;
 					}
 				}
 
-				if((bannerListDetails[i].bussinessTitle.toUpperCase()).indexOf(textSearch) != -1 || searchTextString){
-					filteredArr.push(bannerListDetails[i]);
+				if((adsListDetails[i].bussinessTitle.toUpperCase()).indexOf(textSearch) != -1 || searchTextString){
+					filteredArr.push(adsListDetails[i]);
 				}
     		}
 			return filteredArr;
@@ -133,7 +134,7 @@ Template.businessAdsList.helpers({
 
 
     	
-    	return bannerListDetails;
+    	return adsListDetails;
 	},
 });
 
@@ -163,7 +164,7 @@ Template.businessAdsList.events({
 
 		if(bannerData){
 			if($('.activeBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
+				for(var i=0;i<bannerData.length;i++){
 					var catg = bannerData[i].category;
 
 					Meteor.call('deactivateAdsPayment', businessLink, catg, function(error,position){
@@ -176,7 +177,7 @@ Template.businessAdsList.events({
 					});
 				}
 			} else if($('.newBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
+				for(var i=0;i<bannerData.length;i++){
 					var catg = bannerData[i].category;
 					var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
 					// console.log("checkBus: ",checkBus);
@@ -195,7 +196,7 @@ Template.businessAdsList.events({
 					
 				}
 			} else if($('.inactiveBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
+				for(var i=0;i<bannerData.length;i++){
 					var catg = bannerData[i].category;
 					var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
 					if(checkBus.status != "inactive"){

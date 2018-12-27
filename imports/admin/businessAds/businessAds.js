@@ -657,6 +657,13 @@ Template.businessAds.events({
 	    // console.log('state,city',city,state);
 		if(!state||!city||state=="--Select--"||city=="--Select--"){
 			e.preventDefault();
+			$(".SpanAdsBusiness").addClass("ErrorRedText");
+	        $(".businessAds").addClass("SpanLandLineRedBorder");
+	        $( ".SpanAdsBusiness" ).text("Please select 'State' and 'City'");
+		}else{
+			$('.SpanAdsBusiness').text("");
+	        $(".businessAds").removeClass("SpanLandLineRedBorder");
+			$('.SpanAdsBusiness').removeClass("ErrorRedText");
 		}
     },
 	"keyup #business": _.throttle(function(e) {

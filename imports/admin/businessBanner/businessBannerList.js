@@ -34,6 +34,7 @@ Template.businessBannerList.helpers({
 		}
 
 		var paymentArr = Payment.find({"orderType":"Banner"}).fetch();
+		// console.log(paymentArr);
 		if(paymentArr.length > 0){
 			for (var i = 0; i < paymentArr.length; i++) {
 				var bannerArray = paymentArr[i].businessBanner;

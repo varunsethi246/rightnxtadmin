@@ -1061,6 +1061,13 @@ Template.businessBanner.events({
 	    // console.log(state,city);
 		if(!state||!city||state=="--Select--"||city=="--Select--"){
 			e.preventDefault();
+			$(".SpanBannerBusiness").addClass("ErrorRedText");
+	        $(".businessBanners").addClass("SpanLandLineRedBorder");
+	        $( ".SpanBannerBusiness" ).text("Please select 'State' and 'City'");
+		}else{
+			$('.SpanBannerBusiness').text("");
+	        $(".businessBanners").removeClass("SpanLandLineRedBorder");
+			$('.SpanBannerBusiness').removeClass("ErrorRedText");
 		}
     },
 
