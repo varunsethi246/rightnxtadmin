@@ -44,6 +44,7 @@ Template.businessBannerList.helpers({
 					var categoryArr = [];
     				var positionArr = [];
 					for (var j = 0; j < bannerArray.length; j++) {
+						console.log('bannerData',bannerData);
     					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
 						console.log('bannerData',bannerData);
 						if(bannerData){
@@ -63,20 +64,23 @@ Template.businessBannerList.helpers({
 						}	
 					}
 				}
-				var objData = {
-			    	categoryArrList		: categoryArr,
-    				businessLink		: bannerData.businessLink,
-    				bussinessTitle		: bannerData.businessTitle,
-    				businessPosition	: positionArr,
-    				bannerDuration		: bannerData.noOfMonths,
-    				buttonStatusText 	: buttonStatusText,
-					buttonStatus 		: buttonStatus,
-					startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
-					endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
-    			};
-				console.log('objData',objData);		
-    			bannerListDetails.push(objData);
-				console.log('bannerListDetails',bannerListDetails);
+
+				if(bannerData){
+					var objData = {
+				    	categoryArrList		: categoryArr,
+	    				businessLink		: bannerData.businessLink,
+	    				bussinessTitle		: bannerData.businessTitle,
+	    				businessPosition	: positionArr,
+	    				bannerDuration		: bannerData.noOfMonths,
+	    				buttonStatusText 	: buttonStatusText,
+						buttonStatus 		: buttonStatus,
+						startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+						endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+	    			};
+					console.log('objData',objData);		
+	    			bannerListDetails.push(objData);
+					console.log('bannerListDetails',bannerListDetails);
+				}
 			}
 		}
 

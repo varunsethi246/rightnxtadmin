@@ -57,21 +57,24 @@ Template.businessAdsList.helpers({
 						}	
 					}
 				}
-				var objData = {
-			    	categoryArrList		: categoryAdsArr,
-    				businessLink		: adsData.businessLink,
-    				bussinessTitle		: adsData.businessTitle,
-    				businessPosition	: positionAdsArr,
-    				bannerDuration		: adsData.noOfMonths,
-    				buttonStatusText 	: buttonStatusText,
-					buttonStatus 		: buttonStatus,
-					startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
-					endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
-    			};
-    			
-				console.log('objData',objData);		
-    			adsListDetails.push(objData);
-				console.log('adsListDetails',adsListDetails);
+
+				if(adsData){
+					var objData = {
+				    	categoryArrList		: categoryAdsArr,
+	    				businessLink		: adsData.businessLink,
+	    				bussinessTitle		: adsData.businessTitle,
+	    				businessPosition	: positionAdsArr,
+	    				bannerDuration		: adsData.noOfMonths,
+	    				buttonStatusText 	: buttonStatusText,
+						buttonStatus 		: buttonStatus,
+						startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
+						endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
+	    			};
+	    			
+					console.log('objData',objData);		
+	    			adsListDetails.push(objData);
+					console.log('adsListDetails',adsListDetails);
+				}
 			}
 		}
 
