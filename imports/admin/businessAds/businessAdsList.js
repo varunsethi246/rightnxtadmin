@@ -28,16 +28,19 @@ Template.businessAdsList.helpers({
 			adsStatus = "inactive";
 		}
 
+		console.log("adsStatus",adsStatus);
 		var paymentAdsArr = Payment.find({"orderType":"Ads"}).fetch();
-		// console.log(paymentAdsArr);
+		console.log('paymentAdsArr',paymentAdsArr);
 		if(paymentAdsArr.length > 0){
 			for (var i = 0; i < paymentAdsArr.length; i++) {
 				var adsArray = paymentAdsArr[i].businessAds;
+				console.log('adsArray',adsArray);
 				if(adsArray.length>0){
 					var categoryAdsArr = [];
     				var positionAdsArr = [];
 					for (var j = 0; j < adsArray.length; j++) {
     					var adsData = BusinessAds.findOne({"_id":adsArray[j].businessAdsId,"status":adsStatus});
+						console.log('adsData',adsData);
 						if(adsData){
 							var buttonStatus = '';
 				    		var buttonStatusText = '';
@@ -66,7 +69,9 @@ Template.businessAdsList.helpers({
 					endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
     			};
     			
+				console.log('objData',objData);		
     			adsListDetails.push(objData);
+				console.log('adsListDetails',adsListDetails);
 			}
 		}
 
@@ -134,6 +139,7 @@ Template.businessAdsList.helpers({
 
 
     	
+		console.log('FinaladsListDetails',adsListDetails);
     	return adsListDetails;
 	},
 });
