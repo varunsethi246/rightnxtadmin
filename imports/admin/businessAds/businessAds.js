@@ -558,6 +558,7 @@ Template.businessAds.events({
 	
 	'click .adsButton':function(event){
 		event.preventDefault();
+		$('.modal-backdrop').hide();
 		var invoiceNumber 	= Counts.get('noOfInvoiceCount')+1;
 		var businessLink 	= Session.get("adsBusinessLink");
 		var businessData 	= Business.findOne({"businessLink":businessLink, "status":"active"});
@@ -616,8 +617,8 @@ Template.businessAds.events({
 				'invoiceNumber'		: 	invoiceNumber,
 				'totalAmount'		:	totalPrice,
 				'discountPercent'	: 	discountPercent,
-				'totalDiscount'		: 	totalDiscount,
-				'discountedPrice'	: 	discountedPrice,
+				'totalDiscount'		: 	Math.round(totalDiscount * 100) / 100,
+				'discountedPrice'	: 	Math.round(discountedPrice * 100) / 100,
 				'businessAds' 		: 	businessAdsArr,
 			}
 

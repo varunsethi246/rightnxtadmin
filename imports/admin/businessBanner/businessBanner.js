@@ -728,6 +728,7 @@ Template.businessBanner.events({
 	},
 	'click .bannerButton':function(event){
 		event.preventDefault();
+		$('.modal-backdrop').hide();
 		var invoiceNumber 	= Counts.get('noOfInvoiceCount')+1;
 		// console.log('invoiceNumber :',invoiceNumber);
 		var businessLink 	= Session.get("businessLink");
@@ -788,8 +789,8 @@ Template.businessBanner.events({
 				'invoiceNumber'		: 	invoiceNumber,
 				'totalAmount'		:	totalPrice,
 				'discountPercent'	: 	discountPercent,
-				'totalDiscount'		: 	totalDiscount,
-				'discountedPrice'	: 	discountedPrice,
+				'totalDiscount'		: 	Math.round(totalDiscount * 100) / 100,
+				'discountedPrice'	: 	Math.round(discountedPrice * 100) / 100,
 				'businessBanner' 	: 	businessBannerArr,
 			}
 
