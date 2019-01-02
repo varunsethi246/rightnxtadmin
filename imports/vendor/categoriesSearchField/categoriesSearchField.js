@@ -18,6 +18,7 @@ var dataIndex = 0;
 
 Template.categoriesSearchField.events({
 	'focusout #agetCategory' : function(event){
+		// console.log('focusout event');
 		var businessLink = FlowRouter.getParam("businessLink");
 		var data = event.currentTarget.value;
 		if(data == ''){
@@ -72,7 +73,7 @@ Template.categoriesSearchField.events({
 				}
 
 				var lengthOfStrofArr = $('.selectCategoryFocus').find('.str-tags-each1').length + $('#alistCategory').find('.str-tags-each1').length;
-				console.log(lengthOfStrofArr);
+				// console.log(lengthOfStrofArr);
 
 				if(lengthOfStrofArr<5){
 					if(temp == 0){
@@ -111,6 +112,7 @@ Template.categoriesSearchField.events({
 	
 	
 	'click .focus-agetCategory1' : function(event){
+		console.log(event);
 		$('.agetCategory1').focus();
 	},
 	
@@ -152,94 +154,97 @@ Template.categoriesSearchField.events({
 	
 	"keyup #agetCategory": _.throttle(function(e) {
 	    var text = $(e.target).val().trim();
-	    categorySearch1.search(text);
+		console.log('keyup',text);
+		if(text){
+	    	categorySearch1.search(text);
+		    var textTrue =	/^[,]*$/.test(text);
+		    if(e.keyCode == 188&&!textTrue){
+			    text = text.slice(0,-1);
+		    	if(text == ''){
+					// $('#getTag').val('');
+		    	}else{
+		    		var data1  = text.split('>');
+					if(data1.length == 1 ){
+						if(data1[0]=='Products' || data1[0]=='Services'){
 
-	    var textTrue =	/^[,]*$/.test(text);
-	    if(e.keyCode == 188&&!textTrue){
-		    text = text.slice(0,-1);
-	    	if(text == ''){
-				// $('#getTag').val('');
-	    	}else{
-	    		var data1  = text.split('>');
-				if(data1.length == 1 ){
-					if(data1[0]=='Products' || data1[0]=='Services'){
+						}else{
+							$('#agetCategory').val('');
+							$('#agetCategory').focus();
+							return;
+						}
+					}
 
+					for(var i = 0 ; i < data1.length; i++){
+						data1[i] = data1[i].trim();
+					}
+					
+					var showData =data1[4];
+					if(data1[4] == ' --' || !data1[4]){
+						showData = data1[3];
+					}
+					if(data1[3] == ' -- ' || !data1[3]){
+						showData = data1[2];
+					}
+					if(data1[2] == ' -- ' || !data1[2]){
+						showData = data1[1];
+					}
+					if(data1[1] == ' -- ' || !data1[1]){
+						showData = data1[0];
+					}
+					
+					text = data1[0];
+					for(var k = 1 ; k < data1.length; k++){
+						if(data1[k] != '' || !(typeof data1[k] == 'undefined')){
+							text = text + ' > ' + data1[k];
+						}
+					}
+
+					var temp = 0;
+					for(var j = 0 ; j < selectedCategoriesList.length; j++){
+						if(text == selectedCategoriesList[j] ){
+							temp = 1;
+						}
+					}
+					
+					var lengthOfStrofArr = $('.selectCategoryFocus').find('.str-tags-each1').length + $('#alistCategory').find('.str-tags-each1').length;
+					// console.log(lengthOfStrofArr);
+
+					if(lengthOfStrofArr<5){
+						if(temp == 0){
+							selectedCategoriesList.push(text);	
+							$('#alistCategory').append("<div class='js-click-tag1 str-tags-each1' id='catgIndex-" + dataIndex + "' > <div class='str-category str-category1' > " + showData + " x </div> </div>");
+							dataIndex = dataIndex + 1;
+							$('.category').text('');
+							$('#agetCategory').val('');
+							var catgList = $('#asearchCategories').val();
+							if(catgList){
+								catgList = catgList + '|' + text;
+							}
+							else{
+								catgList = text;
+							}
+							$('#asearchCategories').val(catgList);
+							$(".SpanCategoryErrors").removeClass("ErrorRedText");
+				            $(".SpanCategoryErrors").text("");
+				            $(".focus-agetCategory1").removeClass("SpanLandLineRedBorder");
+				            $("#businessAnythingElse").removeClass("SpanLandLineRedBorder");
+						}else{
+							$('#agetCategory').val('');
+							$(".SpanCategoryErrors").addClass("ErrorRedText");
+			            	$(".SpanCategoryErrors").text("You can select max upto 5 categories.");
+			            	$(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
+						}
 					}else{
 						$('#agetCategory').val('');
-						$('#agetCategory').focus();
-						return;
+				        $(".SpanCategoryErrors").addClass("ErrorRedText");
+			            $(".SpanCategoryErrors").text("You can select max upto 5 categories.");
+			            $(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
 					}
-				}
 
-				for(var i = 0 ; i < data1.length; i++){
-					data1[i] = data1[i].trim();
 				}
-				
-				var showData =data1[4];
-				if(data1[4] == ' --' || !data1[4]){
-					showData = data1[3];
-				}
-				if(data1[3] == ' -- ' || !data1[3]){
-					showData = data1[2];
-				}
-				if(data1[2] == ' -- ' || !data1[2]){
-					showData = data1[1];
-				}
-				if(data1[1] == ' -- ' || !data1[1]){
-					showData = data1[0];
-				}
-				
-				text = data1[0];
-				for(var k = 1 ; k < data1.length; k++){
-					if(data1[k] != '' || !(typeof data1[k] == 'undefined')){
-						text = text + ' > ' + data1[k];
-					}
-				}
-
-				var temp = 0;
-				for(var j = 0 ; j < selectedCategoriesList.length; j++){
-					if(text == selectedCategoriesList[j] ){
-						temp = 1;
-					}
-				}
-				
-				var lengthOfStrofArr = $('.selectCategoryFocus').find('.str-tags-each1').length + $('#alistCategory').find('.str-tags-each1').length;
-				console.log(lengthOfStrofArr);
-
-				if(lengthOfStrofArr<5){
-					if(temp == 0){
-						selectedCategoriesList.push(text);	
-						$('#alistCategory').append("<div class='js-click-tag1 str-tags-each1' id='catgIndex-" + dataIndex + "' > <div class='str-category str-category1' > " + showData + " x </div> </div>");
-						dataIndex = dataIndex + 1;
-						$('.category').text('');
-						$('#agetCategory').val('');
-						var catgList = $('#asearchCategories').val();
-						if(catgList){
-							catgList = catgList + '|' + text;
-						}
-						else{
-							catgList = text;
-						}
-						$('#asearchCategories').val(catgList);
-						$(".SpanCategoryErrors").removeClass("ErrorRedText");
-			            $(".SpanCategoryErrors").text("");
-			            $(".focus-agetCategory1").removeClass("SpanLandLineRedBorder");
-			            $("#businessAnythingElse").removeClass("SpanLandLineRedBorder");
-					}else{
-						$('#agetCategory').val('');
-						$(".SpanCategoryErrors").addClass("ErrorRedText");
-		            	$(".SpanCategoryErrors").text("You can select max upto 5 categories.");
-		            	$(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
-					}
-				}else{
-					$('#agetCategory').val('');
-			        $(".SpanCategoryErrors").addClass("ErrorRedText");
-		            $(".SpanCategoryErrors").text("You can select max upto 5 categories.");
-		            $(".focus-agetCategory1").addClass("SpanLandLineRedBorder");
-				}
-
 			}
 		}
+
 	    
 	}, 50)
 
@@ -256,7 +261,7 @@ Template.categoriesSearchField.helpers({
 	    });
 	    var temp = 0;
 	    var dataReturn = [];
-	    console.log(data);
+	    // console.log(data);
 	    
 	    if(data.length > 0){
 		    for(var i = 0 ; i < data.length; i++){
@@ -298,7 +303,7 @@ Template.categoriesSearchField.helpers({
 		    }
 	    }
 
-	    console.log('dataReturn:',dataReturn);
+	    // console.log('dataReturn:',dataReturn);
 
 	    return dataReturn;
   	},

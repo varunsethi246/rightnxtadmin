@@ -33,20 +33,15 @@ Template.businessBannerList.helpers({
 			bannerStatus = "inactive";
 		}
 
-		console.log("bannerStatus",bannerStatus);
 		var paymentArr = Payment.find({"orderType":"Banner"}).fetch();
-		console.log('paymentArr',paymentArr);
 		if(paymentArr.length > 0){
 			for (var i = 0; i < paymentArr.length; i++) {
 				var bannerArray = paymentArr[i].businessBanner;
-				console.log('bannerArray',bannerArray);
 				if(bannerArray.length>0){
 					var categoryArr = [];
     				var positionArr = [];
 					for (var j = 0; j < bannerArray.length; j++) {
-						console.log('bannerData',bannerData);
     					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
-						console.log('bannerData',bannerData);
 						if(bannerData){
 							var buttonStatus = '';
 				    		var buttonStatusText = '';
@@ -77,9 +72,7 @@ Template.businessBannerList.helpers({
 						startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
 						endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
 	    			};
-					console.log('objData',objData);		
 	    			bannerListDetails.push(objData);
-					console.log('bannerListDetails',bannerListDetails);
 				}
 			}
 		}
@@ -148,7 +141,6 @@ Template.businessBannerList.helpers({
 
 
     	
-		console.log('FinalbannerListDetails',bannerListDetails);
     	return bannerListDetails;
 	},
 });

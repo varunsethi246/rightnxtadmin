@@ -557,6 +557,11 @@ Template.addvendorOpeningAndClosing.events({
         }else{
           $('.SpanLandLineRedBorder:visible:first').focus();
         }
+
+      $('.SpanLandLineRedBorder:first').focus();
+      $('html,body').animate({
+       scrollTop: $(".SpanLandLineRedBorder:first").offset().top-200},
+      'slow');
     }
     
     
