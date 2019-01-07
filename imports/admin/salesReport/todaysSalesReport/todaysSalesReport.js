@@ -140,3 +140,6 @@ Template.todaysSalesReport.events({
 
 });
 
+Template.todaysSalesReport.onRendered(function(){
+	Session.set("newDate",false);
+});

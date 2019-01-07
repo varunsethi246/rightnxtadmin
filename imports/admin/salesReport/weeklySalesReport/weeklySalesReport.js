@@ -135,3 +135,6 @@ Template.weeklySalesReport.events({
 	}
 });
 
+Template.weeklySalesReport.onRendered(function(){
+	Session.set("selectedWeek",false);
+});

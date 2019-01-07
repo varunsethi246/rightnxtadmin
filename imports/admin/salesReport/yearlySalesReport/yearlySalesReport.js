@@ -105,3 +105,7 @@ Template.yearlySalesReport.events({
 
 
 });
+
+Template.yearlySalesReport.onRendered(function(){
+	Session.set("selectedYear",false);	
+});

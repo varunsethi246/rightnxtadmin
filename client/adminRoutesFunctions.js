@@ -341,6 +341,15 @@ salesReportTabsBannerFunc = function () {
 	})
 }
 
+salesReportTabsOfferFunc = function () {    
+	import('/imports/admin/salesReportOffers/salesReportOffers.js').then(function (handle) {        
+		handle.salesReportTabsOffersForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
+
 configSettingsFunc= function () {    
 	import('/imports/admin/editUser/configSettings.js').then(function (handle) {        
 		handle.configSettingsForm();    

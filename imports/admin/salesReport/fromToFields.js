@@ -132,3 +132,8 @@ Template.fromToFields.events({
 	}
 
 });
+
+Template.fromToFields.onRendered(function(){
+	Session.set("fromDate","");
+	Session.set("toDate","");
+});

@@ -87,6 +87,14 @@ Template.anonymousUserLayout1.helpers({
     },
 });
 
+Template.anonymousUserLayout1.onRendered(function(){
+	$('html, body').scrollTop(0);
+});
+
+Template.anonymousUserLayout.onRendered(function(){
+	$('html, body').scrollTop(0);
+});
+
 Template.footer.helpers({
 	currentYear(){
 		return (new Date()).getFullYear();

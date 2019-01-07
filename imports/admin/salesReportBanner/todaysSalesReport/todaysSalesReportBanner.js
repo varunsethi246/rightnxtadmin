@@ -137,3 +137,6 @@ Template.todaysSalesReportBanner.events({
 
 });
 
+Template.todaysSalesReportBanner.onRendered(function(){
+	Session.set("newDate",false);
+});

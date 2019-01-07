@@ -150,3 +150,6 @@ Template.weeklySalesReportBanner.events({
 	}
 });
 
+Template.weeklySalesReportBanner.onRendered(function(){
+	Session.set("selectedWeek",false);
+});

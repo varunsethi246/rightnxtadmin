@@ -53,8 +53,14 @@ if (Meteor.isServer) {
 	Meteor.publish('bannerPayment', function bannerPayment(orderType) {
 		return Payment.find({'orderType':orderType});
 	});
+	Meteor.publish('offerPayment', function offerPayment(orderType) {
+		return Payment.find({'orderType':orderType});
+	});
 	Meteor.publish('noOfInvoiceCount', function() {
 		Counts.publish(this, 'noOfInvoiceCount', Payment.find({}));
+	});
+	Meteor.publish('offerInvoicePayment', function offerInvoicePayment(invNo) {
+		return Payment.find({'invoiceNumber':invNo,'orderType':'Offer'});
 	});
 }
 

@@ -35,6 +35,7 @@ Template.userLayout.onRendered(function(){
 	    	$('.bussScrollTop').fadeOut("slow");
 	    }
     });
+	$('html, body').scrollTop(0);
 });
 
 Template.userLayout.onRendered(function(){
@@ -49,6 +50,7 @@ Template.userLayout.onRendered(function(){
 		$(".usersidebarUl").children().last('userMenuItem').hide();
 		$(".usersidebarUl").children('.userMenuItem:nth-child(3)').addClass('active');
 	}
+	$('html, body').scrollTop(0);
 });
 
  

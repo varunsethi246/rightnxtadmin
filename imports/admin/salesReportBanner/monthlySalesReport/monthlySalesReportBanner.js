@@ -130,4 +130,6 @@ Template.monthlySalesReportBanner.events({
 
 });
 
-
+Template.monthlySalesReportBanner.onRendered(function(){
+	Session.set("selectedMonth",false);
+});

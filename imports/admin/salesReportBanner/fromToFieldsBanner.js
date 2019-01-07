@@ -123,3 +123,8 @@ Template.fromToFieldsBanner.events({
 	}
 
 });
+
+Template.fromToFieldsBanner.onRendered(function(){
+	Session.set("fromDate","");
+	Session.set("toDate","");
+});

@@ -154,7 +154,7 @@ Template.categoriesSearchField.events({
 	
 	"keyup #agetCategory": _.throttle(function(e) {
 	    var text = $(e.target).val().trim();
-		console.log('keyup',text);
+		// console.log('keyup',text);
 		if(text){
 	    	categorySearch1.search(text);
 		    var textTrue =	/^[,]*$/.test(text);

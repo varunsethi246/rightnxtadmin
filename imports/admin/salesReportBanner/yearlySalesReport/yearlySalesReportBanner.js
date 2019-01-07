@@ -102,3 +102,7 @@ Template.yearlySalesReportBanner.events({
 
 
 });
+
+Template.yearlySalesReportBanner.onRendered(function(){
+  Session.set("selectedYear",false);  
+});

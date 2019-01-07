@@ -127,4 +127,6 @@ Template.monthlySalesReport.events({
 
 });
 
-
+Template.monthlySalesReport.onRendered(function(){
+	Session.set("selectedMonth",false);
+});

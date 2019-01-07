@@ -100,14 +100,14 @@
 // 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
 // 	})
 // }
-// receiptFunc= function () {    
-// 	import('/imports/vendor/mybusiness/MyOffers/vendorMyOffers.js').then(function (handle) {        
-// 		handle.receiptForm();    
-// 	})
-// 	.then(function(){
-// 		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
-// 	})
-// }
+receiptFunc= function () {    
+	import('/imports/vendor/mybusiness/MyOffers/vendorMyOffers.js').then(function (handle) {        
+		handle.receiptForm();    
+	})
+	.then(function(){
+		$("#inject-loader-wrapper").fadeOut(1500, function() { $(this).remove(); });
+	})
+}
 // vendorEnquiryFunc= function () {    
 // 	import('/imports/vendor/mybusiness/Enquiry/vendorEnquiry.js').then(function (handle) {        
 // 		handle.vendorEnquiryForm();    

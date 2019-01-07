@@ -1,13 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { Template } from 'meteor/templating';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { Template } from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Business } from '../../../api/businessMaster.js';
 import { Offers } from '../../../api/offersMaster.js';
 import { Payment } from '../../../api/paymentMaster.js';
 import { CompanySettings } from '../../../api/companysettingsAPI.js';
-import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { OfferImage } from '/imports/videoUploadClient/offerImageClient.js';
 import ImageCompressor from 'image-compressor.js';
 
@@ -27,8 +28,7 @@ import './viewVendorOffer.html';
 
 var files = [];
 
-function printDiv() 
-	{
+function printDiv() {
   var divToPrint=document.getElementById('DivIdToPrint');
 
   var newWin=window.open('', 'PRINT', 'height=400,width=600');
@@ -47,72 +47,13 @@ function printDiv()
 
 }
 
-Template.vendorOffer1.onRendered(function(){
-	// $('.changeDate').val(moment(new Date()).add(1, 'days').format('YYYY-MM-DD'));
-	// $("#usrtimeFrom").datepicker({
-	// 	    changeMonth: true,
-	// 	    changeYear: true,
-	// 	    minDate: new Date() // set the minDate to the today's date
-	// 	    // you can add other options here
-	// 	});
-	var todayNext = new Date().toISOString().split('T')[0];
-	document.getElementsByName("expirationToDate")[0].setAttribute('min', todayNext);
-	
-	var today = new Date().toISOString().split('T')[0];
-	document.getElementsByName("expirationFromDate")[0].setAttribute('min', today);
-	
-	var dates = $("#from").datepicker({
-	    minDate: "0",
-	    maxDate: "+2Y",
-	    defaultDate: "+1w",
-	    dateFormat: 'mm/dd/yy',
-	    numberOfMonths: 1,
-	    onSelect: function(date) {
-	        for(var i = 0; i < dates.length; ++i) {
-	            if(dates[i].id < this.id)
-	                $(dates[i]).datepicker('option', 'maxDate', date);
-	            else if(dates[i].id > this.id)
-	                $(dates[i]).datepicker('option', 'minDate', date);
-	        }
-	    } 
-	});
-});
-
 Template.vendorMyOffers.helpers({
 	businessName(){
 		var businessLink = FlowRouter.getParam('businessLink');
 		var businessName = Business.findOne({"businessLink":businessLink, "status":"active"},{"businessTitle":1});
 		return businessName;
 	},
-
-	paymentBtn(){
-		var businessLink = FlowRouter.getParam("businessLink");
-		var businessObj = Business.findOne({"businessLink":businessLink, "status":"active"});
-		var valueObj = {'value' : 'disabled'};
-		if(businessObj){
-			var unpaidOffers = Offers.find({"vendorId":Meteor.userId(),
-											"businessId":businessObj._id,
-											"offerStatus":"Payment Pending"}).count();
-			if(unpaidOffers){
-				if(unpaidOffers > 0){
-					var valueObj = {'value' : ''};
-				}
-				return valueObj;				
-			}
-		}		
-		return valueObj;				
-	},
-
-	monthChange(){
-		if(Session.get('noOfMonths')){
-			var data= Session.get('noOfMonths');
-			return data;
-		}else{
-			return false;
-		}
-	},
 });
-
 
 Template.paymentSuccess.helpers({
 	paymentSuccessfull(){
@@ -124,7 +65,7 @@ Template.paymentSuccess.helpers({
 		var payId    	= FlowRouter.getQueryParam('orderId');
  
 	    if(status == 'paid'){
-              Meteor.call("insertOnlineDetailsToOffers",id, billnumbers, payId, function(err,result){
+            Meteor.call("insertOnlineDetailsToOffers",id, billnumbers, payId, function(err,result){
                 if(result){
 
 				}
@@ -138,6 +79,10 @@ Template.paymentSuccess.helpers({
 		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
 		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum,"orderType":'Offer'});
+		var vendorObj = Meteor.users.findOne({'_id':Meteor.userId()});
+		if(vendorObj){
+			var vendorname = vendorObj.profile.name;
+		}
 
 		if(paymentDetails){
 			var offers = [];
@@ -158,8 +103,10 @@ Template.paymentSuccess.helpers({
 				totalPrice     = (totalPrice + offers[i].totalAmount);
 			}
 			
-			var dateTime = paymentDetails.invoiceDate.toLocaleString();
-			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm:ss');
+			// var dateTime = paymentDetails.invoiceDate.toLocaleString();
+			var dateTime = paymentDetails.invoiceDate;
+			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm');
+			var payDateTime = moment(paymentDetails.paymentDate).format('DD/MM/YYYY hh:mm');
 
 			var data = {
 				businessName			: businessDetails.businessTitle ,
@@ -167,15 +114,82 @@ Template.paymentSuccess.helpers({
 				merchantRef				: paymentDetails._id.toUpperCase(),
 				transactionID			: paymentDetails.transactionId,
 				invDate					: newDateTime,
+				paymentDate				: payDateTime,
 				paymentMode 			: paymentDetails.modeOfPayment,
 				totalAmount				: paymentDetails.totalAmount,
 				totalPrice				: totalPrice,
-				transactionMsg 			: 'Payment Successful'
+				transactionMsg 			: paymentDetails.paymentStatus,
+				vendorname 				: vendorname,
+				invoiceNumber 			: invNum
 			}
 			return data;
 		}
 	},
 
+});
+
+Template.paymentSuccess.events({
+	'click .button2': function(event){
+		var invNum       = FlowRouter.getParam('invoiceNumber');
+		var businessLink = FlowRouter.getParam('businessLink');
+		if(invNum || businessLink){
+			if(invNum.split('-')[1]){
+				FlowRouter.go('/VendorPayments');
+			}else{
+				FlowRouter.go('/businessOffers/:businessLink',{'businessLink':businessLink});
+			}	
+		}else{
+			FlowRouter.go('/VendorPayments');
+		}
+	},
+	'click .button1': function(event){
+		printDiv();
+	},
+	'click .shareReceiptEmail' : function(event){
+		var userId = Meteor.userId();
+		var userDetails = Meteor.users.findOne({'_id':userId});
+		if(userDetails){
+			if(userDetails.profile){
+				var name = userDetails.profile.name;
+			}else{
+				var name = '';
+			}
+			var email = $('#toVEmail').val();
+			if(email){
+			    var divToPrint=document.getElementById('DivIdToPrint');
+				var message = '<html><head></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>'; 
+				// console.log('message ',message);
+
+				var date 		= new Date();
+				var currentDate = moment(date).format('DD/MM/YYYY');
+				var businessLink = FlowRouter.getParam('businessLink');
+				var businessDetails = Business.findOne({"businessLink":businessLink});
+				if(businessDetails){
+					var msgvariable = {
+						'[receipt]' 	: message,
+						'[currentDate]'	: currentDate,
+						'[username]' 	: name,
+						'[businessName]': businessDetails.businessTitle,
+						'[message]'		: message,
+						// '[dealHeadline]': offerObj.dealHeadline
+
+			       	};
+
+					var inputObj = {
+						notifPath	 : "",
+						from 		 : userDetails.emails[0].address,
+					    to           : email,
+					    templateName : 'Mail Receipt',
+					    variables    : msgvariable,
+					}
+					sendMailReceiptNotification(inputObj);
+				}
+			}else{
+				Bert.alert('Please enter email address.','danger','growl-top-right');
+			}
+		}
+		$(event.target).parent().parent().find('input').val('');
+	},
 });
 
 Template.vendorMyOffers.events({
@@ -185,69 +199,61 @@ Template.vendorMyOffers.events({
 		var id = event.currentTarget.id;
 		Session.set('id',id);
 	},
-	'click .editModal': function(event){
-		event.preventDefault();
-		var id = event.currentTarget.id;
-		Session.set('id',id);
-
-		// $('.modal-backdrop').hide();
-		
-		if($(event.target).hasClass('inactiveOk')){
-			$('#inactOfferModal-'+id).modal('hide');
-			// $('#editDataModal-'+id).modal('show');
-		}
-	},
 	'change .offrdInput': function(event){		
 		var offrdInput = event.currentTarget.value;
 		Session.set('numberOfOffers', offrdInput);
 	},
 
 	'change .numOfMonths': function(event){
-		Session.set('numOfMonths', '');
 		var numOfMonths = event.currentTarget.value;
 		Session.set('numOfMonths', numOfMonths);
 	},
 
-	'focusout .changeDate': function(event){
-		var targetVal = $('.changeDate').val();
-		var newTodayVal = moment(targetVal).format('YYYY-MM-DD');
-		$('.changeDate').val(newTodayVal);
-		var noOfMonths = $('.numOfMonths').val();
-		if(!noOfMonths){
-			noOfMonths = 1;
-		}
-		$('.changeMonth').val(moment(newTodayVal).add(noOfMonths, 'M').format('YYYY-MM-DD'));
+	'keyup .numOfMonths': function(event){
+		var numOfMonths = event.currentTarget.value;
+		Session.set('numOfMonths', numOfMonths);
 	},
 
-	'focusout .changeMonth': function(event){
-	 	Session.set('noOfMonths','');
-		Session.set('numOfMonths', '');
-		var changeFromDate = $('input[name="expirationFromDate"]').val();
-		var changeToDate = event.currentTarget.value;
-		if(changeFromDate < changeToDate ){
-			var toYear = moment(changeToDate).year();
-			var fromYear = moment(changeFromDate).year();
-			var diffYear = toYear - fromYear;
-			var toMonth = moment(changeToDate).month();
-			var fromMonth = moment(changeFromDate).month();
-			if(diffYear > 1){
-				if(toMonth < fromMonth){
-					var totalMonths = (12 - fromMonth) + ((diffYear - 1) * 12) + toMonth;
-				}else{
-					var totalMonths = (12 - fromMonth) + ((diffYear - 1) * 12) + toMonth;
-				}
-			}else{
-				if(toMonth < fromMonth){
-					var totalMonths =  (12 - toMonth) -(12 - fromMonth)  ;
-				}else{
-					var totalMonths = toMonth - fromMonth;
-				}
-			}
-			 	Session.set('noOfMonths',totalMonths);
-			 	Session.set('numOfMonths',totalMonths);
+	'change .changeDate': function(event){
+		var changeFromDate = new Date(event.currentTarget.value);
+		if(Session.get('numOfMonths')){
+			var numOfMonths = Session.get('numOfMonths');
 		}else{
-			Bert.alert('To Date should be greater than From Date','danger','growl-top-right')
+			var numOfMonths = 1;
 		}
+
+		var result = moment(changeFromDate).add(numOfMonths, 'months');
+		var newToDate = moment(result).format('YYYY-MM-DD');
+		$(event.target).parent().siblings().find('.changeMonth').val(newToDate);
+		$(event.target).parent().parent().siblings().find('.changeMonth').val(newToDate);
+	},
+
+	// 'change .changeMonth': function(event){
+	//  	// Session.set('noOfMonths','');
+	// 	var changeFromDate = new Date($('input[name="expirationFromDate"]').val());
+	// 	var changeToDate = new Date(event.currentTarget.value);
+	// 	var result = moment([changeToDate.getFullYear(), changeToDate.getMonth(), changeToDate.getDate()]).diff(moment([changeFromDate.getFullYear(), changeFromDate.getMonth(), changeFromDate.getDate()]), 'months', true);
+	// 	var numOfMonths = Math.ceil(result);
+	// 	$('#offerMonthNo').val(numOfMonths);
+	// 	Session.set('numOfMonths', numOfMonths);
+	// },
+
+	'click .angleToggle': function(event){
+    	var $this = $(event.currentTarget);
+    	$this.parent().parent().parent().toggleClass('accordianSelect');
+		$this.addClass('fa-angle-up');
+		$this.removeClass('fa-angle-down');
+		var toggleClass = $this.parent().parent().parent().parent().find('.panel-collapse');
+		if(toggleClass.hasClass('in')){
+			$this.removeClass('fa-angle-up');
+    		$this.addClass('fa-angle-down');
+		}else{
+			
+		}
+		var panelHeading = $this.parent().parent().parent();
+		$('.panel-heading').not(panelHeading).removeClass('accordianSelect');
+    	$('.panel-heading').not(panelHeading).find('i').removeClass('fa-angle-up');
+		$('.panel-heading').not(panelHeading).find('i').addClass('fa-angle-down');
 	},
 
 	'click .panel-heading': function(event){
@@ -288,7 +294,7 @@ Template.vendorMyOffers.events({
 		event.preventDefault();
 		var $this = $(event.target);
 		$($this).find('input[name="save1"]').attr('disabled','disabled');
-
+		var businessLink = FlowRouter.getParam('businessLink');
 		var businessId =  $('input[name="businessId"]').val();
 		var numOfMonths = $('input[name="numOfMonths"]').val();
 		var imgId = '';
@@ -329,12 +335,15 @@ Template.vendorMyOffers.events({
 						"dealTemplate" 			: event.target.dealTemplate.value,
 						"dealHeadline"			: event.target.dealHeadline.value,
 						"dealDescription" 		: event.target.dealDescription.value,
-						"expirationFromDate" 	: event.target.expirationFromDate.value,
-						"expirationToDate" 		: event.target.expirationToDate.value,
+						// "expirationFromDate" 	: event.target.expirationFromDate.value,
+						// "expirationToDate" 		: event.target.expirationToDate.value,
+						"expirationFromDate" 	: $this.find('#usrtimeFrom').val(),
+						"expirationToDate" 		: $this.find('#usrtimeTo').val(),
 						"legalNotices"			: event.target.legalNotices.value,
 						"offerStatus"			: 'New',
 						"numOfMonths"			: numOfMonths,
 						"offerImage"			: imgId,
+						"businessLink"			: businessLink,
 					};
 
 					// var $this = $(event.target);
@@ -443,19 +452,22 @@ Template.vendorMyOffers.events({
 		          // Handle the error
 		    })    
 		}else{
-			imgId = '/images/rightnxt_image_nocontent.jpg';
+			imgId = 'https://s3.us-east-2.amazonaws.com/rightnxt1/StaticImages/general/rightnxt_image_nocontent.jpg';
 			var formValues = {
 				"businessId"			: businessId,
 				"vendorId"  			: Meteor.userId(),
 				"dealTemplate" 			: event.target.dealTemplate.value,
 				"dealHeadline"			: event.target.dealHeadline.value,
 				"dealDescription" 		: event.target.dealDescription.value,
-				"expirationFromDate" 	: event.target.expirationFromDate.value,
-				"expirationToDate" 		: event.target.expirationToDate.value,
+				// "expirationFromDate" 	: event.target.expirationFromDate.value,
+				// "expirationToDate" 		: event.target.expirationToDate.value,
+				"expirationFromDate" 	: $this.find('#usrtimeFrom').val(),
+				"expirationToDate" 		: $this.find('#usrtimeTo').val(),
 				"legalNotices"			: event.target.legalNotices.value,
 				"offerStatus"			: 'New',
 				"numOfMonths"			: numOfMonths,
 				"offerImage"			: imgId,
+				"businessLink"			: businessLink,
 			};
 
 			// var $this = $(event.target);
@@ -549,187 +561,6 @@ Template.vendorMyOffers.events({
 			);
 		}
 	},
-
-	'click #offersub': function(event){
-		event.preventDefault();
-
-	    var businessId =  $('input[name="businessId"]').val();
-	    var businessLink =  $('input[name="businessLink"]').val();
-		
-	 	var formValues = {
-			"businessId"  			: businessId,
-			"businessLink" 			: businessLink,
-		};
-
-		//If vendor already has invoice with 'unpaid' status in payment collection,
-		// then don't add new invoice in payment collection.
-		var unpaidInvoiceObj = Payment.findOne({"vendorId"	 	: Meteor.userId(), 
-												"businessId" 	: formValues.businessId,
-												"paymentStatus" : 'unpaid',
-												"orderType"		: 'Offer',
-											  });
-		if(unpaidInvoiceObj){
-			var invNum = unpaidInvoiceObj.invoiceNumber;
-			//If unpaid invoice for this business exists, then check if any new offer is still 
-			//pending to be added into invoice - payment collection
-			var offersArray = Offers.find({"vendorId"	 	: Meteor.userId(), 
-										   "businessId" 	: formValues.businessId,
-										   "offerStatus" 	: 'Payment Pending'
-										  }).fetch();
-			var newOffersArray = Offers.find({"vendorId"	: Meteor.userId(), 
-										   "businessId" 	: formValues.businessId,
-										   "offerStatus" 	: 'New'
-										  }).fetch(); 
-			if(unpaidInvoiceObj.offers){
-				if(newOffersArray){
-					for(k=0; k<newOffersArray.length; k++){
-						for (l=0; l<unpaidInvoiceObj.offers.length;l++) {
-							if(newOffersArray[k]._id == unpaidInvoiceObj.offers[l].offerId){
-								Meteor.call('removeNewOfferinPayment',unpaidInvoiceObj._id, newOffersArray[k]._id,
-									function(error,result){
-										if(error){
-											Bert.alert('There is some error occur while adding recent offer to invoice!','danger','growl-top-right');
-										}
-										else{
-											// console.log('checking1');
-											// Bert.alert('Your recent new Offer added to Invoice.','success','growl-top-right');
-										}
-									}
-								);	
-							} 
-						}
-					}
-				}
-				if(offersArray){					
-					// if(unpaidInvoiceObj.offers.length != offersArray.length){
-						for(i=0; i<offersArray.length; i++){
-							var offerFound = 'notfound';
-							for (j=0; j<unpaidInvoiceObj.offers.length;j++) {
-								if(offersArray[i]._id == unpaidInvoiceObj.offers[j].offerId){
-									offerFound = 'found';
-									break;
-								} 
-							}
-							if(offerFound != 'found'){
-								Meteor.call('addNewOfferinPayment',unpaidInvoiceObj._id, offersArray[i]._id,
-									function(error,result){
-										if(error){
-											Bert.alert('There is some error while adding recent offer to invoice!','danger','growl-top-right');
-										}
-										else{
-											// console.log('checking1');
-											Bert.alert('Your recent new Offer added to Invoice.','success','growl-top-right');
-										}
-									}
-								);									
-							}
-						}
-					// }
-				}
-			}
-			FlowRouter.go('/businessOffers/:businessLink/invoice/:invoiceNumber',{'businessLink':businessLink, 'invoiceNumber':invNum});
-		}else{
-			Meteor.call('insertPayment',formValues,
-				function(error, result){
-					if(error){
-						Bert.alert(error.reason, 'danger','growl-top-right');
-					}
-					else{
-						Bert.alert("Payment Invoice is Created!",'success','growl-top-right');
-						var payid = result;
-						// send mail to admin //
-	                    var userData = Meteor.users.findOne({'roles':'admin'});
-	                    if(userData){
-	                      	var adminID = userData._id; 
-	                    }//userData
-
-	                    //send mail to the vendor//
-                     	var paymentData = Payment.findOne({"_id":payid,"orderType":'Offer'});
-                      	if(paymentData){
-                      		var invoiceNumber 	= paymentData.invoiceNumber;
-                      		var invoiceDate 	= moment(paymentData.invoiceDate).format();
-                      		var numberOfOffers 	= paymentData.numberOfOffers;
-                      		var totalAmount 	= paymentData.totalAmount;
-                      		var paymentDate		= paymentData.paymentDate;
-                        	var busPaymentId 	= paymentData.businessId;
-                        	var busId 			= Business.findOne({'_id':busPaymentId});
-                        	if(busId){
-                        		var vendorname 		= busId.ownerFullName;
-                        		var businessName 	= busId.businessTitle;
-                        	}
-                        	var date 		= new Date();
-		                	var currentDate = moment(date).format('DD/MM/YYYY');
-		                	var vendormailId = paymentData.vendorId;
-                        	var userDetail = Meteor.users.findOne({'_id':vendormailId});
-	                        if(userDetail){
-				                var msgvariable = {
-									'[invoiceNumber]' 	: invoiceNumber,
-									'[invoiceDate]' 	: invoiceDate,
-									'[numberOfOffers]' 	: numberOfOffers,
-									'[totalAmount]' 	: totalAmount,
-									'[paymentDate]' 	: paymentDate,
-									'[busPaymentId]' 	: busPaymentId,
-									'[businessName]' 	: businessName,
-									'[username]' 		: vendorname,
-				   				   	// '[orderNo]' 	: '12345',
-				                   	'[orderDate]'		: currentDate
-				               	};
-
-								var inputObj = {
-								    to           : vendormailId,
-								    templateName : 'Invoice',
-								    variables    : msgvariable,
-								}
-
-								sendInAppNotification(inputObj);
-								var inputObj = {
-									from         : adminID,
-								    to           : vendormailId,
-								    templateName : 'Invoice',
-								    variables    : msgvariable,
-								}
-
-								sendMailNotification(inputObj); 
-								var inputObj = {
-									from         : vendormailId,
-								    to           : adminID,
-								    templateName : 'Invoice',
-								    variables    : msgvariable,
-								}
-
-								sendMailNotification(inputObj); 
-								var inputObj = {
-								    to           : adminID,
-								    templateName : 'Invoice',
-								    variables    : msgvariable,
-								}
-
-								sendInAppNotification(inputObj); 
-
-	                         //    var notifConf = userDetail.notificationConfiguration.invoice;
-	                         //    if(notifConf == "true"){
-		                        // 	// var inputObj = {
-			                       //  //     roles       : 'Vendor',
-			                       //  //     to          : vendormailId,
-			                       //  //     templateName: 'Invoice',
-			                       //  //     OrderId     : payid,
-		                        // 	// }
-		                        // 	// sendMailnNotif(inputObj);
-		                        // }
-		                    }
-                      	}//paymentData 
-	                   
-
-						var maxInvNum = Payment.find({"orderType":'Offer'}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
-						if(maxInvNum.length > 0){
-							var invNum = maxInvNum[0].invoiceNumber;
-							FlowRouter.go('/businessOffers/:businessLink/invoice/:invoiceNumber',{'businessLink':businessLink, 'invoiceNumber':invNum});
-						}
-					}
-				}
-			);
-		}
-	},
 });
 
 Template.paymentInvoice.helpers({
@@ -739,7 +570,6 @@ Template.paymentInvoice.helpers({
 
 		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
-
 		// var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum,"orderType":'Offer'});
 
 		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum});
@@ -785,6 +615,7 @@ Template.paymentInvoice.helpers({
 				totalPrice				: totalPrice,
 				paymentMode 			: paymentDetails.modeOfPayment,
 			}
+			// console.log(data);
 			return data;
 		}
 	},
@@ -798,6 +629,8 @@ Template.paymentInvoice.events({
 		var businessLink = FlowRouter.getParam('businessLink');
 		var invoiceNumber = FlowRouter.getParam('invoiceNumber');
 		var mode = $('input[name="modeOfPayment"]:checked').val();
+		console.log('businessLink :',businessLink);
+		console.log('invoiceNumber :',invoiceNumber);
 
 		var receiptObj = Payment.findOne({"vendorId"	  : Meteor.userId(),
 										   "businessLink" : businessLink,
@@ -834,7 +667,7 @@ Template.paymentInvoice.events({
 				                      		var invoiceDate 	= moment(paymentData.invoiceDate).format();
 				                      		var numberOfOffers 	= paymentData.numberOfOffers;
 				                      		var totalAmount 	= paymentData.totalAmount;
-				                      		var paymentDate		= paymentData.paymentDate;
+				                      		var paymentDate		= moment(paymentData.paymentDate).format('DD/MM/YYYY');
 				                        	var busPaymentId 	= paymentData.businessId;
 				                        	var busId 			= Business.findOne({'_id':busPaymentId});
 				                        	if(busId){
@@ -900,7 +733,7 @@ Template.paymentInvoice.events({
 			else{
 				//Send user to Payment Gateway link
 				var current = window.location.host;
-				console.log("window.location : ",current );
+				// console.log("window.location : ",current );
 
 				Meteor.call('updateInvoiceforOnlinePayment', businessLink, parseInt(invoiceNumber), current, (error, result)=>{
 					if(result){
@@ -915,13 +748,11 @@ Template.paymentInvoice.events({
 Template.offerPayment.helpers({
 	orderData(){
 		var companyRates = CompanySettings.findOne({'companyId':101},{"rates":1,"_id":0});
-
 		if(Session.get('numberOfOffers')){
 			var numOfOffers = Session.get('numberOfOffers');
 		}else{
 			var numOfOffers = 1;
 		}
-
 		if(Session.get('numOfMonths')){
 			var numOfMonths = Session.get('numOfMonths');
 		}else{
@@ -938,34 +769,39 @@ Template.offerPayment.helpers({
 			return value;			
 		}
 	},
-	monthChange(){
-		if(Session.get('noOfMonths')){
-			var noOfMonths = Session.get('noOfMonths');
-			var price = this.ratePerOffer * this.numOfOffers * noOfMonths;
-			var data = {
-				noOfMonths : noOfMonths,
-				price 	   : price
-			}
-			// console.log('data',data);
-			return data;
-		}else{
-			return false;
-		}
-	}
 });
 
 Template.offerAccordian.helpers({
 	numberOfOffers(){
-		if(Session.get('numberOfOffers')){
-			var numberOfOffers = Session.get('numberOfOffers');
-			var value = [];
-			for(i=0;i<numberOfOffers;i++){
-				value[i] = {"i":(i+1)};
-			}
-			return value;
+		var value = [];
+		if(Session.get('numOfMonths')){
+			var numOfMonths = Session.get('numOfMonths');
 		}else{
-			return [{"i":1}];
+			var numOfMonths = 1;
 		}
+
+		if(Session.get('numberOfOffers')){
+			var numberOfOffers = Session.get('numberOfOffers');	
+		}else{
+			var numberOfOffers = 1;
+		}
+
+		for(i=0;i<numberOfOffers;i++){	
+			var count = i+1;
+			// console.log('count',$('.offerFromDt-'+count).val());
+			if($('.offerFromDt-'+count).val()){
+				var changeFromDate = new Date($('.offerFromDt-'+count).val());
+				var result = moment(changeFromDate).add(numOfMonths, 'months');
+			}else{
+				var date = new Date(moment().date((moment().date())+1));
+				var result = moment(date).add(numOfMonths, 'months');
+				// console.log(result);
+			}
+			var newToDate = moment(result).format('YYYY-MM-DD');
+			value.push({"i":(i+1),"todateData":newToDate});
+		}
+		// console.log(value)
+		return value;
 	},
 	inData(){
 		if(this.i == 1){
@@ -980,71 +816,25 @@ Template.vendorOffer1.helpers({
 		var newDate = moment(date).format('YYYY-MM-DD');
 		return newDate;
 	},
-
-	todateData(){
-		// console.log('todateData ',todateData);
-		var date = moment().date((moment().date())+1);
-		var newDate = moment(date).format('YYYY-MM-DD');
-		
-		if(Session.get('numOfMonths')){
-			var numOfMonths = Session.get('numOfMonths');
-			var newMonth = moment(newDate).month((moment().month())+parseInt(numOfMonths));
-		}
-		else{
-			var newMonth = moment(newDate).month((moment().month())+1);
-		}
-
-		var dateMonth = moment(newMonth).format('YYYY-MM-DD');
-		return dateMonth;
-	},
-
-	numberOfOffers(){
-		if(Session.get('numberOfOffers')){
-			var numberOfOffers = Session.get('numberOfOffers');
-			var value = [];
-			for(i=0;i<numberOfOffers;i++){
-				value[i] = {"i":(i+1)};
-			}
-			return value;
-		}else{
-			return [{"i":1}];
-		}
-	},
 });
 
 Template.vendorOffer1.events({
-	'click .dealx':function(event){
-		// var dealDescriptionval = event.target.dealTemplate.value;
-		var dealDescriptionval = $('.dealx').val();
+	'change .dealx':function(event){
+		var dealDescriptionval = $(event.currentTarget).val();
+		// console.log(dealDescriptionval);
 		if (dealDescriptionval == 'Percent Off') {
 			var dealdes = 'X% off on your order';
 		}else if(dealDescriptionval == 'Price Off'){
-			var dealdes = 'Rs.X off on your total bill (Eg. Any Salon Service)';
+			var dealdes = 'Rs.X off on your total bill';
 		}else if(dealDescriptionval == 'Fixed Price'){
-			var dealdes = 'Rs. X for our fixed price menu(Mayur Thali)';
+			var dealdes = 'Rs. X for our fixed price menu for Limited time';
 		}else if(dealDescriptionval == 'Free Item'){
-			var dealdes = 'X free glass of juice with every Entrée before 7';
+			var dealdes = 'X free glass of juice with every Entry before 7 ';
 		}else if(dealDescriptionval == 'Create Your own Deal'){
 			var dealdes = 'Create your own Deal';
-			}
-		$('#dealHeadline').val(dealdes);
-		// console.log('$#dealHeadline).val(dealdes);',$('#dealHeadline').val(dealdes));
-		// var dealDescriptionvalone = Session.set('dealDescriptionvalOne',dealDescriptionval);
-		
+		}
+		$(event.target).parent().siblings().children('input').val(dealdes);	
 	},
-	// 'click #usrtimeFrom': (event)=>{
-	// 	// $( "#usrtimeFrom" ).datepicker({ minDate: today});
-	// 	$("#usrtimeFrom").datepicker({
-	// 	    changeMonth: true,
-	// 	    changeYear: true,
-	// 	    minDate: new Date() // set the minDate to the today's date
-	// 	    // you can add other options here
-	// 	});
-	// },
-	// 'click #usrtimeTo':function(event){
-	// 	var todayNext = new Date().toISOString().split('T')[0];
-	// 	document.getElementsByName("expirationToDate")[0].setAttribute('min', todayNext);
-	// },
 	'change .businessPhotofiles' : function(event){
 		var $this = $(event.target);
 		$this.parent().parent().find('output').empty();
@@ -1053,46 +843,50 @@ Template.vendorOffer1.events({
 		var imageId = $this.parent().parent().find('output').attr('id');
 		files = event.target.files; // FileList object\
 		// Loop through the FileList and render image files as thumbnails.
-		for (var i = 0, f; f = files[i]; i++) {
-			files[i].businessLink = Session.get('SessionBusinessLink');
-			
-		    // Only process image files.
-		    if (!f.type.match('image.*')) {
-		      continue;
-			}
+		// console.log(files);
+		if(files){
+			$this.siblings('.vUploadButton1Offer').hide();
+			$this.hide();
+			for (var i = 0, f; f = files[i]; i++) {
+				files[i].businessLink = Session.get('SessionBusinessLink');
+				
+			    // Only process image files.
+			    if (!f.type.match('image.*')) {
+			      continue;
+				}
 
-			var reader = new FileReader();
-			
-			// Closure to capture the file information.
-		    reader.onload = (function(theFile) {
-		      return function(e) {
-		        // Render thumbnail.
-		        var span = document.createElement('span');
-		        span.innerHTML = ['<i class="pull-right fa fa-times-circle cursorPointer exitOfferImage"></i><img class="thumbnail draggedImgOffers imgVendorSpan" src="', e.target.result,
-		                          '" title="', escape(theFile.name), '"/>'].join('');
-		        document.getElementById(imageId).insertBefore(span, null);
-		      };
-		    })(f); //end of onload
+				var reader = new FileReader();
+				
+				// Closure to capture the file information.
+			    reader.onload = (function(theFile) {
+			      return function(e) {
+			        // Render thumbnail.
+			        var span = document.createElement('span');
+			        span.innerHTML = ['<i class="pull-right fa fa-times-circle cursorPointer exitOfferImage"></i><img class="thumbnail draggedImgOffers imgVendorSpan" src="', e.target.result,
+			                          '" title="', escape(theFile.name), '"/>'].join('');
+			        document.getElementById(imageId).insertBefore(span, null);
+			      };
+			    })(f); //end of onload
 
-		    // Read in the image file as a data URL.
-		    reader.readAsDataURL(f);
-		}// end of for loop
+			    // Read in the image file as a data URL.
+			    reader.readAsDataURL(f);
+			}// end of for loop
+		}
 	},
 	'click .exitOfferImage' :  function(event){
+		files = [];
 		var $this = $(event.target);
+		$this.parent().parent().siblings('input').show();
 		$this.parent().parent().empty();
+		$('.businessPhotofiles').val('');
 	},	
 	'click #imgVendorSpan' :  function(event){
-		// $(event.target).parent().parent().empty();
 		$('input[name="files"]').val('');
 		$(event.target).parent().hide();
 		$(event.target).hide();
 		$(event.target).parent().parent().parent().find('.drag').show();
 		$(event.target).parent().parent().parent().parent().children().find('.uploadButton1').css('margin-top','0px');
 	},
-	// 'change .changeDate' : function(event){
-
-	// },
 });
 
 Template.viewVendorOffer.helpers({
@@ -1202,53 +996,56 @@ Template.vendorOffer2.helpers({
 });
 
 Template.vendorOffer2.events({
-	'click .dealy':function(event){
+	'click #locationIcon':function(event){
+		event.preventDefault();
+	    $('.modal-backdrop').hide();
+		var windowWidth = $(window).width();
+		if(windowWidth <= 767){
+    		FlowRouter.go('/terms-of-service');
+		}else{
+    		FlowRouter.go('https://rightnxt.com/terms-of-service');
+		}
+	},
+	'change .dealy':function(event){
 		// var dealDescriptionval = event.target.dealTemplate.value;
 		var dealDescriptionval = $('.dealy').val();
 		if (dealDescriptionval == 'Percent Off') {
 			var dealdes = 'X% off on your order';
 		}else if(dealDescriptionval == 'Price Off'){
-			var dealdes = 'Rs.X off on your total bill (Eg. Any Salon Service)';
+			var dealdes = 'Rs.X off on your total bill';
 		}else if(dealDescriptionval == 'Fixed Price'){
-			var dealdes = 'Rs. X for our fixed price menu(Mayur Thali)';
+			var dealdes = 'Rs. X for our fixed price menu for Limited time';
 		}else if(dealDescriptionval == 'Free Item'){
-			var dealdes = 'X free glass of juice with every Entrée before 7';
+			var dealdes = 'X free glass of juice with every Entry before 7 ';
 		}else if(dealDescriptionval == 'Create Your own Deal'){
 			var dealdes = 'Create your own Deal';
 			}
 		var dealHeadY=$('#dealHeadliney').val(dealdes);
-		Session.set('dealHeadY',dealHeadY);
-		// console.log('$#dealHeadline).val(dealdes);',$('#dealHeadline').val(dealdes));
-		// var dealDescriptionvalone = Session.set('dealDescriptionvalOne',dealDescriptionval);
-		
-	},
-	'click #locationIcon': function(event){
-		event.preventDefault();
-		FlowRouter.go('/terms-of-service');
-		if(FlowRouter.current().path == '/terms-of-service'){
-			$('.modal-backdrop').hide();
-		}
+		Session.set('dealHeadY',dealHeadY);		
 	},
 	'submit #OfferForm': function(event){
 		event.preventDefault();
 		var id = $(event.target).parent().parent().parent().parent().parent().find('i').attr('id');
 		var offers = Offers.findOne({"_id":id});
 		var offersImgId = offers.offerImage;
-		var monthVal = (moment($(event.target).find('input[name="expirationFromDate"]').val()).month())+1;
-		var monthVal1 = (moment($(event.target).find('input[name="expirationToDate"]').val()).month())+1;
-		var num = parseInt(monthVal1) - parseInt(monthVal);
-		if(num < 0){
-			var offerStatus = 'Inactive';
-		}else if(num > 0 && offers.offerStatus == 'Active'){
-			var offerStatus = 'Active';
-		}else if(num > 0 && offers.offerStatus == 'Inactive'){
-			var offerStatus = 'Inactive';
-		}
-		else if(offers.offerStatus == 'Payment Pending'){
-			var offerStatus = 'Payment Pending';
+		// var monthVal = (moment($(event.target).find('input[name="expirationFromDate"]').val()).month())+1;
+		// var monthVal1 = (moment($(event.target).find('input[name="expirationToDate"]').val()).month())+1;
+		// var num = parseInt(monthVal1) - parseInt(monthVal);
+		// if(num < 0){
+		// 	var offerStatus = 'Inactive';
+		// }else if(num > 0 && offers.offerStatus == 'Active'){
+		// 	var offerStatus = 'Active';
+		// }else if(num > 0 && offers.offerStatus == 'Inactive'){
+		// 	var offerStatus = 'Inactive';
+		// }
+		
+		if(offers.offerStatus){
+			var offerStatus = offers.offerStatus;
 		}else{
-			var offerStatus = 'New';
+			var offerStatus = "";
 		}
+
+		var businessLink = FlowRouter.getParam('businessLink');
 		
 		if(files[0]){
 			const imageCompressor = new ImageCompressor();
@@ -1278,19 +1075,22 @@ Template.vendorOffer2.events({
 		          } else {
 		            // alert('File "' + fileObj._id + '" successfully uploaded');
 		            Bert.alert('Offer Image uploaded.','success','growl-top-right');
-		            console.log(fileObj._id);
+		            // console.log(fileObj._id);
 		            // Session.set("vendorImgFilePath",fileObj._id);
 		            imgId =  fileObj._id ;
 		            var formValues = {
 						"dealTemplate" 			: event.target.dealTemplate.value,
 						"dealHeadline"			: event.target.dealHeadline.value,
 						"dealDescription" 		: event.target.dealDescription.value,
-						"expirationFromDate" 	: event.target.expirationFromDate.value,
-						"expirationToDate" 		: event.target.expirationToDate.value,
+						// "expirationFromDate" 	: event.target.expirationFromDate.value,
+						// "expirationToDate" 		: event.target.expirationToDate.value,
+						"expirationFromDate" 	: $(event.target).find('#usrtimeOne').val(),
+						"expirationToDate" 		: $(event.target).find('#usrtimeTwo').val(),
 						"legalNotices"			: event.target.legalNotices.value,
-						"numOfMonths"			: num,
+						"numOfMonths"			: offers.numOfMonths,
 						"offerImage"			: imgId,
-						"offerStatus"			: offerStatus
+						"offerStatus"			: offerStatus,
+						"businessLink" 			: businessLink,
 					};
 
 					Meteor.call('updateOffers',formValues,id,
@@ -1316,7 +1116,7 @@ Template.vendorOffer2.events({
 		    })
 		}else{
 			if($(event.target).find('output').is(':empty') && $(event.target).find('.vendor2Img').is(':empty')){
-				offerImageId = '/images/rightnxt_image_nocontent.jpg';
+				offerImageId = 'https://s3.us-east-2.amazonaws.com/rightnxt1/StaticImages/general/rightnxt_image_nocontent.jpg';
 			}else{
 				offerImageId = offersImgId;
 			}
@@ -1325,12 +1125,15 @@ Template.vendorOffer2.events({
 				"dealTemplate" 			: event.target.dealTemplate.value,
 				"dealHeadline"			: event.target.dealHeadline.value,
 				"dealDescription" 		: event.target.dealDescription.value,
-				"expirationFromDate" 	: event.target.expirationFromDate.value,
-				"expirationToDate" 		: event.target.expirationToDate.value,
+				// "expirationFromDate" 	: event.target.expirationFromDate.value,
+				// "expirationToDate" 		: event.target.expirationToDate.value,
+				"expirationFromDate" 	: $(event.target).find('#usrtimeOne').val(),
+				"expirationToDate" 		: $(event.target).find('#usrtimeTwo').val(),
 				"legalNotices"			: event.target.legalNotices.value,
-				"numOfMonths"			: num,
+				"numOfMonths"			: offers.numOfMonths,
 				"offerImage"			: offerImageId,
-				"offerStatus"			: offerStatus
+				"offerStatus"			: offerStatus,
+				"businessLink" 			: businessLink,
 			};
 
 			Meteor.call('updateOffers',formValues,id,
@@ -1357,35 +1160,42 @@ Template.vendorOffer2.events({
 		// $this.parent().parent().css('margin-bottom','-30px');
 
 		files = event.target.files; // FileList object\
-		// Loop through the FileList and render image files as thumbnails.
-		for (var i = 0, f; f = files[i]; i++) {
-			files[i].businessLink = Session.get('SessionBusinessLink');
-			
-		    // Only process image files.
-		    if (!f.type.match('image.*')) {
-		      continue;
-			}
+		if(files){
+			$this.siblings('.vUploadButton1Offer').hide();
+			$this.hide();
+			// Loop through the FileList and render image files as thumbnails.
+			for (var i = 0, f; f = files[i]; i++) {
+				files[i].businessLink = Session.get('SessionBusinessLink');
+				
+			    // Only process image files.
+			    if (!f.type.match('image.*')) {
+			      continue;
+				}
 
-			var reader = new FileReader();
-			
-			// Closure to capture the file information.
-		    reader.onload = (function(theFile) {
-		      return function(e) {
-		        // Render thumbnail.
-		        var span = document.createElement('span');
-		        span.innerHTML = ['<i class="pull-right fa fa-times-circle cursorPointer exitOfferImage"></i><img class="thumbnail draggedImgOffers imgVendorSpan" src="', e.target.result,
-		                          '" title="', escape(theFile.name), '"/>'].join('');
-		        document.getElementById(imageId).insertBefore(span, null);
-		      };
-		    })(f); //end of onload
+				var reader = new FileReader();
+				
+				// Closure to capture the file information.
+			    reader.onload = (function(theFile) {
+			      return function(e) {
+			        // Render thumbnail.
+			        var span = document.createElement('span');
+			        span.innerHTML = ['<i class="pull-right fa fa-times-circle cursorPointer exitOfferImage"></i><img class="thumbnail draggedImgOffers imgVendorSpan" src="', e.target.result,
+			                          '" title="', escape(theFile.name), '"/>'].join('');
+			        document.getElementById(imageId).insertBefore(span, null);
+			      };
+			    })(f); //end of onload
 
-		    // Read in the image file as a data URL.
-		    reader.readAsDataURL(f);
-		}// end of for loop
+			    // Read in the image file as a data URL.
+			    reader.readAsDataURL(f);
+			}// end of for loop
+		}
 	},
 	'click .exitOfferImage' :  function(event){
+		files = [];
 		var $this = $(event.target);
+		$this.parent().parent().siblings('input').show();
 		$this.parent().parent().empty();
+		$('.businessPhotofiles').val('');
 	},
 	'click .delOfferImage' :  function(event){
 		var $this = $(event.target);
@@ -1436,8 +1246,15 @@ Template.receipt.helpers({
 		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
 		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum,"orderType":'Offer'});
-		
+
 		if(paymentDetails){
+			if(paymentDetails.vendorId){
+				var vendorObj = Meteor.users.findOne({'_id':paymentDetails.vendorId});
+				if(vendorObj){
+					var vendorname = vendorObj.profile.name;
+				}
+			}
+
 			var paymentStatusOne =paymentDetails.paymentStatus;
 			if (paymentStatusOne == 'unpaid') {
 				if(paymentDetails.modeOfPayment){
@@ -1470,19 +1287,24 @@ Template.receipt.helpers({
 				// var statusPayment = Offers.findOne({})
 			}
 			
-			var dateTime = paymentDetails.invoiceDate.toLocaleString();
-			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm:ss');
+			var dateTime = paymentDetails.invoiceDate;
+			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm');
+			var payDateTime = moment(paymentDetails.paymentDate).format('DD/MM/YYYY hh:mm');
 
 			var data = {
 				businessName			: businessDetails.businessTitle ,
 				companyName				: companyDetails.companyName,
 				merchantRef				: paymentDetails._id.toUpperCase(),
+				vendorname				: vendorname,
 				invDate					: newDateTime,
+				paymentDate				: payDateTime,
+				transactionID			: paymentDetails.transactionId,
 				paymentMode 			: paymentDetails.modeOfPayment,
 				totalAmount				: paymentDetails.totalAmount,
 				totalPrice				: totalPrice,
 				transactionMsg 			: PaymentSuccess,
 				paymentclass 			: PaymentClass,
+				invoiceNumber 			: invNum,
 			}
 			return data;
 		}
@@ -1518,43 +1340,250 @@ Template.receipt.events({
 				var name = '';
 			}
 			var email = $('#toVEmail').val();
-		    var divToPrint=document.getElementById('DivIdToPrint');
-			var message = '<html><head></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>'; 
-			// console.log('message ',message);
+			if(email){
+			    var divToPrint=document.getElementById('DivIdToPrint');
+				var message = '<html><head></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>'; 
+				// console.log('message ',message);
 
-			var date 		= new Date();
-			var currentDate = moment(date).format('DD/MM/YYYY');
-			var businessLink = FlowRouter.getParam('businessLink');
-			var businessDetails = Business.findOne({"businessLink":businessLink});
-			if(businessDetails){
-				var msgvariable = {
-					'[receipt]' 	: message,
-					'[currentDate]'	: currentDate,
-					'[username]' 	: name,
-					'[businessName]': businessDetails.businessTitle,
-					'[message]'		: message,
-					// '[dealHeadline]': offerObj.dealHeadline
+				var date 		= new Date();
+				var currentDate = moment(date).format('DD/MM/YYYY');
+				var businessLink = FlowRouter.getParam('businessLink');
+				var businessDetails = Business.findOne({"businessLink":businessLink});
+				if(businessDetails){
+					var msgvariable = {
+						'[receipt]' 	: message,
+						'[currentDate]'	: currentDate,
+						'[username]' 	: name,
+						'[businessName]': businessDetails.businessTitle,
+						'[message]'		: message,
+						// '[dealHeadline]': offerObj.dealHeadline
 
-		       	};
+			       	};
 
-				var inputObj = {
-					notifPath	 : "",
-					from 		 : userDetails.emails[0].address,
-				    to           : email,
-				    templateName : 'Mail Receipt',
-				    variables    : msgvariable,
+					var inputObj = {
+						notifPath	 : "",
+						from 		 : userDetails.emails[0].address,
+					    to           : email,
+					    templateName : 'Mail Receipt',
+					    variables    : msgvariable,
+					}
+					sendMailReceiptNotification(inputObj);
 				}
-				sendMailReceiptNotification(inputObj);
+			}else{
+				Bert.alert('Please enter email address.','danger','growl-top-right');
 			}
 		}
-
+		$(event.target).parent().parent().find('input').val('');
 	},
 });
 
 Template.editOffer.events({
+	'click #offersub': function(event){
+		event.preventDefault();
+
+	    var businessId =  $('input[name="businessId"]').val();
+	    var businessLink =  $('input[name="businessLink"]').val();
+		
+	 	var formValues = {
+			"businessId"  			: businessId,
+			"businessLink" 			: businessLink,
+		};
+
+		//If vendor already has invoice with 'unpaid' status in payment collection,
+		// then don't add new invoice in payment collection.
+		var unpaidInvoiceObj = Payment.findOne({"vendorId"	 	: Meteor.userId(), 
+												"businessId" 	: formValues.businessId,
+												"paymentStatus" : 'unpaid',
+												"orderType"		: 'Offer',
+											  });
+		if(unpaidInvoiceObj){
+			var invNum = unpaidInvoiceObj.invoiceNumber;
+			//If unpaid invoice for this business exists, then check if any new offer is still 
+			//pending to be added into invoice - payment collection
+			var offersArray = Offers.find({"vendorId"	 	: Meteor.userId(), 
+										   "businessId" 	: formValues.businessId,
+										   "offerStatus" 	: 'Payment Pending'
+										  }).fetch();
+			var newOffersArray = Offers.find({"vendorId"	: Meteor.userId(), 
+										   "businessId" 	: formValues.businessId,
+										   "offerStatus" 	: 'New'
+										  }).fetch(); 
+			if(unpaidInvoiceObj.offers){
+				if(newOffersArray){
+					for(k=0; k<newOffersArray.length; k++){
+						for (l=0; l<unpaidInvoiceObj.offers.length;l++) {
+							if(newOffersArray[k]._id == unpaidInvoiceObj.offers[l].offerId){
+								Meteor.call('removeNewOfferinPayment',unpaidInvoiceObj._id, newOffersArray[k]._id,
+									function(error,result){
+										if(error){
+											Bert.alert('There is some error occur while adding recent offer to invoice!','danger','growl-top-right');
+										}
+										else{
+											// console.log('checking1');
+											// Bert.alert('Your recent new Offer added to Invoice.','success','growl-top-right');
+										}
+									}
+								);	
+							} 
+						}
+					}
+				}
+				if(offersArray){					
+					// if(unpaidInvoiceObj.offers.length != offersArray.length){
+						for(i=0; i<offersArray.length; i++){
+							var offerFound = 'notfound';
+							for (j=0; j<unpaidInvoiceObj.offers.length;j++) {
+								if(offersArray[i]._id == unpaidInvoiceObj.offers[j].offerId){
+									offerFound = 'found';
+									break;
+								} 
+							}
+							if(offerFound != 'found'){
+								Meteor.call('addNewOfferinPayment',unpaidInvoiceObj._id, offersArray[i]._id,
+									function(error,result){
+										if(error){
+											Bert.alert('There is some error while adding recent offer to invoice!','danger','growl-top-right');
+										}
+										else{
+											// console.log('checking1');
+											Bert.alert('Your recent new Offer added to Invoice.','success','growl-top-right');
+										}
+									}
+								);									
+							}
+						}
+					// }
+				}
+			}
+			FlowRouter.go('/businessOffers/:businessLink/invoice/:invoiceNumber',{'businessLink':businessLink, 'invoiceNumber':invNum});
+		}else{
+			Meteor.call('insertPayment',formValues,
+				function(error, result){
+					if(error){
+						Bert.alert(error.reason, 'danger','growl-top-right');
+					}
+					else{
+						Bert.alert("Payment Invoice is Created!",'success','growl-top-right');
+						var payid = result;
+						console.log('payid',payid);
+						// send mail to admin //
+	                    var userData = Meteor.users.findOne({'roles':'admin'});
+	                    if(userData){
+	                      	var adminID = userData._id; 
+	                    }//userData
+
+	                    //send mail to the vendor//
+                     	var paymentData = Payment.findOne({"_id":payid,"orderType":'Offer'});
+                      	if(paymentData){
+                      		var invoiceNumber 	= paymentData.invoiceNumber;
+                      		var invoiceDate 	= moment(paymentData.invoiceDate).format();
+                      		var numberOfOffers 	= paymentData.numberOfOffers;
+                      		var totalAmount 	= paymentData.totalAmount;
+                      		var paymentDate		= moment(paymentData.paymentDate).format('DD/MM/YYYY');
+                        	var busPaymentId 	= paymentData.businessId;
+                        	var busId 			= Business.findOne({'_id':busPaymentId});
+                        	if(busId){
+                        		var vendorname 		= busId.ownerFullName;
+                        		var businessName 	= busId.businessTitle;
+                        	}
+                        	var date 		= new Date();
+		                	var currentDate = moment(date).format('DD/MM/YYYY');
+		                	var vendormailId = paymentData.vendorId;
+                        	var userDetail = Meteor.users.findOne({'_id':vendormailId});
+	                        if(userDetail){
+				                var msgvariable = {
+									'[invoiceNumber]' 	: invoiceNumber,
+									'[invoiceDate]' 	: invoiceDate,
+									'[numberOfOffers]' 	: numberOfOffers,
+									'[totalAmount]' 	: totalAmount,
+									'[paymentDate]' 	: paymentDate,
+									'[busPaymentId]' 	: busPaymentId,
+									'[businessName]' 	: businessName,
+									'[username]' 		: vendorname,
+				   				   	// '[orderNo]' 	: '12345',
+				                   	'[orderDate]'		: currentDate
+				               	};
+
+								var inputObj = {
+								    to           : vendormailId,
+								    templateName : 'Invoice',
+								    variables    : msgvariable,
+								}
+
+								sendInAppNotification(inputObj);
+								var inputObj = {
+									from         : adminID,
+								    to           : vendormailId,
+								    templateName : 'Invoice',
+								    variables    : msgvariable,
+								}
+
+								sendMailNotification(inputObj); 
+								var inputObj = {
+									from         : vendormailId,
+								    to           : adminID,
+								    templateName : 'Invoice',
+								    variables    : msgvariable,
+								}
+
+								sendMailNotification(inputObj); 
+								var inputObj = {
+								    to           : adminID,
+								    templateName : 'Invoice',
+								    variables    : msgvariable,
+								}
+
+								sendInAppNotification(inputObj); 
+
+	                         //    var notifConf = userDetail.notificationConfiguration.invoice;
+	                         //    if(notifConf == "true"){
+		                        // 	// var inputObj = {
+			                       //  //     roles       : 'Vendor',
+			                       //  //     to          : vendormailId,
+			                       //  //     templateName: 'Invoice',
+			                       //  //     OrderId     : payid,
+		                        // 	// }
+		                        // 	// sendMailnNotif(inputObj);
+		                        // }
+		                    }
+                      	}//paymentData 
+	                   
+
+						var maxInvNum = Payment.find({"orderType":'Offer'}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
+						if(maxInvNum.length > 0){
+							var invNum = maxInvNum[0].invoiceNumber;
+							FlowRouter.go('/businessOffers/:businessLink/invoice/:invoiceNumber',{'businessLink':businessLink, 'invoiceNumber':invNum});
+						}
+					}
+				}
+			);
+		}
+	},
 	'click .editModal': function(event){
 		event.preventDefault();
-		
+		$(".vendorOfferForm2-"+this.i).validate({
+		 	rules: {
+		        dealHeadline: {
+		            required: true,
+		        },
+		        dealDescription: {
+		        	required: true,
+		        },
+		        expirationFromDate: {
+		        	required: true,
+		        },
+		        expirationToDate: {
+		        	required: true,
+		        },
+		        legalNotices: {
+		        	required: true,
+		        },
+		        dealTemplate: {
+		        	required: true,
+		        },
+	    	},
+	    });
+
 		var id = event.currentTarget.id;
 		Session.set('id',id);
 
@@ -1721,6 +1750,23 @@ Template.editOffer.events({
 });
 
 Template.editOffer.helpers({
+	paymentBtn(){
+		var businessLink = FlowRouter.getParam("businessLink");
+		var businessObj = Business.findOne({"businessLink":businessLink, "status":"active"});
+		var valueObj = {'value' : 'disabled'};
+		if(businessObj){
+			var unpaidOffers = Offers.find({"vendorId":Meteor.userId(),
+											"businessId":businessObj._id,
+											"offerStatus":"Payment Pending"}).count();
+			if(unpaidOffers){
+				if(unpaidOffers > 0){
+					var valueObj = {'value' : ''};
+				}
+				return valueObj;				
+			}
+		}		
+		return valueObj;				
+	},
 	editOffers(){
 		var allPages = [];
 		var businessLink = FlowRouter.getParam('businessLink');
@@ -1814,19 +1860,34 @@ Template.editOffer.helpers({
 	},
 });
 
-Template.offerPayment.onRendered(function(){
-	Session.set('numberOfOffers','');
-	Session.set('numOfMonths','');
-	Session.set('noOfMonths','');
+Template.offerPayment.onRendered(function(){	
 });
 
 Template.offerAccordian.onRendered(function(){
+});
+
+Template.paymentInvoice.onRendered(function(){
+	$("html,body").scrollTop(0);
+});
+
+Template.receipt.onRendered(function(){
+	$("html,body").scrollTop(0);
+	$('.recDiv').show();
+});
+
+Template.vendorMyOffers.onRendered(function(){
+	$("html,body").scrollTop(0);
 	Session.set('numberOfOffers','');
+	Session.set('numOfMonths','');
+	Session.set('id','');
+});
+
+Template.editOffer.onRendered(function(){
+	Session.set('id','');
 });
 
 Template.vendorOffer1.onRendered(function(){
 	$("html,body").scrollTop(0);
-	Session.set('SessionBusinessLink','');
 	$("#OrderForm").validate({
 	 	rules: {
 	        dealHeadline: {
@@ -1844,57 +1905,33 @@ Template.vendorOffer1.onRendered(function(){
 	        legalNotices: {
 	        	required: true,
 	        },
-	        // dealTemplate: {
-	        // 	required: true,
-	        // },
+	        dealTemplate: {
+	        	required: true,
+	        },
     	},
     });
+	var todayNext = new Date().toISOString().split('T')[0];
+	document.getElementsByName("expirationToDate")[0].setAttribute('min', todayNext);
+	
+	var today = new Date().toISOString().split('T')[0];
+	document.getElementsByName("expirationFromDate")[0].setAttribute('min', today);
+	
+	var dates = $("#from").datepicker({
+	    minDate: "0",
+	    maxDate: "+2Y",
+	    defaultDate: "+1w",
+	    dateFormat: 'mm/dd/yy',
+	    numberOfMonths: 1,
+	    onSelect: function(date) {
+	        for(var i = 0; i < dates.length; ++i) {
+	            if(dates[i].id < this.id)
+	                $(dates[i]).datepicker('option', 'maxDate', date);
+	            else if(dates[i].id > this.id)
+	                $(dates[i]).datepicker('option', 'minDate', date);
+	        }
+	    } 
+	});
 });
-
-Template.vendorOffer2.onRendered(function(){
-	Session.set('SessionBusinessLink','');
-	$("#OfferForm").validate({
-	 	rules: {
-	        dealHeadline: {
-	            required: true,
-	        },
-	        dealDescription: {
-	        	required: true,
-	        },
-	        expirationFromDate: {
-	        	required: true,
-	        },
-	        expirationToDate: {
-	        	required: true,
-	        },
-	        legalNotices: {
-	        	required: true,
-	        },
-	        // dealTemplate: {
-	        // 	required: true,
-	        // },
-    	},
-    });
-});
-
-Template.paymentInvoice.onRendered(function(){
-	$("html,body").scrollTop(0);
-});
-
-Template.receipt.onRendered(function(){
-	$("html,body").scrollTop(0);
-	$('.recDiv').show();
-});
-
-Template.vendorMyOffers.onRendered(function(){
-	$("html,body").scrollTop(0);
-	Session.set('noOfMonths','');
-});
-
-Template.editOffer.onRendered(function(){
-	Session.set('id','');
-});
-
 
 vendorMyOffersForm = function () {  
   BlazeLayout.render("vendorLayout",{main: 'vendorMyOffers'});
@@ -1921,7 +1958,7 @@ paymentFailedForm = function () {
 export { paymentFailedForm };
 
 receiptForm = function () {  
-  BlazeLayout.render("vendorLayout",{main: 'receipt'});
+  BlazeLayout.render("adminLayout",{main: 'receipt'});
 }
 
 export { receiptForm };
