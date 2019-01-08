@@ -38,20 +38,37 @@ Template.monthlySalesReportOffers.helpers({
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
-		if (totalRec > 10) {
-			Session.set('reportMonthlyOffersListLimit',10);
+		if (totalRec > 0) {
 	    	$('.loadMoreRows50MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
-			Session.set('reportMonthlyOffersListLimit',50);
 			$('.loadMoreRows100MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 100){
-			Session.set('reportMonthlyOffersListLimit',100);
 			$('.loadMoreRowsRestMonthlyOffers').addClass('showMore50').removeClass('hideMore50'); 
 		}else{
-			Session.set('reportMonthlyOffersListLimit',totalRec);
 			$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
 			$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
 			$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestMonthlyOffers').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
 		}
 
  		if(ordersData){
@@ -153,61 +170,16 @@ Template.monthlySalesReportOffers.events({
 		event.preventDefault();
 		$('.spinner').hide();
 		$('.loadMoreRows50MonthlyOffers .spinner').show();
-		var nextLimitBus50 = Session.get('reportMonthlyOffersListLimit');
-		if(nextLimitBus50 != 0){
-			var nextLimit = Session.get('reportMonthlyOffersListLimit') + 50;
-			var payQueryCount  = totalRec;
-			if(payQueryCount > nextLimit){
-				Session.set('reportMonthlyOffersListLimit',nextLimit);
-				if (payQueryCount > 10) {
-			    	$('.loadMoreRows50MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 50){
-					$('.loadMoreRows100MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 100){
-					$('.loadMoreRowsRestMonthlyOffers').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				}
-			}else{
-				Session.set('reportMonthlyOffersListLimit',payQueryCount);
-				$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-			}
-		}
-		
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportMonthlyOffersListLimit',nextLimitBus50);
 	},
 
 	'click .loadMoreRows100MonthlyOffers': function(event){
 		event.preventDefault();
 		$('.spinner').hide();
 		$('.loadMoreRows100MonthlyOffers .spinner').show();
-		var nextLimitBus100 = Session.get('reportMonthlyOffersListLimit');
-		if(nextLimitBus100 != 0){
-			var nextLimit = Session.get('reportMonthlyOffersListLimit') + 100;
-			var payQueryCount  = totalRec;
-			if(payQueryCount > nextLimit){
-				Session.set('reportMonthlyOffersListLimit',nextLimit);
-				if (payQueryCount > 10) {
-			    	$('.loadMoreRows50MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 50){
-					$('.loadMoreRows100MonthlyOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 100){
-					$('.loadMoreRowsRestMonthlyOffers').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				}
-			}else{
-				Session.set('reportMonthlyOffersListLimit',payQueryCount);
-				$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
-			}
-		}
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportMonthlyOffersListLimit',nextLimitBus100);
 	},
 
 	'click .loadMoreRowsRestMonthlyOffers': function(event){
@@ -219,6 +191,7 @@ Template.monthlySalesReportOffers.events({
 		$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
 	},
 
 });

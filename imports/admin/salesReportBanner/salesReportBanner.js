@@ -22,8 +22,7 @@ import './reviewOrderViewBanner.html';
 import '../businessAds/adsInvoice.html';
 
 
-Template.salesTableViewBanner.onRendered(function(){
-  
+Template.salesTableViewBanner.onRendered(function(){ 
   $('.clickableRow').click( function(){
 		var id = $(this).attr('id');
 		Session.set("id",id);

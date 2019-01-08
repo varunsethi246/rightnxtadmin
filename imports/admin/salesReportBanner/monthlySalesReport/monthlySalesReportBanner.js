@@ -4,9 +4,9 @@ import { Template } from 'meteor/templating';
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './monthlySalesReportBanner.html';
+import '../searchBannerReport.js';
 
-
-
+var totalRec = 0;
 Template.monthlySalesReportBanner.helpers({
 
 	'currentmonth' : function(){
@@ -24,63 +24,101 @@ Template.monthlySalesReportBanner.helpers({
 	},
 
 	'result' : function(){
+		var listLimit = Session.get('reportMonthlyBannerListLimit');
 		var monthDateFromSess = Session.get("selectedMonth");
 	 
 	  	var monthDateStart = new Date(moment(monthDateFromSess).month("YYYY-MM"));//Find out first day of month with selectedMonth
 	  	var monthDateToSess = new Date(moment(monthDateFromSess).add(1,"M"));
 	  	// console.log(monthDateToSess);
 		// var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
-		var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+		if(listLimit){
+			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
+		}else{
+			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+		}
 		// console.log("ordersData",ordersData);
-		var totalRec = ordersData.length;
-	 		if(ordersData){
-		 		var allOrders = [];
-		 		var dateCount = 0;
-		 		var tempdate = '1/1/1';
+		totalRec = ordersData.length;
+		if (totalRec > 0) {
+	    	$('.loadMoreRows50MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestMonthlyBanner').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestMonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+		}
 
-		 		for(i=0; i < totalRec; i++){
-		 			var quantityTotal = 0;
-		 			var d = ordersData[i].invoiceDate;
-	                var t = d.toLocaleDateString('en-IN');
-	                if (t == tempdate) {
-	                	dateCount++;
-	                }
-	 		 			allOrders[i] = {
-			              "orderId"       	: ordersData[i]._id ,
-			              "businessLink"   	: ordersData[i].businessLink ,
-			              "orderNo"       	: ordersData[i].orderNumber,
-			              "discountPercent" : ordersData[i].discountPercent,
-			              "date"          	: t ,
-			              "discountedPrice" : ordersData[i].discountedPrice,
-			              "totalAmount" 	: ordersData[i].totalAmount,
-			              "totalDiscount" 	: ordersData[i].totalDiscount,
-			              "orderType" 		: ordersData[i].orderType,
-			              "totalQuantity" 	: 0,
-			              "rowSpanCount"  	: 0,
-			            }
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestMonthlyBanner').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestMonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestMonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
 
-					var totalProdQty = totalRec;
-					for(j=0 ; j<totalProdQty; j++){
-						quantityTotal += parseInt(ordersData[i]);
-					}
-					allOrders[i].totalQuantity = parseInt(quantityTotal);
+ 		if(ordersData){
+	 		var allOrders = [];
+	 		var dateCount = 0;
+	 		var tempdate = '1/1/1';
 
-	                if(t != tempdate){
-	                	var rowSpan = dateCount;
-						allOrders[i-rowSpan].rowSpanCount = rowSpan;
-	                	tempdate = t;
-	                	dateCount = 1;
-	                }
+	 		for(i=0; i < totalRec; i++){
+	 			var quantityTotal = 0;
+	 			var d = ordersData[i].invoiceDate;
+                var t = d.toLocaleDateString('en-IN');
+                if (t == tempdate) {
+                	dateCount++;
+                }
+ 		 			allOrders[i] = {
+		              "orderId"       	: ordersData[i]._id ,
+		              "businessLink"   	: ordersData[i].businessLink ,
+		              "orderNo"       	: ordersData[i].orderNumber,
+		              "discountPercent" : ordersData[i].discountPercent,
+		              "date"          	: t ,
+		              "discountedPrice" : ordersData[i].discountedPrice,
+		              "totalAmount" 	: ordersData[i].totalAmount,
+		              "totalDiscount" 	: ordersData[i].totalDiscount,
+		              "orderType" 		: ordersData[i].orderType,
+		              "totalQuantity" 	: 0,
+		              "rowSpanCount"  	: 0,
+		            }
+
+				var totalProdQty = totalRec;
+				for(j=0 ; j<totalProdQty; j++){
+					quantityTotal += parseInt(ordersData[i]);
+				}
+				allOrders[i].totalQuantity = parseInt(quantityTotal);
+
+                if(t != tempdate){
+                	var rowSpan = dateCount;
+					allOrders[i-rowSpan].rowSpanCount = rowSpan;
+                	tempdate = t;
+                	dateCount = 1;
+                }
 
 
-		 		}//for Loop
+	 		}//for Loop
 
-		 		//for last element
-        		var rowSpan = dateCount;
-				allOrders[i-rowSpan].rowSpanCount = rowSpan;
+	 		//for last element
+    		var rowSpan = dateCount;
+			allOrders[i-rowSpan].rowSpanCount = rowSpan;
 
-		 		return allOrders;
-		 	} //if
+	 		return allOrders;
+	 	} //if
 	}
 
 });
@@ -125,7 +163,35 @@ Template.monthlySalesReportBanner.events({
 	    });
 	    doc.save('monthlySalesReport.pdf');
 
-	}
+	},
+
+	'click .loadMoreRows50MonthlyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50MonthlyBanner .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportMonthlyBannerListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100MonthlyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100MonthlyBanner .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportMonthlyBannerListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestMonthlyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestMonthlyBanner .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportMonthlyBannerListLimit',nextLimit);
+		$('.loadMoreRows50MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100MonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestMonthlyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 
 
 });

@@ -3,6 +3,7 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './weeklySalesReportBanner.html';
+import '../searchBannerReport.js';
 
 // Template.weeklySalesReportBanner.onRendered(function(){
 // 	var today = moment().format("MM-DD-YYYY");
@@ -19,6 +20,7 @@ import './weeklySalesReportBanner.html';
 // 	Session.set("selectedWeek",weekVal);
 // });
 
+var totalRec = 0;
 Template.weeklySalesReportBanner.helpers({
 
 	'currentweek' : function(){
@@ -44,6 +46,7 @@ Template.weeklySalesReportBanner.helpers({
 	},
 
 	'result' : function(){
+		var listLimit = Session.get('reportWeeklyBannerListLimit');
 		var weekNumFromSess = Session.get("selectedWeek");
 		// console.log(weekNumFromSess);
 		// Like 2017-W01 for Week #1 of 2017
@@ -54,57 +57,91 @@ Template.weeklySalesReportBanner.helpers({
 		var sundayOfWeek = moment(mondayInWeek).add(7,"days").format();
 		var sundayOfWeekDt = new Date(sundayOfWeek);
 
+		if(listLimit){
+			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
+		}else{
+			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
+		}
+	 	
+	 	totalRec = ordersData.length;
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50WeeklyBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100WeeklyBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestWeeklyBanner').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestWeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+		}
 
-		var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
-		var totalRec = ordersData.length;
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50WeeklyBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100WeeklyBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestWeeklyBanner').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestWeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestWeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
 	 	if(ordersData){
-        var allOrders = [];
-        var dateCount = 0;
-        var tempdate = '1/1/1';
+	        var allOrders = [];
+	        var dateCount = 0;
+	        var tempdate = '1/1/1';
 
-        for(i=0; i < totalRec; i++){
-          var quantityTotal = 0;
-          var d = ordersData[i].invoiceDate;
-          var t = d.toLocaleDateString('en-IN');
-          if (t == tempdate) {
-                    dateCount++;
-          }
+	        for(i=0; i < totalRec; i++){
+	          var quantityTotal = 0;
+	          var d = ordersData[i].invoiceDate;
+	          var t = d.toLocaleDateString('en-IN');
+	          if (t == tempdate) {
+	                    dateCount++;
+	          }
 
-            allOrders[i] = {
-				"orderId"       	: ordersData[i]._id ,
-				"businessLink"   	: ordersData[i].businessLink ,
-				"orderNo"       	: ordersData[i].orderNumber,
-				"discountPercent" : ordersData[i].discountPercent,
-				"date"          	: t ,
-				"discountedPrice" : ordersData[i].discountedPrice,
-				"totalAmount" 	: ordersData[i].totalAmount,
-				"totalDiscount" 	: ordersData[i].totalDiscount,
-				"orderType" 		: ordersData[i].orderType,
-				"totalQuantity" 	: 0,
-				"rowSpanCount"  	: 0,
-            }
+	            allOrders[i] = {
+					"orderId"       	: ordersData[i]._id ,
+					"businessLink"   	: ordersData[i].businessLink ,
+					"orderNo"       	: ordersData[i].orderNumber,
+					"discountPercent" : ordersData[i].discountPercent,
+					"date"          	: t ,
+					"discountedPrice" : ordersData[i].discountedPrice,
+					"totalAmount" 	: ordersData[i].totalAmount,
+					"totalDiscount" 	: ordersData[i].totalDiscount,
+					"orderType" 		: ordersData[i].orderType,
+					"totalQuantity" 	: 0,
+					"rowSpanCount"  	: 0,
+	            }
 
-          var totalProdQty = totalRec;
-          for(j=0 ; j<totalProdQty; j++){
-            quantityTotal += parseInt(ordersData[i]);
+	          var totalProdQty = totalRec;
+	          for(j=0 ; j<totalProdQty; j++){
+	            quantityTotal += parseInt(ordersData[i]);
 
-          }
+	          }
 
-          allOrders[i].totalQuantity = parseInt(quantityTotal);
-            if(t != tempdate){
-              var rowSpan = dateCount;
-              allOrders[i-rowSpan].rowSpanCount = rowSpan;
-              tempdate = t;
-              dateCount = 1;
-            }
+	          allOrders[i].totalQuantity = parseInt(quantityTotal);
+	            if(t != tempdate){
+	              var rowSpan = dateCount;
+	              allOrders[i-rowSpan].rowSpanCount = rowSpan;
+	              tempdate = t;
+	              dateCount = 1;
+	            }
 
-        }//for Loop
-        var rowSpan = dateCount;
-        allOrders[i-rowSpan].rowSpanCount = rowSpan;
-        return allOrders;
-      } //if
-
-
+	        }//for Loop
+	        var rowSpan = dateCount;
+	        allOrders[i-rowSpan].rowSpanCount = rowSpan;
+	        return allOrders;
+	    } //if
 	}
 
 
@@ -147,7 +184,35 @@ Template.weeklySalesReportBanner.events({
 		var newWeek = yearNum+"-W"+newWeekNumber;
 
 		Session.set('selectedWeek', newWeek);
-	}
+	},
+
+	'click .loadMoreRows50WeeklyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50WeeklyBanner .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportWeeklyBannerListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100WeeklyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100WeeklyBanner .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportWeeklyBannerListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestWeeklyBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestWeeklyBanner .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportWeeklyBannerListLimit',nextLimit);
+		$('.loadMoreRows50WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100WeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestWeeklyBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 });
 
 Template.weeklySalesReportBanner.onRendered(function(){

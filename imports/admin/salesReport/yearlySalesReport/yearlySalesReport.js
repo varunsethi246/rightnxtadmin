@@ -3,8 +3,9 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './yearlySalesReport.html';
+import '../searchAdsReport.js';
 
-
+var totalRec = 0;
 Template.yearlySalesReport.helpers({
 
 	'currentyear' : function(){
@@ -22,13 +23,54 @@ Template.yearlySalesReport.helpers({
 	},
 
 	'result' : function(){
+    var listLimit = Session.get('reportYearlyAdsListLimit');
     var yearFromSess = Session.get("selectedYear");
 
     var thisYear = yearFromSess;
     var yearDateStart = new Date("1/1/" + thisYear);
     var yearDateEnd = new Date (yearDateStart.getFullYear(), 11, 31);
-    var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}}).fetch();
     var totalRec = ordersData.length;
+
+    if(listLimit){
+ 	   var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}},{limit: listLimit}).fetch();
+    }else{
+	    var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}}).fetch();
+    }
+    
+    totalRec = ordersData.length;
+    // console.log(totalRec,listLimit);
+    if (totalRec > 0) {
+        $('.loadMoreRows50YearlyAds').addClass('showMore50').removeClass('hideMore50');
+    }else if(totalRec > 50){
+      $('.loadMoreRows100YearlyAds').addClass('showMore50').removeClass('hideMore50');
+    }else if(totalRec > 100){
+      $('.loadMoreRowsRestYearlyAds').addClass('showMore50').removeClass('hideMore50'); 
+    }else{
+      $('.loadMoreRows50YearlyAds').removeClass('showMore50').addClass('hideMore50');
+      $('.loadMoreRows100YearlyAds').removeClass('showMore50').addClass('hideMore50');
+      $('.loadMoreRowsRestYearlyAds').removeClass('showMore50').addClass('hideMore50');
+    }
+
+    if(listLimit){
+      if(totalRec > listLimit){
+        if (totalRec > 0) {
+            $('.loadMoreRows50YearlyAds').addClass('showMore50').removeClass('hideMore50');
+        }else if(totalRec > 50){
+          $('.loadMoreRows100YearlyAds').addClass('showMore50').removeClass('hideMore50');
+        }else if(totalRec > 100){
+          $('.loadMoreRowsRestYearlyAds').addClass('showMore50').removeClass('hideMore50'); 
+        }else{
+          $('.loadMoreRows50YearlyAds').removeClass('showMore50').addClass('hideMore50');
+          $('.loadMoreRows100YearlyAds').removeClass('showMore50').addClass('hideMore50');
+          $('.loadMoreRowsRestYearlyAds').removeClass('showMore50').addClass('hideMore50');
+        }
+      }else{
+        $('.loadMoreRows50YearlyAds').removeClass('showMore50').addClass('hideMore50');
+        $('.loadMoreRows100YearlyAds').removeClass('showMore50').addClass('hideMore50');
+        $('.loadMoreRowsRestYearlyAds').removeClass('showMore50').addClass('hideMore50');
+        $('.spinner').hide();
+      }
+    }
       if(ordersData){
         var allOrders = [];
         var dateCount = 0;
@@ -101,7 +143,35 @@ Template.yearlySalesReport.events({
 		var newYear = moment(selectedYear).subtract(1,'years').format('YYYY');
 		Session.set('selectedYear', newYear);
 
-	}
+	},
+
+	'click .loadMoreRows50YearlyAds': function(event){
+	    event.preventDefault();
+	    $('.spinner').hide();
+	    $('.loadMoreRows50YearlyAds .spinner').show();
+	    var nextLimitBus50 = totalRec+50;
+	    Session.set('reportYearlyAdsListLimit',nextLimitBus50);
+	  },
+
+	  'click .loadMoreRows100YearlyAds': function(event){
+	    event.preventDefault();
+	    $('.spinner').hide();
+	    $('.loadMoreRows100YearlyAds .spinner').show();
+	    var nextLimitBus100 = totalRec+100;
+	    Session.set('reportYearlyAdsListLimit',nextLimitBus100);
+	  },
+
+	  'click .loadMoreRowsRestYearlyAds': function(event){
+	    event.preventDefault();
+	    $('.spinner').hide();
+	    $('.loadMoreRowsRestYearlyAds .spinner').show();
+	    var nextLimit = totalRec;
+	    Session.set('reportYearlyAdsListLimit',nextLimit);
+	    $('.loadMoreRows50YearlyAds').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRows100YearlyAds').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRowsRestYearlyAds').removeClass('showMore50').addClass('hideMore50');
+	    $('.spinner').hide();
+	  },
 
 
 });

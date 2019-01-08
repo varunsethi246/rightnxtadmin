@@ -25,10 +25,30 @@ Template.searchOffersReport.onRendered( ()=>{
 
 Template.searchOffersReport.events({
 	'focus #searchReports': function(event){
-		Session.set('reportListLimit',0);
-		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		Session.set('reportMonthlyOffersListLimit',0);
+		$('.loadMoreRows50MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100MonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestMonthlyOffers').removeClass('showMore50').addClass('hideMore50');
+
+		Session.set('reportTodayOffersListLimit',0);
+		$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
+		
+		Session.set('reportWeeklyOffersListLimit',0);
+		$('.loadMoreRows50WeeklyOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100WeeklyOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestWeeklyOffers').removeClass('showMore50').addClass('hideMore50');
+		
+		Session.set('reportYearlyOffersListLimit',0);
+		$('.loadMoreRows50YearlyOffers').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRows100YearlyOffers').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRowsRestYearlyOffers').removeClass('showMore50').addClass('hideMore50');
+		
+		Session.set('reportFromToOffersListLimit',0);
+		$('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
+	    $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
 	},
 	'keyup #searchReports': _.throttle(function(event) {
 		event.preventDefault();

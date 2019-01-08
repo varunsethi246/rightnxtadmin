@@ -5,7 +5,9 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../api/paymentMaster.js';
 
 import './fromToFieldsBanner.html';
+import './searchBannerReport.js';
 
+var totalRec = 0;
 Template.fromToFieldsBanner.helpers({
 	'fromDate':function(){
 		var fromDate = new Date();
@@ -40,7 +42,7 @@ Template.fromToFieldsBanner.helpers({
   },
 
 	'result': function(){
-
+		var listLimit = Session.get('reportTodayBannerListLimit');
 		var fromDate = Session.get('fromDate');
     	var toDate = Session.get('toDate');
 
@@ -52,9 +54,47 @@ Template.fromToFieldsBanner.helpers({
       		var toDt = new Date(moment(fromDt).add(1,'d'));
 		}
 
+		if(listLimit){
+			var ordersData =  Payment.find({"orderType" : "Banner",'invoiceDate':{$gte : fromDt, $lt : toDt }},{limit: listLimit}).fetch();
+		}else{
+			var ordersData =  Payment.find({"orderType" : "Banner",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
+		}
+	 	
+	 	totalRec = ordersData.length;
+	 	// console.log(totalRec,listLimit);
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50FromToBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100FromToBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestFromToBanner').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50FromToBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100FromToBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestFromToBanner').removeClass('showMore50').addClass('hideMore50');
+		}
 
-		var ordersData =  Payment.find({"orderType" : "Banner",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
-	 	var totalRec = ordersData.length;
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50FromToBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100FromToBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestFromToBanner').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50FromToBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100FromToBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestFromToBanner').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50FromToBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100FromToBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestFromToBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
+
 		if(ordersData){
 			var allOrders = [];
 			var dateCount = 0;
@@ -120,7 +160,35 @@ Template.fromToFieldsBanner.events({
 			Session.set("fromDate",fromDate);
 			Session.set("toDate",toDate);
 		}
-	}
+	},
+
+	'click .loadMoreRows50FromToBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50FromToBanner .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportTodayBannerListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100FromToBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100FromToBanner .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportTodayBannerListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestFromToBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestFromToBanner .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportTodayBannerListLimit',nextLimit);
+		$('.loadMoreRows50FromToBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100FromToBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestFromToBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 
 });
 

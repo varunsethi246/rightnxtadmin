@@ -52,20 +52,37 @@ Template.todaysSalesReportOffers.helpers({
 		}
 	 	
 	 	totalRec = ordersData.length;
-	 	if (totalRec > 10) {
-			Session.set('reportTodayOffersListLimit',10);
+	 	if (totalRec > 0) {
 	    	$('.loadMoreRows50TodayOffers').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
-			Session.set('reportTodayOffersListLimit',50);
 			$('.loadMoreRows100TodayOffers').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 100){
-			Session.set('reportTodayOffersListLimit',100);
 			$('.loadMoreRowsRestTodayOffers').addClass('showMore50').removeClass('hideMore50'); 
 		}else{
-			Session.set('reportTodayOffersListLimit',totalRec);
 			$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
 			$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
 			$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50TodayOffers').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100TodayOffers').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestTodayOffers').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
 		}
 
 	 	if(ordersData){
@@ -161,61 +178,16 @@ Template.todaysSalesReportOffers.events({
 		event.preventDefault();
 		$('.spinner').hide();
 		$('.loadMoreRows50TodayOffers .spinner').show();
-		var nextLimitBus50 = Session.get('reportTodayOffersListLimit');
-		if(nextLimitBus50 != 0){
-			var nextLimit = Session.get('reportTodayOffersListLimit') + 50;
-			var payQueryCount  = totalRec;
-			if(payQueryCount > nextLimit){
-				Session.set('reportTodayOffersListLimit',nextLimit);
-				if (payQueryCount > 10) {
-			    	$('.loadMoreRows50TodayOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 50){
-					$('.loadMoreRows100TodayOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 100){
-					$('.loadMoreRowsRestTodayOffers').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
-				}
-			}else{
-				Session.set('reportTodayOffersListLimit',payQueryCount);
-				$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
-			}
-		}
-		
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportTodayOffersListLimit',nextLimitBus50);
 	},
 
 	'click .loadMoreRows100TodayOffers': function(event){
 		event.preventDefault();
 		$('.spinner').hide();
 		$('.loadMoreRows100TodayOffers .spinner').show();
-		var nextLimitBus100 = Session.get('reportTodayOffersListLimit');
-		if(nextLimitBus100 != 0){
-			var nextLimit = Session.get('reportTodayOffersListLimit') + 100;
-			var payQueryCount  = totalRec;
-			if(payQueryCount > nextLimit){
-				Session.set('reportTodayOffersListLimit',nextLimit);
-				if (payQueryCount > 10) {
-			    	$('.loadMoreRows50TodayOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 50){
-					$('.loadMoreRows100TodayOffers').addClass('showMore50').removeClass('hideMore50');
-				}else if(payQueryCount > 100){
-					$('.loadMoreRowsRestTodayOffers').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
-				}
-			}else{
-				Session.set('reportTodayOffersListLimit',payQueryCount);
-				$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
-				$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
-			}
-		}
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportTodayOffersListLimit',nextLimitBus100);
 	},
 
 	'click .loadMoreRowsRestTodayOffers': function(event){
@@ -227,6 +199,7 @@ Template.todaysSalesReportOffers.events({
 		$('.loadMoreRows50TodayOffers').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRows100TodayOffers').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRowsRestTodayOffers').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
 	},
 
 

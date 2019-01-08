@@ -3,7 +3,9 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './weeklySalesReport.html';
+import '../searchAdsReport.js';
 
+var totalRec = 0;
 Template.weeklySalesReport.helpers({
 
 	'currentweek' : function(){
@@ -29,6 +31,7 @@ Template.weeklySalesReport.helpers({
 	},
 
 	'result' : function(){
+		var listLimit = Session.get('reportWeeklyAdsListLimit');
 		var weekNumFromSess = Session.get("selectedWeek");
 
 		// Like 2017-W01 for Week #1 of 2017
@@ -39,8 +42,46 @@ Template.weeklySalesReport.helpers({
 		var sundayOfWeek = moment(mondayInWeek).add(7,"days").format();
 		var sundayOfWeekDt = new Date(sundayOfWeek);
 
-		var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
-		var totalRec = ordersData.length;
+	 	if(listLimit){
+			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
+		}else{
+			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
+		}
+	 	
+	 	totalRec = ordersData.length;
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50WeeklyAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100WeeklyAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestWeeklyAds').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestWeeklyAds').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50WeeklyAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100WeeklyAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestWeeklyAds').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestWeeklyAds').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestWeeklyAds').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
+
 	 	if(ordersData){
         var allOrders = [];
         var dateCount = 0;
@@ -132,7 +173,35 @@ Template.weeklySalesReport.events({
 		var newWeek = yearNum+"-W"+newWeekNumber;
 
 		Session.set('selectedWeek', newWeek);
-	}
+	},
+
+	'click .loadMoreRows50WeeklyAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50WeeklyAds .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportWeeklyAdsListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100WeeklyAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100WeeklyAds .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportWeeklyAdsListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestWeeklyAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestWeeklyAds .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportWeeklyAdsListLimit',nextLimit);
+		$('.loadMoreRows50WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100WeeklyAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestWeeklyAds').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 });
 
 Template.weeklySalesReport.onRendered(function(){

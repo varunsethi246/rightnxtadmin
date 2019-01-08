@@ -4,9 +4,9 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './todaysSalesReport.html';
+import '../searchAdsReport.js';
 
-
-
+var totalRec = 0;
 Template.todaysSalesReport.helpers({
 	'currentDate':function(){
 		var setDate = Session.get('newDate');
@@ -32,7 +32,7 @@ Template.todaysSalesReport.helpers({
 
 
 	'result': function(){
-
+		var listLimit = Session.get('reportTodayAdsListLimit');
 		var selectedDate = Session.get('newDate');
 		if(selectedDate){
 			var newDate  = selectedDate;
@@ -43,9 +43,47 @@ Template.todaysSalesReport.helpers({
 		var newDate1 = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), 0, 0, 0); //current day at 0:0:0
 		var newDate2 = new Date(newDate1.getTime() + (24*60*60*1000) ); // next day at 0:0:0
 		
-		var paymentAds =  Payment.find({'orderType':'Ads','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
-		// console.log("orderData: ",paymentAds);
-	 	var totalRec = paymentAds.length;
+	 	if(listLimit){
+			var paymentAds =  Payment.find({'orderType':'Ads','invoiceDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();
+		}else{
+			var paymentAds =  Payment.find({'orderType':'Ads','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
+		}
+	 	
+	 	totalRec = paymentAds.length;
+	 	// console.log(totalRec,listLimit);
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50TodayAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100TodayAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestTodayAds').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50TodayAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100TodayAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestTodayAds').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50TodayAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100TodayAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestTodayAds').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50TodayAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100TodayAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestTodayAds').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50TodayAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100TodayAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestTodayAds').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
+
 	 	if(paymentAds){
         var allOrders = [];
         var dateCount = 0;
@@ -135,7 +173,35 @@ Template.todaysSalesReport.events({
 	    });
 	    doc.save('todaysSalesReport.pdf');
 
-	}
+	},
+
+	'click .loadMoreRows50TodayAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50TodayAds .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportTodayAdsListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100TodayAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100TodayAds .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportTodayAdsListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestTodayAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestTodayAds .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportTodayAdsListLimit',nextLimit);
+		$('.loadMoreRows50TodayAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100TodayAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestTodayAds').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 
 
 });

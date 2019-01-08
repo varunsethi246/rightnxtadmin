@@ -17,8 +17,12 @@
 					</label>
 					<label class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><span class="sr-only">search</span><br><button class="btn btn-primary search">Search</button></label>
 				</div>
-				<div class="table-responsive saleheadback">
-				<table class="table table-striped myTable table-bordered tableSales">
+
+			<div class="col-lg-10 noPaddingGeneral">
+				{{> searchBannerReport}}	
+			</div>
+			<div class="table-responsive saleheadback col-lg-12">
+				<table class="table table-striped myTable table-bordered tableSales" id="fromtoBannerSalesReportTable">
 					<thead>
 						<tr class="table-head saleheadbackground">
 							<th> Date </th>
@@ -42,7 +46,26 @@
 					{{/if}}
 					</tbody>
 				</table>
+			</div>
+				<div class="col-lg-3">
+					<button class="btn btn-primary loadMoreRows50FromToBanner loadMore10 hideMore50"> 
+						Show Next 50 Reports 
+						<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+					</button>
 				</div>
+				<div class="col-lg-3">
+					<button class="btn btn-primary loadMoreRows100FromToBanner loadMore10 hideMore50"> 
+						Show Next 100 Reports 
+						<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="col-lg-3">
+					<button class="btn btn-primary loadMoreRowsRestFromToBanner loadMore10 hideMore50"> 
+						Show Remaining Reports 
+						<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+					</button>
+				</div>
+
 		</div>
 	</form>
 </div>

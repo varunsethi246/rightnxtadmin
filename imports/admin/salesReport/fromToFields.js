@@ -5,7 +5,9 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../api/paymentMaster.js';
 
 import './fromToFields.html';
+import './searchAdsReport.js';
 
+var totalRec = 0;
 Template.fromToFields.helpers({
 	'fromDate':function(){
 		var fromDate = new Date();
@@ -40,7 +42,7 @@ Template.fromToFields.helpers({
   },
 
 	'result': function(){
-
+		var listLimit = Session.get('reportTodayAdsListLimit');
 		var fromDate = Session.get('fromDate');
     	var toDate = Session.get('toDate');
 
@@ -57,10 +59,50 @@ Template.fromToFields.helpers({
 		// console.log('fromDate: ',fromDt);
 		// console.log('toDate: ',toDt);
 
-		var ordersData =  Payment.find({"orderType" : "Ads",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
 		// console.log('ordersData :',ordersData);
 		// console.log("hi");
 	 	var totalRec = ordersData.length;
+
+	 	if(listLimit){
+			var ordersData =  Payment.find({"orderType" : "Ads",'invoiceDate':{$gte : fromDt, $lt : toDt }},{limit: listLimit}).fetch();
+		}else{
+			var ordersData =  Payment.find({"orderType" : "Ads",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
+		}
+	 	
+	 	totalRec = ordersData.length;
+	 	// console.log(totalRec,listLimit);
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50FromToAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100FromToAds').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestFromToAds').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50FromToAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100FromToAds').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestFromToAds').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50FromToAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100FromToAds').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestFromToAds').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50FromToAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100FromToAds').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestFromToAds').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50FromToAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100FromToAds').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestFromToAds').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
 		if(ordersData){
 			var allOrders = [];
 			var dateCount = 0;
@@ -129,7 +171,35 @@ Template.fromToFields.events({
 		// console.log(Session.set("fromDate",fromDate));
 		// console.log(Session.set("toDate",toDate));
 		}
-	}
+	},
+
+	'click .loadMoreRows50FromToAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50FromToAds .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportTodayAdsListLimit',nextLimitBus50);
+	},
+
+	'click .loadMoreRows100FromToAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100FromToAds .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportTodayAdsListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestFromToAds': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestFromToAds .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportTodayAdsListLimit',nextLimit);
+		$('.loadMoreRows50FromToAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100FromToAds').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestFromToAds').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 
 });
 

@@ -21,8 +21,11 @@
 					<span class="fapdf pull-right" title="Download as PDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
 					<span onClick="window.print()" class="faprint pull-right" title="Print"><i class="fa fa-print" aria-hidden="true"></i></span>
 				</div> -->
-					<div class="table-responsive col-lg-12">
-					<table class="table table-striped myTable table-bordered tableSales" id="exampleWeek">
+				<div class="col-lg-10 noPaddingGeneral">
+					{{> searchBannerReport}}	
+				</div>
+				<div class="table-responsive col-lg-12">
+					<table class="table table-striped myTable table-bordered tableSales" id="weeklyBannerSalesReportTable">
 						<thead>
 							<tr class="table-head saleheadbackground">
 								<th> Date </th>
@@ -46,8 +49,27 @@
 						{{/if}}
 						</tbody>
 					</table>
-					</div>
 				</div>
+			</div>
+
+			<div class="col-lg-3">
+				<button class="btn btn-primary loadMoreRows50WeeklyBanner loadMore10 hideMore50"> 
+					Show Next 50 Reports 
+					<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="col-lg-3">
+				<button class="btn btn-primary loadMoreRows100WeeklyBanner loadMore10 hideMore50"> 
+					Show Next 100 Reports 
+					<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="col-lg-3">
+				<button class="btn btn-primary loadMoreRowsRestWeeklyBanner loadMore10 hideMore50"> 
+					Show Remaining Reports 
+					<i class="fa fa-spinner fa-pulse spinner" aria-hidden="true"></i>
+				</button>
+			</div>
 		</form>
 	</div>
 </div>

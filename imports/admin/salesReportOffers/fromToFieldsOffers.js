@@ -60,21 +60,38 @@ Template.fromToFieldsOffers.helpers({
 			var ordersData =  Payment.find({"orderType" : "Offer",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
 		}
 	 	totalRec = ordersData.length;
-		if (totalRec > 10) {
-	      Session.set('reportFromToOffersListLimit',10);
+		if (totalRec > 0) {
 	        $('.loadMoreRows50FromToOffers').addClass('showMore50').removeClass('hideMore50');
 	    }else if(totalRec > 50){
-	      Session.set('reportFromToOffersListLimit',50);
 	      $('.loadMoreRows100FromToOffers').addClass('showMore50').removeClass('hideMore50');
 	    }else if(totalRec > 100){
-	      Session.set('reportFromToOffersListLimit',100);
 	      $('.loadMoreRowsRestFromToOffers').addClass('showMore50').removeClass('hideMore50'); 
 	    }else{
-	      Session.set('reportFromToOffersListLimit',totalRec);
 	      $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
 	      $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
 	      $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
 	    }
+
+	    if(listLimit){
+			if(totalRec > listLimit){
+		        if (totalRec > 0) {
+			        $('.loadMoreRows50FromToOffers').addClass('showMore50').removeClass('hideMore50');
+			    }else if(totalRec > 50){
+			      $('.loadMoreRows100FromToOffers').addClass('showMore50').removeClass('hideMore50');
+			    }else if(totalRec > 100){
+			      $('.loadMoreRowsRestFromToOffers').addClass('showMore50').removeClass('hideMore50'); 
+			    }else{
+			      $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
+			      $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
+			      $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
+			    }
+		    }else{
+		        $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
+			    $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
+			    $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
+		        $('.spinner').hide();
+		    }
+		}
 
 		if(ordersData){
 			var allOrders = [];
@@ -148,61 +165,16 @@ Template.fromToFieldsOffers.events({
     event.preventDefault();
     $('.spinner').hide();
     $('.loadMoreRows50FromToOffers .spinner').show();
-    var nextLimitBus50 = Session.get('reportFromToOffersListLimit');
-    if(nextLimitBus50 != 0){
-      var nextLimit = Session.get('reportFromToOffersListLimit') + 50;
-      var payQueryCount  = totalRec;
-      if(payQueryCount > nextLimit){
-        Session.set('reportFromToOffersListLimit',nextLimit);
-        if (payQueryCount > 10) {
-            $('.loadMoreRows50FromToOffers').addClass('showMore50').removeClass('hideMore50');
-        }else if(payQueryCount > 50){
-          $('.loadMoreRows100FromToOffers').addClass('showMore50').removeClass('hideMore50');
-        }else if(payQueryCount > 100){
-          $('.loadMoreRowsRestFromToOffers').addClass('showMore50').removeClass('hideMore50'); 
-        }else{
-          $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
-        }
-      }else{
-        Session.set('reportFromToOffersListLimit',payQueryCount);
-        $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
-      }
-    }
-    
+    var nextLimitBus50 = totalRec+50;
+    Session.set('reportFromToOffersListLimit',nextLimitBus50);
   },
 
   'click .loadMoreRows100FromToOffers': function(event){
     event.preventDefault();
     $('.spinner').hide();
     $('.loadMoreRows100FromToOffers .spinner').show();
-    var nextLimitBus100 = Session.get('reportFromToOffersListLimit');
-    if(nextLimitBus100 != 0){
-      var nextLimit = Session.get('reportFromToOffersListLimit') + 100;
-      var payQueryCount  = totalRec;
-      if(payQueryCount > nextLimit){
-        Session.set('reportFromToOffersListLimit',nextLimit);
-        if (payQueryCount > 10) {
-            $('.loadMoreRows50FromToOffers').addClass('showMore50').removeClass('hideMore50');
-        }else if(payQueryCount > 50){
-          $('.loadMoreRows100FromToOffers').addClass('showMore50').removeClass('hideMore50');
-        }else if(payQueryCount > 100){
-          $('.loadMoreRowsRestFromToOffers').addClass('showMore50').removeClass('hideMore50'); 
-        }else{
-          $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
-          $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
-        }
-      }else{
-        Session.set('reportFromToOffersListLimit',payQueryCount);
-        $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
-      }
-    }
+    var nextLimitBus100 = totalRec+100;
+    Session.set('reportFromToOffersListLimit',nextLimitBus100);
   },
 
   'click .loadMoreRowsRestFromToOffers': function(event){
@@ -214,6 +186,7 @@ Template.fromToFieldsOffers.events({
     $('.loadMoreRows50FromToOffers').removeClass('showMore50').addClass('hideMore50');
     $('.loadMoreRows100FromToOffers').removeClass('showMore50').addClass('hideMore50');
     $('.loadMoreRowsRestFromToOffers').removeClass('showMore50').addClass('hideMore50');
+    $('.spinner').hide();
   },
 
 });

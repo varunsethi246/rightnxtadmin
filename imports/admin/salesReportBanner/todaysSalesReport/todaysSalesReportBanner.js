@@ -4,9 +4,10 @@ import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
 
 import './todaysSalesReportBanner.html';
+import '../searchBannerReport.js';
 
 
-
+var totalRec = 0;
 Template.todaysSalesReportBanner.helpers({
 	'currentDate':function(){
 		var setDate = Session.get('newDate');
@@ -32,7 +33,7 @@ Template.todaysSalesReportBanner.helpers({
 
 
 	'result': function(){
-
+		var listLimit = Session.get('reportTodayBannerListLimit');
 		var selectedDate = Session.get('newDate');
 		if(selectedDate){
 			var newDate  = selectedDate;
@@ -44,54 +45,93 @@ Template.todaysSalesReportBanner.helpers({
 
 		// var ordersData =  Orders.find({'createdAt':{$gte : newDate1, $lt : newDate2 }}, {sort: {'createdAt': -1}}).fetch();
 		// var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
-		var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
-	 	var totalRec = ordersData.length;
+	 	if(listLimit){
+			var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();	 	
+		}else{
+			var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();	 	
+		}
+	 	
+	 	totalRec = ordersData.length;
+	 	// console.log(totalRec,listLimit);
+	 	if (totalRec > 0) {
+	    	$('.loadMoreRows50TodayBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 50){
+			$('.loadMoreRows100TodayBanner').addClass('showMore50').removeClass('hideMore50');
+		}else if(totalRec > 100){
+			$('.loadMoreRowsRestTodayBanner').addClass('showMore50').removeClass('hideMore50'); 
+		}else{
+			$('.loadMoreRows50TodayBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRows100TodayBanner').removeClass('showMore50').addClass('hideMore50');
+			$('.loadMoreRowsRestTodayBanner').removeClass('showMore50').addClass('hideMore50');
+		}
+
+		if(listLimit){
+			if(totalRec > listLimit){
+				if (totalRec > 0) {
+			    	$('.loadMoreRows50TodayBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 50){
+					$('.loadMoreRows100TodayBanner').addClass('showMore50').removeClass('hideMore50');
+				}else if(totalRec > 100){
+					$('.loadMoreRowsRestTodayBanner').addClass('showMore50').removeClass('hideMore50'); 
+				}else{
+					$('.loadMoreRows50TodayBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRows100TodayBanner').removeClass('showMore50').addClass('hideMore50');
+					$('.loadMoreRowsRestTodayBanner').removeClass('showMore50').addClass('hideMore50');
+				}
+			}else{
+				$('.loadMoreRows50TodayBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRows100TodayBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.loadMoreRowsRestTodayBanner').removeClass('showMore50').addClass('hideMore50');
+				$('.spinner').hide();
+			}
+		}
+
 	 	if(ordersData){
-        var allOrders = [];
-        var dateCount = 0;
-        var tempdate = '1/1/1';
+	        var allOrders = [];
+	        var dateCount = 0;
+	        var tempdate = '1/1/1';
 
-        for(i=0; i < totalRec; i++){
-          var quantityTotal = 0;
-          var d = ordersData[i].invoiceDate;
-          var t = d.toLocaleDateString('en-IN');
-          if (t == tempdate) {
-                dateCount++;
-          }
+	        for(i=0; i < totalRec; i++){
+	          var quantityTotal = 0;
+	          var d = ordersData[i].invoiceDate;
+	          var t = d.toLocaleDateString('en-IN');
+	          if (t == tempdate) {
+	                dateCount++;
+	          }
 
-            allOrders[i] = {
-              "orderId"       	: ordersData[i]._id ,
-              "businessLink"   	: ordersData[i].businessLink ,
-              "orderNo"       	: ordersData[i].orderNumber,
-              "discountPercent" : ordersData[i].discountPercent,
-              "date"          	: t ,
-              "discountedPrice" : ordersData[i].discountedPrice,
-              "totalAmount" 	: ordersData[i].totalAmount,
-              "totalDiscount" 	: ordersData[i].totalDiscount,
-              "orderType" 		: ordersData[i].orderType,
-              "totalQuantity" 	: 0,
-              "rowSpanCount"  	: 0,
-            }
+	            allOrders[i] = {
+	              "orderId"       	: ordersData[i]._id ,
+	              "businessLink"   	: ordersData[i].businessLink ,
+	              "orderNo"       	: ordersData[i].orderNumber,
+	              "discountPercent" : ordersData[i].discountPercent,
+	              "date"          	: t ,
+	              "discountedPrice" : ordersData[i].discountedPrice,
+	              "totalAmount" 	: ordersData[i].totalAmount,
+	              "totalDiscount" 	: ordersData[i].totalDiscount,
+	              "orderType" 		: ordersData[i].orderType,
+	              "totalQuantity" 	: 0,
+	              "rowSpanCount"  	: 0,
+	            }
 
-          var totalProdQty = totalRec;
-          for(j=0 ; j<totalProdQty; j++){
-            quantityTotal += parseInt(ordersData[i]);
+	          var totalProdQty = totalRec;
+	          for(j=0 ; j<totalProdQty; j++){
+	            quantityTotal += parseInt(ordersData[i]);
 
-          }
+	          }
 
-          allOrders[i].totalQuantity = parseInt(quantityTotal);
-            if(t != tempdate){
-              var rowSpan = dateCount;
-              allOrders[i-rowSpan].rowSpanCount = rowSpan;
-              tempdate = t;
-              dateCount = 1;
-            }
+	          allOrders[i].totalQuantity = parseInt(quantityTotal);
+	            if(t != tempdate){
+	              var rowSpan = dateCount;
+	              allOrders[i-rowSpan].rowSpanCount = rowSpan;
+	              tempdate = t;
+	              dateCount = 1;
+	            }
 
-        }//for Loop
-        var rowSpan = dateCount;
-        allOrders[i-rowSpan].rowSpanCount = rowSpan;
-        return allOrders;
-      } //if
+	        }//for Loop
+	        var rowSpan = dateCount;
+	        allOrders[i-rowSpan].rowSpanCount = rowSpan;
+	        return allOrders;
+        } //if
 	}
 
 
@@ -132,9 +172,35 @@ Template.todaysSalesReportBanner.events({
 	    });
 	    doc.save('todaysSalesReport.pdf');
 
-	}
+	},
 
+	'click .loadMoreRows50TodayBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows50TodayBanner .spinner').show();
+		var nextLimitBus50 = totalRec+50;
+		Session.set('reportTodayBannerListLimit',nextLimitBus50);
+	},
 
+	'click .loadMoreRows100TodayBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRows100TodayBanner .spinner').show();
+		var nextLimitBus100 = totalRec+100;
+		Session.set('reportTodayBannerListLimit',nextLimitBus100);
+	},
+
+	'click .loadMoreRowsRestTodayBanner': function(event){
+		event.preventDefault();
+		$('.spinner').hide();
+		$('.loadMoreRowsRestTodayBanner .spinner').show();
+		var nextLimit = totalRec;
+		Session.set('reportTodayBannerListLimit',nextLimit);
+		$('.loadMoreRows50TodayBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRows100TodayBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.loadMoreRowsRestTodayBanner').removeClass('showMore50').addClass('hideMore50');
+		$('.spinner').hide();
+	},
 });
 
 Template.todaysSalesReportBanner.onRendered(function(){
