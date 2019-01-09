@@ -13,6 +13,8 @@ import './VendorImagesVideos.html'
 
 var videoListCountEdit = 0;
 var uploader = new ReactiveVar();
+var businessID = '';
+var publishImgId = '';
 Template.vendorImagesVideos.onCreated(function() {
     this.currentUpload = new ReactiveVar(false);
     this.imageUpload = new ReactiveVar(false);
@@ -49,11 +51,15 @@ Template.vendorImagesVideos.helpers({
 		
 		var data = Business.findOne({'businessLink':businessLink});
 		if(data){
+			publishImgId = data.publishedImage;
+			businessID = data._id;
 			if(data.businessImages){
 				var imgListCount = data.businessImages.length;
 				var imgList = [];
+				
 				for(var i = 0 ; i < imgListCount ; i++)
 				{
+					imgList[i] = imgData;
 					var imgId =  data.businessImages[i];
 					var imgData = BusinessImage.findOne({"_id":imgId.img});
 					if(imgData){
@@ -81,9 +87,18 @@ Template.vendorImagesVideos.helpers({
 						}
 					}
 				}
-				// console.log("photos");
+				// console.log("photoslist",imgList);
 				return imgList;
 			}
+		}
+	},
+
+	isCheckboxChecked: function(){
+		// console.log(publishImgId,this._id);
+		if(publishImgId == this._id){
+			return true;
+		}else{
+			return false;
 		}
 	},
 
@@ -138,6 +153,34 @@ Template.vendorImagesVideos.onRendered(function () {
 	// filesV = [];
 });
 Template.vendorImagesVideos.events({ 
+	'click input[type="checkbox"]': function(event){
+		var $this = $(event.target);
+		
+		if($($this).prop( "checked" )){
+			$('input[type="checkbox"]').not($this).prop('checked','');
+		}
+	},
+	'click .publishBusinessImg': function(event){
+		event.preventDefault();
+		var checked = $('input[type="checkbox"]:checked').val();
+		// console.log(businessID,checked);
+
+		if(!checked){
+			Bert.alert("Please select image to set as a business profile image.",'danger','growl-top-right');
+		}else{
+			Meteor.call('publishBusinessImage',businessID,checked,
+				function(error,result){
+					if(error){
+						Bert.alert('There is some error while publishing images!','danger','growl-top-right');
+					}
+					else{
+						Bert.alert('Selected image is set as a business profile image.','success','growl-top-right');
+					}
+				}
+			);
+		}
+					
+	},
 	
 	'click #editcloseStartVideo' : function (event) {
 		event.pause();
