@@ -71,7 +71,7 @@ Template.fromToFields.helpers({
 	 	
 	 	totalRec = ordersData.length;
 	 	// console.log(totalRec,listLimit);
-	 	if (totalRec > 0) {
+	 	if (totalRec > 10) {
 	    	$('.loadMoreRows50FromToAds').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100FromToAds').addClass('showMore50').removeClass('hideMore50');
@@ -85,7 +85,7 @@ Template.fromToFields.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50FromToAds').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100FromToAds').addClass('showMore50').removeClass('hideMore50');

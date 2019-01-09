@@ -36,7 +36,7 @@ Template.monthlySalesReport.helpers({
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
-		if (totalRec > 0) {
+		if (totalRec > 10) {
 	    	$('.loadMoreRows50MonthlyAds').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100MonthlyAds').addClass('showMore50').removeClass('hideMore50');
@@ -50,7 +50,7 @@ Template.monthlySalesReport.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50MonthlyAds').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100MonthlyAds').addClass('showMore50').removeClass('hideMore50');

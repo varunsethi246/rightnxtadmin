@@ -38,7 +38,7 @@ Template.monthlySalesReportBanner.helpers({
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
-		if (totalRec > 0) {
+		if (totalRec > 10) {
 	    	$('.loadMoreRows50MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
@@ -52,7 +52,7 @@ Template.monthlySalesReportBanner.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50MonthlyBanner').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100MonthlyBanner').addClass('showMore50').removeClass('hideMore50');

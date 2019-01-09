@@ -51,7 +51,7 @@ Template.todaysSalesReport.helpers({
 	 	
 	 	totalRec = paymentAds.length;
 	 	// console.log(totalRec,listLimit);
-	 	if (totalRec > 0) {
+	 	if (totalRec > 10) {
 	    	$('.loadMoreRows50TodayAds').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100TodayAds').addClass('showMore50').removeClass('hideMore50');
@@ -65,7 +65,7 @@ Template.todaysSalesReport.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50TodayAds').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100TodayAds').addClass('showMore50').removeClass('hideMore50');

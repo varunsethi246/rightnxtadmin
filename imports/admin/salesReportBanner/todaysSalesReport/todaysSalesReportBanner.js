@@ -53,7 +53,7 @@ Template.todaysSalesReportBanner.helpers({
 	 	
 	 	totalRec = ordersData.length;
 	 	// console.log(totalRec,listLimit);
-	 	if (totalRec > 0) {
+	 	if (totalRec > 10) {
 	    	$('.loadMoreRows50TodayBanner').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100TodayBanner').addClass('showMore50').removeClass('hideMore50');
@@ -67,7 +67,7 @@ Template.todaysSalesReportBanner.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50TodayBanner').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100TodayBanner').addClass('showMore50').removeClass('hideMore50');

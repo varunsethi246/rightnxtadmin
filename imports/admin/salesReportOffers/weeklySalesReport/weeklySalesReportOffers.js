@@ -63,7 +63,7 @@ Template.weeklySalesReportOffers.helpers({
 			var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
 		}
 		totalRec = ordersData.length;
-	 	if (totalRec > 0) {
+	 	if (totalRec > 10) {
 	    	$('.loadMoreRows50WeeklyOffers').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100WeeklyOffers').addClass('showMore50').removeClass('hideMore50');
@@ -77,7 +77,7 @@ Template.weeklySalesReportOffers.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-		        if (totalRec > 0) {
+		        if (totalRec > 10) {
 			    	$('.loadMoreRows50WeeklyOffers').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100WeeklyOffers').addClass('showMore50').removeClass('hideMore50');

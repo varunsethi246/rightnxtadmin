@@ -49,7 +49,7 @@ Template.weeklySalesReport.helpers({
 		}
 	 	
 	 	totalRec = ordersData.length;
-	 	if (totalRec > 0) {
+	 	if (totalRec > 10) {
 	    	$('.loadMoreRows50WeeklyAds').addClass('showMore50').removeClass('hideMore50');
 		}else if(totalRec > 50){
 			$('.loadMoreRows100WeeklyAds').addClass('showMore50').removeClass('hideMore50');
@@ -63,7 +63,7 @@ Template.weeklySalesReport.helpers({
 
 		if(listLimit){
 			if(totalRec > listLimit){
-				if (totalRec > 0) {
+				if (totalRec > 10) {
 			    	$('.loadMoreRows50WeeklyAds').addClass('showMore50').removeClass('hideMore50');
 				}else if(totalRec > 50){
 					$('.loadMoreRows100WeeklyAds').addClass('showMore50').removeClass('hideMore50');

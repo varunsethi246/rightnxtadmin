@@ -35,7 +35,7 @@ Template.yearlySalesReportOffers.helpers({
       var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}}).fetch();
     }
     totalRec = ordersData.length;
-    if (totalRec > 0) {
+    if (totalRec > 10) {
       $('.loadMoreRows50YearlyOffers').addClass('showMore50').removeClass('hideMore50');
     }else if(totalRec > 50){
       $('.loadMoreRows100YearlyOffers').addClass('showMore50').removeClass('hideMore50');
@@ -49,7 +49,7 @@ Template.yearlySalesReportOffers.helpers({
 
     if(listLimit){
       if(totalRec > listLimit){
-        if (totalRec > 0) {
+        if (totalRec > 10) {
           $('.loadMoreRows50YearlyOffers').addClass('showMore50').removeClass('hideMore50');
         }else if(totalRec > 50){
           $('.loadMoreRows100YearlyOffers').addClass('showMore50').removeClass('hideMore50');
