@@ -2,6 +2,7 @@ import { moment } from "meteor/momentjs:moment";
 // import { Orders } from '../../../../api/orderMaster.js';
 import { Template } from 'meteor/templating';
 import { Payment } from '../../../api/paymentMaster.js';
+import { Offers } from '../../../api/offersMaster.js';
 
 import './monthlySalesReportOffers.html';
 import '../searchReports/searchOffersReport.js';
@@ -30,11 +31,11 @@ Template.monthlySalesReportOffers.helpers({
 	  	var monthDateStart = new Date(moment(monthDateFromSess).month("YYYY-MM"));//Find out first day of month with selectedMonth
 	  	var monthDateToSess = new Date(moment(monthDateFromSess).add(1,"M"));
 	  	// console.log(monthDateToSess);
-		// var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+		// var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
 		if(listLimit){
-			var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
+			var ordersData = Payment.find({'orderType':'Offer','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
 		}else{
-			var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+			var ordersData = Payment.find({'orderType':'Offer','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
@@ -78,11 +79,20 @@ Template.monthlySalesReportOffers.helpers({
 
 	 		for(i=0; i < totalRec; i++){
 	 			var quantityTotal = 0;
-	 			var d = ordersData[i].invoiceDate;
+	 			var d = ordersData[i].paymentDate;
                 var t = d.toLocaleDateString('en-IN');
                 if (t == tempdate) {
                 	dateCount++;
                 }
+                	if(ordersData[i].offers&&ordersData[i].offers.length>0){
+		          		var totalAmount = 0;
+						for (var j = 0; j < ordersData[i].offers.length; j++) {
+							var offerDeatils = Offers.findOne({'_id':ordersData[i].offers[j].offerId});
+							if(offerDeatils){
+								totalAmount = totalAmount+(parseInt(offerDeatils.numOfMonths)*parseInt(ordersData[i].offerPricePerMonth)*parseInt(ordersData[i].numberOfOffers));
+							}
+						}
+		          	}
  		 			allOrders[i] = {
 		              "orderId"       	: ordersData[i]._id ,
 		              "businessLink"   	: ordersData[i].businessLink ,
@@ -90,7 +100,7 @@ Template.monthlySalesReportOffers.helpers({
 		              // "discountPercent" : ordersData[i].discountPercent,
 		              "date"          	: t ,
 		              // "discountedPrice" : ordersData[i].discountedPrice,
-		              "totalAmount" 	: ordersData[i].totalAmount,
+		              "totalAmount" 	: totalAmount,
 		              // "totalDiscount" 	: ordersData[i].totalDiscount,
 		              "orderType" 		: ordersData[i].orderType,
 					  "invoiceNo" 		: ordersData[i].invoiceNumber,

@@ -1260,13 +1260,16 @@ Template.receipt.helpers({
 				if(paymentDetails.modeOfPayment){
 					var PaymentSuccess = 'Payment Failed';
 					var PaymentClass = 'text-danger';
+					var payDateTime = "";
 				}else{
 					var PaymentSuccess = 'Payment Pending';
 					var PaymentClass = 'text-danger';
+					var payDateTime = "";
 				}
 			}else{
 				var PaymentSuccess = 'Payment Successful';
 				var PaymentClass = 'text-success';
+				var payDateTime = moment(paymentDetails.paymentDate).format('DD/MM/YYYY hh:mm');
 			}
 			var offers = [];
 			var totalPrice = 0;
@@ -1289,7 +1292,6 @@ Template.receipt.helpers({
 			
 			var dateTime = paymentDetails.invoiceDate;
 			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm');
-			var payDateTime = moment(paymentDetails.paymentDate).format('DD/MM/YYYY hh:mm');
 
 			var data = {
 				businessName			: businessDetails.businessTitle ,
@@ -1305,6 +1307,7 @@ Template.receipt.helpers({
 				transactionMsg 			: PaymentSuccess,
 				paymentclass 			: PaymentClass,
 				invoiceNumber 			: invNum,
+				orderNumber 			: paymentDetails.orderNumber,
 			}
 			return data;
 		}

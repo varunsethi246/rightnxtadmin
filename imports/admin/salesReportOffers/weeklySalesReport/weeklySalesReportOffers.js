@@ -1,6 +1,7 @@
 import { moment } from "meteor/momentjs:moment";
 // import { Orders } from '../../../../api/orderMaster.js';
 import { Payment } from '../../../api/paymentMaster.js';
+import { Offers } from '../../../api/offersMaster.js';
 
 import './weeklySalesReportOffers.html';
 import '../searchReports/searchOffersReport.js';
@@ -58,9 +59,9 @@ Template.weeklySalesReportOffers.helpers({
 		var sundayOfWeekDt = new Date(sundayOfWeek);
 
 		if(listLimit){
-			var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
+			var ordersData = Payment.find({'orderType':'Offer','paymentDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
 		}else{
-			var ordersData = Payment.find({'orderType':'Offer','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
+			var ordersData = Payment.find({'orderType':'Offer','paymentDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
 		}
 		totalRec = ordersData.length;
 	 	if (totalRec > 10) {
@@ -103,11 +104,21 @@ Template.weeklySalesReportOffers.helpers({
 
 	        for(i=0; i < totalRec; i++){
 	          var quantityTotal = 0;
-	          var d = ordersData[i].invoiceDate;
+	          var d = ordersData[i].paymentDate;
 	          var t = d.toLocaleDateString('en-IN');
 	          if (t == tempdate) {
 	                    dateCount++;
 	          }
+
+	          	if(ordersData[i].offers&&ordersData[i].offers.length>0){
+	          		var totalAmount = 0;
+					for (var j = 0; j < ordersData[i].offers.length; j++) {
+						var offerDeatils = Offers.findOne({'_id':ordersData[i].offers[j].offerId});
+						if(offerDeatils){
+							totalAmount = totalAmount+(parseInt(offerDeatils.numOfMonths)*parseInt(ordersData[i].offerPricePerMonth)*parseInt(ordersData[i].numberOfOffers));
+						}
+					}
+	          	}
 
 	            allOrders[i] = {
 					"orderId"       	: ordersData[i]._id ,
@@ -116,7 +127,7 @@ Template.weeklySalesReportOffers.helpers({
 					// "discountPercent" : ordersData[i].discountPercent,
 					"date"          	: t ,
 					// "discountedPrice" : ordersData[i].discountedPrice,
-					"totalAmount" 	: ordersData[i].totalAmount,
+					"totalAmount" 	: totalAmount,
 					// "totalDiscount" 	: ordersData[i].totalDiscount,
 					"orderType" 		: ordersData[i].orderType,
 					"invoiceNo" 		: ordersData[i].invoiceNumber,

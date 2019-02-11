@@ -2,6 +2,7 @@ import { Session } from 'meteor/session';
 // import { Orders } from '../../../../api/orderMaster.js';
 import { moment } from "meteor/momentjs:moment";
 import { Payment } from '../../../api/paymentMaster.js';
+import { Offers } from '../../../api/offersMaster.js';
 
 import './todaysSalesReportOffers.html';
 import '../searchReports/searchOffersReport.js';
@@ -44,11 +45,11 @@ Template.todaysSalesReportOffers.helpers({
 		var newDate2 = new Date(newDate1.getTime() + (24*60*60*1000) ); // next day at 0:0:0
 
 		// var ordersData =  Orders.find({'createdAt':{$gte : newDate1, $lt : newDate2 }}, {sort: {'createdAt': -1}}).fetch();
-		// var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
+		// var ordersData =  Payment.find({'orderType':'Banner','paymentDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
 		if(listLimit){
-			var ordersData =  Payment.find({'orderType':'Offer','invoiceDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();
+			var ordersData =  Payment.find({'orderType':'Offer','paymentDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();
 		}else{
-			var ordersData =  Payment.find({'orderType':'Offer','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
+			var ordersData =  Payment.find({'orderType':'Offer','paymentDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
 		}
 	 	
 	 	totalRec = ordersData.length;
@@ -92,11 +93,21 @@ Template.todaysSalesReportOffers.helpers({
 
 	        for(i=0; i < totalRec; i++){
 	          var quantityTotal = 0;
-	          var d = ordersData[i].invoiceDate;
+	          var d = ordersData[i].paymentDate;
 	          var t = d.toLocaleDateString('en-IN');
 	          if (t == tempdate) {
 	                dateCount++;
 	          }
+
+	          	if(ordersData[i].offers&&ordersData[i].offers.length>0){
+	          		var totalAmount = 0;
+					for (var j = 0; j < ordersData[i].offers.length; j++) {
+						var offerDeatils = Offers.findOne({'_id':ordersData[i].offers[j].offerId});
+						if(offerDeatils){
+							totalAmount = totalAmount+(parseInt(offerDeatils.numOfMonths)*parseInt(ordersData[i].offerPricePerMonth)*parseInt(ordersData[i].numberOfOffers));
+						}
+					}
+	          	}
 
 	            allOrders[i] = {
 	              "orderId"       	: ordersData[i]._id ,
@@ -105,7 +116,7 @@ Template.todaysSalesReportOffers.helpers({
 	              // "discountPercent" : ordersData[i].discountPercent,
 	              "date"          	: t ,
 	              // "discountedPrice" : ordersData[i].discountedPrice,
-	              "totalAmount" 	: ordersData[i].totalAmount,
+	              "totalAmount" 	: totalAmount,
 	              // "totalDiscount" 	: ordersData[i].totalDiscount,
 	              "orderType" 		: ordersData[i].orderType,
 				  "invoiceNo" 		: ordersData[i].invoiceNumber,

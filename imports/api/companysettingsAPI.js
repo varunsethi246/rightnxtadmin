@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Session } from 'meteor/session';
 import { Bert } from 'meteor/themeteorchef:bert';
-
+import { Payment } from './paymentMaster.js';
 
 export const CompanySettings = new Mongo.Collection('companySettings');
 export const TempLogoImage = new Mongo.Collection('tempLogoImage');
@@ -546,17 +546,29 @@ Meteor.methods({
 		// console.log(JSON.stringify(otherSettingsFormValue));
 		var userId = CompanySettings.findOne({"companyId" : 101});
 		if(userId){
-			CompanySettings.update({'_id': userId._id},
-				{	
-					$set: { rates : {
-						ratePerOffer 		  : otherSettingsFormValue.ratePerOffer,
-						ratePerAdvertise      : otherSettingsFormValue.ratePerAdvertise,
-						ratePerBanner    	  : otherSettingsFormValue.ratePerBanner,
-						
+			if(userId.rates){
+				var offerUpdate = Payment.update({'offerPricePerMonth': userId.rates.ratePerOffer},
+					{	
+						$set: { 
+							'offerPricePerMonth' : otherSettingsFormValue.ratePerOffer,
 						}
-					}
+					},{multi:true}
+				);	
+
+				if(offerUpdate){
+					CompanySettings.update({'_id': userId._id},
+						{	
+							$set: { rates : {
+								ratePerOffer 		  : otherSettingsFormValue.ratePerOffer,
+								ratePerAdvertise      : otherSettingsFormValue.ratePerAdvertise,
+								ratePerBanner    	  : otherSettingsFormValue.ratePerBanner,
+								
+								}
+							}
+						}
+					);
 				}
-			);
+			}
 		} //end of if userid
 	},
 });
