@@ -44,11 +44,11 @@ Template.todaysSalesReportBanner.helpers({
 		var newDate2 = new Date(newDate1.getTime() + (24*60*60*1000) ); // next day at 0:0:0
 
 		// var ordersData =  Orders.find({'createdAt':{$gte : newDate1, $lt : newDate2 }}, {sort: {'createdAt': -1}}).fetch();
-		// var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
+		// var ordersData =  Payment.find({'orderType':'Banner','paymentDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
 	 	if(listLimit){
-			var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();	 	
+			var ordersData =  Payment.find({'orderType':'Banner','paymentDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();	 	
 		}else{
-			var ordersData =  Payment.find({'orderType':'Banner','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();	 	
+			var ordersData =  Payment.find({'orderType':'Banner','paymentDate':{$gte : newDate1, $lt : newDate2 }}).fetch();	 	
 		}
 	 	
 	 	totalRec = ordersData.length;
@@ -93,7 +93,7 @@ Template.todaysSalesReportBanner.helpers({
 
 	        for(i=0; i < totalRec; i++){
 	          var quantityTotal = 0;
-	          var d = ordersData[i].invoiceDate;
+	          var d = ordersData[i].paymentDate;
 	          var t = d.toLocaleDateString('en-IN');
 	          if (t == tempdate) {
 	                dateCount++;

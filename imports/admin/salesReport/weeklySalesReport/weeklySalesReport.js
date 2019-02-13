@@ -43,9 +43,9 @@ Template.weeklySalesReport.helpers({
 		var sundayOfWeekDt = new Date(sundayOfWeek);
 
 	 	if(listLimit){
-			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
+			var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}},{limit: listLimit}).fetch();
 		}else{
-			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
+			var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: mondayInWeekDt, $lt: sundayOfWeekDt}}).fetch();
 		}
 	 	
 	 	totalRec = ordersData.length;
@@ -89,7 +89,7 @@ Template.weeklySalesReport.helpers({
 
         for(i=0; i < totalRec; i++){
 		 			var quantityTotal = 0;
-		 			var d = ordersData[i].invoiceDate;
+		 			var d = ordersData[i].paymentDate;
 	                var t = d.toLocaleDateString('en-IN');
 	                if (t == tempdate) {
 	                	dateCount++;

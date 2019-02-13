@@ -547,7 +547,7 @@ Meteor.methods({
 		var userId = CompanySettings.findOne({"companyId" : 101});
 		if(userId){
 			if(userId.rates){
-				var offerUpdate = Payment.update({'offerPricePerMonth': userId.rates.ratePerOffer},
+				var offerUpdate = Payment.update({'offerPricePerMonth': userId.rates.ratePerOffer,'paymentStatus':'unpaid'},
 					{	
 						$set: { 
 							'offerPricePerMonth' : otherSettingsFormValue.ratePerOffer,
@@ -555,6 +555,7 @@ Meteor.methods({
 					},{multi:true}
 				);	
 
+				// console.log('offerUpdate',offerUpdate);
 				if(offerUpdate){
 					CompanySettings.update({'_id': userId._id},
 						{	

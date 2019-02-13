@@ -32,9 +32,9 @@ Template.yearlySalesReport.helpers({
     var totalRec = ordersData.length;
 
     if(listLimit){
- 	   var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}},{limit: listLimit}).fetch();
+ 	   var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: yearDateStart,$lt: yearDateEnd}},{limit: listLimit}).fetch();
     }else{
-	    var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: yearDateStart,$lt: yearDateEnd}}).fetch();
+	    var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: yearDateStart,$lt: yearDateEnd}}).fetch();
     }
     
     totalRec = ordersData.length;
@@ -78,7 +78,7 @@ Template.yearlySalesReport.helpers({
 
         for(i=0; i < totalRec; i++){
           var quantityTotal = 0;
-          var d = ordersData[i].invoiceDate;
+          var d = ordersData[i].paymentDate;
           var t = d.toLocaleDateString('en-IN');
           if (t == tempdate) {
               dateCount++;

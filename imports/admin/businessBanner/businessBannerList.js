@@ -38,8 +38,9 @@ Template.businessBannerList.helpers({
 			for (var i = 0; i < paymentArr.length; i++) {
 				var bannerArray = paymentArr[i].businessBanner;
 				if(bannerArray.length>0){
-					var categoryArr = [];
-    				var positionArr = [];
+					// var categoryArr = [];
+    				// var positionArr = [];
+    				// var areaArr = [];
 					for (var j = 0; j < bannerArray.length; j++) {
     					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
 						if(bannerData){
@@ -53,27 +54,54 @@ Template.businessBannerList.helpers({
 				    			buttonStatusText = "Activate";
 				    		}
 
-				    		categoryArr.push(bannerData.category);
 		    				var position = bannerData.position + "-" + bannerData.rank;
-		    				positionArr.push(position);
+				    		// categoryArr.push(bannerData.category);
+		    				// positionArr.push(position);
+		    				// areaArr.push(bannerData.areas);
+		    				if(j==0){
+			    				var objData = {
+							    	rowSpanLength		: bannerArray.length,
+							    	categoryArrList		: bannerData.category,
+				    				businessLink		: bannerData.businessLink,
+				    				bussinessTitle		: bannerData.businessTitle,
+				    				businessPosition	: position,
+				    				businessArea		: bannerData.areas,
+				    				bannerDuration		: bannerData.noOfMonths,
+				    				buttonStatusText 	: buttonStatusText,
+									buttonStatus 		: buttonStatus,
+									startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+									endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+				    			};
+		    				}else{
+		    					var objData = {
+							    	categoryArrList		: bannerData.category,
+				    				businessPosition	: position,
+				    				businessArea		: bannerData.areas,
+				    				bannerDuration		: bannerData.noOfMonths,
+									startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+									endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+				    			};
+		    				}
+			    			bannerListDetails.push(objData);
 						}	
 					}
 				}
 
-				if(bannerData){
-					var objData = {
-				    	categoryArrList		: categoryArr,
-	    				businessLink		: bannerData.businessLink,
-	    				bussinessTitle		: bannerData.businessTitle,
-	    				businessPosition	: positionArr,
-	    				bannerDuration		: bannerData.noOfMonths,
-	    				buttonStatusText 	: buttonStatusText,
-						buttonStatus 		: buttonStatus,
-						startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
-						endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
-	    			};
-	    			bannerListDetails.push(objData);
-				}
+				// if(bannerData){
+				// 	var objData = {
+				//     	categoryArrList		: categoryArr,
+	   //  				businessLink		: bannerData.businessLink,
+	   //  				bussinessTitle		: bannerData.businessTitle,
+	   //  				businessPosition	: positionArr,
+	   //  				businessArea		: areaArr,
+	   //  				bannerDuration		: bannerData.noOfMonths,
+	   //  				buttonStatusText 	: buttonStatusText,
+				// 		buttonStatus 		: buttonStatus,
+				// 		startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
+				// 		endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
+	   //  			};
+	   //  			bannerListDetails.push(objData);
+				// }
 			}
 		}
 
@@ -140,7 +168,7 @@ Template.businessBannerList.helpers({
     	}
 
 
-    	
+    	console.log('bannerListDetails',bannerListDetails);
     	return bannerListDetails;
 	},
 });

@@ -30,9 +30,9 @@ Template.monthlySalesReport.helpers({
 	  	var monthDateToSess = new Date(moment(monthDateFromSess).add(1,"M"));
  		
  		if(listLimit){
-			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
+			var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
 		}else{
-			var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+			var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
@@ -76,7 +76,7 @@ Template.monthlySalesReport.helpers({
 
 	 		for(i=0; i < totalRec; i++){
 	 			var quantityTotal = 0;
-	 			var d = ordersData[i].invoiceDate;
+	 			var d = ordersData[i].paymentDate;
                 var t = d.toLocaleDateString('en-IN');
                 if (t == tempdate) {
                 	dateCount++;

@@ -151,7 +151,7 @@ Meteor.methods({
 	},
 	'updateBannerPayment':function(formValues){
 		Payment.update( 
-			{"businessLink": formValues.businessLink,"orderType":'Banner',"invoiceNumber": formValues.invoiceNumber,},
+			{"businessLink": formValues.businessLink,"orderType":'Banner',"invoiceNumber": formValues.invoiceNumber,'paymentStatus':'unpaid'},
 			{$set : {
 			 	"vendorId"  			: formValues.vendorId,
 				"businessId"  			: formValues.businessId,
@@ -181,7 +181,28 @@ Meteor.methods({
 		);
 		// return businessLink;
 	},
-
+	'updateBannerInvoicePayment':function(formValues){
+		Payment.update( 
+			{"businessLink": formValues.businessLink,"orderType":'Banner',"invoiceNumber": formValues.invoiceNumber,'paymentStatus':'unpaid'},
+			{$set : {
+				"discountPercent"		: formValues.discountPercent, 
+				"discountedPrice"		: formValues.discountedPrice, 
+				"totalAmount"			: formValues.totalAmount, 
+				"totalDiscount"			: formValues.totalDiscount,
+				}
+			}, 
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+				if(result){
+					return result;
+				}
+			}
+		);
+		// return businessLink;
+	},
 	'updateBannerPaymentOnline':function(businessLink){
 		var businessBanner = BusinessBanner.find({"businessLink":businessLink,"status":"new"}).fetch();
 		console.log(businessBanner);

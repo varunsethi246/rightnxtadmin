@@ -30,11 +30,11 @@ Template.monthlySalesReportBanner.helpers({
 	  	var monthDateStart = new Date(moment(monthDateFromSess).month("YYYY-MM"));//Find out first day of month with selectedMonth
 	  	var monthDateToSess = new Date(moment(monthDateFromSess).add(1,"M"));
 	  	// console.log(monthDateToSess);
-		// var ordersData = Payment.find({'orderType':'Ads','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+		// var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
 		if(listLimit){
-			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
+			var ordersData = Payment.find({'orderType':'Banner','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}},{limit: listLimit}).fetch();
 		}else{
-			var ordersData = Payment.find({'orderType':'Banner','invoiceDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
+			var ordersData = Payment.find({'orderType':'Banner','paymentDate':{$gte: monthDateStart,$lt: monthDateToSess}}).fetch();
 		}
 		// console.log("ordersData",ordersData);
 		totalRec = ordersData.length;
@@ -78,7 +78,7 @@ Template.monthlySalesReportBanner.helpers({
 
 	 		for(i=0; i < totalRec; i++){
 	 			var quantityTotal = 0;
-	 			var d = ordersData[i].invoiceDate;
+	 			var d = ordersData[i].paymentDate;
                 var t = d.toLocaleDateString('en-IN');
                 if (t == tempdate) {
                 	dateCount++;

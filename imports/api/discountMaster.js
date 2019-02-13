@@ -3,6 +3,8 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Session } from 'meteor/session';
 
+import { BusinessBanner } from '/imports/api/businessBannerMaster.js';
+
 export const Discount = new Mongo.Collection('discount');
 export const Position = new Mongo.Collection('position');
 export const AdsDiscount = new Mongo.Collection('adsdiscount');
@@ -99,13 +101,25 @@ Meteor.methods({
 	},
 
 	'updatePosition':function(id,position,rate){
-		Position.update({'_id':id},
-			{$set:{
-				"position"	  : position,
-			    "rate"		  : rate,
+		var positionData = Position.findOne({'position':position});
+		if(positionData){
+			var updateBanner = BusinessBanner.update( 
+				{"bannerRate": positionData.rate,"status":'new'},
+				{$set : {
+				 		"bannerRate"  	: rate
+					}
 				}
+			);
+			if(updateBanner||!updateBanner){
+				Position.update({'_id':id},
+					{$set:{
+							"position"	  : position,
+					    	"rate"		  : rate,
+						}
+					}
+				);
 			}
-		)
+		}
 	},
 
 	// Ads Discount Methods

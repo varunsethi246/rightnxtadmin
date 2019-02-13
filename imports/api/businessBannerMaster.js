@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 import { Bert } from 'meteor/themeteorchef:bert';
 
 import { Business } from '/imports/api/businessMaster.js';
+import { Position } from '/imports/api/discountMaster.js';
 
 
 
@@ -27,6 +28,13 @@ Meteor.methods({
 		var loggedInUser = Meteor.userId();
 		var business = Business.findOne({"businessLink": formValues.businessLink, "status":"active"});
 
+		var positionDetails = Position.findOne({'position':parseInt(formValues.position)});
+		if(positionDetails){
+			var bannerRate = positionDetails.rate;
+		}else{
+			var bannerRate = 0;
+		}
+
 		return BusinessBanner.insert({ 
 			"businessTitle" : business.businessTitle,
 			"businessLink" 	: formValues.businessLink,
@@ -34,6 +42,7 @@ Meteor.methods({
 			"position" 		: formValues.position,
 			"rank" 			: formValues.rank,
 			"areas" 	    : formValues.selectedAreas,
+			"bannerRate" 	: bannerRate,
 			"startDate" 	: formValues.startDate,
 			"noOfMonths" 	: formValues.noOfMonths,
 			"endDate" 		: formValues.endDate,

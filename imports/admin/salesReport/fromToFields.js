@@ -64,9 +64,9 @@ Template.fromToFields.helpers({
 	 	var totalRec = ordersData.length;
 
 	 	if(listLimit){
-			var ordersData =  Payment.find({"orderType" : "Ads",'invoiceDate':{$gte : fromDt, $lt : toDt }},{limit: listLimit}).fetch();
+			var ordersData =  Payment.find({"orderType" : "Ads",'paymentDate':{$gte : fromDt, $lt : toDt }},{limit: listLimit}).fetch();
 		}else{
-			var ordersData =  Payment.find({"orderType" : "Ads",'invoiceDate':{$gte : fromDt, $lt : toDt }}).fetch();
+			var ordersData =  Payment.find({"orderType" : "Ads",'paymentDate':{$gte : fromDt, $lt : toDt }}).fetch();
 		}
 	 	
 	 	totalRec = ordersData.length;
@@ -110,7 +110,7 @@ Template.fromToFields.helpers({
 
 			for(i=0; i < totalRec; i++){
 				var quantityTotal = 0;
-				var d = ordersData[i].invoiceDate;
+				var d = ordersData[i].paymentDate;
 				var t = d.toLocaleDateString('en-IN');
 				if (t == tempdate) {
 					dateCount++;

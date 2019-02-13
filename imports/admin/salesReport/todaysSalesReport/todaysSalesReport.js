@@ -44,9 +44,9 @@ Template.todaysSalesReport.helpers({
 		var newDate2 = new Date(newDate1.getTime() + (24*60*60*1000) ); // next day at 0:0:0
 		
 	 	if(listLimit){
-			var paymentAds =  Payment.find({'orderType':'Ads','invoiceDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();
+			var paymentAds =  Payment.find({'orderType':'Ads','paymentDate':{$gte : newDate1, $lt : newDate2 }},{limit: listLimit}).fetch();
 		}else{
-			var paymentAds =  Payment.find({'orderType':'Ads','invoiceDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
+			var paymentAds =  Payment.find({'orderType':'Ads','paymentDate':{$gte : newDate1, $lt : newDate2 }}).fetch();
 		}
 	 	
 	 	totalRec = paymentAds.length;
@@ -91,7 +91,7 @@ Template.todaysSalesReport.helpers({
 
         for(i=0; i < totalRec; i++){
           var quantityTotal = 0;
-          var d = paymentAds[i].invoiceDate;
+          var d = paymentAds[i].paymentDate;
           var t = d.toLocaleDateString('en-IN');
           // console.log('d :',d);
           // console.log('t :',t);

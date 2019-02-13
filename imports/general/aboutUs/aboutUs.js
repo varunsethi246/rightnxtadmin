@@ -45,12 +45,12 @@ Template.aboutUs.helpers({
 
 	visionData(){
 		var currentURL = FlowRouter.current().path;
-		console.log('currentURL :',currentURL);
+		// console.log('currentURL :',currentURL);
 		var splitUlr = currentURL.split('/');
 		var actualURL = currentURL.substring(1);
-		console.log('actualURL :',actualURL);
+		// console.log('actualURL :',actualURL);
 		var vision = GeneralContent.findOne({"url": splitUlr[1] , "tabName": "COMPANY" , "sectionHeading": "Our Vision"});
-		console.log('vision',vision);
+		// console.log('vision',vision);
 		return vision;
 	},
 
