@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Bert } from 'meteor/themeteorchef:bert';
 
 import { Business } from '/imports/api/businessMaster.js';
-
+import { AdsPosition } from '/imports/api/discountMaster.js';
 
 
 export const BusinessAds = new Mongo.Collection('businessAds');
@@ -26,12 +26,20 @@ Meteor.methods({
 		var loggedInUser = Meteor.userId();
 		var business = Business.findOne({"businessLink": formValues.businessLink, "status":"active"});
 
+		var positionDetails = AdsPosition.findOne({'position':parseInt(formValues.position)});
+		if(positionDetails){
+			var adsRate = positionDetails.rate;
+		}else{
+			var adsRate = 0;
+		}
+
 		return BusinessAds.insert({ 
 			"businessTitle" : business.businessTitle,
 			"businessLink" 	: formValues.businessLink,
 			"category" 		: formValues.category,
 			"position" 		: formValues.position,
 			"areas" 	    : formValues.selectedAreas,
+			"adsRate" 		: adsRate,
 			"city" 	    	: business.businessCity,
 			"startDate" 	: formValues.startDate,
 			"noOfMonths" 	: formValues.noOfMonths,

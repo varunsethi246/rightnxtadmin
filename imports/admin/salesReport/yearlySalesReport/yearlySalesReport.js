@@ -29,7 +29,6 @@ Template.yearlySalesReport.helpers({
     var thisYear = yearFromSess;
     var yearDateStart = new Date("1/1/" + thisYear);
     var yearDateEnd = new Date (yearDateStart.getFullYear(), 11, 31);
-    var totalRec = ordersData.length;
 
     if(listLimit){
  	   var ordersData = Payment.find({'orderType':'Ads','paymentDate':{$gte: yearDateStart,$lt: yearDateEnd}},{limit: listLimit}).fetch();

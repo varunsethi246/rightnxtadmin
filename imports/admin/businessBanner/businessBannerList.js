@@ -168,7 +168,7 @@ Template.businessBannerList.helpers({
     	}
 
 
-    	console.log('bannerListDetails',bannerListDetails);
+    	// console.log('bannerListDetails',bannerListDetails);
     	return bannerListDetails;
 	},
 });

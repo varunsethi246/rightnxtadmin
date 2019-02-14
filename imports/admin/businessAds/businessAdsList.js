@@ -48,27 +48,53 @@ Template.businessAdsList.helpers({
 				    			buttonStatusText = "Activate";
 				    		}
 
-				    		categoryAdsArr.push(adsData.category);
-		    				positionAdsArr.push(adsData.position);
+				    		// categoryAdsArr.push(adsData.category);
+		    				// positionAdsArr.push(adsData.position);
+		    				if(j==0){
+			    				var objData = {
+							    	rowSpanLength		: adsArray.length,
+							    	categoryArrList		: adsData.category,
+				    				businessLink		: adsData.businessLink,
+				    				bussinessTitle		: adsData.businessTitle,
+				    				businessPosition	: adsData.position,
+				    				businessArea		: adsData.areas,
+				    				bannerDuration		: adsData.noOfMonths,
+				    				buttonStatusText 	: buttonStatusText,
+									buttonStatus 		: buttonStatus,
+									startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
+									endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
+				    			};
+		    				}else{
+		    					var objData = {
+							    	categoryArrList		: adsData.category,
+				    				businessPosition	: adsData.position,
+				    				businessArea		: adsData.areas,
+				    				bannerDuration		: adsData.noOfMonths,
+									startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
+									endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
+				    			};
+		    				}
+
+	    					adsListDetails.push(objData);
 						}	
 					}
 				}
 
-				if(adsData){
-					var objData = {
-				    	categoryArrList		: categoryAdsArr,
-	    				businessLink		: adsData.businessLink,
-	    				bussinessTitle		: adsData.businessTitle,
-	    				businessPosition	: positionAdsArr,
-	    				bannerDuration		: adsData.noOfMonths,
-	    				buttonStatusText 	: buttonStatusText,
-						buttonStatus 		: buttonStatus,
-						startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
-						endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
-	    			};
+				// if(adsData){
+				// 	var objData = {
+				//     	categoryArrList		: categoryAdsArr,
+	   //  				businessLink		: adsData.businessLink,
+	   //  				bussinessTitle		: adsData.businessTitle,
+	   //  				businessPosition	: positionAdsArr,
+	   //  				bannerDuration		: adsData.noOfMonths,
+	   //  				buttonStatusText 	: buttonStatusText,
+				// 		buttonStatus 		: buttonStatus,
+				// 		startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
+				// 		endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
+	   //  			};
 	    			
-	    			adsListDetails.push(objData);
-				}
+	   //  			adsListDetails.push(objData);
+				// }
 			}
 		}
 

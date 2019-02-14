@@ -334,11 +334,12 @@ Template.businessAds.helpers({
     			}else{
     				businessAds[i].numOfAreas=0;
     			}
-				var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds[i].position)});
-				// console.log("monthlyRate: ",monthlyRate);
-
-    			businessAds[i].monthlyRate 	= monthlyRate.rate;
-				businessAds[i].totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds[i].areas.length) * parseInt(businessAds[i].noOfMonths);
+    			if(businessAds[i].adsRate){
+    				businessAds[i].monthlyRate 	= businessAds[i].adsRate;
+    			}else{
+    				businessAds[i].monthlyRate 	= 0;
+    			}
+				businessAds[i].totalAmount 	= parseInt(businessAds[i].adsRate) * parseInt(businessAds[i].areas.length) * parseInt(businessAds[i].noOfMonths);
     		}
     	}
 		return businessAds;
@@ -422,10 +423,17 @@ Template.adsInvoice.helpers({
   		}
 
 		if(paymentCheck.length>0) {
+			if(paymentCheck[0].paymentStatus=='paid'){
+				businessDetails.paid = true;	
+			}else{
+				businessDetails.paid = false;	
+			}
+
+			var previousTotalPrice = paymentCheck[0].totalAmount;
+	    	var previousDiscountPercent = paymentCheck[0].discountPercent;
+			businessDetails.orderNumber 	= paymentCheck[0].orderNumber;
 			businessDetails.invoiceNumber 	= paymentCheck[0].invoiceNumber;
-	    	businessDetails.discountPercent = paymentCheck[0].discountPercent;
-	    	businessDetails.totalDiscount 	= paymentCheck[0].totalDiscount;
-	    	businessDetails.discountedPrice = paymentCheck[0].discountedPrice;
+
 	   //  	if(paymentCheck[0].paymentStatus == 'unpaid'){
 				// businessDetails.invoiceDate = moment(paymentCheck[0].invoiceDate).format('DD/MM/YYYY');
 	   //  	}else{
@@ -444,15 +452,12 @@ Template.adsInvoice.helpers({
 			    			}else{
 			    				var numOfAreas=0;
 			    			}
-							var monthlyRate = AdsPosition.findOne({'position':parseInt(businessAds.position)});
-			    			if(monthlyRate){
-				    			var monthlyRate1 	= monthlyRate.rate;
-								var totalAmount 	= parseInt(monthlyRate.rate) * parseInt(businessAds.areas.length) * parseInt(businessAds.noOfMonths);
-				    			totalPrice= totalPrice + totalAmount;
-			    			}
+							
+							var totalAmount 	= parseInt(businessAds.adsRate) * parseInt(businessAds.areas.length) * parseInt(businessAds.noOfMonths);
+				    		totalPrice= totalPrice + totalAmount;
 			    			businessAdsArray.push({
 			    				'numOfAreas'  : numOfAreas,
-			    				'monthlyRate' : monthlyRate1,
+			    				'monthlyRate' : businessAds.adsRate,
 			    				'totalAmount' : totalAmount,
 			    				'totalPrice'  : totalPrice,
 			    				'category'	  : businessAds.category,
@@ -494,6 +499,57 @@ Template.adsInvoice.helpers({
 			businessDetails.companyCity = companyDetails.companyLocationsInfo[0].companyCity;
 			businessDetails.companyState = companyDetails.companyLocationsInfo[0].companyState;
 			businessDetails.companyPincode = companyDetails.companyLocationsInfo[0].companyPincode;
+		}
+
+		var discountData = AdsDiscount.find({}).fetch();
+		// To sort an discount percent array by price
+		function sortArrOfObjectsByParam(a, b) {
+		  const genreA = parseInt(a.price);
+		  const genreB = parseInt(b.price);
+		  let comparison = 0;
+		  if (genreA > genreB) {
+		    comparison = 1;
+		  } else if (genreA < genreB) {
+		    comparison = -1;
+		  }
+		  return comparison;
+		}
+		discountData.sort(sortArrOfObjectsByParam);
+
+		var discountPercent = 0;
+		if(discountData){
+			for(var i=0;i<discountData.length;i++){
+				if(totalPrice>discountData[i].price){
+					discountPercent = discountData[i].discount;
+				}
+			}
+		}
+
+		var totalDiscount = totalPrice*(discountPercent/100);
+		var discountedPrice = totalPrice-totalDiscount;
+
+		if(previousTotalPrice!=totalPrice||previousDiscountPercent!=discountPercent){
+			var formValues = {
+				'businessLink' : businessLink,
+				'invoiceNumber' : businessDetails.invoiceNumber,
+				'discountPercent' : discountPercent,
+				'discountedPrice' : discountedPrice,
+				'totalAmount' : totalPrice,
+				'totalDiscount' : totalDiscount,
+			};
+			// console.log('formValues',formValues);
+			Meteor.call('updateAdsInvoicePayment', formValues, function(error,result){
+				if(error){
+					console.log('Error occured while updating Business Banner: ', error);
+				}else{
+				}
+			});
+		}
+
+		if(paymentCheck){
+	    	businessDetails.discountPercent = paymentCheck[0].discountPercent;
+	    	businessDetails.totalDiscount 	= paymentCheck[0].totalDiscount;
+	    	businessDetails.discountedPrice = paymentCheck[0].discountedPrice;
 		}
 
     	businessDetails.totalPrice = totalPrice;

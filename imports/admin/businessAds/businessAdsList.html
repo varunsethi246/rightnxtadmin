@@ -21,16 +21,19 @@
 						<th>Ads Duration</th>
 						<th>Ads Categories</th>
 						<th>Ads Position</th>
+						<th>Ads Area</th>						
 						<th>Ads Action</th>
 					</thead>
 					<tbody>
 					{{#if adsDetails}}
 						{{#each adsDetails}}
 							<tr>
-								<td class="bannerTitleFont">
-									{{bussinessTitle}}<br>
-									<span style="color: #000">Business Link: </span>rightnxt.com/<span class="bannerLinkFont">{{businessLink}}</span>
-								</td>
+								{{#if rowSpanLength}}
+									<td class="bannerTitleFont" rowspan="{{rowSpanLength}}">
+										{{bussinessTitle}}<br>
+										<span style="color: #000">Business Link: </span>rightnxt.com/<span class="bannerLinkFont">{{businessLink}}</span>
+									</td>
+								{{/if}}
 								<td>
 									<!-- {{bannerDuration}} -->
 									<div class="bannerAdsDurationDiv">
@@ -44,54 +47,56 @@
 									</div>
 								</td>
 								<td>
-									{{#each categoryArrList}}
-										{{this}} <br/>
-									{{/each}}
+									{{categoryArrList}}
 								</td>
 								<td>
-									{{#each businessPosition}}
-										{{this}}<br> 
-									{{/each}}
+									{{businessPosition}}
 								</td>
 								<td>
-									<button class="btn btn-{{buttonStatus}}"  aria-hidden="true" data-toggle="modal" data-target="#m-{{businessLink}}">{{buttonStatusText}}</button>
-									<div class="modal fade" id="m-{{businessLink}}" role="dialog">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header delete-close">
-									        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
-									   			 </div>
-									            <div class="modal-body">
-									            	<p class="text-center text-centerEnq">Are you sure you want to {{buttonStatusText}} this Ad?</p>
-									         		<div class="body-close">
-									                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-										            	<button  data-dismiss="modal" type="button" class="btn btn-{{buttonStatus}} btnStatAction">{{buttonStatusText}}</button>
-									                </div>
-									            </div>
-									        </div>
-										</div>
-									</div>
-
-									<button class="btn btn-danger deleteBanner"   aria-hidden="true" data-toggle="modal" data-target="#delete-{{businessLink}}">Delete</button>
-									<div class="modal fade" id="delete-{{businessLink}}" role="dialog">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header delete-close">
-									        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
-									   			 </div>
-									            <div class="modal-body">
-									            	<p class="text-center text-centerEnq">Are you sure you want to Delete this Ad?</p>
-									         		<div class="body-close">
-									                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-										            	<button  data-dismiss="modal" type="button" class="btn btn-danger btnDeleteAction">Delete</button>
-									                </div>
-									            </div>
-									        </div>
-										</div>
-									</div>
-
+									{{#each businessArea}}
+										{{this}}<br>
+									{{/each}}
 								</td>
-								
+								{{#if rowSpanLength}}
+									<td rowspan="{{rowSpanLength}}">
+										<button class="btn btn-{{buttonStatus}}"  aria-hidden="true" data-toggle="modal" data-target="#m-{{businessLink}}" style="margin-bottom: 10px;">{{buttonStatusText}}</button>
+										<div class="modal fade" id="m-{{businessLink}}" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header delete-close">
+										        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
+										   			 </div>
+										            <div class="modal-body">
+										            	<p class="text-center text-centerEnq">Are you sure you want to {{buttonStatusText}} this Ad?</p>
+										         		<div class="body-close">
+										                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+											            	<button  data-dismiss="modal" type="button" class="btn btn-{{buttonStatus}} btnStatAction">{{buttonStatusText}}</button>
+										                </div>
+										            </div>
+										        </div>
+											</div>
+										</div>
+
+										<button class="btn btn-danger deleteBanner"   aria-hidden="true" data-toggle="modal" data-target="#delete-{{businessLink}}" style="margin-bottom: 10px;">Delete</button>
+										<div class="modal fade" id="delete-{{businessLink}}" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header delete-close">
+										        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
+										   			 </div>
+										            <div class="modal-body">
+										            	<p class="text-center text-centerEnq">Are you sure you want to Delete this Ad?</p>
+										         		<div class="body-close">
+										                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+											            	<button  data-dismiss="modal" type="button" class="btn btn-danger btnDeleteAction">Delete</button>
+										                </div>
+										            </div>
+										        </div>
+											</div>
+										</div>
+
+									</td>
+								{{/if}}
 							</tr>
 						{{/each}}
 					{{else}}

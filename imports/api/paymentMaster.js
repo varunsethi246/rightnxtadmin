@@ -332,6 +332,29 @@ Meteor.methods({
 			}
 		}
 	},
+
+	'updateAdsInvoicePayment':function(formValues){
+		Payment.update( 
+			{"businessLink": formValues.businessLink,"orderType":'Ads',"invoiceNumber": formValues.invoiceNumber,'paymentStatus':'unpaid'},
+			{$set : {
+				"discountPercent"		: formValues.discountPercent, 
+				"discountedPrice"		: formValues.discountedPrice, 
+				"totalAmount"			: formValues.totalAmount, 
+				"totalDiscount"			: formValues.totalDiscount,
+				}
+			}, 
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+				if(result){
+					return result;
+				}
+			}
+		);
+		// return businessLink;
+	},
 	
 	'addNewOfferinPayment': function(_id, offerId){
 		Payment.update( {"_id":_id},
@@ -559,7 +582,7 @@ Meteor.methods({
 		// console.log(formValues);
 		var maxInvNum = Payment.find({}, {sort: {invoiceNumber:-1, limit:1}}).fetch();
 		if(maxInvNum.length > 0){
-			console.log(maxInvNum[0].orderNumber);
+			// console.log(maxInvNum[0].orderNumber);
 			var invNum = maxInvNum[0].invoiceNumber + 1;
 			var orderNum = maxInvNum[0].orderNumber + 1;
 		}

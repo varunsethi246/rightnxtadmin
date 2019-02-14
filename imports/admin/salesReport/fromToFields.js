@@ -61,7 +61,6 @@ Template.fromToFields.helpers({
 
 		// console.log('ordersData :',ordersData);
 		// console.log("hi");
-	 	var totalRec = ordersData.length;
 
 	 	if(listLimit){
 			var ordersData =  Payment.find({"orderType" : "Ads",'paymentDate':{$gte : fromDt, $lt : toDt }},{limit: listLimit}).fetch();

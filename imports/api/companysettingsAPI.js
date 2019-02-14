@@ -556,7 +556,7 @@ Meteor.methods({
 				);	
 
 				// console.log('offerUpdate',offerUpdate);
-				if(offerUpdate){
+				if(offerUpdate||!offerUpdate){
 					CompanySettings.update({'_id': userId._id},
 						{	
 							$set: { rates : {
