@@ -43,16 +43,38 @@ Template.businessAdsList.helpers({
 				    		if(adsData.status=="active"){
 				    			buttonStatus = "danger";
 				    			buttonStatusText = "Deactivate";
+
+				    			if(adsData.endDate&&adsData.category){
+					    			var currentDate = new Date();
+					    			var adEndDate = new Date(adsData.endDate);
+ 					    			// console.log('adEndDate',adEndDate);
+					    			if(currentDate>adEndDate){
+					    				var id = adsData._id;
+					    				Meteor.call('deactivateAds', id , function(error,position){
+											if(error){
+											}else{
+											}
+										});
+					    			}
+				    			}
 				    		}else{
 				    			buttonStatus = "success";
 				    			buttonStatusText = "Activate";
 				    		}
 
-				    		// categoryAdsArr.push(adsData.category);
+				    		if(adsData.status=="inactive"&&paymentAdsArr[i].paymentStatus=='unpaid'){
+				    			buttonInactive = true;
+				    		}else{
+				    			buttonInactive = false;
+				    		}
+
+				    		categoryAdsArr.push(adsData.category);
 		    				// positionAdsArr.push(adsData.position);
+
 		    				if(j==0){
-			    				var objData = {
+		    					var objData = {
 							    	rowSpanLength		: adsArray.length,
+							    	paymentId 			: paymentAdsArr[i]._id,
 							    	categoryArrList		: adsData.category,
 				    				businessLink		: adsData.businessLink,
 				    				bussinessTitle		: adsData.businessTitle,
@@ -61,6 +83,7 @@ Template.businessAdsList.helpers({
 				    				bannerDuration		: adsData.noOfMonths,
 				    				buttonStatusText 	: buttonStatusText,
 									buttonStatus 		: buttonStatus,
+									buttonInactive 		: buttonInactive,
 									startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
 									endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
 				    			};
@@ -161,7 +184,7 @@ Template.businessAdsList.helpers({
     	}
 
 
-    	
+    	// console.log('adsListDetails',adsListDetails);
     	return adsListDetails;
 	},
 });
@@ -249,31 +272,14 @@ Template.businessAdsList.events({
 	},
 	'click .btnDeleteAction': function(event){
 		// console.log('adsArray:',this);
-    	var selector = [];
-		var categoryArray = this.categoryArrList;
-		if(categoryArray.length>0){
-			for (var i = 0; i < categoryArray.length; i++) {
-    			var bannerData = BusinessAds.findOne({"businessLink":this.businessLink,"category":categoryArray[i]});
-    			if(bannerData){
-					selector.push({"businessAdsId" : bannerData._id});
-					Meteor.call('removeBusinessAdsAll', this.businessLink, categoryArray[i], function(error,position){
-						if(error){
-							console.log('Error occured while removing Business Banner: ', error);
-						}else{
-							console.log('Business Bannerremoved successfully');
-							$('.modal-backdrop').hide();
-						}
-					});
-    			}
+		Meteor.call('removeAdsinPayment',this.paymentId, function(error,result){
+			if(error){
+				console.log('Error occured while removing Business Banner: ', error);
+			}else{
+				// console.log('Ads from payment removed successfully.');	
+				$('.modal-backdrop').hide();
 			}
-			Meteor.call('removeAdsinPayment',selector, function(error,result){
-				if(error){
-					console.log('Error occured while removing Business Banner: ', error);
-				}else{
-					console.log('Ads from payment removed successfully.');	
-				}
-			});
-		}
+		});
 
 		//Old Code
 		// var businessLink = $(event.currentTarget).parent().parent().parent().parent().parent().parent().siblings('.bannerTitleFont').children('.bannerLinkFont').text();

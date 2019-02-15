@@ -66,7 +66,13 @@
 										        		<a href="#" data-dismiss="modal" aria-hidden="true" class="close"><i class="fa fa-times-circle-o fa-lg marginCloseArea" aria-hidden="true"></i></a>
 										   			 </div>
 										            <div class="modal-body">
+										            	{{#if buttonInactive}}
+											            <p class="text-center text-centerEnq">The Banner you want to '{{buttonStatusText}}' is unpaid. Do you still want to {{buttonStatusText}} this Banner?
+											            </p>
+										            	{{else}}
 										            	<p class="text-center text-centerEnq">Are you sure you want to {{buttonStatusText}} this Banner?</p>
+														{{/if}}
+
 										         		<div class="body-close">
 										                	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 											            	<button  data-dismiss="modal" type="button" class="btn btn-{{buttonStatus}} btnStatAction">{{buttonStatusText}}</button>

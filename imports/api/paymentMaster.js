@@ -643,20 +643,48 @@ Meteor.methods({
 		);
 		// return businessLink;
 	},
-	'removeBannerinPayment': function(bannerSelector){
-		// console.log('bannerSelector',bannerSelector);
-		var paymentObj = Payment.findOne({'businessBanner':bannerSelector});
-		// console.log('paymentObj',paymentObj);
-		if(paymentObj){
-			Payment.remove({'_id':paymentObj._id});
+	'removeBannerinPayment': function(id){
+		var paymentData = Payment.findOne({'_id':id});
+		if(paymentData){
+			if(paymentData.businessBanner.length>0){
+				for (var i = 0; i < paymentData.businessBanner.length; i++) {
+					var bannerId = paymentData.businessBanner[i].businessBannerId;
+					Meteor.call('removeBusinessBannerAll', bannerId, function(error,position){
+						if(error){
+							console.log('Error occured while removing Business Banner: ', error);
+						}else{
+							// console.log('Business banner removed successfully');
+							// console.log('i',i);
+							if(i==paymentData.businessBanner.length){
+								// console.log('id',id);
+								Payment.remove({'_id':id});
+							}
+						}
+					});
+				}
+			}
 		}
 	},
-	'removeAdsinPayment': function(adsSelector){
-		// console.log('adsSelector',adsSelector);
-		var paymentObj = Payment.findOne({'businessAds':adsSelector});
-		// console.log('paymentObj',paymentObj);
-		if(paymentObj){
-			Payment.remove({'_id':paymentObj._id});
+	'removeAdsinPayment': function(id){
+		var paymentData = Payment.findOne({'_id':id});
+		if(paymentData){
+			if(paymentData.businessAds.length>0){
+				for (var i = 0; i < paymentData.businessAds.length; i++) {
+					var adsId = paymentData.businessAds[i].businessAdsId;
+					Meteor.call('removeBusinessAdsAll', adsId, function(error,position){
+						if(error){
+							console.log('Error occured while removing Business Banner: ', error);
+						}else{
+							// console.log('Business ad removed successfully');
+							// console.log('i',i);
+							if(i==paymentData.businessAds.length){
+								// console.log('id',id);
+								Payment.remove({'_id':id});
+							}
+						}
+					});
+				}
+			}
 		}
 	},
 	

@@ -6,6 +6,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 
 import { Business } from '/imports/api/businessMaster.js';
 import { Position } from '/imports/api/discountMaster.js';
+import { Payment } from '/imports/api/paymentMaster.js';
 
 
 
@@ -71,8 +72,8 @@ Meteor.methods({
 		BusinessBanner.remove({"_id": id});
 	},
 
-	'removeBusinessBannerAll': function(businessLink,catg){
-		BusinessBanner.remove({"businessLink": businessLink, "category":catg});
+	'removeBusinessBannerAll': function(id){
+		BusinessBanner.remove({"_id": id});
 	},
 
 
@@ -89,6 +90,15 @@ Meteor.methods({
 					return error;
 				}
 				if(result){
+					Payment.update(
+						{"businessLink":businessLink,"orderType":"Banner",'paymentStatus':'unpaid'},
+						{ $set:	{ 
+								"paymentStatus" 			: "paid",
+								"paymentDate" 				: new Date(),
+								"modeOfPayment" 			: "cash"
+							}, 
+						}
+					);
 					return result;
 				}
 			}
@@ -123,6 +133,26 @@ Meteor.methods({
 	'deactivateBannerPayment':function(businessLink,catg){
 		BusinessBanner.update( 
 			{"businessLink": businessLink,"category":catg},
+			{$set : {
+				"status"		: "inactive",
+				}
+			}, 
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+				if(result){
+					return result;
+				}
+			}
+		);
+	},
+
+	'deactivateBanner':function(id){
+		console.log('id',id);
+		BusinessBanner.update( 
+			{"_id": id},
 			{$set : {
 				"status"		: "inactive",
 				}

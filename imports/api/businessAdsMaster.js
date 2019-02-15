@@ -6,6 +6,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 
 import { Business } from '/imports/api/businessMaster.js';
 import { AdsPosition } from '/imports/api/discountMaster.js';
+import { Payment } from '/imports/api/paymentMaster.js';
 
 
 export const BusinessAds = new Mongo.Collection('businessAds');
@@ -65,8 +66,8 @@ Meteor.methods({
 	},
 
 
-	'removeBusinessAdsAll': function(businessLink,catg){
-		BusinessAds.remove({"businessLink": businessLink, "category":catg});
+	'removeBusinessAdsAll': function(id){
+		BusinessAds.remove({"_id": id});
 	},
 
 
@@ -83,6 +84,15 @@ Meteor.methods({
 					return error;
 				}
 				if(result){
+					Payment.update(
+						{"businessLink":businessLink,"orderType":"Ads",'paymentStatus':'unpaid'},
+						{ $set:	{ 
+								"paymentStatus" 			: "paid",
+								"paymentDate" 				: new Date(),
+								"modeOfPayment" 			: "cash"
+							}, 
+						}
+					);
 					return result;
 				}
 			}
@@ -92,6 +102,25 @@ Meteor.methods({
 	'deactivateAdsPayment':function(businessLink,catg){
 		BusinessAds.update( 
 			{"businessLink": businessLink,"category":catg},
+			{$set : {
+				"status"		: "inactive",
+				}
+			}, 
+			function(error,result){
+				if(error){
+					// console.log(error);
+					return error;
+				}
+				if(result){
+					return result;
+				}
+			}
+		);
+	},
+
+	'deactivateAds':function(id){
+		BusinessAds.update( 
+			{"_id": id},
 			{$set : {
 				"status"		: "inactive",
 				}
