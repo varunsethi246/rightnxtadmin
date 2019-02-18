@@ -35,6 +35,7 @@ Template.businessAdsList.helpers({
 				if(adsArray.length>0){
 					var categoryAdsArr = [];
     				var positionAdsArr = [];
+    				var activeAdsArr = [];
 					for (var j = 0; j < adsArray.length; j++) {
     					var adsData = BusinessAds.findOne({"_id":adsArray[j].businessAdsId,"status":adsStatus});
 						if(adsData){
@@ -44,19 +45,10 @@ Template.businessAdsList.helpers({
 				    			buttonStatus = "danger";
 				    			buttonStatusText = "Deactivate";
 
-				    			if(adsData.endDate&&adsData.category){
-					    			var currentDate = new Date();
-					    			var adEndDate = new Date(adsData.endDate);
- 					    			// console.log('adEndDate',adEndDate);
-					    			if(currentDate>adEndDate){
-					    				var id = adsData._id;
-					    				Meteor.call('deactivateAds', id , function(error,position){
-											if(error){
-											}else{
-											}
-										});
-					    			}
-				    			}
+				    			activeAdsArr.push({
+				    				'endDate' : adsData.endDate,
+				    				'adsId' : adsData._id,
+				    			});
 				    		}else{
 				    			buttonStatus = "success";
 				    			buttonStatusText = "Activate";
@@ -118,6 +110,26 @@ Template.businessAdsList.helpers({
 	    			
 	   //  			adsListDetails.push(objData);
 				// }
+
+				activeAdsArr.sort(function(a, b){
+					// console.log('new Date(b.endDate) - new Date(a.endDate)',new Date(b.endDate),new Date(a.endDate));
+					return new Date(b.endDate) - new Date(a.endDate);
+				});
+				if(activeAdsArr&&activeAdsArr.length>0){
+	    			var currentDate = new Date();
+	    			var adsEndDate = new Date(activeAdsArr[0].endDate);
+		    		// console.log('adsEndDate',adsEndDate);
+	    			if(currentDate>adsEndDate){
+	    				for (var k = 0; k < activeAdsArr.length; k++) {
+		    				var id = activeAdsArr[k].adsId;
+		    				Meteor.call('deactivateAds', id , function(error,position){
+								if(error){
+								}else{
+								}
+							});
+	    				}
+	    			}
+    			}
 			}
 		}
 

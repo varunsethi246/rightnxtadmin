@@ -41,6 +41,7 @@ Template.businessBannerList.helpers({
 					// var categoryArr = [];
     				// var positionArr = [];
     				// var areaArr = [];
+    				var activeBannerArr = [];
 					for (var j = 0; j < bannerArray.length; j++) {
     					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
 						if(bannerData){
@@ -50,19 +51,10 @@ Template.businessBannerList.helpers({
 				    			buttonStatus = "danger";
 				    			buttonStatusText = "Deactivate";
 
-				    			if(bannerData.endDate&&bannerData.category){
-					    			var currentDate = new Date();
-					    			var bannerEndDate = new Date(bannerData.endDate);
- 					    			console.log('bannerEndDate',bannerEndDate);
-					    			if(currentDate>bannerEndDate){
-					    				var id = bannerData._id;
-					    				Meteor.call('deactivateBanner', id , function(error,position){
-											if(error){
-											}else{
-											}
-										});
-					    			}
-				    			}
+				    			activeBannerArr.push({
+				    				'endDate' : bannerData.endDate,
+				    				'bannerId' : bannerData._id
+				    			});
 				    		}else{
 				    			buttonStatus = "success";
 				    			buttonStatusText = "Activate";
@@ -124,6 +116,26 @@ Template.businessBannerList.helpers({
 	   //  			};
 	   //  			bannerListDetails.push(objData);
 				// }
+
+				activeBannerArr.sort(function(a, b){
+					// console.log('new Date(b.endDate) - new Date(a.endDate)',new Date(b.endDate),new Date(a.endDate));
+					return new Date(b.endDate) - new Date(a.endDate);
+				});
+				if(activeBannerArr&&activeBannerArr.length>0){
+	    			var currentDate = new Date();
+	    			var bannerEndDate = new Date(activeBannerArr[0].endDate);
+		    			// console.log('bannerEndDate',bannerEndDate);
+	    			if(currentDate>bannerEndDate){
+	    				for (var k = 0; k < activeBannerArr.length; k++) {
+		    				var id = activeBannerArr[k].bannerId;
+		    				Meteor.call('deactivateBanner', id , function(error,position){
+								if(error){
+								}else{
+								}
+							});
+	    				}
+	    			}
+    			}
 			}
 		}
 

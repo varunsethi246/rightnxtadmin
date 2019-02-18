@@ -1,0 +1,13 @@
+points:
+1. Forgot password - from admin side user or vendor can do forgot password. Now the question is "Can admin able to do forgot password on behalf of user or vendor?" 
+- As of now client says do not change this functionality.
+2. Footer linkedin link will be provided by Ashwini mam.
+3. Apply google play store link to google play store icon in footer when we upload apk in google play store.
+4. Give training to client about notification.
+5. Re-Take screenshots of company settings - Bank details and Tax settings tab.
+6. Company Settings - Click on company information - click on edit button - On Company information page previous button is visible and
+Company Settings - click on edit button - On Company information page previous button is not visible
+7. Company Settings - click on edit button - Company Information - some problem in company logo
+8. Edit profile - Mobile Number field is updated but mobile number is not visible
+9. Add area & pincode - In area textfield we can enter numbers.
+10. Company Seetings - City,State,Area are static.
