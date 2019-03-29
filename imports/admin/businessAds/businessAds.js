@@ -896,7 +896,7 @@ Template.businessAds.events({
 		}); 
 
 		if(checkAds&&!checkAdsActive){
-			Meteor.call('removeBusinessAdsAll', businessLink, dataCatg, 
+			Meteor.call('removeBusinessAdsAll', checkAds._id, 
 						function(error,position){
 								if(error){
 									console.log('Error occured while removing Business Banner: ', error);

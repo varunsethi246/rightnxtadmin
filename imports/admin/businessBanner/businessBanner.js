@@ -1022,9 +1022,9 @@ Template.businessBanner.events({
 		//First verify whether this business is already added to this category.
 		//If yes, then delete from banner table and then insert
 		var checkBanner = BusinessBanner.findOne({
-													"businessLink" : businessLink,
-													"category"     : dataCatg,
-												}); 
+			"businessLink" : businessLink,
+			"category"     : dataCatg,
+		}); 
 
 		var checkBannerActive = BusinessBanner.findOne({
 			"businessLink" : businessLink,
@@ -1032,16 +1032,16 @@ Template.businessBanner.events({
 			"status"	   : "active",
 		}); 
 
+		// console.log('checkBanner,checkBannerActive',checkBanner,checkBannerActive);
 		if(checkBanner&&!checkBannerActive){
-			Meteor.call('removeBusinessBannerAll', businessLink, dataCatg, 
-						function(error,position){
-								if(error){
-									console.log('Error occured while removing Business Banner: ', error);
-								}else{
-									// console.log('Business Banner successfully removed');
-								}
-						});
-
+			Meteor.call('removeBusinessBannerAll', checkBanner._id, 
+			function(error,position){
+					if(error){
+						console.log('Error occured while removing Business Banner: ', error);
+					}else{
+						// console.log('Business Banner successfully removed');
+					}
+			});
 		}
 
 
