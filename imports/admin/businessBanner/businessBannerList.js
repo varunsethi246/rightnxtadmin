@@ -11,12 +11,13 @@ import './businessBannerList.html';
 
 
 Template.businessBannerList.onRendered(function(){
-	$('.activeBanner').addClass('activeBannerColor');
-
-	// if($('.activeBanner').hasClass('activeBannerColor')){
-	// 	$('.deleteBanner').addClass('activeBannerHide').removeClass('activeBannerShow');
-	// }
-	Session.set("activeBanners","active");
+	if(Session.get("activeBanners")=="new"){
+		$('.newBanner').addClass('activeBannerColor');
+		Session.set("activeBanners","new");
+	}else{
+		$('.activeBanner').addClass('activeBannerColor');
+		Session.set("activeBanners","active");
+	}
 });
 
 

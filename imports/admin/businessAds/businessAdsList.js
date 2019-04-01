@@ -10,8 +10,13 @@ import './businessAdsList.html';
 
 
 Template.businessAdsList.onRendered(function(){
-	$('.activeBanner').addClass('activeBannerColor');
-	Session.set("activeAds","active");
+	if(Session.get("activeAds")=="new"){
+		$('.newBanner').addClass('activeBannerColor');
+		Session.set("activeAds","new");
+	}else{
+		$('.activeBanner').addClass('activeBannerColor');
+		Session.set("activeAds","active");
+	}
 });
 
 

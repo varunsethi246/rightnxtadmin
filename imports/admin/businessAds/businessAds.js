@@ -386,6 +386,7 @@ Template.adsInvoice.events({
 				}
 			});
 		}else{
+			Session.set("activeAds","new");
 			FlowRouter.go("/businessAdsList");
 		}
 	},

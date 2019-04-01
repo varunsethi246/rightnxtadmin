@@ -756,6 +756,7 @@ Template.bannerInvoice.events({
 				}
 			});
 		}else{
+			Session.set("activeBanners","new");
 			FlowRouter.go("/businessBannerList");
 		}
 	},
