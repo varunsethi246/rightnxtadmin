@@ -105,19 +105,12 @@ Template.listOfBusiness.helpers({
 	'Details' : function(){
 		var listLimit = Session.get('businessListLimit');
 		var setValue = Session.get('busListAct');
-		var data = {};
-		if(listLimit == 0){
-			if(setValue == 'activeList') {
-				data = Business.find({"status":"active"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-			} else {
-				data = Business.find({"status":"inactive"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-			}
-		}else{
-			if(setValue == 'activeList') {
-				data = Business.find({"status":"active"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-			} else {
-				data = Business.find({"status":"inactive"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-			}
+		var data = [];
+		console.log('listLimit',listLimit);
+		if(setValue == 'activeList') {
+			data = Business.find({"status":"active"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
+		} else {
+			data = Business.find({"status":"inactive"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
 		}
 		 
 		// console.log('data ', data);
@@ -825,7 +818,7 @@ Template.listOfBusiness.events({
 	},
 
 	'focus #searchBusiness': function(event){
-		Session.set('businessListLimit',0);
+		// Session.set('businessListLimit',0);
 		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');

@@ -68,15 +68,20 @@ SearchSource.defineSource('business', (searchText, options)=> {
 
     //new code 02 April 2019
     if(searchResult.length==0){
-        var businessAdsDetails = BusinessAds.find({'status':'active'},{"areas":{ $in: [areaSelector] }}).fetch();
+        var businessAdsDetails = BusinessAds.find({'status':'active'}).fetch();
         // console.log('businessAdsDetails',businessAdsDetails);
         var tempArr = [];
         if(businessAdsDetails.length>0){
             for (var a = 0; a < businessAdsDetails.length; a++) {
-                var showAds = tempArr.findIndex(x=>x.businessLink == businessAdsDetails[a].businessLink);
-                if(showAds<0){        
-                    tempArr.push({'businessLink':businessAdsDetails[a].businessLink});                           
-                    searchResult = Business.find({'businessLink':businessAdsDetails[a].businessLink}).fetch();               
+                if(searchArea != 'undefined' && searchArea != 'All Areas'){
+                    var checkArea = businessAdsDetails[a].areas.findIndex(x=>x == searchArea);
+                    if(checkArea>=0){ 
+                        var showAds = tempArr.findIndex(x=>x.businessLink == businessAdsDetails[a].businessLink);
+                        if(showAds<0){        
+                            tempArr.push({'businessLink':businessAdsDetails[a].businessLink});                           
+                            searchResult = Business.find({'businessLink':businessAdsDetails[a].businessLink}).fetch();               
+                        }
+                    }
                 }
             }
         }
@@ -187,11 +192,22 @@ SearchSource.defineSource('business', (searchText, options)=> {
         if(businessAds){
             var commonLink = [];
             for(i=0; i<businessAds.length; i++){
-                var paidBizLink = businessAds[i].businessLink;
-                searchResult = searchResult.filter(function( obj ) {
-                    return obj.businessLink !== paidBizLink;
-                });
-                commonLink.push(paidBizLink);
+                if(searchArea != 'undefined' && searchArea != 'All Areas'){
+                    var checkArea = businessAds[i].areas.findIndex(x=>x == searchArea);
+                    if(checkArea>=0){ 
+                        var paidBizLink = businessAds[i].businessLink;
+                        searchResult = searchResult.filter(function( obj ) {
+                            return obj.businessLink !== paidBizLink;
+                        });
+                        commonLink.push(paidBizLink);
+                    }
+                }else{
+                    var paidBizLink = businessAds[i].businessLink;
+                    searchResult = searchResult.filter(function( obj ) {
+                        return obj.businessLink !== paidBizLink;
+                    });
+                    commonLink.push(paidBizLink);
+                }
             }//for i
         
             

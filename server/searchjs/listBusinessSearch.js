@@ -13,7 +13,6 @@ SearchSource.defineSource('listbusinessSearch', function(searchText, options) {
   } else {
     return Business.find({"status":data[1]}, { sort: { businessTitle: -1 }}).fetch();
   }
-
 });
 
 function buildRegExp(searchText) {
