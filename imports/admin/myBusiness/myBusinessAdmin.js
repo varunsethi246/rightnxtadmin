@@ -818,7 +818,7 @@ Template.listOfBusiness.events({
 	},
 
 	'focus #searchBusiness': function(event){
-		// Session.set('businessListLimit',0);
+		Session.set('businessListLimit',0);
 		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
