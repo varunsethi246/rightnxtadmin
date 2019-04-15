@@ -38,12 +38,16 @@ adsCategorySearch1 = new SearchSource('adsCategories', fields, options);
 Template.businessAds.onRendered(function(){
 	// To set Current Date plus One Day to Input Field
 	var currentdate = new Date();
-	var startDate = moment(currentdate);
-    var setDate = moment(startDate).add(1, 'days').format('YYYY-MM-DD');
-    $('#dateCurrent').val(setDate);
+	var startDate = moment(currentdate).format('YYYY-MM-DD');
+    $('#dateCurrent').val(startDate);
+	
+	//old
+	// var startDate = moment(currentdate);
+ //    var setDate = moment(startDate).add(1, 'days').format('YYYY-MM-DD');
+ //    $('#dateCurrent').val(setDate);
 
     // var startDate = moment(setDate);
-    var futureMonth = moment(setDate).add(1, 'M').format('YYYY-MM-DD');
+    var futureMonth = moment(startDate).add(1, 'M').format('YYYY-MM-DD');
     $('.enddate').val(futureMonth);
 });
 Template.businessAds.onCreated(function () {

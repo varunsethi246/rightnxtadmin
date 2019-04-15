@@ -52,14 +52,18 @@ Template.businessBanner.onRendered(function(){
 	// document.getElementsByName("dateCurrent")[0].setAttribute('min', todayNext);
 	// To set Current Date plus One Day to Input Field
 	var currentdate = new Date();
-	var startDate = moment(currentdate);
-    var setDate = moment(startDate).add(1, 'days').format('YYYY-MM-DD');
+	var startDate = moment(currentdate).format('YYYY-MM-DD');
+    $('#dateCurrent').val(startDate);
+
+	//old
+	// var startDate = moment(currentdate);
+ //    var setDate = moment(startDate).add(1, 'days').format('YYYY-MM-DD');
+ //    $('#dateCurrent').val(setDate);
 	// console.log('setDate',setDate);
 
-    $('#dateCurrent').val(setDate);
 
     // var startDate = moment(setDate);
-    var futureMonth = moment(setDate).add(1, 'M').format('YYYY-MM-DD');
+    var futureMonth = moment(startDate).add(1, 'M').format('YYYY-MM-DD');
     // console.log('futureMonth :',futureMonth);
     
  //    var todayNext = new Date().toISOString().split('T')[0];
