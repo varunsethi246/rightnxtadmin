@@ -88,7 +88,13 @@
 <template name="UMuser">
 	<tr class="" id="{{_id}}">
 		<td style="text-align: center!important;"> {{SrNo}}</td>
-		<td style="text-align: center!important;"> <input type="checkbox" name="userCheckbox" class="userCheckbox" value="{{_id}}" > </td>		
+		<td style="text-align: center!important;"> 
+			{{#if adminrole}}
+				<!-- Do Nothing -->
+			{{else}}
+				<input type="checkbox" name="userCheckbox" class="userCheckbox" value="{{_id}}" >
+			{{/if}} 
+		</td>		
 		<td> {{emails}} </td>		
 		<td> {{status}} </td>		
 		<td> {{roles}} </td>		

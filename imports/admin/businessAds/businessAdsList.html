@@ -5,7 +5,7 @@
 			<div class="col-lg-12">
 				<div class="listBannerDiv">
 					<span><i class="fa fa-search"></i></span>
-					<input type="text" placeholder="Search.." class="listBannerSearch">
+					<input type="text" placeholder="Search by Business.." class="listBannerSearch">
 				</div>
 			</div>
 			<div class="col-lg-12">
@@ -59,6 +59,7 @@
 								</td>
 								{{#if rowSpanLength}}
 								<td rowspan="{{rowSpanLength}}">
+									{{#if buttonActive}}
 									<button class="btn btn-{{buttonStatus}}"  aria-hidden="true" data-toggle="modal" data-target="#m-{{businessLink}}" style="margin-bottom: 10px;">{{buttonStatusText}}</button>
 									<div class="modal fade" id="m-{{businessLink}}" role="dialog">
 										<div class="modal-dialog">
@@ -80,6 +81,7 @@
 									        </div>
 										</div>
 									</div>
+									{{/if}}
 
 									<button class="btn btn-danger deleteBanner"   aria-hidden="true" data-toggle="modal" data-target="#delete-{{businessLink}}" style="margin-bottom: 10px;">Delete</button>
 									<div class="modal fade" id="delete-{{businessLink}}" role="dialog">

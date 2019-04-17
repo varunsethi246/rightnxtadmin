@@ -43,6 +43,7 @@ Template.businessBannerList.helpers({
     				// var positionArr = [];
     				// var areaArr = [];
     				var activeBannerArr = [];
+					var count = 0;
 					for (var j = 0; j < bannerArray.length; j++) {
     					var bannerData = BusinessBanner.findOne({"_id":bannerArray[j].businessBannerId,"status":bannerStatus});
 						if(bannerData){
@@ -59,6 +60,16 @@ Template.businessBannerList.helpers({
 				    		}else{
 				    			buttonStatus = "success";
 				    			buttonStatusText = "Activate";
+				    		}
+
+				    		if(new Date() > new Date(bannerData.endDate)){
+				    			count++;
+				    		}
+
+				    		if(count==bannerArray.length){
+				    			var buttonActive = false;
+				    		}else{
+				    			var buttonActive = true;
 				    		}
 
 				    		if(bannerData.status=="inactive"&&paymentArr[i].paymentStatus=='unpaid'){
@@ -84,6 +95,7 @@ Template.businessBannerList.helpers({
 				    				buttonStatusText 	: buttonStatusText,
 									buttonStatus 		: buttonStatus,
 									buttonInactive      : buttonInactive,
+									buttonActive 		: buttonActive,
 									startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
 									endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
 				    			};

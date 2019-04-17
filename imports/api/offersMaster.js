@@ -21,6 +21,10 @@ if (Meteor.isServer) {
 	Meteor.publish('businessOffersCount', function businessOffersCount() {
 		return Offers.find({});
 	});
+	Meteor.publish('noOfOffer', function() {
+		Counts.publish(this, 'noOfOffer', Offers.find({}));
+		return cursor;
+	});
 	Meteor.publish('noOfOfferWeek', function() {
 		var days = 7;
 		var currentDate = new Date();

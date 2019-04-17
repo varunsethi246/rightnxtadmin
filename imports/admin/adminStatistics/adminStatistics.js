@@ -4,6 +4,7 @@ import { users } from '/imports/api/userMasterAPI.js';
 import { Business } from '/imports/api/businessMaster.js';
 import { Enquiry } from '/imports/api/businessMaster.js';
 import { Offers } from '/imports/api/offersMaster.js';
+import { BusinessBanner } from '/imports/api/businessBannerMaster.js';
 
 
 Template.adminStatistics.helpers({
@@ -20,6 +21,7 @@ Template.adminStatistics.helpers({
 		var noOfoffer 		= Counts.get('noOfoffer');
 		// console.log('offerYear :' , offerYear);
 		var noOfBanner 		= Counts.get('noOfBanner');
+		console.log('noOfBanner :',noOfBanner);
 		
 		var noOfAdd 		= Counts.get('noOfAdd');
 

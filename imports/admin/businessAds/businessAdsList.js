@@ -41,6 +41,7 @@ Template.businessAdsList.helpers({
 					var categoryAdsArr = [];
     				var positionAdsArr = [];
     				var activeAdsArr = [];
+					var count  = 0;
 					for (var j = 0; j < adsArray.length; j++) {
     					var adsData = BusinessAds.findOne({"_id":adsArray[j].businessAdsId,"status":adsStatus});
 						if(adsData){
@@ -55,8 +56,19 @@ Template.businessAdsList.helpers({
 				    				'adsId' : adsData._id,
 				    			});
 				    		}else{
+				    			var buttonActive = false;
 				    			buttonStatus = "success";
 				    			buttonStatusText = "Activate";
+				    		}
+
+				    		if(new Date() > new Date(adsData.endDate)){
+				    			count++;
+				    		}
+
+				    		if(count==adsArray.length){
+				    			var buttonActive = false;
+				    		}else{
+				    			var buttonActive = true;
 				    		}
 
 				    		if(adsData.status=="inactive"&&paymentAdsArr[i].paymentStatus=='unpaid'){
@@ -81,6 +93,7 @@ Template.businessAdsList.helpers({
 				    				buttonStatusText 	: buttonStatusText,
 									buttonStatus 		: buttonStatus,
 									buttonInactive 		: buttonInactive,
+									buttonActive 		: buttonActive,
 									startDate			: moment(adsData.startDate).format('DD/MM/YYYY'),
 									endDate				: moment(adsData.endDate).format('DD/MM/YYYY'),
 				    			};
