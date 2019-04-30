@@ -87,6 +87,7 @@ Template.monthlySalesReportBanner.helpers({
 		              "orderId"       	: ordersData[i]._id ,
 		              "businessLink"   	: ordersData[i].businessLink ,
 		              "orderNo"       	: ordersData[i].orderNumber,
+		              "invoiceNo"       : ordersData[i].invoiceNumber,
 		              "discountPercent" : ordersData[i].discountPercent,
 		              "date"          	: t ,
 		              "discountedPrice" : ordersData[i].discountedPrice,

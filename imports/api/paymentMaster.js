@@ -60,7 +60,8 @@ if (Meteor.isServer) {
 		Counts.publish(this, 'noOfInvoiceCount', Payment.find({}));
 	});
 	Meteor.publish('offerInvoicePayment', function offerInvoicePayment(invNo) {
-		return Payment.find({'invoiceNumber':invNo,'orderType':'Offer'});
+		return Payment.find({'invoiceNumber':invNo});
+		// return Payment.find({'invoiceNumber':invNo,'orderType':'Offer'});
 	});
 }
 

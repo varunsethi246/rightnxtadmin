@@ -104,6 +104,7 @@ Template.todaysSalesReport.helpers({
               "businessLink"   	: paymentAds[i].businessLink ,
               "orderNo"       	: paymentAds[i].orderNumber,
               "discountPercent" : paymentAds[i].discountPercent,
+		       "invoiceNo"       : paymentAds[i].invoiceNumber,
               "date"          	: t ,
               "discountedPrice" : paymentAds[i].discountedPrice,
               "totalAmount" 	: paymentAds[i].totalAmount,

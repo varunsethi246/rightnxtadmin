@@ -90,6 +90,7 @@ Template.yearlySalesReportBanner.helpers({
               "discountPercent" : ordersData[i].discountPercent,
               "date"            : t ,
               "discountedPrice" : ordersData[i].discountedPrice,
+              "invoiceNo"       : ordersData[i].invoiceNumber,
               "totalAmount"     : ordersData[i].totalAmount,
               "totalDiscount"   : ordersData[i].totalDiscount,
               "orderType"       : ordersData[i].orderType,

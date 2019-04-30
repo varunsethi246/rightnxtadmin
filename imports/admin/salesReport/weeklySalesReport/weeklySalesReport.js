@@ -102,6 +102,7 @@ Template.weeklySalesReport.helpers({
 			              "date"          	: t ,
 			              "discountedPrice" : ordersData[i].discountedPrice,
 			              "totalAmount" 	: ordersData[i].totalAmount,
+		              	  "invoiceNo"       : ordersData[i].invoiceNumber,
 			              "totalDiscount" 	: ordersData[i].totalDiscount,
 			              "orderType" 		: ordersData[i].orderType,
 			              "totalQuantity" 	: 0,

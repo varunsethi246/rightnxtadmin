@@ -23,7 +23,6 @@ if (Meteor.isServer) {
 	});
 	Meteor.publish('noOfOffer', function() {
 		Counts.publish(this, 'noOfOffer', Offers.find({}));
-		return cursor;
 	});
 	Meteor.publish('noOfOfferWeek', function() {
 		var days = 7;

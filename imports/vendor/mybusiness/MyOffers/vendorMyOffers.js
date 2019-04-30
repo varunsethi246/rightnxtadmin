@@ -7,6 +7,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Business } from '../../../api/businessMaster.js';
 import { Offers } from '../../../api/offersMaster.js';
+import { BusinessBanner } from '../../../api/businessBannerMaster.js';
+import { BusinessAds } from '../../../api/businessAdsMaster.js';
 import { Payment } from '../../../api/paymentMaster.js';
 import { CompanySettings } from '../../../api/companysettingsAPI.js';
 import { OfferImage } from '/imports/videoUploadClient/offerImageClient.js';
@@ -1245,8 +1247,9 @@ Template.receipt.helpers({
 		var businessLink 	= FlowRouter.getParam('businessLink');
 		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
-		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum,"orderType":'Offer'});
-
+		console.log('paymentDetails',invNum);
+		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum});
+		console.log('paymentDetails',paymentDetails);
 		if(paymentDetails){
 			if(paymentDetails.vendorId){
 				var vendorObj = Meteor.users.findOne({'_id':paymentDetails.vendorId});
@@ -1271,24 +1274,31 @@ Template.receipt.helpers({
 				var PaymentClass = 'text-success';
 				var payDateTime = moment(paymentDetails.paymentDate).format('DD/MM/YYYY hh:mm');
 			}
-			var offers = [];
-			var totalPrice = 0;
-			for( var i = 0 ; i< paymentDetails.offers.length ; i++)
-			{
 
-				var offerObj 	=  Offers.findOne({"_id":paymentDetails.offers[i].offerId});
+			if(paymentDetails.orderType=='Offer'){
+				if(paymentDetails.offers&&paymentDetails.offers.length>0){
+					var offers = [];
+					var totalPrice = 0;
+					for( var i = 0 ; i< paymentDetails.offers.length ; i++)
+					{
 
-				offers[i] = {
-					"i"			   : (i+1),
-					offerId 	   : paymentDetails.offers[i].offerId,
-					dealHeadline   : offerObj.dealHeadline,
-					numberOfMonths : offerObj.numOfMonths,
-					ratePerOffer   : paymentDetails.offerPricePerMonth,
-					totalAmount    : parseInt(offerObj.numOfMonths) * parseInt(paymentDetails.offerPricePerMonth),
+						var offerObj 	=  Offers.findOne({"_id":paymentDetails.offers[i].offerId});
+						offers[i] = {
+							"i"			   : (i+1),
+							offerId 	   : paymentDetails.offers[i].offerId,
+							dealHeadline   : offerObj.dealHeadline,
+							numberOfMonths : offerObj.numOfMonths,
+							ratePerOffer   : paymentDetails.offerPricePerMonth,
+							totalAmount    : parseInt(offerObj.numOfMonths) * parseInt(paymentDetails.offerPricePerMonth),
+						}
+						totalPrice     = (totalPrice + offers[i].totalAmount);
+						// var statusPayment = Offers.findOne({})
+					}
 				}
-				totalPrice     = (totalPrice + offers[i].totalAmount);
-				// var statusPayment = Offers.findOne({})
+			}else{
+				var totalPrice = paymentDetails.discountedPrice;
 			}
+
 			
 			var dateTime = paymentDetails.invoiceDate;
 			var newDateTime = moment(dateTime).format('DD/MM/YYYY hh:mm');

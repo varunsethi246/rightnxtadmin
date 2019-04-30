@@ -104,6 +104,7 @@ Template.todaysSalesReportBanner.helpers({
 	              "businessLink"   	: ordersData[i].businessLink ,
 	              "orderNo"       	: ordersData[i].orderNumber,
 	              "discountPercent" : ordersData[i].discountPercent,
+		          "invoiceNo"       : ordersData[i].invoiceNumber,
 	              "date"          	: t ,
 	              "discountedPrice" : ordersData[i].discountedPrice,
 	              "totalAmount" 	: ordersData[i].totalAmount,

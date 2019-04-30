@@ -35,6 +35,9 @@ if (Meteor.isServer) {
   		var startDate = new Date(new Date().getFullYear(), 0, 1);
 		Counts.publish(this, 'noOfEnqYear', Enquiry.find({'enquiryCreatedAt' : {$gte :startDate, $lt :endDate}}));
 	});
+	Meteor.publish('noOfEnq', function() {
+		Counts.publish(this, 'noOfEnq', Enquiry.find({}));
+	});
 }
 
 Meteor.methods({

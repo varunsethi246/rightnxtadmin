@@ -85,6 +85,7 @@ Template.yearlySalesReport.helpers({
 
             allOrders[i] = {
 	          "orderId"       	: ordersData[i]._id ,
+		      "invoiceNo"       : ordersData[i].invoiceNumber,
 	          "businessLink"   	: ordersData[i].businessLink ,
 	          "orderNo"       	: ordersData[i].orderNumber,
 	          "discountPercent" : ordersData[i].discountPercent,

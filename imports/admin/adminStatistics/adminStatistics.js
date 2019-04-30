@@ -14,28 +14,21 @@ Template.adminStatistics.helpers({
 		var busActCounts 	= Counts.get('noOfBusinessActive');
 		var busInactCounts 	= Counts.get('noOfBusinessInactive');
 		var noOfEnq 		= Counts.get('noOfEnq');
+		var noOfoffer 		= Counts.get('noOfOffer');
+		var noOfBanner 		= Counts.get('noOfBanner');
+		var noOfAdd 		= Counts.get('noOfAds');
 		// console.log('busActCounts :',busActCounts);
 		// console.log('busInactCounts :',busInactCounts);
-		
-
-		var noOfoffer 		= Counts.get('noOfoffer');
 		// console.log('offerYear :' , offerYear);
-		var noOfBanner 		= Counts.get('noOfBanner');
-		console.log('noOfBanner :',noOfBanner);
-		
-		var noOfAdd 		= Counts.get('noOfAdd');
 
 		var value = {
 						"userCounts" 		: userCounts,
 						"vendorCounts" 		: vendorCounts,
 						"busActCounts" 		: busActCounts,
 						"busInactCounts" 	: busInactCounts,
-						
 						"enqWeek"			: noOfEnq,
-
 						"offer"				: noOfoffer,
-						// 
-						"noOfBanner"			: noOfBanner,
+						"noOfBanner"		: noOfBanner,
 						"noOfAdd"			: noOfAdd,
 						
 					};

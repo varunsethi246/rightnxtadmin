@@ -114,6 +114,7 @@ Template.fromToFieldsBanner.helpers({
 						"orderNo"       	: ordersData[i].orderNumber,
 						"discountPercent" 	: ordersData[i].discountPercent,
 						"date"          	: t ,
+		              	"invoiceNo"       : ordersData[i].invoiceNumber,
 						"discountedPrice" 	: ordersData[i].discountedPrice,
 						"totalAmount" 		: ordersData[i].totalAmount,
 						"totalDiscount" 	: ordersData[i].totalDiscount,
