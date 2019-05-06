@@ -1247,9 +1247,9 @@ Template.receipt.helpers({
 		var businessLink 	= FlowRouter.getParam('businessLink');
 		var businessDetails = Business.findOne({"businessLink":businessLink, "status":"active"});
 		var companyDetails 	= CompanySettings.findOne({'companyId':101});
-		console.log('paymentDetails',invNum);
+		// console.log('paymentDetails',invNum);
 		var paymentDetails 	= Payment.findOne({'invoiceNumber':invNum});
-		console.log('paymentDetails',paymentDetails);
+		// console.log('paymentDetails',paymentDetails);
 		if(paymentDetails){
 			if(paymentDetails.vendorId){
 				var vendorObj = Meteor.users.findOne({'_id':paymentDetails.vendorId});

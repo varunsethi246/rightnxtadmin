@@ -62,11 +62,17 @@ Template.businessBannerList.helpers({
 				    			buttonStatusText = "Activate";
 				    		}
 
+
+				    		if(bannerStatus=="active"){
+				    			var hideDeleteButton = false;
+				    		}else{
+				    			var hideDeleteButton = true;
+				    		}
+
 				    		if(new Date() > new Date(bannerData.endDate)){
 				    			count++;
 				    		}
-
-				    		if(count==bannerArray.length){
+				    		if(bannerStatus=='inactive'&&count==bannerArray.length){
 				    			var buttonActive = false;
 				    		}else{
 				    			var buttonActive = true;
@@ -82,8 +88,10 @@ Template.businessBannerList.helpers({
 				    		// categoryArr.push(bannerData.category);
 		    				// positionArr.push(position);
 		    				// areaArr.push(bannerData.areas);
+		    				// console.log('buttonActive',buttonActive);
 		    				if(j==0){
 			    				var objData = {
+		    						firstIndex 			: 0,
 							    	rowSpanLength		: bannerArray.length,
 							    	paymentId 			: paymentArr[i]._id,
 							    	categoryArrList		: bannerData.category,
@@ -94,12 +102,21 @@ Template.businessBannerList.helpers({
 				    				bannerDuration		: bannerData.noOfMonths,
 				    				buttonStatusText 	: buttonStatusText,
 									buttonStatus 		: buttonStatus,
-									buttonInactive      : buttonInactive,
 									buttonActive 		: buttonActive,
+									buttonInactive      : buttonInactive,
+									hideDeleteButton 	: hideDeleteButton,
 									startDate			: moment(bannerData.startDate).format('DD/MM/YYYY'),
 									endDate				: moment(bannerData.endDate).format('DD/MM/YYYY'),
 				    			};
 		    				}else{
+		    					// console.log('buttonActive',buttonActive);
+		    					if(!buttonActive){
+									var checkIndex = bannerListDetails.findIndex(x=>x.firstIndex == 0);
+			            			if(checkIndex>=0){
+			            				bannerListDetails[checkIndex].buttonActive = buttonActive;
+			            				bannerListDetails[checkIndex].firstIndex = null;
+			            			}		    						
+		    					}
 		    					var objData = {
 							    	categoryArrList		: bannerData.category,
 				    				businessPosition	: position,
@@ -267,52 +284,55 @@ Template.businessBannerList.events({
 
 		if(bannerData){
 			if($('.activeBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
-					var catg = bannerData[i].category;
-
-					Meteor.call('deactivateBannerPayment', businessLink, catg, function(error,position){
-						if(error){
-							console.log('Error occured while removing Business Banner: ', error);
-						}else{
-							$('.modal-backdrop').hide();
-						}
-					});
+				for(var i=0;i<bannerData.length;i++){
+					if(bannerData[i].status=='active'){
+						var catg = bannerData[i].category;
+						Meteor.call('deactivateBannerPayment', businessLink, catg, function(error,position){
+							if(error){
+								console.log('Error occured while removing Business Banner: ', error);
+							}else{
+								$('.modal-backdrop').hide();
+							}
+						});
+					}
 				}
 			} else if($('.newBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
-					var catg = bannerData[i].category;
-					var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
-					if(checkBus.status != "inactive"){
-						Meteor.call('activateBannerPayment', businessLink, catg, function(error,position){
-							if(error){
-								console.log('Error occured while removing Business Banner: ', error);
-							}else{
-								console.log('Business Bannerremoved successfully');
-								$('.modal-backdrop').hide();
-							}
-						});
-					}else{
-						Bert.alert('Activate the Business First','danger','growl-top-right');
+				for(var i=0;i<bannerData.length;i++){
+					if(bannerData[i].status=='new'){
+						var catg = bannerData[i].category;
+						var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
+						if(checkBus.status != "inactive"){
+							Meteor.call('activateBannerPayment', businessLink, catg, function(error,position){
+								if(error){
+									console.log('Error occured while removing Business Banner: ', error);
+								}else{
+									console.log('Business Bannerremoved successfully');
+									$('.modal-backdrop').hide();
+								}
+							});
+						}else{
+							Bert.alert('Activate the Business First','danger','growl-top-right');
+						}
 					}
-					
 				}
 			} else if($('.inactiveBanner').hasClass('activeBannerColor')){
-				for(i=0;i<bannerData.length;i++){
-					var catg = bannerData[i].category;
-					var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
-					if(checkBus.status != "inactive"){
-						Meteor.call('activateBannerPayment', businessLink, catg, function(error,position){
-							if(error){
-								console.log('Error occured while removing Business Banner: ', error);
-							}else{
-								// console.log('Business Bannerremoved successfully');
-								$('.modal-backdrop').hide();
-							}
-						});
-					}else{
-						Bert.alert('Activate the Business First','danger','growl-top-right');
+				for(var i=0;i<bannerData.length;i++){
+					if(bannerData[i].status=='inactive'){
+						var catg = bannerData[i].category;
+						var checkBus = Business.findOne({'businessLink':businessLink},{fields:{"status":1}});
+						if(checkBus.status != "inactive"){
+							Meteor.call('activateBannerPayment', businessLink, catg, function(error,position){
+								if(error){
+									console.log('Error occured while removing Business Banner: ', error);
+								}else{
+									// console.log('Business Bannerremoved successfully');
+									$('.modal-backdrop').hide();
+								}
+							});
+						}else{
+							Bert.alert('Activate the Business First','danger','growl-top-right');
+						}
 					}
-					
 				}
 			}
 
