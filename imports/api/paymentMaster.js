@@ -66,6 +66,12 @@ if (Meteor.isServer) {
 		// return Payment.find({'invoiceNumber':invNo});
 		return Payment.find({'invoiceNumber':invNo,'orderType':'Offer'});
 	});
+	Meteor.publish('noOfBanner', function() {
+		Counts.publish(this, 'noOfBanner', Payment.find({'orderType':'Banner'}));
+	});
+	Meteor.publish('noOfAds', function() {
+		Counts.publish(this, 'noOfAds', Payment.find({'orderType':'Ads'}));
+	});
 }
 
 

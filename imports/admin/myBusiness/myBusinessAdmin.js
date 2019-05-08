@@ -68,16 +68,16 @@ Template.listOfBusiness.onRendered( ()=>{
 
     var businessCount  = Business.find({"status":"active"}).count();
 	if (businessCount > 15) {
-		Session.set('businessListLimit',15);
+		// Session.set('businessListLimit',15);
         $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 	}else if(businessCount > 50){
-		Session.set('businessListLimit',50);
+		// Session.set('businessListLimit',50);
 		$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
 	}else if(businessCount > 100){
-		Session.set('businessListLimit',100);
+		// Session.set('businessListLimit',100);
 		$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
 	}else{
-		Session.set('businessListLimit',businessCount);
+		// Session.set('businessListLimit',businessCount);
 		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
@@ -745,7 +745,7 @@ Template.listOfBusiness.events({
 			}
 			
 		    if(businessCount > nextLimit){
-		        Session.set('businessListLimit',nextLimit);
+		        // Session.set('businessListLimit',nextLimit);
 		        if (businessCount > 15) {
 			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 				}else if(businessCount > 50){
@@ -758,7 +758,7 @@ Template.listOfBusiness.events({
 					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 				}
 		    }else{
-		        Session.set('businessListLimit',businessCount);
+		        // Session.set('businessListLimit',businessCount);
 		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
@@ -781,7 +781,7 @@ Template.listOfBusiness.events({
 			}
 			
 		    if(businessCount > nextLimit){
-		        Session.set('businessListLimit',nextLimit);
+		        // Session.set('businessListLimit',nextLimit);
 		        if (businessCount > 15) {
 			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
 				}else if(businessCount > 50){
@@ -794,7 +794,7 @@ Template.listOfBusiness.events({
 					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 				}
 		    }else{
-		        Session.set('businessListLimit',businessCount);
+		        // Session.set('businessListLimit',businessCount);
 		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
 		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
 		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
@@ -811,43 +811,43 @@ Template.listOfBusiness.events({
 		}else{
 			var nextLimit = Counts.get('noOfBusinessInactive');
 		}
-		Session.set('businessListLimit',nextLimit);
+		// Session.set('businessListLimit',nextLimit);
 		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
         $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
         $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
 	},
 
-	'focus #searchBusiness': function(event){
-		Session.set('businessListLimit',0);
-		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-	},
+	// 'focus #searchBusiness': function(event){
+	// 	// Session.set('businessListLimit',0);
+	// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+	// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+	// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	// },
 	
-	'keyup #searchBusiness': _.throttle(function(event) {
-		event.preventDefault();
-		var searchText = event.currentTarget.value;
-		var filter = searchText.toUpperCase();
-		var table = document.getElementById("businessListTable");
-		var tr = table.getElementsByTagName("tr");
+	// 'keyup #searchBusiness': _.throttle(function(event) {
+	// 	event.preventDefault();
+	// 	var searchText = event.currentTarget.value;
+	// 	var filter = searchText.toUpperCase();
+	// 	var table = document.getElementById("businessListTable");
+	// 	var tr = table.getElementsByTagName("tr");
 
-		  // Loop through all table rows, and hide those who don't match the search query
-		if(tr){
-		    if(tr.length > 0){
-			    for (var i=0; i<tr.length; i++) {
-			    	var td = tr[i].getElementsByTagName("td")[0];
-			    	if(td) {
-			      		if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			        		tr[i].style.display = "";
-			      		} else {
-			        		tr[i].style.display = "none";
-			      		}
-			    	} 
-			  	}
-		    }
-		}
+	// 	  // Loop through all table rows, and hide those who don't match the search query
+	// 	if(tr){
+	// 	    if(tr.length > 0){
+	// 		    for (var i=0; i<tr.length; i++) {
+	// 		    	var td = tr[i].getElementsByTagName("td")[0];
+	// 		    	if(td) {
+	// 		      		if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	// 		        		tr[i].style.display = "";
+	// 		      		} else {
+	// 		        		tr[i].style.display = "none";
+	// 		      		}
+	// 		    	} 
+	// 		  	}
+	// 	    }
+	// 	}
 
-	}, 200),
+	// }, 200),
 
 	'click .deleteBusiness': function(event){
 	   event.preventDefault();
