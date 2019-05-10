@@ -7,9 +7,6 @@ import { Payment } from '/imports/api/paymentMaster.js';
 import '/imports/admin/commonAdmin/commonAdmin.js';
 import './businessBannerList.html';
 
-
-
-
 Template.businessBannerList.onRendered(function(){
 	if(Session.get("activeBanners")=="new"){
 		$('.newBanner').addClass('activeBannerColor');

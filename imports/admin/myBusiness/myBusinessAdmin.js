@@ -42,7 +42,6 @@ var filesV = [];
 var filesO = [];
 var counterImg = 0;
 var counterMenu = 0;
-
 var searchButton = 0;
 
 var options = {
@@ -53,6 +52,45 @@ var options = {
 var fields = ['businessTitle'];
 
 listbusinessSearchVar = new SearchSource('listbusinessSearch', fields, options);
+
+buildRegExp = function (searchText) {
+	var words = searchText.trim().split(/[ \-\:]+/);
+    var exps = _.map(words, function(word) {
+        return "(?=.*" + word + ")";
+    });
+
+    var fullExp = exps.join('') + ".+";
+    return new RegExp(fullExp, "i");
+};
+
+getBusinessSearchData = function (status,searchValue,businessCount) {
+	// console.log('searchValue',searchValue);
+	Meteor.call("getSearchData",status,searchValue,businessCount,(err,res)=>{
+    	if(err){}else{
+            // console.log('res',res);
+            if(status=='active'){
+            	var noOfBusiness = Counts.get('noOfBusinessActive')
+            }else{
+            	var noOfBusiness = Counts.get('noOfBusinessInactive')
+            }
+            // console.log('noOfBusiness',noOfBusiness);
+            if(res){
+            	if(noOfBusiness&&noOfBusiness<businessCount){
+					Session.set('businessArray',res);
+            		$('.loadMoreRows50').addClass('hideMore50').removeClass('showMore50');
+            	}else{
+	            	if (res.length > 15) {
+						Session.set('businessArray',res.slice(0,(res.length-1)));
+				        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+					}else{
+						Session.set('businessArray',res);
+				        $('.loadMoreRows50').addClass('hideMore50').removeClass('showMore50');
+					}
+            	}
+            }
+        }
+    });
+};
 
 Template.listOfBusiness.onRendered( ()=>{
 	$('[data-toggle="tooltip"]').tooltip();
@@ -66,22 +104,25 @@ Template.listOfBusiness.onRendered( ()=>{
 	counterMenu = 0;
 	videoListCount = 0;
 
-    var businessCount  = Business.find({"status":"active"}).count();
-	if (businessCount > 15) {
-		// Session.set('businessListLimit',15);
-        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-	}else if(businessCount > 50){
-		// Session.set('businessListLimit',50);
-		$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-	}else if(businessCount > 100){
-		// Session.set('businessListLimit',100);
-		$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-	}else{
-		// Session.set('businessListLimit',businessCount);
-		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-	}
+	getBusinessSearchData('active','',0);
+
+	// Session.set('businessArray',null);
+ //    var businessCount  = Business.find({"status":"active"}).count();
+	// if (businessCount > 15) {
+	// 	Session.set('businessListLimit',15);
+ //        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+	// }else if(businessCount > 50){
+	// 	// Session.set('businessListLimit',50);
+	// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+	// }else if(businessCount > 100){
+	// 	// Session.set('businessListLimit',100);
+	// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+	// }else{
+	// 	// Session.set('businessListLimit',businessCount);
+	// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+	// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+	// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	// }
 });
 
 Template.listOfBusiness.onCreated(function() {
@@ -103,17 +144,27 @@ Template.listOfBusiness.helpers({
 	    }
     },
 	'Details' : function(){
-		var listLimit = Session.get('businessListLimit');
-		var setValue = Session.get('busListAct');
+		// var listLimit = Session.get('businessListLimit');
+		// var setValue = Session.get('busListAct');
 		var data = [];
-		console.log('listLimit',listLimit);
-		if(setValue == 'activeList') {
-			data = Business.find({"status":"active"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-		} else {
-			data = Business.find({"status":"inactive"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
-		}
+		var businessArray = Session.get('businessArray');
+		data = businessArray; 
+		// console.log('listLimit',listLimit);
+		// if(setValue == 'activeList') {
+		// 	if(businessArray){
+		// 		data = businessArray; 
+		// 	}else{
+		// 		data = Business.find({"status":"active"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
+		// 	}
+		// } else {
+		// 	if(businessArray){
+		// 		data = businessArray; 
+		// 	}else{
+		// 		data = Business.find({"status":"inactive"},{sort:{'createdAt': -1}, limit: listLimit}).fetch();
+		// 	}
+		// }
 		 
-		// console.log('data ', data);
+		// console.log('data ', data.length);
 		if(data){
 			for(i=0; i< data.length; i++){
 				// var ownerDetails = Meteor.users.findOne({"_id":data[i].businessOwnerId});
@@ -183,7 +234,7 @@ Template.listOfBusiness.helpers({
 				}
 	  		}
 			// console.log('before return data ', data);
-		      return data;
+		    return data;
 		}
 		
 	},
@@ -732,90 +783,104 @@ Template.listOfBusiness.events({
 	},
 
 	'click .loadMoreRows50': function(event){
-		 event.preventDefault();
-		$('.spinner').hide();
-		$('.loadMoreRows50 .spinner').show();
-		var nextLimitBus50 = Session.get('businessListLimit');
-		if(nextLimitBus50 != 0){
-			var nextLimit = Session.get('businessListLimit') + 50;
-			if(Session.get('busListAct') == 'activeList'){
-    			var businessCount  = Counts.get('noOfBusinessActive');
-			}else{
-    			var businessCount  = Counts.get('noOfBusinessInactive');
-			}
-			
-		    if(businessCount > nextLimit){
-		        // Session.set('businessListLimit',nextLimit);
-		        if (businessCount > 15) {
-			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-				}else if(businessCount > 50){
-					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-				}else if(businessCount > 100){
-					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-				}
-		    }else{
-		        // Session.set('businessListLimit',businessCount);
-		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		    }
+		event.preventDefault();
+		var searchby = $('#searchBusiness').val();
+		// console.log('searchby',searchby);
+      	var RegExpBuildValue = buildRegExp(searchby);
+
+		var data = Session.get('businessArray');
+		var setValue = Session.get('busListAct');
+		if(setValue == 'activeList') {
+			var status = 'active';
+		}else{
+			var status = 'inactive';
 		}
+		var businessCount = data.length + 50;
+		getBusinessSearchData(status,RegExpBuildValue,businessCount);
+		// $('.spinner').hide();
+		// $('.loadMoreRows50 .spinner').show();
+		// var nextLimitBus50 = Session.get('businessListLimit');
+		// if(nextLimitBus50 != 0){
+		// 	var nextLimit = Session.get('businessListLimit') + 50;
+		// 	if(Session.get('busListAct') == 'activeList'){
+  //   			var businessCount  = Counts.get('noOfBusinessActive');
+		// 	}else{
+  //   			var businessCount  = Counts.get('noOfBusinessInactive');
+		// 	}
+			
+		//     if(businessCount > nextLimit){
+		//         // Session.set('businessListLimit',nextLimit);
+		//         if (businessCount > 15) {
+		// 	        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+		// 		}
+		// 		// else if(businessCount > 50){
+		// 		// 	$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+		// 		// }else if(businessCount > 100){
+		// 		// 	$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+		// 		// }else{
+		// 		// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		// 		// 	$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		// 		// 	$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		// 		// }
+		//     }else{
+		//         // Session.set('businessListLimit',businessCount);
+		//         $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+		//         // $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+		//         // $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+		//     }
+		// }
 		
 	},
 
-	'click .loadMoreRows100': function(event){
-		 event.preventDefault();
-		$('.spinner').hide();
-		$('.loadMoreRows100 .spinner').show();
-		var nextLimitBus100 = Session.get('businessListLimit');
-		if(nextLimitBus100 != 0){
-			var nextLimit = Session.get('businessListLimit') + 100;
-			if(Session.get('busListAct') == 'activeList'){
-    			var businessCount  = Counts.get('noOfBusinessActive');
-			}else{
-    			var businessCount  = Counts.get('noOfBusinessInactive');
-			}
+	// 'click .loadMoreRows100': function(event){
+	// 	 event.preventDefault();
+	// 	$('.spinner').hide();
+	// 	$('.loadMoreRows100 .spinner').show();
+	// 	var nextLimitBus100 = Session.get('businessListLimit');
+	// 	if(nextLimitBus100 != 0){
+	// 		var nextLimit = Session.get('businessListLimit') + 100;
+	// 		if(Session.get('busListAct') == 'activeList'){
+ //    			var businessCount  = Counts.get('noOfBusinessActive');
+	// 		}else{
+ //    			var businessCount  = Counts.get('noOfBusinessInactive');
+	// 		}
 			
-		    if(businessCount > nextLimit){
-		        // Session.set('businessListLimit',nextLimit);
-		        if (businessCount > 15) {
-			        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
-				}else if(businessCount > 50){
-					$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
-				}else if(businessCount > 100){
-					$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
-				}else{
-					$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-					$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-				}
-		    }else{
-		        // Session.set('businessListLimit',businessCount);
-		        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-		        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-		        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-		    }
-		}
-	},
+	// 	    if(businessCount > nextLimit){
+	// 	        // Session.set('businessListLimit',nextLimit);
+	// 	        if (businessCount > 15) {
+	// 		        $('.loadMoreRows50').addClass('showMore50').removeClass('hideMore50');
+	// 			}else if(businessCount > 50){
+	// 				$('.loadMoreRows100').addClass('showMore50').removeClass('hideMore50');
+	// 			}else if(businessCount > 100){
+	// 				$('.loadMoreRowsRest').addClass('showMore50').removeClass('hideMore50'); 
+	// 			}else{
+	// 				$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+	// 				$('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+	// 				$('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	// 			}
+	// 	    }else{
+	// 	        // Session.set('businessListLimit',businessCount);
+	// 	        $('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+	// 	        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+	// 	        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	// 	    }
+	// 	}
+	// },
 
-	'click .loadMoreRowsRest': function(event){
-		event.preventDefault();
-		$('.spinner').hide();
-		$('.loadMoreRowsRest .spinner').show();
-		if(Session.get('busListAct') == 'activeList'){
-			var nextLimit  = Counts.get('noOfBusinessActive');
-		}else{
-			var nextLimit = Counts.get('noOfBusinessInactive');
-		}
-		// Session.set('businessListLimit',nextLimit);
-		$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
-        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
-	},
+	// 'click .loadMoreRowsRest': function(event){
+	// 	event.preventDefault();
+	// 	$('.spinner').hide();
+	// 	$('.loadMoreRowsRest .spinner').show();
+	// 	if(Session.get('busListAct') == 'activeList'){
+	// 		var nextLimit  = Counts.get('noOfBusinessActive');
+	// 	}else{
+	// 		var nextLimit = Counts.get('noOfBusinessInactive');
+	// 	}
+	// 	// Session.set('businessListLimit',nextLimit);
+	// 	$('.loadMoreRows50').removeClass('showMore50').addClass('hideMore50');
+ //        $('.loadMoreRows100').removeClass('showMore50').addClass('hideMore50');
+ //        $('.loadMoreRowsRest').removeClass('showMore50').addClass('hideMore50');
+	// },
 
 	// 'focus #searchBusiness': function(event){
 	// 	// Session.set('businessListLimit',0);
@@ -848,6 +913,24 @@ Template.listOfBusiness.events({
 	// 	}
 
 	// }, 200),
+
+	'keyup #searchBusiness': _.throttle(function(event) {
+		event.preventDefault();
+		var searchby = event.currentTarget.value;
+      	var RegExpBuildValue = buildRegExp(searchby);
+      	var setValue = Session.get('busListAct');
+		if(setValue == 'activeList') {
+			var status = 'active';
+		}else{
+			var status = 'inactive';
+		}
+		var data = Session.get('businessArray');
+		getBusinessSearchData(status,RegExpBuildValue,0);
+		// if(searchby){
+		// }else{
+		// 	getBusinessSearchData(status,'',0);
+		// }
+	}, 200),
 
 	'click .deleteBusiness': function(event){
 	   event.preventDefault();
@@ -941,12 +1024,16 @@ Template.listOfBusiness.events({
 		$('.actInactAdminC').removeClass('actInactAdminColor');
 		$('.actInactAdminOn').addClass('actInactAdminColor');
 		$('.actInactAdminOn').addClass('bussTabletwo');
+		getBusinessSearchData('active','',0);
+		$('#searchBusiness').val('');
 	},
 	'click .actInactAdminTw':function(event) {
 	   	event.preventDefault();
 		Session.set('busListAct','inactiveList');
 		$('.actInactAdminC').removeClass('actInactAdminColor');
 		$('.actInactAdminTw').addClass('actInactAdminColor');
+		getBusinessSearchData('inactive','',0);
+		$('#searchBusiness').val('');
 	},
 
 	'click .inactiveStatus': function(event){

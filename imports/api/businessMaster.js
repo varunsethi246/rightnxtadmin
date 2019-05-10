@@ -1235,8 +1235,26 @@ Meteor.methods({
 				}
 			}
 		);
-	}
+	},
+	'getSearchData':function(status,value,businessCount){
+		// console.log('businessCount',businessCount);
+		if(businessCount==0){
+    		businessCount  = Business.find({"status":status}).count();
+	    	if(businessCount>15){
+	    		var listLimit = 16;
+	    	}else{
+	    		var listLimit = businessCount;
+	    	}
+		}else{
+	    	var listLimit = businessCount;
+		}
 
 
-
+	    if(value){
+	        var data = Business.find({$or:[{businessTitle:value,'status':status}]},{sort: {businessTitle: 1}, limit: listLimit}).fetch();
+	    }else{
+	        var data = Business.find({'status':status},{sort: {businessTitle: 1}, limit: listLimit}).fetch();
+	    }
+	    return data;
+	},
 });
