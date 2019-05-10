@@ -55,11 +55,14 @@ listbusinessSearchVar = new SearchSource('listbusinessSearch', fields, options);
 
 buildRegExp = function (searchText) {
 	var words = searchText.trim().split(/[ \-\:]+/);
+    console.log('words',words);
     var exps = _.map(words, function(word) {
         return "(?=.*" + word + ")";
     });
+    console.log('exps',exps);
 
     var fullExp = exps.join('') + ".+";
+    console.log('fullExp',fullExp);
     return new RegExp(fullExp, "i");
 };
 
@@ -75,6 +78,7 @@ getBusinessSearchData = function (status,searchValue,businessCount) {
             }
             // console.log('noOfBusiness',noOfBusiness);
             if(res){
+				$('.loadMoreRows50 .spinner').hide();
             	if(noOfBusiness&&noOfBusiness<businessCount){
 					Session.set('businessArray',res);
             		$('.loadMoreRows50').addClass('hideMore50').removeClass('showMore50');
@@ -784,6 +788,7 @@ Template.listOfBusiness.events({
 
 	'click .loadMoreRows50': function(event){
 		event.preventDefault();
+		$('.loadMoreRows50 .spinner').show();
 		var searchby = $('#searchBusiness').val();
 		// console.log('searchby',searchby);
       	var RegExpBuildValue = buildRegExp(searchby);
@@ -798,7 +803,6 @@ Template.listOfBusiness.events({
 		var businessCount = data.length + 50;
 		getBusinessSearchData(status,RegExpBuildValue,businessCount);
 		// $('.spinner').hide();
-		// $('.loadMoreRows50 .spinner').show();
 		// var nextLimitBus50 = Session.get('businessListLimit');
 		// if(nextLimitBus50 != 0){
 		// 	var nextLimit = Session.get('businessListLimit') + 50;
