@@ -22,7 +22,7 @@ if (Meteor.isServer) {
 		return Offers.find({});
 	});
 	Meteor.publish('noOfOffer', function() {
-		Counts.publish(this, 'noOfOffer', Offers.find({}));
+		Counts.publish(this, 'noOfOffer', Offers.find({"offerStatus":"Active"}));
 	});
 	Meteor.publish('noOfOfferWeek', function() {
 		var days = 7;

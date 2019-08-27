@@ -68,9 +68,11 @@ if (Meteor.isServer) {
 	});
 	Meteor.publish('noOfBanner', function() {
 		Counts.publish(this, 'noOfBanner', Payment.find({'orderType':'Banner'}));
+		// Counts.publish(this, 'noOfBanner', Payment.find({'orderType':'Banner','paymentStatus':'paid'}));
 	});
 	Meteor.publish('noOfAds', function() {
 		Counts.publish(this, 'noOfAds', Payment.find({'orderType':'Ads'}));
+		// Counts.publish(this, 'noOfAds', Payment.find({'orderType':'Ads','paymentStatus':'paid'}));
 	});
 }
 
